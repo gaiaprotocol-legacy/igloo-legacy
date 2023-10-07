@@ -1,0 +1,82 @@
+
+user_details
+	user_id - uuid - auth.uid() - pk
+	wallet_address - text - nullable
+	total_earned_trading_fees - numeric - 0
+	display_name - text - nullable
+	profile_image - text - nullable
+	metadata - jsonb - {}
+	created_at - timestampz - now()
+	updated_at - timestampz
+
+wallet_linking_nonces
+	user_id - uuid - auth.uid() - pk
+	wallet_address - text - not null
+	nonce - uuid - gen_random_uuid()
+	created_at - timestampz - now()
+
+subject_details
+	subject - text - pk
+	last_fetched_price - numeric - 68750000000000
+	total_trading_volume - numeric - 0
+	total_earned_trading_fees - numeric - 0
+	is_price_up - bool - nullable
+	last_message - text - nullable
+	last_message_sent_at - timestampz - -infinity
+	favorite_count - int4 - 0
+	hiding - bool - false
+	created_at - timestampz - now()
+	updated_at - timestampz
+
+key_holders
+	subject - text - pk
+	wallet_address - text - pk
+	last_fetched_balance - numeric - 0
+	total_earned_trading_fees - numeric - 0
+	created_at - timestampz - now()
+	updated_at - timestampz
+
+favorite_subjects
+	user_id - uuid - auth.uid() - pk
+	subject - text - pk
+	created_at - timestampz - now()
+
+regular_chat_messages
+	id - int8 - pk
+	topic - text - not null
+	author - uuid - auth.uid()
+	author_name - text - not null
+	author_avatar_url - text - nullable
+	message_type - int2 - not null
+	message - text - nullable
+	translated - jsonb - nullbale
+	rich - jsonb - nullable
+	created_at - timestampz - now()
+	updated_at - timestampz
+
+subject_chat_messages
+	id - int8 - pk
+	subject - text - not null
+	author - uuid - auth.uid()
+	author_name - text - not null
+	author_avatar_url - text - nullable
+	message_type - int2 - not null
+	message - text - nullable
+	translated - jsonb - nullbale
+	rich - jsonb - nullable
+	created_at - timestampz - now()
+	updated_at - timestampz
+
+tracked_event_blocks
+	contract_type - string - pk
+	block_number - int8 - not null
+	updated_at - timestampz
+
+subject_contract_events
+	block_number - int8 - pk
+	log_index - int8 - pk
+	event_type - int2 - not null
+	args - text - {}
+	wallet_address - text - not null
+	subject - text - not null
+	created_at - timestampz - now()
