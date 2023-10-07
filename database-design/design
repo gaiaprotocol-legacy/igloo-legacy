@@ -41,7 +41,7 @@ favorite_subjects
 	subject - text - pk
 	created_at - timestampz - now()
 
-regular_chat_messages
+topic_chat_messages
 	id - int8 - pk
 	topic - text - not null
 	author - uuid - auth.uid()
