@@ -26,7 +26,9 @@ export default class NavBar extends DomNode {
       this.loginButton = el("button.login-button", new MaterialIcon("login"), {
         click: () => SignedUserManager.signIn(),
       }),
-      this.signedUser = el("a.signed-user"),
+      this.signedUser = el("a.signed-user", {
+        click: () => Router.go(`/${SignedUserManager.xUsername}`),
+      }),
     );
 
     this.checkSigned();
