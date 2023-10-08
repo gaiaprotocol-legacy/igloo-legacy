@@ -12,6 +12,7 @@ export default class Layout extends View {
   }
 
   private container: DomNode;
+  private navBar: NavBar;
   private content: DomNode;
 
   constructor(params: ViewParams, uri: string) {
@@ -22,11 +23,21 @@ export default class Layout extends View {
       this.container = el(
         ".layout",
         new MobileTitleBar(),
-        new NavBar(),
+        this.navBar = new NavBar(),
         el(".content-wrapper", new PcTitleBar(), this.content = el("main")),
         new TrendSection(),
       ),
     );
+
+    this.activeNavBarButton(uri);
+  }
+
+  public changeParams(params: ViewParams, uri: string): void {
+    this.activeNavBarButton(uri);
+  }
+
+  private activeNavBarButton(buttonName: string): void {
+    this.navBar.activeButton(buttonName === "" ? "home" : buttonName);
   }
 
   public close(): void {
