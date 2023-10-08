@@ -5,9 +5,17 @@ user_details
 	total_earned_trading_fees - numeric - 0
 	display_name - text - nullable
 	profile_image - text - nullable
-	metadata - jsonb - {}
+	metadata - jsonb - nullable
+	follower_count - int4 - 0
+	following_count - int4 - 0
+	blocked - bool - false
 	created_at - timestampz - now()
 	updated_at - timestampz
+
+followers
+	follower_id - uuid - pk
+	following_id - uuid - pk
+	created_at - timestampz - now()
 
 wallet_linking_nonces
 	user_id - uuid - auth.uid() - pk
@@ -17,14 +25,14 @@ wallet_linking_nonces
 
 subject_details
 	subject - text - pk
-	last_fetched_price - numeric - 68750000000000
-	total_trading_volume - numeric - 0
+	last_fetched_key_price - numeric - 68750000000000
+	total_trading_key_volume - numeric - 0
 	total_earned_trading_fees - numeric - 0
-	is_price_up - bool - nullable
+	is_key_price_up - bool - nullable
 	last_message - text - nullable
 	last_message_sent_at - timestampz - -infinity
-	favorite_count - int4 - 0
-	hiding - bool - false
+	key_holder_count - int4 - 0
+	last_key_purchased_at - timestampz - -infinity
 	created_at - timestampz - now()
 	updated_at - timestampz
 
@@ -35,11 +43,6 @@ key_holders
 	total_earned_trading_fees - numeric - 0
 	created_at - timestampz - now()
 	updated_at - timestampz
-
-favorite_subjects
-	user_id - uuid - auth.uid() - pk
-	subject - text - pk
-	created_at - timestampz - now()
 
 topic_chat_messages
 	id - int8 - pk
@@ -83,7 +86,7 @@ subject_posts
 tracked_event_blocks
 	contract_type - string - pk
 	block_number - int8 - not null
-	updated_at - timestampz
+	updated_at - timestampz - now()
 
 subject_contract_events
 	block_number - int8 - pk
@@ -93,3 +96,11 @@ subject_contract_events
 	wallet_address - text - not null
 	subject - text - not null
 	created_at - timestampz - now()
+
+notifications
+	id - int8 - auto_increment - pk
+	user_id - uuid - auth.uid()
+	type - int2 - not null  -- 알림의 유형 (예: 'new_follower', 'new_message', 'key_purchased', etc.)
+	source_id - uuid - nullable  -- 알림의 원인이 된 사용자나 주제의 ID (예: 새로운 팔로워의 ID, 메시지를 보낸 사용자의 ID)
+	read_at - timestampz - nullable  -- 알림이 읽힌 시간
+	created_at - timestampz - now()  -- 알림이 생성된 시간
