@@ -7,6 +7,7 @@ import {
   ViewParams,
 } from "common-dapp-module";
 import Layout from "./layout/Layout.js";
+import PostPopup from "./post/PostPopup.js";
 
 export default class HomeView extends View {
   private container: DomNode;
@@ -28,7 +29,7 @@ export default class HomeView extends View {
           "test\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest",
         ),
         el("button.post", new MaterialIcon("add"), {
-          //click: () => this.openModal("post"),
+          click: () => new PostPopup(),
         }),
       ),
     );
