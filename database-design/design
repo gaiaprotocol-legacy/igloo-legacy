@@ -36,7 +36,7 @@ subject_details
 	created_at - timestampz - now()
 	updated_at - timestampz
 
-key_holders
+subject_key_holders
 	subject - text - pk
 	wallet_address - text - pk
 	last_fetched_balance - numeric - 0
