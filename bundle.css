@@ -157,7 +157,7 @@ body {
 }
 @media only screen and (max-width: 859px) {
   .tabs.component {
-    gap: 0;
+    gap: 4px;
   }
 }
 .tabs.component > .tab {
@@ -176,6 +176,7 @@ body {
   font-weight: 700;
   line-height: normal;
   text-transform: capitalize;
+  -webkit-tap-highlight-color: transparent;
 }
 .tabs.component > .tab:hover {
   color: #2A2A2A;
@@ -208,8 +209,7 @@ body {
 }
 @media only screen and (max-width: 859px) {
   .home-view > h1 {
-    font-size: 16px;
-    margin-bottom: 30px;
+    display: none;
   }
 }
 .inbox-view {
@@ -229,10 +229,11 @@ body {
   font-weight: 700;
   line-height: normal;
   text-transform: capitalize;
+  margin-bottom: 40px;
 }
 @media only screen and (max-width: 859px) {
   .inbox-view > h1 {
-    font-size: 16px;
+    display: none;
   }
 }
 .explore-view {
@@ -252,10 +253,11 @@ body {
   font-weight: 700;
   line-height: normal;
   text-transform: capitalize;
+  margin-bottom: 40px;
 }
 @media only screen and (max-width: 859px) {
   .explore-view > h1 {
-    font-size: 16px;
+    display: none;
   }
 }
 .notifications-view {
@@ -275,10 +277,11 @@ body {
   font-weight: 700;
   line-height: normal;
   text-transform: capitalize;
+  margin-bottom: 40px;
 }
 @media only screen and (max-width: 859px) {
   .notifications-view > h1 {
-    font-size: 16px;
+    display: none;
   }
 }
 .layout {
@@ -301,8 +304,11 @@ body {
 }
 @media only screen and (max-width: 859px) {
   .layout > .trend-section {
-    width: auto;
+    display: none;
   }
+}
+.layout > .trend-section.hide {
+  display: none;
 }
 .nav-bar {
   width: 90px;
@@ -416,7 +422,7 @@ body {
   .mobile-title-bar {
     display: flex;
     align-items: center;
-    padding: 20px 16px;
+    padding: 20px 16px 10px;
     gap: 20px;
   }
 }
@@ -476,5 +482,49 @@ body {
 }
 .mobile-title-bar > .signed-user.show {
   display: flex;
+}
+.trend-section {
+  padding-top: 21px;
+  padding-right: 21px;
+}
+.trend-section > .search-bar {
+  height: 48px;
+  flex-shrink: 0;
+  border-radius: 16px;
+  border: 1px solid #F4F7F9;
+  background: #EBEFF3;
+  box-shadow: 4px 4px 8px 0px rgba(255, 255, 255, 0.75), 2px 2px 8px 0px rgba(189, 194, 199, 0.75) inset;
+  display: flex;
+  align-items: center;
+  padding: 14px 20px;
+  gap: 20px;
+}
+.trend-section > .search-bar > .material-icon {
+  color: #a1a2ac;
+}
+.trend-section > .search-bar > input {
+  flex-grow: 1;
+  color: #2A2A2A;
+  font-feature-settings: 'clig' off, 'liga' off;
+  font-family: Quicksand;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  height: 100%;
+}
+.trend-section > .search-bar > input::placeholder {
+  color: #a1a2ac;
+}
+.trend-section > .search-bar:focus-within > .material-icon {
+  color: #2A2A2A;
+}
+.trend-section > .trend-list {
+  margin-top: 30px;
+  flex-shrink: 0;
+  border-radius: 16px;
+  background: #EBEFF3;
+  box-shadow: 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
+  padding: 30px;
 }
 
