@@ -5,6 +5,7 @@
     padding       : 21px;
     display       : flex;
     flex-direction: column;
+    align-items   : center;
     gap           : 50px;
     overflow-y    : auto;
 
@@ -63,6 +64,21 @@
         &:active,
         &.active {
             box-shadow: 4px 4px 8px 0px rgba(255, 255, 255, 0.75), 2px 2px 8px 0px rgba(189, 194, 199, 0.75) inset;
+        }
+    }
+
+    >.signed-user {
+        margin-top   : auto;
+        width        : 42px;
+        height       : 42px;
+        flex-shrink  : 0;
+        border-radius: 42px;
+        border       : 1px solid #FFF;
+        background   : lightgray 50% / cover no-repeat;
+        cursor       : pointer;
+
+        @media @phone {
+            display: none;
         }
     }
 }
