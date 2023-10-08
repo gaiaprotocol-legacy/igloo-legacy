@@ -1,4 +1,11 @@
-import { DomNode, el, Tabs, View, ViewParams } from "common-dapp-module";
+import {
+  DomNode,
+  el,
+  MaterialIcon,
+  Tabs,
+  View,
+  ViewParams,
+} from "common-dapp-module";
 import Layout from "./layout/Layout.js";
 
 export default class HomeView extends View {
@@ -10,12 +17,19 @@ export default class HomeView extends View {
     Layout.append(
       this.container = el(
         ".home-view",
-        el("h1", "Home"),
-        this.tabs = new Tabs("home-view-tabs", [
-          { id: "global", label: "Global" },
-          { id: "following", label: "Following" },
-          { id: "held", label: "Held" },
-        ]),
+        el(
+          "main",
+          el("h1", "Home"),
+          this.tabs = new Tabs("home-view-tabs", [
+            { id: "global", label: "Global" },
+            { id: "following", label: "Following" },
+            { id: "held", label: "Held" },
+          ]),
+          "test\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest",
+        ),
+        el("button.post", new MaterialIcon("add"), {
+          //click: () => this.openModal("post"),
+        }),
       ),
     );
 

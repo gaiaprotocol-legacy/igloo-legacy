@@ -8,7 +8,6 @@ import {
 } from "common-dapp-module";
 import MobileTitleBar from "./MobileTitleBar.js";
 import NavBar from "./NavBar.js";
-import PcTitleBar from "./PcTitleBar.js";
 import TrendSection from "./TrendSection.js";
 
 export default class Layout extends View {
@@ -33,7 +32,7 @@ export default class Layout extends View {
         ".layout",
         this.mobileTitleBar = new MobileTitleBar(),
         this.navBar = new NavBar(),
-        el(".content-wrapper", new PcTitleBar(), this.content = el("main")),
+        this.content = el("main"),
         this.trendSection = new TrendSection(),
       ),
     );
