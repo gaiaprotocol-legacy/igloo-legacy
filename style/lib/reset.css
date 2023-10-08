@@ -97,31 +97,3 @@ meter {
 :where(dialog:modal) {
     all: revert;
 }
-@font-face {
-  font-family: 'Rubik';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url(https://fonts.gstatic.com/s/rubik/v28/iJWZBXyIfDnIV5PNhY1KTN7Z-Yh-B4i1UA.ttf) format('truetype');
-}
-@font-face {
-  font-family: 'Rubik';
-  font-style: normal;
-  font-weight: 500;
-  font-display: swap;
-  src: url(https://fonts.gstatic.com/s/rubik/v28/iJWZBXyIfDnIV5PNhY1KTN7Z-Yh-NYi1UA.ttf) format('truetype');
-}
-:root {
-  font-family: 'Rubik', sans-serif;
-  background-color: var(--bg-color);
-  color: var(--text-color);
-  font-size: 14px;
-}
-p {
-  line-height: 1.6;
-}
-:root {
-  --bg-color: #F0F0F3;
-  --text-color: #808B9F;
-}
-
