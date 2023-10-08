@@ -47,9 +47,17 @@ export default class Layout extends View {
   private activeNavBarButton(uri: string): void {
     this.navBar.activeButton(uri === "" ? "home" : uri);
     uri === "explore" ? this.trendSection.hide() : this.trendSection.show();
-    this.mobileTitleBar.title = StringUtil.toTitleCase(
-      uri === "" ? "home" : uri,
-    );
+
+    if (
+      uri === "" || uri === "inbox" || uri === "explore" ||
+      uri === "notifications"
+    ) {
+      this.mobileTitleBar.title = StringUtil.toTitleCase(
+        uri === "" ? "home" : uri,
+      );
+    } else { // x username
+      this.mobileTitleBar.title = "@" + uri;
+    }
   }
 
   public close(): void {
