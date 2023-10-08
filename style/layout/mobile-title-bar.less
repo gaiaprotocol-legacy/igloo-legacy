@@ -1,0 +1,53 @@
+.mobile-title-bar {
+    display: none;
+
+    @media @phone {
+        display    : flex;
+        align-items: center;
+        padding    : 20px 16px;
+        gap        : 20px;
+    }
+
+    >h1 {
+        width                      : 48px;
+        height                     : 48px;
+        flex-shrink                : 0;
+        border-radius              : 50px;
+        background                 : #EBEFF3;
+        box-shadow                 : 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
+        cursor                     : pointer;
+        display                    : flex;
+        justify-content            : center;
+        align-items                : center;
+        -webkit-tap-highlight-color: transparent;
+
+        >img {
+            width: 26px;
+        }
+
+        &:active {
+            box-shadow: 4px 4px 8px 0px rgba(255, 255, 255, 0.75), 2px 2px 8px 0px rgba(189, 194, 199, 0.75) inset;
+        }
+    }
+
+    >p {
+        color                : #2A2A2A;
+        font-feature-settings: 'clig'off, 'liga'off;
+        font-family          : Quicksand;
+        font-size            : 16px;
+        font-style           : normal;
+        font-weight          : 700;
+        line-height          : normal;
+        text-transform       : capitalize;
+    }
+
+    >.signed-user {
+        margin-left  : auto;
+        width        : 42px;
+        height       : 42px;
+        flex-shrink  : 0;
+        border-radius: 42px;
+        border       : 1px solid #FFF;
+        background   : lightgray 50% / cover no-repeat;
+    }
+}
