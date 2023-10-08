@@ -14,6 +14,7 @@ export default class Layout extends View {
   private container: DomNode;
   private navBar: NavBar;
   private content: DomNode;
+  private trendSection: TrendSection;
 
   constructor(params: ViewParams, uri: string) {
     super();
@@ -25,7 +26,7 @@ export default class Layout extends View {
         new MobileTitleBar(),
         this.navBar = new NavBar(),
         el(".content-wrapper", new PcTitleBar(), this.content = el("main")),
-        new TrendSection(),
+        this.trendSection = new TrendSection(),
       ),
     );
 
@@ -36,8 +37,9 @@ export default class Layout extends View {
     this.activeNavBarButton(uri);
   }
 
-  private activeNavBarButton(buttonName: string): void {
-    this.navBar.activeButton(buttonName === "" ? "home" : buttonName);
+  private activeNavBarButton(uri: string): void {
+    this.navBar.activeButton(uri === "" ? "home" : uri);
+    uri === "explore" ? this.trendSection.hide() : this.trendSection.show();
   }
 
   public close(): void {
