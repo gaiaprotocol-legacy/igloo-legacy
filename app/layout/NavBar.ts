@@ -1,14 +1,24 @@
-import { DomNode, el, MaterialIcon } from "common-dapp-module";
+import { DomNode, el, MaterialIcon, Router } from "common-dapp-module";
 
 export default class NavBar extends DomNode {
   constructor() {
     super(".nav-bar");
     this.append(
-      el("h1", el("img", { src: "/images/logo.png" })),
-      el("button", new MaterialIcon("home")),
-      el("button", new MaterialIcon("inbox")),
-      el("button", new MaterialIcon("search")),
-      el("button", new MaterialIcon("notifications")),
+      el("h1", el("img", { src: "/images/logo.png" }), {
+        click: () => Router.go("/"),
+      }),
+      el("button", new MaterialIcon("home"), {
+        click: () => Router.go("/"),
+      }),
+      el("button", new MaterialIcon("inbox"), {
+        click: () => Router.go("/inbox"),
+      }),
+      el("button", new MaterialIcon("search"), {
+        click: () => Router.go("/explore"),
+      }),
+      el("button", new MaterialIcon("notifications"), {
+        click: () => Router.go("/notifications"),
+      }),
     );
   }
 }

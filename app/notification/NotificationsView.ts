@@ -1,15 +1,15 @@
 import { DomNode, el, View, ViewParams } from "common-dapp-module";
 import Layout from "../layout/Layout.js";
 
-export default class InboxView extends View {
+export default class NotificationsView extends View {
   private container: DomNode;
 
   constructor(params: ViewParams) {
     super();
     Layout.append(
       this.container = el(
-        ".inbox-view",
-        "This is the inbox view.",
+        ".noitifications-view",
+        "NotificationsView",
       ),
     );
   }

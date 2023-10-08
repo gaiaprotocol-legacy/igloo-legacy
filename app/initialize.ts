@@ -3,7 +3,11 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime.js";
 import Config from "./Config.js";
 import EnvironmentManager from "./EnvironmentManager.js";
+import ExploreView from "./explore/ExploreView.js";
+import HomeView from "./HomeView.js";
+import InboxView from "./inbox/InboxView.js";
 import Layout from "./layout/Layout.js";
+import NotificationsView from "./notification/NotificationsView.js";
 
 dayjs.extend(relativeTime);
 
@@ -26,4 +30,8 @@ export default async function initialize(config: Config) {
   splash.delete();
 
   Router.route("**", Layout);
+  Router.route("", HomeView);
+  Router.route("inbox", InboxView);
+  Router.route("explore", ExploreView);
+  Router.route("notifications", NotificationsView);
 }
