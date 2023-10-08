@@ -2,7 +2,9 @@ import { DomNode, el, MaterialIcon, Router } from "common-dapp-module";
 import SignedUserManager from "../user/SignedUserManager.js";
 
 export default class MobileTitleBar extends DomNode {
-  private hello: DomNode;
+  private welcomeMessage: string = "Welcome to Igloo!";
+
+  private titleDisplay: DomNode;
   private loginButton: DomNode;
   private signedUser: DomNode;
 
@@ -12,7 +14,7 @@ export default class MobileTitleBar extends DomNode {
       el("h1", el("img", { src: "/images/logo.png" }), {
         click: () => Router.go("/"),
       }),
-      this.hello = el("p"),
+      this.titleDisplay = el("p"),
       this.loginButton = el("button.login-button", new MaterialIcon("login"), {
         click: () => SignedUserManager.signIn(),
       }),
@@ -27,7 +29,7 @@ export default class MobileTitleBar extends DomNode {
 
   private checkSigned() {
     !SignedUserManager.signed ? this.showLoginButton() : this.showSignedUser();
-    this.hello.text = SignedUserManager.signed
+    this.title = this.welcomeMessage = SignedUserManager.signed
       ? "Hello, " + SignedUserManager.name + "!"
       : "Welcome to Igloo!";
     if (SignedUserManager.signed) {
@@ -45,5 +47,9 @@ export default class MobileTitleBar extends DomNode {
   private showSignedUser() {
     this.loginButton.deleteClass("show");
     this.signedUser.addClass("show");
+  }
+
+  public set title(title: string) {
+    this.titleDisplay.text = title === "Home" ? this.welcomeMessage : title;
   }
 }

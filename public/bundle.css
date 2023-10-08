@@ -215,8 +215,7 @@ body {
 }
 @media only screen and (max-width: 859px) {
   .home-view > h1 {
-    font-size: 16px;
-    margin-bottom: 30px;
+    display: none;
   }
 }
 .inbox-view {
@@ -236,10 +235,11 @@ body {
   font-weight: 700;
   line-height: normal;
   text-transform: capitalize;
+  margin-bottom: 40px;
 }
 @media only screen and (max-width: 859px) {
   .inbox-view > h1 {
-    font-size: 16px;
+    display: none;
   }
 }
 .explore-view {
@@ -259,10 +259,11 @@ body {
   font-weight: 700;
   line-height: normal;
   text-transform: capitalize;
+  margin-bottom: 40px;
 }
 @media only screen and (max-width: 859px) {
   .explore-view > h1 {
-    font-size: 16px;
+    display: none;
   }
 }
 .notifications-view {
@@ -282,10 +283,11 @@ body {
   font-weight: 700;
   line-height: normal;
   text-transform: capitalize;
+  margin-bottom: 40px;
 }
 @media only screen and (max-width: 859px) {
   .notifications-view > h1 {
-    font-size: 16px;
+    display: none;
   }
 }
 .layout {
@@ -426,7 +428,7 @@ body {
   .mobile-title-bar {
     display: flex;
     align-items: center;
-    padding: 20px 16px;
+    padding: 20px 16px 10px;
     gap: 20px;
   }
 }

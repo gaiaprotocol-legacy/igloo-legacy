@@ -1,4 +1,11 @@
-import { BodyNode, DomNode, el, View, ViewParams } from "common-dapp-module";
+import {
+  BodyNode,
+  DomNode,
+  el,
+  StringUtil,
+  View,
+  ViewParams,
+} from "common-dapp-module";
 import MobileTitleBar from "./MobileTitleBar.js";
 import NavBar from "./NavBar.js";
 import PcTitleBar from "./PcTitleBar.js";
@@ -12,6 +19,7 @@ export default class Layout extends View {
   }
 
   private container: DomNode;
+  private mobileTitleBar: MobileTitleBar;
   private navBar: NavBar;
   private content: DomNode;
   private trendSection: TrendSection;
@@ -23,7 +31,7 @@ export default class Layout extends View {
     BodyNode.append(
       this.container = el(
         ".layout",
-        new MobileTitleBar(),
+        this.mobileTitleBar = new MobileTitleBar(),
         this.navBar = new NavBar(),
         el(".content-wrapper", new PcTitleBar(), this.content = el("main")),
         this.trendSection = new TrendSection(),
@@ -40,6 +48,9 @@ export default class Layout extends View {
   private activeNavBarButton(uri: string): void {
     this.navBar.activeButton(uri === "" ? "home" : uri);
     uri === "explore" ? this.trendSection.hide() : this.trendSection.show();
+    this.mobileTitleBar.title = StringUtil.toTitleCase(
+      uri === "" ? "home" : uri,
+    );
   }
 
   public close(): void {
