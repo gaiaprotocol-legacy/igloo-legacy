@@ -9,7 +9,7 @@ export default class ExploreView extends View {
     Layout.append(
       this.container = el(
         ".explore-view",
-        "This is the explore view.",
+        el("h1", "Explorer"),
       ),
     );
   }

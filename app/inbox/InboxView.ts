@@ -9,7 +9,7 @@ export default class InboxView extends View {
     Layout.append(
       this.container = el(
         ".inbox-view",
-        "This is the inbox view.",
+        el("h1", "Inbox"),
       ),
     );
   }

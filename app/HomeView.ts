@@ -9,7 +9,7 @@ export default class HomeView extends View {
     Layout.append(
       this.container = el(
         ".home-view",
-        "This is the home view.",
+        el("h1", "Home"),
       ),
     );
   }

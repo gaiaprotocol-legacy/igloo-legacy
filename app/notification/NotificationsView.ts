@@ -8,8 +8,8 @@ export default class NotificationsView extends View {
     super();
     Layout.append(
       this.container = el(
-        ".noitifications-view",
-        "NotificationsView",
+        ".notifications-view",
+        el("h1", "Notifications"),
       ),
     );
   }
