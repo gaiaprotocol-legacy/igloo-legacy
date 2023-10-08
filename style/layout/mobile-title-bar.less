@@ -8,7 +8,8 @@
         gap        : 20px;
     }
 
-    >h1 {
+    >h1,
+    >.login-button {
         width                      : 48px;
         height                     : 48px;
         flex-shrink                : 0;
@@ -41,7 +42,17 @@
         text-transform       : capitalize;
     }
 
+    >.login-button {
+        display    : none;
+        margin-left: auto;
+
+        &.show {
+            display: flex;
+        }
+    }
+
     >.signed-user {
+        display      : none;
         margin-left  : auto;
         width        : 42px;
         height       : 42px;
@@ -50,5 +61,9 @@
         border       : 1px solid #FFF;
         background   : lightgray 50% / cover no-repeat;
         cursor       : pointer;
+
+        &.show {
+            display: flex;
+        }
     }
 }

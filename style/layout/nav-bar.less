@@ -22,7 +22,8 @@
         gap            : 0;
     }
 
-    >h1 {
+    >h1,
+    >.login-button {
         width          : 48px;
         height         : 48px;
         flex-shrink    : 0;
@@ -68,8 +69,23 @@
         }
     }
 
+    >.login-button {
+        margin-top   : auto;
+        margin-bottom: 0;
+        display      : none;
+
+        &.show {
+            display: flex;
+
+            @media @phone {
+                display: none;
+            }
+        }
+    }
+
     >.signed-user {
         margin-top   : auto;
+        display      : none;
         width        : 42px;
         height       : 42px;
         flex-shrink  : 0;
@@ -78,8 +94,12 @@
         background   : lightgray 50% / cover no-repeat;
         cursor       : pointer;
 
-        @media @phone {
-            display: none;
+        &.show {
+            display: flex;
+
+            @media @phone {
+                display: none;
+            }
         }
     }
 }

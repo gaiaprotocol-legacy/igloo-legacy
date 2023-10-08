@@ -276,7 +276,8 @@ body {
     gap: 0;
   }
 }
-.nav-bar > h1 {
+.nav-bar > h1,
+.nav-bar > .login-button {
   width: 48px;
   height: 48px;
   flex-shrink: 0;
@@ -290,14 +291,17 @@ body {
   margin-bottom: 30px;
 }
 @media only screen and (max-width: 859px) {
-  .nav-bar > h1 {
+  .nav-bar > h1,
+  .nav-bar > .login-button {
     display: none;
   }
 }
-.nav-bar > h1 > img {
+.nav-bar > h1 > img,
+.nav-bar > .login-button > img {
   width: 26px;
 }
-.nav-bar > h1:active {
+.nav-bar > h1:active,
+.nav-bar > .login-button:active {
   box-shadow: 4px 4px 8px 0px rgba(255, 255, 255, 0.75), 2px 2px 8px 0px rgba(189, 194, 199, 0.75) inset;
 }
 .nav-bar > button {
@@ -318,8 +322,22 @@ body {
 .nav-bar > button.active {
   box-shadow: 4px 4px 8px 0px rgba(255, 255, 255, 0.75), 2px 2px 8px 0px rgba(189, 194, 199, 0.75) inset;
 }
+.nav-bar > .login-button {
+  margin-top: auto;
+  margin-bottom: 0;
+  display: none;
+}
+.nav-bar > .login-button.show {
+  display: flex;
+}
+@media only screen and (max-width: 859px) {
+  .nav-bar > .login-button.show {
+    display: none;
+  }
+}
 .nav-bar > .signed-user {
   margin-top: auto;
+  display: none;
   width: 42px;
   height: 42px;
   flex-shrink: 0;
@@ -328,8 +346,11 @@ body {
   background: lightgray 50% / cover no-repeat;
   cursor: pointer;
 }
+.nav-bar > .signed-user.show {
+  display: flex;
+}
 @media only screen and (max-width: 859px) {
-  .nav-bar > .signed-user {
+  .nav-bar > .signed-user.show {
     display: none;
   }
 }
@@ -344,7 +365,8 @@ body {
     gap: 20px;
   }
 }
-.mobile-title-bar > h1 {
+.mobile-title-bar > h1,
+.mobile-title-bar > .login-button {
   width: 48px;
   height: 48px;
   flex-shrink: 0;
@@ -357,10 +379,12 @@ body {
   align-items: center;
   -webkit-tap-highlight-color: transparent;
 }
-.mobile-title-bar > h1 > img {
+.mobile-title-bar > h1 > img,
+.mobile-title-bar > .login-button > img {
   width: 26px;
 }
-.mobile-title-bar > h1:active {
+.mobile-title-bar > h1:active,
+.mobile-title-bar > .login-button:active {
   box-shadow: 4px 4px 8px 0px rgba(255, 255, 255, 0.75), 2px 2px 8px 0px rgba(189, 194, 199, 0.75) inset;
 }
 .mobile-title-bar > p {
@@ -373,7 +397,15 @@ body {
   line-height: normal;
   text-transform: capitalize;
 }
+.mobile-title-bar > .login-button {
+  display: none;
+  margin-left: auto;
+}
+.mobile-title-bar > .login-button.show {
+  display: flex;
+}
 .mobile-title-bar > .signed-user {
+  display: none;
   margin-left: auto;
   width: 42px;
   height: 42px;
@@ -382,5 +414,8 @@ body {
   border: 1px solid #FFF;
   background: lightgray 50% / cover no-repeat;
   cursor: pointer;
+}
+.mobile-title-bar > .signed-user.show {
+  display: flex;
 }
 
