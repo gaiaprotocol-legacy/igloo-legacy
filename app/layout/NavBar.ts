@@ -1,6 +1,10 @@
 import { DomNode, el, MaterialIcon, Router } from "common-dapp-module";
+import SignedUserManager from "../user/SignedUserManager.js";
 
 export default class NavBar extends DomNode {
+  private loginButton: DomNode;
+  private signedUser: DomNode;
+
   constructor() {
     super(".nav-bar");
     this.append(
@@ -19,9 +23,32 @@ export default class NavBar extends DomNode {
       el("button", new MaterialIcon("notifications"), {
         click: () => Router.go("/notifications"),
       }),
-      el("a.signed-user", {
-        //style: { backgroundImage: `url(${SignedUserManager.avatarUrl})` },
+      this.loginButton = el("button.login-button", new MaterialIcon("login"), {
+        click: () => SignedUserManager.signIn(),
       }),
+      this.signedUser = el("a.signed-user"),
     );
+
+    this.checkSigned();
+    this.onDelegate(SignedUserManager, "userFetched", () => this.checkSigned());
+  }
+
+  private checkSigned() {
+    !SignedUserManager.signed ? this.showLoginButton() : this.showSignedUser();
+    if (SignedUserManager.signed) {
+      this.signedUser.style({
+        backgroundImage: `url(${SignedUserManager.avatarUrl})`,
+      });
+    }
+  }
+
+  private showLoginButton() {
+    this.loginButton.addClass("show");
+    this.signedUser.deleteClass("show");
+  }
+
+  private showSignedUser() {
+    this.loginButton.deleteClass("show");
+    this.signedUser.addClass("show");
   }
 }

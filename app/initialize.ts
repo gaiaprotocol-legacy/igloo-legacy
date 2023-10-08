@@ -1,4 +1,4 @@
-import { el, msg, Router, SplashScreen } from "common-dapp-module";
+import { el, msg, Router, SplashScreen, Supabase } from "common-dapp-module";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime.js";
 import Config from "./Config.js";
@@ -8,6 +8,9 @@ import HomeView from "./HomeView.js";
 import InboxView from "./inbox/InboxView.js";
 import Layout from "./layout/Layout.js";
 import NotificationsView from "./notification/NotificationsView.js";
+import UserWalletLinker from "./user/UserWalletLinker.js";
+import WalletManager from "./user/WalletManager.js";
+import SignedUserManager from "./user/SignedUserManager.js";
 
 dayjs.extend(relativeTime);
 
@@ -19,10 +22,16 @@ export default async function initialize(config: Config) {
     sessionStorage.removeItem("__spa_path");
   }
 
+  Supabase.connect(config.supabaseUrl, config.supabaseAnonKey);
+  //[UserDetailsCacher, TopicDetailsCacher].forEach((cacher) => cacher.init());
+  WalletManager.init(config.walletConnectProjectId);
+  UserWalletLinker.init(config.messageForWalletLinking);
+
   const splash = new SplashScreen(
     el("img", { src: "/images/igloo-character.png" }),
   );
   await Promise.all([
+    SignedUserManager.fetchUserOnInit(),
     msg.loadYAMLs({
       en: ["/locales/en.yml"],
     }),
