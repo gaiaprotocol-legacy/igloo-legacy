@@ -1,4 +1,4 @@
-import { el, Router, SplashScreen } from "common-dapp-module";
+import { el, msg, Router, SplashScreen } from "common-dapp-module";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime.js";
 import Config from "./Config.js";
@@ -18,6 +18,12 @@ export default async function initialize(config: Config) {
   const splash = new SplashScreen(
     el("img", { src: "/images/igloo-character.png" }),
   );
+  await Promise.all([
+    msg.loadYAMLs({
+      en: ["/locales/en.yml"],
+    }),
+  ]);
+  splash.delete();
 
   Router.route("**", Layout);
 }

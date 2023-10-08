@@ -708,7 +708,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ Layout)\n/* harmony export */ });\n/* harmony import */ var common_dapp_module__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! common-dapp-module */ \"../common-dapp-module/lib/index.js\");\n\nclass Layout extends common_dapp_module__WEBPACK_IMPORTED_MODULE_0__.View {\n    static current;\n    static append(node) {\n        Layout.current.content.append(node);\n    }\n    container;\n    content;\n    constructor(params, uri) {\n        super();\n        Layout.current = this;\n        common_dapp_module__WEBPACK_IMPORTED_MODULE_0__.BodyNode.append(this.container = (0,common_dapp_module__WEBPACK_IMPORTED_MODULE_0__.el)(\".layout\", this.content = (0,common_dapp_module__WEBPACK_IMPORTED_MODULE_0__.el)(\"main\")));\n    }\n    close() {\n        this.container.delete();\n        super.close();\n    }\n}\n\n\n//# sourceURL=webpack:///./app/Layout.ts?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ Layout)\n/* harmony export */ });\n/* harmony import */ var common_dapp_module__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! common-dapp-module */ \"../common-dapp-module/lib/index.js\");\n/* harmony import */ var _layout_components_MobileTitle_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./layout-components/MobileTitle.js */ \"./app/layout-components/MobileTitle.ts\");\n/* harmony import */ var _layout_components_NavBar_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./layout-components/NavBar.js */ \"./app/layout-components/NavBar.ts\");\n/* harmony import */ var _layout_components_PcTitle_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./layout-components/PcTitle.js */ \"./app/layout-components/PcTitle.ts\");\n/* harmony import */ var _layout_components_TrendSection_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./layout-components/TrendSection.js */ \"./app/layout-components/TrendSection.ts\");\n\n\n\n\n\nclass Layout extends common_dapp_module__WEBPACK_IMPORTED_MODULE_0__.View {\n    static current;\n    static append(node) {\n        Layout.current.content.append(node);\n    }\n    container;\n    content;\n    constructor(params, uri) {\n        super();\n        Layout.current = this;\n        common_dapp_module__WEBPACK_IMPORTED_MODULE_0__.BodyNode.append(this.container = (0,common_dapp_module__WEBPACK_IMPORTED_MODULE_0__.el)(\".layout\", new _layout_components_MobileTitle_js__WEBPACK_IMPORTED_MODULE_1__[\"default\"](), new _layout_components_NavBar_js__WEBPACK_IMPORTED_MODULE_2__[\"default\"](), (0,common_dapp_module__WEBPACK_IMPORTED_MODULE_0__.el)(\".content-wrapper\", new _layout_components_PcTitle_js__WEBPACK_IMPORTED_MODULE_3__[\"default\"](), this.content = (0,common_dapp_module__WEBPACK_IMPORTED_MODULE_0__.el)(\"main\")), new _layout_components_TrendSection_js__WEBPACK_IMPORTED_MODULE_4__[\"default\"]()));\n    }\n    close() {\n        this.container.delete();\n        super.close();\n    }\n}\n\n\n//# sourceURL=webpack:///./app/Layout.ts?");
 
 /***/ }),
 
@@ -730,7 +730,51 @@ eval("__webpack_require__.a(module, async (__webpack_handle_async_dependencies__
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ initialize)\n/* harmony export */ });\n/* harmony import */ var common_dapp_module__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! common-dapp-module */ \"../common-dapp-module/lib/index.js\");\n/* harmony import */ var dayjs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! dayjs */ \"./node_modules/dayjs/dayjs.min.js\");\n/* harmony import */ var dayjs__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(dayjs__WEBPACK_IMPORTED_MODULE_1__);\n/* harmony import */ var dayjs_plugin_relativeTime_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! dayjs/plugin/relativeTime.js */ \"./node_modules/dayjs/plugin/relativeTime.js\");\n/* harmony import */ var dayjs_plugin_relativeTime_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(dayjs_plugin_relativeTime_js__WEBPACK_IMPORTED_MODULE_2__);\n/* harmony import */ var _EnvironmentManager_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./EnvironmentManager.js */ \"./app/EnvironmentManager.ts\");\n/* harmony import */ var _Layout_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Layout.js */ \"./app/Layout.ts\");\n\n\n\n\n\ndayjs__WEBPACK_IMPORTED_MODULE_1___default().extend((dayjs_plugin_relativeTime_js__WEBPACK_IMPORTED_MODULE_2___default()));\nasync function initialize(config) {\n    _EnvironmentManager_js__WEBPACK_IMPORTED_MODULE_3__[\"default\"].dev = config.dev;\n    if (sessionStorage.__spa_path) {\n        common_dapp_module__WEBPACK_IMPORTED_MODULE_0__.Router.goNoHistory(sessionStorage.__spa_path);\n        sessionStorage.removeItem(\"__spa_path\");\n    }\n    const splash = new common_dapp_module__WEBPACK_IMPORTED_MODULE_0__.SplashScreen((0,common_dapp_module__WEBPACK_IMPORTED_MODULE_0__.el)(\"img\", { src: \"/images/igloo-character.png\" }));\n    common_dapp_module__WEBPACK_IMPORTED_MODULE_0__.Router.route(\"**\", _Layout_js__WEBPACK_IMPORTED_MODULE_4__[\"default\"]);\n}\n\n\n//# sourceURL=webpack:///./app/initialize.ts?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ initialize)\n/* harmony export */ });\n/* harmony import */ var common_dapp_module__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! common-dapp-module */ \"../common-dapp-module/lib/index.js\");\n/* harmony import */ var dayjs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! dayjs */ \"./node_modules/dayjs/dayjs.min.js\");\n/* harmony import */ var dayjs__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(dayjs__WEBPACK_IMPORTED_MODULE_1__);\n/* harmony import */ var dayjs_plugin_relativeTime_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! dayjs/plugin/relativeTime.js */ \"./node_modules/dayjs/plugin/relativeTime.js\");\n/* harmony import */ var dayjs_plugin_relativeTime_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(dayjs_plugin_relativeTime_js__WEBPACK_IMPORTED_MODULE_2__);\n/* harmony import */ var _EnvironmentManager_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./EnvironmentManager.js */ \"./app/EnvironmentManager.ts\");\n/* harmony import */ var _Layout_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Layout.js */ \"./app/Layout.ts\");\n\n\n\n\n\ndayjs__WEBPACK_IMPORTED_MODULE_1___default().extend((dayjs_plugin_relativeTime_js__WEBPACK_IMPORTED_MODULE_2___default()));\nasync function initialize(config) {\n    _EnvironmentManager_js__WEBPACK_IMPORTED_MODULE_3__[\"default\"].dev = config.dev;\n    if (sessionStorage.__spa_path) {\n        common_dapp_module__WEBPACK_IMPORTED_MODULE_0__.Router.goNoHistory(sessionStorage.__spa_path);\n        sessionStorage.removeItem(\"__spa_path\");\n    }\n    const splash = new common_dapp_module__WEBPACK_IMPORTED_MODULE_0__.SplashScreen((0,common_dapp_module__WEBPACK_IMPORTED_MODULE_0__.el)(\"img\", { src: \"/images/igloo-character.png\" }));\n    await Promise.all([\n        common_dapp_module__WEBPACK_IMPORTED_MODULE_0__.msg.loadYAMLs({\n            en: [\"/locales/en.yml\"],\n        }),\n    ]);\n    splash.delete();\n    common_dapp_module__WEBPACK_IMPORTED_MODULE_0__.Router.route(\"**\", _Layout_js__WEBPACK_IMPORTED_MODULE_4__[\"default\"]);\n}\n\n\n//# sourceURL=webpack:///./app/initialize.ts?");
+
+/***/ }),
+
+/***/ "./app/layout-components/MobileTitle.ts":
+/*!**********************************************!*\
+  !*** ./app/layout-components/MobileTitle.ts ***!
+  \**********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ MobileTitle)\n/* harmony export */ });\n/* harmony import */ var common_dapp_module__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! common-dapp-module */ \"../common-dapp-module/lib/index.js\");\n\nclass MobileTitle extends common_dapp_module__WEBPACK_IMPORTED_MODULE_0__.DomNode {\n    constructor() {\n        super(\".mobile-title\");\n    }\n}\n\n\n//# sourceURL=webpack:///./app/layout-components/MobileTitle.ts?");
+
+/***/ }),
+
+/***/ "./app/layout-components/NavBar.ts":
+/*!*****************************************!*\
+  !*** ./app/layout-components/NavBar.ts ***!
+  \*****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ NavBar)\n/* harmony export */ });\n/* harmony import */ var common_dapp_module__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! common-dapp-module */ \"../common-dapp-module/lib/index.js\");\n\nclass NavBar extends common_dapp_module__WEBPACK_IMPORTED_MODULE_0__.DomNode {\n    constructor() {\n        super(\".nav-bar\");\n    }\n}\n\n\n//# sourceURL=webpack:///./app/layout-components/NavBar.ts?");
+
+/***/ }),
+
+/***/ "./app/layout-components/PcTitle.ts":
+/*!******************************************!*\
+  !*** ./app/layout-components/PcTitle.ts ***!
+  \******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ PcTitle)\n/* harmony export */ });\n/* harmony import */ var common_dapp_module__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! common-dapp-module */ \"../common-dapp-module/lib/index.js\");\n\nclass PcTitle extends common_dapp_module__WEBPACK_IMPORTED_MODULE_0__.DomNode {\n    constructor() {\n        super(\".pc-title\");\n    }\n}\n\n\n//# sourceURL=webpack:///./app/layout-components/PcTitle.ts?");
+
+/***/ }),
+
+/***/ "./app/layout-components/TrendSection.ts":
+/*!***********************************************!*\
+  !*** ./app/layout-components/TrendSection.ts ***!
+  \***********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ TrendSection)\n/* harmony export */ });\n/* harmony import */ var common_dapp_module__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! common-dapp-module */ \"../common-dapp-module/lib/index.js\");\n\nclass TrendSection extends common_dapp_module__WEBPACK_IMPORTED_MODULE_0__.DomNode {\n    constructor() {\n        super(\".trend-section\");\n    }\n}\n\n\n//# sourceURL=webpack:///./app/layout-components/TrendSection.ts?");
 
 /***/ }),
 
