@@ -19,6 +19,9 @@ export default class NavBar extends DomNode {
       el("button", new MaterialIcon("notifications"), {
         click: () => Router.go("/notifications"),
       }),
+      el(".signed-user", {
+        //style: { backgroundImage: `url(${SignedUserManager.avatarUrl})` },
+      }),
     );
   }
 }
