@@ -14,18 +14,18 @@ function getPrice(supply, amount) {
   return summation * ethers.parseEther("1") / 100n;
 }
 
-describe("Igloo Contract", () => {
-  let Igloo, ERC20, igloo, owner, addr1, addr2;
+describe("IglooSubject Contract", () => {
+  let IglooSubject, ERC20, iglooSubject, owner, addr1, addr2;
 
   beforeEach(async function () {
     [owner, addr1, addr2] = await ethers.getSigners();
 
-    // Deploy the Igloo contract
-    Igloo = await ethers.getContractFactory("Igloo");
-    igloo = await Igloo.deploy();
+    // Deploy the IglooSubject contract
+    IglooSubject = await ethers.getContractFactory("IglooSubject");
+    iglooSubject = await IglooSubject.deploy();
 
-    // Initialize Igloo contract
-    await igloo.initialize(
+    // Initialize IglooSubject contract
+    await iglooSubject.initialize(
       addr1,
       BigInt("50000000000000000"),
       BigInt("50000000000000000"),
@@ -38,7 +38,7 @@ describe("Igloo Contract", () => {
     const supply = 0n;
     const amount = 1n;
     const price = getPrice(supply + 1n, amount);
-    const price2 = await igloo.getPrice(supply, amount);
+    const price2 = await iglooSubject.getPrice(supply, amount);
     console.log(
       `supply: ${supply}, amount: ${amount}, price: ${
         ethers.formatEther(price)
@@ -50,7 +50,7 @@ describe("Igloo Contract", () => {
       const supply = random(32);
       const amount = random(32);
       const price = getPrice(supply + 1n, amount);
-      const price2 = await igloo.getPrice(
+      const price2 = await iglooSubject.getPrice(
         supply,
         amount,
       );
@@ -62,13 +62,13 @@ describe("Igloo Contract", () => {
 
     let test = 0n;
     for (let i = 0; i < 100; i++) {
-      test += await igloo.getPrice(
+      test += await iglooSubject.getPrice(
         i.toString(),
         "1",
       );
     }
     expect(test).to.equal(
-      await igloo.getPrice(
+      await iglooSubject.getPrice(
         0n,
         "100",
       ),
@@ -77,28 +77,28 @@ describe("Igloo Contract", () => {
 
   describe("Buy and Sell", function () {
     it("Should buy keys", async function () {
-      const price3 = await igloo.getBuyPrice(
+      const price3 = await iglooSubject.getBuyPrice(
         addr2,
         "100",
       );
       console.log(ethers.formatEther(price3));
 
-      const tx2 = await (await igloo.connect(addr1).buyKeys(
+      const tx2 = await (await iglooSubject.connect(addr1).buyKeys(
         addr2,
         "100",
         {
-          value: await igloo.getBuyPriceAfterFee(
+          value: await iglooSubject.getBuyPriceAfterFee(
             addr2,
             "100",
           ),
         },
       )).wait();
 
-      expect(await igloo.keysBalance(addr2, addr1)).to.equal(
+      expect(await iglooSubject.keysBalance(addr2, addr1)).to.equal(
         100n,
       );
 
-      const price4 = await igloo.getSellPrice(
+      const price4 = await iglooSubject.getSellPrice(
         addr2,
         "100",
       );
@@ -106,21 +106,21 @@ describe("Igloo Contract", () => {
     });
 
     it("Should sell keys", async function () {
-      await igloo.connect(addr1).buyKeys(
+      await iglooSubject.connect(addr1).buyKeys(
         addr2,
         "100",
         {
-          value: await igloo.getBuyPriceAfterFee(
+          value: await iglooSubject.getBuyPriceAfterFee(
             addr2,
             "100",
           ),
         },
       );
-      await igloo.connect(addr1).sellKeys(
+      await iglooSubject.connect(addr1).sellKeys(
         addr2,
         "50",
       );
-      expect(await igloo.keysBalance(addr2, addr1)).to.equal(
+      expect(await iglooSubject.keysBalance(addr2, addr1)).to.equal(
         50n,
       );
     });
@@ -128,11 +128,11 @@ describe("Igloo Contract", () => {
 
   describe("Fees", function () {
     it("Should correctly calculate protocol fee", async function () {
-      const tx2 = await (await igloo.connect(addr1).buyKeys(
+      const tx2 = await (await iglooSubject.connect(addr1).buyKeys(
         addr2,
         "100",
         {
-          value: await igloo.getBuyPriceAfterFee(
+          value: await iglooSubject.getBuyPriceAfterFee(
             addr2,
             "100",
           ),
@@ -143,11 +143,11 @@ describe("Igloo Contract", () => {
         tx2.logs[0].args[6] + tx2.logs[0].args[6] / 10n,
       );
 
-      expect(await igloo.keysBalance(addr2, addr1)).to.equal(
+      expect(await iglooSubject.keysBalance(addr2, addr1)).to.equal(
         100n,
       );
 
-      await igloo.connect(addr1).sellKeys(
+      await iglooSubject.connect(addr1).sellKeys(
         addr2,
         "100",
       );
@@ -158,14 +158,14 @@ describe("Igloo Contract", () => {
         ethers.parseEther("100000000"),
       );
       await membershipToken.transfer(addr1.address, ethers.parseEther("10000"));
-      await igloo.setMembershipToken(membershipToken.target);
-      await igloo.setMembershipWeight(ethers.parseEther("0.0000005"));
+      await iglooSubject.setMembershipToken(membershipToken.target);
+      await iglooSubject.setMembershipWeight(ethers.parseEther("0.0000005"));
 
-      const tx3 = await (await igloo.connect(addr1).buyKeys(
+      const tx3 = await (await iglooSubject.connect(addr1).buyKeys(
         addr2,
         "100",
         {
-          value: await igloo.getBuyPriceAfterFee(
+          value: await iglooSubject.getBuyPriceAfterFee(
             addr2,
             "100",
           ),
