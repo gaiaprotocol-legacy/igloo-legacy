@@ -64,6 +64,19 @@ subject_chat_messages
 	message - text - nullable
 	translated - jsonb - nullbale
 	rich - jsonb - nullable
+	post_ref - int8 - nullable
+	created_at - timestampz - now()
+	updated_at - timestampz
+
+subject_posts
+	id - int8 - pk
+	subject - text - not null
+	author - uuid - auth.uid()
+	author_name - text - not null
+	author_avatar_url - text - nullable
+	message - text - not null
+	translated - jsonb - nullbale
+	rich - jsonb - nullable
 	created_at - timestampz - now()
 	updated_at - timestampz
 
