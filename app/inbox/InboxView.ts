@@ -1,5 +1,5 @@
 import { DomNode, el, View, ViewParams } from "common-dapp-module";
-import Layout from "../Layout.js";
+import Layout from "../layout/Layout.js";
 
 export default class InboxView extends View {
   private container: DomNode;

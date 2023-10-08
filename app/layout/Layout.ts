@@ -1,8 +1,8 @@
 import { BodyNode, DomNode, el, View, ViewParams } from "common-dapp-module";
-import MobileTitle from "./layout-components/MobileTitle.js";
-import NavBar from "./layout-components/NavBar.js";
-import PcTitle from "./layout-components/PcTitle.js";
-import TrendSection from "./layout-components/TrendSection.js";
+import MobileTitleBar from "./MobileTitleBar.js";
+import NavBar from "./NavBar.js";
+import PcTitleBar from "./PcTitleBar.js";
+import TrendSection from "./TrendSection.js";
 
 export default class Layout extends View {
   private static current: Layout;
@@ -21,9 +21,9 @@ export default class Layout extends View {
     BodyNode.append(
       this.container = el(
         ".layout",
-        new MobileTitle(),
+        new MobileTitleBar(),
         new NavBar(),
-        el(".content-wrapper", new PcTitle(), this.content = el("main")),
+        el(".content-wrapper", new PcTitleBar(), this.content = el("main")),
         new TrendSection(),
       ),
     );

@@ -3,7 +3,7 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime.js";
 import Config from "./Config.js";
 import EnvironmentManager from "./EnvironmentManager.js";
-import Layout from "./Layout.js";
+import Layout from "./layout/Layout.js";
 
 dayjs.extend(relativeTime);
 
