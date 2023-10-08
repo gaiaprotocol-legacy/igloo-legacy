@@ -6,10 +6,12 @@
     display   : flex;
 
     @media @phone {
-        display: block;
+        height        : auto;
+        display       : block;
+        padding-bottom: calc(90px + env(safe-area-inset-bottom));
     }
 
-    >.content-wrapper {
+    >main {
         flex-grow: 1;
     }
 

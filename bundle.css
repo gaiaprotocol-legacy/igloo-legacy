@@ -189,14 +189,27 @@ body {
   color: #2A2A2A;
 }
 .home-view {
-  padding: 31px 30px;
+  position: relative;
+  height: 100%;
 }
 @media only screen and (max-width: 859px) {
   .home-view {
+    height: auto;
+  }
+}
+.home-view > main {
+  height: 100%;
+  padding: 31px 30px;
+  overflow-y: auto;
+}
+@media only screen and (max-width: 859px) {
+  .home-view > main {
+    height: auto;
+    overflow-y: visible;
     padding: 20px;
   }
 }
-.home-view > h1 {
+.home-view > main > h1 {
   color: #2A2A2A;
   font-feature-settings: 'clig' off, 'liga' off;
   font-family: Quicksand;
@@ -208,9 +221,38 @@ body {
   margin-bottom: 40px;
 }
 @media only screen and (max-width: 859px) {
-  .home-view > h1 {
+  .home-view > main > h1 {
     display: none;
   }
+}
+.home-view > button.post {
+  position: absolute;
+  bottom: 30px;
+  right: 31px;
+  z-index: 999999;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  box-shadow: 0px 3px 5px -1px rgba(0, 0, 0, 0.2), 0px 6px 10px 0px rgba(0, 0, 0, 0.14), 0px 1px 18px 0px rgba(0, 0, 0, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  background-color: #5585FF;
+  color: #ffffff;
+}
+@media only screen and (max-width: 859px) {
+  .home-view > button.post {
+    position: fixed;
+    bottom: calc(110px + env(safe-area-inset-bottom));
+    right: 20px;
+  }
+}
+.home-view > button.post:hover {
+  background-color: #457aff;
+}
+.home-view > button.post:active {
+  background-color: #3770ff;
 }
 .inbox-view {
   padding: 31px 30px;
@@ -293,10 +335,12 @@ body {
 }
 @media only screen and (max-width: 859px) {
   .layout {
+    height: auto;
     display: block;
+    padding-bottom: calc(90px + env(safe-area-inset-bottom));
   }
 }
-.layout > .content-wrapper {
+.layout > main {
   flex-grow: 1;
 }
 .layout > .trend-section {
@@ -324,6 +368,7 @@ body {
 @media only screen and (max-width: 859px) {
   .nav-bar {
     position: fixed;
+    z-index: 999999;
     bottom: 0;
     flex-direction: row;
     width: 100%;

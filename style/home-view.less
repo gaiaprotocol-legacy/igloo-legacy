@@ -1,23 +1,67 @@
 .home-view {
-    padding: 31px 30px;
+    position: relative;
+    height  : 100%;
 
     @media @phone {
-        padding: 20px;
+        height: auto;
     }
 
-    >h1 {
-        color                : #2A2A2A;
-        font-feature-settings: 'clig'off, 'liga'off;
-        font-family          : Quicksand;
-        font-size            : 22px;
-        font-style           : normal;
-        font-weight          : 700;
-        line-height          : normal;
-        text-transform       : capitalize;
-        margin-bottom        : 40px;
+    >main {
+        height    : 100%;
+        padding   : 31px 30px;
+        overflow-y: auto;
 
         @media @phone {
-            display: none;
+            height    : auto;
+            overflow-y: visible;
+            padding   : 20px;
+        }
+
+        >h1 {
+            color                : #2A2A2A;
+            font-feature-settings: 'clig'off, 'liga'off;
+            font-family          : Quicksand;
+            font-size            : 22px;
+            font-style           : normal;
+            font-weight          : 700;
+            line-height          : normal;
+            text-transform       : capitalize;
+            margin-bottom        : 40px;
+
+            @media @phone {
+                display: none;
+            }
+        }
+    }
+
+    >button.post {
+        position        : absolute;
+        bottom          : 30px;
+        right           : 31px;
+        z-index         : 999999;
+        width           : 56px;
+        height          : 56px;
+        border-radius   : 50%;
+        box-shadow      : 0px 3px 5px -1px rgba(0, 0, 0, 0.2), 0px 6px 10px 0px rgba(0, 0, 0, 0.14), 0px 1px 18px 0px rgba(0, 0, 0, 0.12);
+        display         : flex;
+        align-items     : center;
+        justify-content : center;
+        cursor          : pointer;
+        background-color: #5585FF;
+        color           : #ffffff;
+
+        @media @phone {
+            position: fixed;
+            bottom  : calc(110px + env(safe-area-inset-bottom));
+            right   : 20px;
+        }
+
+        &:hover {
+            background-color: #457aff;
+        }
+
+        &:active {
+            background-color: #3770ff;
         }
     }
 }
