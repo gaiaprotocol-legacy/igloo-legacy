@@ -147,6 +147,46 @@ body {
   width: 120px;
   height: 120px;
 }
+.tabs.component {
+  border-radius: 16px;
+  background: #EBEFF3;
+  box-shadow: 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
+  padding: 12px;
+  display: flex;
+  gap: 20px;
+}
+@media only screen and (max-width: 859px) {
+  .tabs.component {
+    gap: 0;
+  }
+}
+.tabs.component > .tab {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 48px;
+  flex-basis: 100%;
+  cursor: pointer;
+  color: #a1a2ac;
+  padding: 0 20px;
+  font-feature-settings: 'clig' off, 'liga' off;
+  font-family: Quicksand;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  text-transform: capitalize;
+}
+.tabs.component > .tab:hover {
+  color: #2A2A2A;
+}
+.tabs.component > .tab.active {
+  border-radius: 16px;
+  outline: 1px solid #F4F7F9;
+  background: #EBEFF3;
+  box-shadow: 4px 4px 8px 0px rgba(255, 255, 255, 0.75), 2px 2px 8px 0px rgba(189, 194, 199, 0.75) inset;
+  color: #2A2A2A;
+}
 .home-view {
   padding: 31px 30px;
 }
@@ -164,10 +204,12 @@ body {
   font-weight: 700;
   line-height: normal;
   text-transform: capitalize;
+  margin-bottom: 40px;
 }
 @media only screen and (max-width: 859px) {
   .home-view > h1 {
     font-size: 16px;
+    margin-bottom: 30px;
   }
 }
 .inbox-view {
@@ -251,6 +293,17 @@ body {
     display: block;
   }
 }
+.layout > .content-wrapper {
+  flex-grow: 1;
+}
+.layout > .trend-section {
+  width: 360px;
+}
+@media only screen and (max-width: 859px) {
+  .layout > .trend-section {
+    width: auto;
+  }
+}
 .nav-bar {
   width: 90px;
   background: #EBEFF3;
@@ -302,6 +355,7 @@ body {
 }
 .nav-bar > h1:active,
 .nav-bar > .login-button:active {
+  outline: 1px solid #F4F7F9;
   box-shadow: 4px 4px 8px 0px rgba(255, 255, 255, 0.75), 2px 2px 8px 0px rgba(189, 194, 199, 0.75) inset;
 }
 .nav-bar > button {
@@ -320,6 +374,7 @@ body {
 }
 .nav-bar > button:active,
 .nav-bar > button.active {
+  outline: 1px solid #F4F7F9;
   box-shadow: 4px 4px 8px 0px rgba(255, 255, 255, 0.75), 2px 2px 8px 0px rgba(189, 194, 199, 0.75) inset;
 }
 .nav-bar > .login-button {
@@ -385,6 +440,7 @@ body {
 }
 .mobile-title-bar > h1:active,
 .mobile-title-bar > .login-button:active {
+  outline: 1px solid #F4F7F9;
   box-shadow: 4px 4px 8px 0px rgba(255, 255, 255, 0.75), 2px 2px 8px 0px rgba(189, 194, 199, 0.75) inset;
 }
 .mobile-title-bar > p {
@@ -396,6 +452,9 @@ body {
   font-weight: 700;
   line-height: normal;
   text-transform: capitalize;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 .mobile-title-bar > .login-button {
   display: none;
