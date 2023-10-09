@@ -10,6 +10,10 @@ import {
 export default class PostPopup extends Popup {
   public content: DomNode;
 
+  private targetSelect: DomNode<HTMLSelectElement>;
+  private textarea: DomNode<HTMLTextAreaElement>;
+  private postButton: Button;
+
   constructor() {
     super({ barrierDismissible: true });
     this.append(
@@ -20,7 +24,7 @@ export default class PostPopup extends Popup {
           ".form",
           el(
             "header",
-            el(
+            this.targetSelect = el(
               "select",
               el("option", { value: "everyone" }, "Everyone"),
               el("option", { value: "key-holders" }, "Key Holders"),
@@ -31,20 +35,27 @@ export default class PostPopup extends Popup {
           ),
           el(
             "main",
-            el("textarea", { placeholder: "What's on your mind?" }),
+            this.textarea = el("textarea", {
+              placeholder: "What's on your mind?",
+            }),
           ),
           el(
             "footer",
             el("button.icon-button", new MaterialIcon("image")),
-            new Button({
+            this.postButton = new Button({
               tag: ".post-button",
-              click: async (event, button) => {
-              },
+              click: () => this.post(),
               title: "Post",
             }),
           ),
         ),
       ),
     );
+    this.textarea.domElement.focus();
+  }
+
+  private async post() {
+    console.log(this.targetSelect.domElement.value);
+    console.log(this.textarea.domElement.value);
   }
 }

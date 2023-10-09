@@ -1,5 +1,5 @@
 import { I18NText } from "common-dapp-module";
-import { Emoji, UploadedFile } from "./Rich.js";
+import { UploadedFile } from "./Rich.js";
 
 export enum MessageType {
   MESSAGE,
@@ -17,7 +17,6 @@ export default interface ChatMessage {
   translated?: I18NText;
   rich?: {
     files?: UploadedFile[];
-    emojis?: Emoji[];
   };
   created_at: string;
   updated_at?: string;

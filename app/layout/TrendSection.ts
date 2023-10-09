@@ -14,10 +14,10 @@ export default class TrendSection extends DomNode {
   }
 
   public hide() {
-    this.addClass("hide");
+    this.addClass("hidden");
   }
 
   public show() {
-    this.deleteClass("hide");
+    this.deleteClass("hidden");
   }
 }

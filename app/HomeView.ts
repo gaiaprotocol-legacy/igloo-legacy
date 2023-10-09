@@ -8,10 +8,12 @@ import {
 } from "common-dapp-module";
 import Layout from "./layout/Layout.js";
 import PostPopup from "./post/PostPopup.js";
+import SignedUserManager from "./user/SignedUserManager.js";
 
 export default class HomeView extends View {
   private container: DomNode;
   private tabs: Tabs;
+  private postButton: DomNode;
 
   constructor(params: ViewParams) {
     super();
@@ -27,13 +29,26 @@ export default class HomeView extends View {
             { id: "held", label: "Held" },
           ]),
         ),
-        el("button.post", new MaterialIcon("add"), {
+        this.postButton = el("button.post", new MaterialIcon("add"), {
           click: () => new PostPopup(),
         }),
       ),
     );
 
     this.tabs.init();
+
+    this.checkSigned();
+    this.container.onDelegate(
+      SignedUserManager,
+      "userFetched",
+      () => this.checkSigned(),
+    );
+  }
+
+  private checkSigned() {
+    !SignedUserManager.signed
+      ? this.postButton.addClass("hidden")
+      : this.postButton.deleteClass("hidden");
   }
 
   public close(): void {
