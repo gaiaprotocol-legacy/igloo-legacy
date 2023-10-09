@@ -26,7 +26,6 @@ export default class HomeView extends View {
             { id: "following", label: "Following" },
             { id: "held", label: "Held" },
           ]),
-          "test\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest",
         ),
         el("button.post", new MaterialIcon("add"), {
           click: () => new PostPopup(),

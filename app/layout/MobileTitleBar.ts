@@ -76,7 +76,7 @@ export default class MobileTitleBar extends DomNode {
   public set uri(uri: string) {
     if (
       uri === "" || uri === "inbox" || uri === "explore" ||
-      uri === "notifications"
+      uri === "notifications" || uri === "settings"
     ) {
       this.titleDisplay.text = StringUtil.toTitleCase(
         uri === "" ? "home" : uri,
