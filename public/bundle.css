@@ -1,3 +1,6 @@
+/*!**********************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[1].use[1]!./public/style/lib/reset.css ***!
+  \**********************************************************************************************************/
 /***
     The new CSS reset - version 1.8.4 (last updated 14.2.2023)
     GitHub page: https://github.com/elad2412/the-new-css-reset
@@ -97,6 +100,9 @@ meter {
 :where(dialog:modal) {
     all: revert;
 }
+/*!*********************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[1].use[1]!./node_modules/less-loader/dist/cjs.js!./public/style/main.less ***!
+  \*********************************************************************************************************************************************/
 @font-face {
   font-family: 'Quicksand';
   font-style: normal;
@@ -302,11 +308,15 @@ button.component.contained:active {
     padding-bottom: calc(90px + env(safe-area-inset-bottom));
   }
 }
+.layout > .nav-bar {
+  flex-shrink: 0;
+}
 .layout > main {
   flex-grow: 1;
 }
 .layout > .trend-section {
   width: 360px;
+  flex-shrink: 0;
 }
 @media only screen and (max-width: 859px) {
   .layout > .trend-section {
@@ -581,6 +591,9 @@ button.component.contained:active {
     display: none;
   }
 }
+.home-view > main > .tabs {
+  margin-bottom: 20px;
+}
 .home-view > button.post {
   position: absolute;
   bottom: 30px;
@@ -701,7 +714,7 @@ button.component.contained:active {
   font-family: Quicksand;
   font-size: 14px;
   font-style: normal;
-  font-weight: 700;
+  font-weight: 500;
   line-height: normal;
 }
 .post-popup > .form > main > textarea::placeholder {
@@ -730,6 +743,66 @@ button.component.contained:active {
 }
 .post-popup > .form > footer > .post-button {
   margin-left: auto;
+}
+.post-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.post-list.hidden {
+  display: none;
+}
+.post-list-item {
+  border-radius: 16px;
+  background: #EBEFF3;
+  box-shadow: 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
+  padding: 20px;
+  display: flex;
+  gap: 20px;
+  cursor: pointer;
+}
+@media only screen and (max-width: 859px) {
+  .post-list-item {
+    gap: 12px;
+  }
+}
+.post-list-item > .author-profile-image {
+  margin-top: 1px;
+  display: flex;
+  width: 42px;
+  height: 42px;
+  flex-shrink: 0;
+  border-radius: 42px;
+  border: 1px solid #FFF;
+  background: lightgray 50% / cover no-repeat;
+}
+.post-list-item > main {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+@media only screen and (max-width: 859px) {
+  .post-list-item > main {
+    gap: 8px;
+  }
+}
+.post-list-item > main > .author-name {
+  color: #2A2A2A;
+  font-feature-settings: 'clig' off, 'liga' off;
+  font-family: Quicksand;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+.post-list-item > main > p {
+  color: #2A2A2A;
+  font-feature-settings: 'clig' off, 'liga' off;
+  font-family: Quicksand;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
 }
 .inbox-view {
   padding: 31px 30px;

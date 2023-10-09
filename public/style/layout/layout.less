@@ -11,12 +11,17 @@
         padding-bottom: calc(90px + env(safe-area-inset-bottom));
     }
 
+    >.nav-bar {
+        flex-shrink: 0;
+    }
+
     >main {
         flex-grow: 1;
     }
 
     >.trend-section {
-        width: 360px;
+        width      : 360px;
+        flex-shrink: 0;
 
         @media @phone {
             display: none;

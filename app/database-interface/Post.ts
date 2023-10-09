@@ -20,6 +20,7 @@ export default interface Post {
   message: string;
   translated?: I18NText;
   rich?: Rich;
+  post_ref?: number;
   created_at: string;
   updated_at?: string;
 }
@@ -45,4 +46,5 @@ export const isEqualPost = (a: Post | undefined, b: Post | undefined) =>
   a?.author_name === b?.author_name &&
   a?.author_avatar_url === b?.author_avatar_url &&
   a?.message === b?.message &&
-  isEqualRich(a?.rich ?? {}, b?.rich ?? {});
+  isEqualRich(a?.rich ?? {}, b?.rich ?? {}) &&
+  a?.post_ref === b?.post_ref;

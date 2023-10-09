@@ -81,6 +81,7 @@ posts
 	message - text - not null
 	translated - jsonb - nullbale
 	rich - jsonb - nullable
+	post_ref - int8 - nullable
 	created_at - timestampz - now()
 	updated_at - timestampz
 

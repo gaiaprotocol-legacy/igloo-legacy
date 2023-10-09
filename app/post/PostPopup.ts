@@ -8,6 +8,7 @@ import {
   Router,
   Snackbar,
 } from "common-dapp-module";
+import SignedUserManager from "../user/SignedUserManager.js";
 import PostService from "./PostService.js";
 
 export default class PostPopup extends Popup {
@@ -22,7 +23,9 @@ export default class PostPopup extends Popup {
     this.append(
       this.content = new Component(
         ".popup.post-popup",
-        el(".signed-user"),
+        el(".signed-user", {
+          style: { backgroundImage: `url(${SignedUserManager.avatarUrl})` },
+        }),
         el(
           ".form",
           el(
