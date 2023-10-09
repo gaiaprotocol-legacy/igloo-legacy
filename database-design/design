@@ -71,8 +71,9 @@ subject_chat_messages
 	created_at - timestampz - now()
 	updated_at - timestampz
 
-user_posts
+posts
 	id - int8 - pk
+	group_id - int8 - nullable
 	target - int2 - not null
 	author - uuid - auth.uid()
 	author_name - text - not null

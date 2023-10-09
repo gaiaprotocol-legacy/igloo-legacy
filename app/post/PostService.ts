@@ -2,8 +2,8 @@ import { Supabase } from "common-dapp-module";
 import { PostTarget } from "../database-interface/Post.js";
 
 class PostService {
-  public async publishUserPost(target: PostTarget, message: string) {
-    const { data, error } = await Supabase.client.from("user_posts").insert({
+  public async post(target: PostTarget, message: string) {
+    const { data, error } = await Supabase.client.from("posts").insert({
       target,
       message,
     }).select().single();

@@ -60,7 +60,7 @@ export default class PostPopup extends Popup {
   private async post() {
     this.postButton.disable().text = "Posting...";
     try {
-      const postId = await PostService.publishUserPost(
+      const postId = await PostService.post(
         parseInt(this.targetSelect.domElement.value),
         this.textarea.domElement.value,
       );
