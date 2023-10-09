@@ -17,6 +17,7 @@
 *::before,
 *::after {
     box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
 }
 
 /* Reapply the pointer cursor for anchor tags */
