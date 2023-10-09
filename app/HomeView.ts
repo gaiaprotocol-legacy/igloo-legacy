@@ -7,12 +7,18 @@ import {
   ViewParams,
 } from "common-dapp-module";
 import Layout from "./layout/Layout.js";
+import FollowingPostList from "./post/FollowingPostList.js";
+import GlobalPostList from "./post/GlobalPostList.js";
+import KeyHeldPostList from "./post/KeyHeldPostList.js";
 import PostPopup from "./post/PostPopup.js";
 import SignedUserManager from "./user/SignedUserManager.js";
 
 export default class HomeView extends View {
   private container: DomNode;
   private tabs: Tabs;
+  private globalPostList: GlobalPostList;
+  private followingPostList: FollowingPostList;
+  private keyHeldPostList: KeyHeldPostList;
   private postButton: DomNode;
 
   constructor(params: ViewParams) {
@@ -28,6 +34,9 @@ export default class HomeView extends View {
             { id: "following", label: "Following" },
             { id: "held", label: "Held" },
           ]),
+          this.globalPostList = new GlobalPostList(),
+          this.followingPostList = new FollowingPostList(),
+          this.keyHeldPostList = new KeyHeldPostList(),
         ),
         this.postButton = el("button.post", new MaterialIcon("add"), {
           click: () => new PostPopup(),
@@ -35,7 +44,17 @@ export default class HomeView extends View {
       ),
     );
 
-    this.tabs.init();
+    this.tabs.on("select", (id: string) => {
+      [this.globalPostList, this.followingPostList, this.keyHeldPostList]
+        .forEach((list) => list.hide());
+      if (id === "global") {
+        this.globalPostList.show();
+      } else if (id === "following") {
+        this.followingPostList.show();
+      } else if (id === "held") {
+        this.keyHeldPostList.show();
+      }
+    }).init();
 
     this.checkSigned();
     this.container.onDelegate(

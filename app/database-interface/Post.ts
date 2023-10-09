@@ -8,6 +8,7 @@ export enum PostTarget {
 
 export default interface Post {
   id: number;
+  guild_id?: number;
   target: PostTarget;
   author: string;
   author_name: string;
