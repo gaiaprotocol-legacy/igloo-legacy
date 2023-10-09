@@ -41,6 +41,7 @@ CREATE OR REPLACE FUNCTION "public"."set_post_default_values"() RETURNS "trigger
     AS $$BEGIN
   new.author_name := (SELECT raw_user_meta_data ->> 'full_name' FROM auth.users WHERE id = new.author);
   new.author_avatar_url := (SELECT raw_user_meta_data ->> 'avatar_url' FROM auth.users WHERE id = new.author);
+  new.author_x_username := (SELECT raw_user_meta_data ->> 'user_name' FROM auth.users WHERE id = new.author);
   RETURN new;
 END;$$;
 
@@ -98,7 +99,9 @@ CREATE TABLE IF NOT EXISTS "public"."posts" (
     "created_at" timestamp with time zone DEFAULT "now"() NOT NULL,
     "updated_at" timestamp with time zone,
     "target" smallint NOT NULL,
-    "group_id" bigint
+    "group_id" bigint,
+    "post_ref" bigint,
+    "author_x_username" "text"
 );
 
 ALTER TABLE "public"."posts" OWNER TO "postgres";
@@ -115,7 +118,8 @@ CREATE TABLE IF NOT EXISTS "public"."subject_chat_messages" (
     "rich" "jsonb",
     "post_ref" bigint,
     "created_at" timestamp with time zone DEFAULT "now"() NOT NULL,
-    "updated_at" timestamp with time zone
+    "updated_at" timestamp with time zone,
+    "author_x_username" "text"
 );
 
 ALTER TABLE "public"."subject_chat_messages" OWNER TO "postgres";
@@ -188,7 +192,8 @@ CREATE TABLE IF NOT EXISTS "public"."topic_chat_messages" (
     "translated" "jsonb",
     "rich" "jsonb",
     "created_at" timestamp with time zone DEFAULT "now"() NOT NULL,
-    "updated_at" timestamp with time zone
+    "updated_at" timestamp with time zone,
+    "author_x_username" "text"
 );
 
 ALTER TABLE "public"."topic_chat_messages" OWNER TO "postgres";
@@ -221,7 +226,8 @@ CREATE TABLE IF NOT EXISTS "public"."user_details" (
     "updated_at" timestamp with time zone,
     "follower_count" integer DEFAULT 0 NOT NULL,
     "following_count" integer DEFAULT 0 NOT NULL,
-    "blocked" boolean DEFAULT false NOT NULL
+    "blocked" boolean DEFAULT false NOT NULL,
+    "x_username" "text"
 );
 
 ALTER TABLE "public"."user_details" OWNER TO "postgres";
@@ -315,7 +321,7 @@ ALTER TABLE ONLY "public"."wallet_linking_nonces"
 
 CREATE POLICY "can delete only authed" ON "public"."posts" FOR DELETE USING (("author" = "auth"."uid"()));
 
-CREATE POLICY "can write only authed" ON "public"."posts" FOR INSERT TO "authenticated" WITH CHECK (("author" = "auth"."uid"()));
+CREATE POLICY "can write only authed" ON "public"."posts" FOR INSERT TO "authenticated" WITH CHECK ((("message" <> ''::"text") AND ("author" = "auth"."uid"())));
 
 ALTER TABLE "public"."followers" ENABLE ROW LEVEL SECURITY;
 

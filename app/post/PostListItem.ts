@@ -69,6 +69,7 @@ export default class PostListItem extends DomNode {
                       title: "Delete Post",
                       message: "Are you sure you want to delete this post?",
                       confirmTitle: "Delete",
+                      loadingTitle: "Deleting...",
                       buttonType: ButtonType.Contained,
                     }, () => PostService.deletePost(this.post.id));
                   },
