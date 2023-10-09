@@ -1,0 +1,108 @@
+.post-list-item {
+    border-radius: 16px;
+    background   : #EBEFF3;
+    box-shadow   : 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
+    padding      : 20px;
+    display      : flex;
+    gap          : 20px;
+    cursor       : pointer;
+
+    @media @phone {
+        gap: 12px;
+    }
+
+    >.author-profile-image {
+        margin-top   : 1px;
+        display      : flex;
+        width        : 42px;
+        height       : 42px;
+        flex-shrink  : 0;
+        border-radius: 42px;
+        border       : 1px solid #FFF;
+        background   : lightgray 50% / cover no-repeat;
+    }
+
+    >main {
+        flex-grow     : 1;
+        display       : flex;
+        flex-direction: column;
+        gap           : 12px;
+
+        @media @phone {
+            gap: 8px;
+        }
+
+        >header {
+            display: flex;
+
+            >.author {
+                display       : flex;
+                flex-direction: column;
+                gap           : 4px;
+
+                >.name {
+                    color                : #2A2A2A;
+                    font-feature-settings: 'clig'off, 'liga'off;
+                    font-family          : Quicksand;
+                    font-size            : 16px;
+                    font-style           : normal;
+                    font-weight          : 700;
+                    line-height          : normal;
+                }
+
+                >.x-username {
+                    color                : #2A2A2A;
+                    font-feature-settings: 'clig'off, 'liga'off;
+                    font-family          : Quicksand;
+                    font-size            : 12px;
+                    font-style           : normal;
+                    font-weight          : 500;
+                }
+            }
+
+            >button.owner-menu {
+                margin-left                : auto;
+                display                    : none;
+                width                      : 43.5px;
+                height                     : 43.5px;
+                flex-shrink                : 0;
+                border-radius              : 16px;
+                color                      : #2B2B2B;
+                cursor                     : pointer;
+                display                    : flex;
+                justify-content            : center;
+                align-items                : center;
+                -webkit-tap-highlight-color: transparent;
+
+                &:active {
+                    outline   : 1px solid #F4F7F9;
+                    background: #EBEFF3;
+                    box-shadow: 4px 4px 8px 0px rgba(255, 255, 255, 0.75), 2px 2px 8px 0px rgba(189, 194, 199, 0.75) inset;
+                }
+            }
+        }
+
+        >p {
+            color                : #2A2A2A;
+            font-feature-settings: 'clig'off, 'liga'off;
+            font-family          : Quicksand;
+            font-size            : 14px;
+            font-style           : normal;
+            font-weight          : 500;
+
+            @media @phone {
+                font-size: 12px;
+            }
+        }
+    }
+
+    &.owned {
+        >main {
+            >header {
+                >button.owner-menu {
+                    display: flex;
+                }
+            }
+        }
+    }
+}
