@@ -24,6 +24,9 @@ export default class NavBar extends DomNode {
       el("button.notifications", new MaterialIcon("notifications"), {
         click: () => Router.go("/notifications"),
       }),
+      el("button.settings", new MaterialIcon("settings"), {
+        click: () => Router.go("/settings"),
+      }),
       this.loginButton = el("button.login-button", new MaterialIcon("login"), {
         click: () => SignedUserManager.signIn(),
       }),

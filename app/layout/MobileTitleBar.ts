@@ -1,4 +1,10 @@
-import { DomNode, el, MaterialIcon, Router } from "common-dapp-module";
+import {
+  DomNode,
+  el,
+  MaterialIcon,
+  Router,
+  StringUtil,
+} from "common-dapp-module";
 import SignedUserManager from "../user/SignedUserManager.js";
 
 export default class MobileTitleBar extends DomNode {
@@ -7,6 +13,7 @@ export default class MobileTitleBar extends DomNode {
   private titleDisplay: DomNode;
   private loginButton: DomNode;
   private signedUser: DomNode;
+  private settingsButton: DomNode;
 
   constructor() {
     super(".mobile-title-bar");
@@ -21,6 +28,11 @@ export default class MobileTitleBar extends DomNode {
       this.signedUser = el("a.signed-user", {
         click: () => Router.go(`/${SignedUserManager.xUsername}`),
       }),
+      this.settingsButton = el(
+        "button.settings-button",
+        new MaterialIcon("settings"),
+        { click: () => Router.go("/settings") },
+      ),
     );
 
     this.checkSigned();
@@ -28,8 +40,8 @@ export default class MobileTitleBar extends DomNode {
   }
 
   private checkSigned() {
-    !SignedUserManager.signed ? this.showLoginButton() : this.showSignedUser();
-    this.title = this.welcomeMessage = SignedUserManager.signed
+    this.showLoginOrSignedUser();
+    this.titleDisplay.text = this.welcomeMessage = SignedUserManager.signed
       ? "Hello, " + SignedUserManager.name + "!"
       : "Welcome to Igloo!";
     if (SignedUserManager.signed) {
@@ -39,17 +51,44 @@ export default class MobileTitleBar extends DomNode {
     }
   }
 
+  private showLoginOrSignedUser() {
+    !SignedUserManager.signed ? this.showLoginButton() : this.showSignedUser();
+  }
+
   private showLoginButton() {
     this.loginButton.addClass("show");
     this.signedUser.deleteClass("show");
+    this.settingsButton.deleteClass("show");
   }
 
   private showSignedUser() {
     this.loginButton.deleteClass("show");
     this.signedUser.addClass("show");
+    this.settingsButton.deleteClass("show");
   }
 
-  public set title(title: string) {
-    this.titleDisplay.text = title === "Home" ? this.welcomeMessage : title;
+  private showSettingsButton() {
+    this.loginButton.deleteClass("show");
+    this.signedUser.deleteClass("show");
+    this.settingsButton.addClass("show");
+  }
+
+  public set uri(uri: string) {
+    if (
+      uri === "" || uri === "inbox" || uri === "explore" ||
+      uri === "notifications"
+    ) {
+      this.titleDisplay.text = StringUtil.toTitleCase(
+        uri === "" ? "home" : uri,
+      );
+      this.showLoginOrSignedUser();
+    } else { // x username
+      this.titleDisplay.text = "@" + uri;
+      if (SignedUserManager.xUsername === uri) {
+        this.showSettingsButton();
+      } else {
+        this.showLoginOrSignedUser();
+      }
+    }
   }
 }

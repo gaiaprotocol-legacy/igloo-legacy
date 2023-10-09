@@ -3,6 +3,7 @@ import Layout from "../layout/Layout.js";
 
 export default class UserView extends View {
   private container: DomNode;
+  private xUsername!: string;
 
   constructor(params: ViewParams) {
     super();
@@ -11,6 +12,18 @@ export default class UserView extends View {
         ".user-view",
       ),
     );
+
+    this.xUsername = params.xUsername!;
+    this.render();
+  }
+
+  private render() {
+    this.container.append(el("h1", "@" + this.xUsername));
+  }
+
+  public changeParams(params: ViewParams, uri: string): void {
+    this.xUsername = params.xUsername!;
+    this.render();
   }
 
   public close(): void {

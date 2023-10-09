@@ -12,6 +12,7 @@ import SignedUserManager from "./user/SignedUserManager.js";
 import UserView from "./user/UserView.js";
 import UserWalletLinker from "./user/UserWalletLinker.js";
 import WalletManager from "./user/WalletManager.js";
+import SettingsView from "./settings/SettingsView.js";
 
 dayjs.extend(relativeTime);
 
@@ -44,9 +45,11 @@ export default async function initialize(config: Config) {
   Router.route("inbox", InboxView);
   Router.route("explore", ExploreView);
   Router.route("notifications", NotificationsView);
+  Router.route("settings", SettingsView);
   Router.route("{xUsername}", UserView, [
     "inbox",
     "explore",
     "notifications",
+    "settings",
   ]);
 }
