@@ -1,7 +1,7 @@
 import { DomNode } from "common-dapp-module";
 
-export default class PostList extends DomNode {
-  constructor() {
-    super(".post-list");
+export default abstract class PostList extends DomNode {
+  constructor(tag: string) {
+    super(tag + ".post-list");
   }
 }

@@ -1,4 +1,4 @@
-import ChatMessageList from "./ChatMessageList.js";
+import ChatMessageList from "../chat/ChatMessageList.js";
 
 export default class SubjectChatMessageList extends ChatMessageList {
   constructor() {
