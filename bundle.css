@@ -241,6 +241,53 @@ button.component.contained:active {
     padding: 20px;
   }
 }
+.snackbar.component {
+  position: fixed;
+  left: 0;
+  bottom: 20px;
+  z-index: 999998;
+  width: 100%;
+}
+@media only screen and (max-width: 859px) {
+  .snackbar.component {
+    bottom: calc(110px + env(safe-area-inset-bottom));
+  }
+}
+.snackbar.component > main {
+  max-width: 532px;
+  width: 90%;
+  margin: auto;
+  background-color: #5585FF;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  border-radius: 16px;
+  padding: 4px 20px;
+  gap: 4px;
+}
+.snackbar.component > main > p {
+  flex-grow: 1;
+}
+.snackbar.component > main > button.action {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  color: #ffffff;
+  font-weight: bold;
+}
+.snackbar.component > main > button.action:hover {
+  opacity: 0.8;
+}
+.snackbar.component > main > button.close {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  cursor: pointer;
+  font-weight: bold;
+}
+.snackbar.component > main > button.close:hover {
+  opacity: 0.8;
+}
 .layout {
   height: 100%;
   max-width: 1280px;
@@ -266,7 +313,7 @@ button.component.contained:active {
     display: none;
   }
 }
-.layout > .trend-section.hide {
+.layout > .trend-section.hidden {
   display: none;
 }
 .nav-bar {
@@ -283,7 +330,7 @@ button.component.contained:active {
 @media only screen and (max-width: 859px) {
   .nav-bar {
     position: fixed;
-    z-index: 999999;
+    z-index: 999990;
     bottom: 0;
     flex-direction: row;
     width: 100%;
@@ -563,6 +610,9 @@ button.component.contained:active {
 }
 .home-view > button.post:active {
   background-color: #3770ff;
+}
+.home-view > button.post.hidden {
+  display: none;
 }
 .post-popup {
   max-width: 600px !important;
