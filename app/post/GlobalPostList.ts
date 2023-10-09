@@ -27,11 +27,13 @@ export default class GlobalPostList extends PostList {
     if (this.isContentFromCache) {
       this.isContentFromCache = false;
       this.store.set("cached-posts", posts, true);
-      this.empty();
+      if (!this.deleted) this.empty();
     }
 
-    for (const post of posts) {
-      this.addPost(post);
+    if (!this.deleted) {
+      for (const post of posts) {
+        this.addPost(post);
+      }
     }
   }
 }

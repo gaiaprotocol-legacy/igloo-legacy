@@ -20,6 +20,7 @@
 *::before,
 *::after {
     box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
 }
 
 /* Reapply the pointer cursor for anchor tags */
@@ -182,7 +183,6 @@ body {
   font-weight: 700;
   line-height: normal;
   text-transform: capitalize;
-  -webkit-tap-highlight-color: transparent;
 }
 .tabs.component > .tab:hover {
   color: #2A2A2A;
@@ -201,7 +201,6 @@ button.component {
   display: flex;
   justify-content: center;
   align-items: center;
-  -webkit-tap-highlight-color: transparent;
   padding: 0 20px;
   color: #2B2B2B;
   font-feature-settings: 'clig' off, 'liga' off;
@@ -466,7 +465,6 @@ button.component.text:active {
   display: flex;
   justify-content: center;
   align-items: center;
-  -webkit-tap-highlight-color: transparent;
 }
 .nav-bar > button:active,
 .nav-bar > button.active {
@@ -522,8 +520,9 @@ button.component.text:active {
   }
 }
 .mobile-title-bar > h1,
-.mobile-title-bar > .login-button,
-.mobile-title-bar > .settings-button {
+.mobile-title-bar > button.back,
+.mobile-title-bar > button.login,
+.mobile-title-bar > button.settings {
   width: 48px;
   height: 48px;
   flex-shrink: 0;
@@ -534,18 +533,25 @@ button.component.text:active {
   display: flex;
   justify-content: center;
   align-items: center;
-  -webkit-tap-highlight-color: transparent;
 }
 .mobile-title-bar > h1 > img,
-.mobile-title-bar > .login-button > img,
-.mobile-title-bar > .settings-button > img {
+.mobile-title-bar > button.back > img,
+.mobile-title-bar > button.login > img,
+.mobile-title-bar > button.settings > img {
   width: 26px;
 }
 .mobile-title-bar > h1:active,
-.mobile-title-bar > .login-button:active,
-.mobile-title-bar > .settings-button:active {
+.mobile-title-bar > button.back:active,
+.mobile-title-bar > button.login:active,
+.mobile-title-bar > button.settings:active {
   outline: 1px solid #F4F7F9;
   box-shadow: 4px 4px 8px 0px rgba(255, 255, 255, 0.75), 2px 2px 8px 0px rgba(189, 194, 199, 0.75) inset;
+}
+.mobile-title-bar > h1.hidden,
+.mobile-title-bar > button.back.hidden,
+.mobile-title-bar > button.login.hidden,
+.mobile-title-bar > button.settings.hidden {
+  display: none;
 }
 .mobile-title-bar > p {
   color: #2A2A2A;
@@ -560,17 +566,12 @@ button.component.text:active {
   text-overflow: ellipsis;
   overflow: hidden;
 }
-.mobile-title-bar > .login-button,
-.mobile-title-bar > .settings-button {
-  display: none;
+.mobile-title-bar > button.login,
+.mobile-title-bar > button.settings {
   margin-left: auto;
 }
-.mobile-title-bar > .login-button.show,
-.mobile-title-bar > .settings-button.show {
-  display: flex;
-}
 .mobile-title-bar > .signed-user {
-  display: none;
+  display: flex;
   margin-left: auto;
   width: 42px;
   height: 42px;
@@ -580,8 +581,8 @@ button.component.text:active {
   background: lightgray 50% / cover no-repeat;
   cursor: pointer;
 }
-.mobile-title-bar > .signed-user.show {
-  display: flex;
+.mobile-title-bar > .signed-user.hidden {
+  display: none;
 }
 .trend-section {
   padding-top: 21px;
@@ -682,7 +683,6 @@ button.component.text:active {
   cursor: pointer;
   background-color: #5585FF;
   color: #ffffff;
-  -webkit-tap-highlight-color: transparent;
 }
 @media only screen and (max-width: 859px) {
   .home-view > button.post {
@@ -699,6 +699,52 @@ button.component.text:active {
 }
 .home-view > button.post.hidden {
   display: none;
+}
+.post-view {
+  padding: 31px 30px;
+}
+@media only screen and (max-width: 859px) {
+  .post-view {
+    padding: 20px;
+  }
+}
+.post-view > header {
+  margin-bottom: 40px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+@media only screen and (max-width: 859px) {
+  .post-view > header {
+    display: none;
+  }
+}
+.post-view > header > button {
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+  border-radius: 16px;
+  background: #EBEFF3;
+  color: #2B2B2B;
+  box-shadow: 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.post-view > header > button:active {
+  outline: 1px solid #F4F7F9;
+  box-shadow: 4px 4px 8px 0px rgba(255, 255, 255, 0.75), 2px 2px 8px 0px rgba(189, 194, 199, 0.75) inset;
+}
+.post-view > header > h1 {
+  color: #2A2A2A;
+  font-feature-settings: 'clig' off, 'liga' off;
+  font-family: Quicksand;
+  font-size: 22px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  text-transform: capitalize;
 }
 .post-popup {
   max-width: 600px !important;
@@ -766,7 +812,6 @@ button.component.text:active {
   display: flex;
   justify-content: center;
   align-items: center;
-  -webkit-tap-highlight-color: transparent;
 }
 .post-popup > .form > header > button:active {
   outline: 1px solid #F4F7F9;
@@ -808,7 +853,6 @@ button.component.text:active {
   display: flex;
   justify-content: center;
   align-items: center;
-  -webkit-tap-highlight-color: transparent;
 }
 .post-popup > .form > footer > .icon-button:active {
   outline: 1px solid #F4F7F9;
@@ -899,7 +943,6 @@ button.component.text:active {
   display: flex;
   justify-content: center;
   align-items: center;
-  -webkit-tap-highlight-color: transparent;
 }
 .post-list-item > main > header > button.owner-menu:active {
   outline: 1px solid #F4F7F9;
@@ -1026,7 +1069,35 @@ button.component.text:active {
     padding: 20px;
   }
 }
-.user-view > h1 {
+.user-view > header {
+  margin-bottom: 40px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+@media only screen and (max-width: 859px) {
+  .user-view > header {
+    display: none;
+  }
+}
+.user-view > header > button {
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+  border-radius: 16px;
+  background: #EBEFF3;
+  color: #2B2B2B;
+  box-shadow: 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.user-view > header > button:active {
+  outline: 1px solid #F4F7F9;
+  box-shadow: 4px 4px 8px 0px rgba(255, 255, 255, 0.75), 2px 2px 8px 0px rgba(189, 194, 199, 0.75) inset;
+}
+.user-view > header > h1 {
   color: #2A2A2A;
   font-feature-settings: 'clig' off, 'liga' off;
   font-family: Quicksand;
@@ -1035,11 +1106,5 @@ button.component.text:active {
   font-weight: 700;
   line-height: normal;
   text-transform: capitalize;
-  margin-bottom: 40px;
-}
-@media only screen and (max-width: 859px) {
-  .user-view > h1 {
-    display: none;
-  }
 }
 

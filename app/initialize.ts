@@ -9,6 +9,7 @@ import InboxView from "./inbox/InboxView.js";
 import Layout from "./layout/Layout.js";
 import NotificationsView from "./notification/NotificationsView.js";
 import PostCacher from "./post/PostCacher.js";
+import PostView from "./post/PostView.js";
 import SettingsView from "./settings/SettingsView.js";
 import SignedUserManager from "./user/SignedUserManager.js";
 import UserView from "./user/UserView.js";
@@ -47,10 +48,13 @@ export default async function initialize(config: Config) {
   Router.route("explore", ExploreView);
   Router.route("notifications", NotificationsView);
   Router.route("settings", SettingsView);
+  Router.route("post/{postId}", PostView);
+
   Router.route("{xUsername}", UserView, [
     "inbox",
     "explore",
     "notifications",
     "settings",
+    "post/{postId}",
   ]);
 }
