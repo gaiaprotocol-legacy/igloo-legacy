@@ -5,6 +5,7 @@ export enum MessageType {
   MESSAGE,
   FILE_UPLOAD,
   EMOJI,
+  POST,
 }
 
 export default interface ChatMessage {

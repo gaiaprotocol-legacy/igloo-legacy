@@ -1,12 +1,10 @@
 import { Supabase } from "common-dapp-module";
-import SignedUserManager from "../user/SignedUserManager.js";
+import { PostTarget } from "../database-interface/Post.js";
 
 class PostService {
-  public async publishSubjectPost(subject: string, message: string) {
-    const { data, error } = await Supabase.client.from("subject_posts").insert({
-      subject,
-      author_name: SignedUserManager.name,
-      author_avatar_url: SignedUserManager.avatarUrl,
+  public async publishUserPost(target: PostTarget, message: string) {
+    const { data, error } = await Supabase.client.from("user_posts").insert({
+      target,
       message,
     }).select().single();
     if (error) throw error;

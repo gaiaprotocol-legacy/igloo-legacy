@@ -5,7 +5,10 @@ import {
   el,
   MaterialIcon,
   Popup,
+  Router,
+  Snackbar,
 } from "common-dapp-module";
+import PostService from "./PostService.js";
 
 export default class PostPopup extends Popup {
   public content: DomNode;
@@ -26,8 +29,8 @@ export default class PostPopup extends Popup {
             "header",
             this.targetSelect = el(
               "select",
-              el("option", { value: "everyone" }, "Everyone"),
-              el("option", { value: "key-holders" }, "Key Holders"),
+              el("option", { value: "0" }, "Everyone"),
+              el("option", { value: "1" }, "Key Holders"),
             ),
             el("button", new MaterialIcon("close"), {
               click: () => this.delete(),
@@ -55,7 +58,23 @@ export default class PostPopup extends Popup {
   }
 
   private async post() {
-    console.log(this.targetSelect.domElement.value);
-    console.log(this.textarea.domElement.value);
+    this.postButton.disable().text = "Posting...";
+    try {
+      const postId = await PostService.publishUserPost(
+        parseInt(this.targetSelect.domElement.value),
+        this.textarea.domElement.value,
+      );
+      new Snackbar({
+        message: "Your post has been successfully published.",
+        action: {
+          title: "View",
+          click: () => Router.go(`/post/${postId}`),
+        },
+      });
+      this.delete();
+    } catch (error) {
+      console.error(error);
+      this.postButton.enable().text = "Post";
+    }
   }
 }
