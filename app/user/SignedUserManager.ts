@@ -5,6 +5,10 @@ import EnvironmentManager from "../EnvironmentManager.js";
 class SignedUserManager extends EventContainer {
   public user: User | undefined;
 
+  public get userId() {
+    return this.user?.id;
+  }
+
   public get name() {
     return this.user?.user_metadata.full_name;
   }

@@ -4,8 +4,9 @@ export default interface UserDetails {
   user_id: string;
   wallet_address?: string;
   total_earned_trading_fees: string;
-  profile_image?: string;
   display_name?: string;
+  profile_image?: string;
+  x_username?: string;
   metadata?: UserDetailsMetadata;
   follower_count: number;
   following_count: number;
@@ -36,6 +37,7 @@ export const isEqualUserDetails = (a: UserDetails, b: UserDetails) =>
   a.user_id === b.user_id &&
   a.wallet_address === b.wallet_address &&
   a.total_earned_trading_fees === b.total_earned_trading_fees &&
-  a.profile_image === b.profile_image &&
   a.display_name === b.display_name &&
+  a.profile_image === b.profile_image &&
+  a.x_username === b.x_username &&
   isEqualMetadata(a.metadata, b.metadata);

@@ -5,6 +5,7 @@ user_details
 	total_earned_trading_fees - numeric - 0
 	display_name - text - nullable
 	profile_image - text - nullable
+	x_username - text - nullable
 	metadata - jsonb - nullable
 	follower_count - int4 - 0
 	following_count - int4 - 0
@@ -50,6 +51,7 @@ topic_chat_messages
 	author - uuid - auth.uid()
 	author_name - text - not null
 	author_avatar_url - text - nullable
+	author_x_username - text - nullable
 	message_type - int2 - not null
 	message - text - nullable
 	translated - jsonb - nullbale
@@ -63,6 +65,7 @@ subject_chat_messages
 	author - uuid - auth.uid()
 	author_name - text - not null
 	author_avatar_url - text - nullable
+	author_x_username - text - nullable
 	message_type - int2 - not null
 	message - text - nullable
 	translated - jsonb - nullbale
@@ -78,6 +81,7 @@ posts
 	author - uuid - auth.uid()
 	author_name - text - not null
 	author_avatar_url - text - nullable
+	author_x_username - text - nullable
 	message - text - not null
 	translated - jsonb - nullbale
 	rich - jsonb - nullable

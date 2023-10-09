@@ -13,6 +13,7 @@ export default interface ChatMessage {
   author: string;
   author_name: string;
   author_avatar_url?: string;
+  author_x_username?: string;
   message_type: MessageType;
   message?: string;
   translated?: I18NText;

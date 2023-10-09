@@ -17,6 +17,7 @@ export default interface Post {
   author: string;
   author_name: string;
   author_avatar_url?: string;
+  author_x_username?: string;
   message: string;
   translated?: I18NText;
   rich?: Rich;
@@ -45,6 +46,7 @@ export const isEqualPost = (a: Post | undefined, b: Post | undefined) =>
   a?.author === b?.author &&
   a?.author_name === b?.author_name &&
   a?.author_avatar_url === b?.author_avatar_url &&
+  a?.author_x_username === b?.author_x_username &&
   a?.message === b?.message &&
   isEqualRich(a?.rich ?? {}, b?.rich ?? {}) &&
   a?.post_ref === b?.post_ref;
