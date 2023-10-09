@@ -11,6 +11,11 @@ class PostService {
     return data.id;
   }
 
+  public async deletePost(id: number) {
+    const { error } = await Supabase.client.from("posts").delete().eq("id", id);
+    if (error) throw error;
+  }
+
   public async fetchGlobalPosts(lastFetchedPostId?: number): Promise<Post[]> {
     const limit = 50;
     const { data, error } = await Supabase.client.from("posts").select().order(

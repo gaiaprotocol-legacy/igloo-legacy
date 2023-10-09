@@ -17,6 +17,9 @@ class PostCacher extends EventContainer {
     }, (payload) => {
       if (payload.eventType === "INSERT" || payload.eventType === "UPDATE") {
         this.refresh(payload.new.id);
+      } else if (payload.eventType === "DELETE") {
+        this.store.delete(String(payload.old.id));
+        this.fireEvent("delete", payload.old.id);
       }
     }).subscribe();
   }
