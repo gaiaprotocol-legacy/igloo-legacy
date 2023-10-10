@@ -137,6 +137,15 @@
                     font-weight          : 700;
                     line-height          : normal;
                     text-transform       : capitalize;
+                    display              : flex;
+                    align-items          : center;
+                    gap                  : 4px;
+
+                    >.avax-symbol {
+                        padding-top: 1px;
+                        height     : 15px;
+                        display    : flex;
+                    }
                 }
             }
         }
@@ -208,7 +217,7 @@
             cursor               : pointer;
 
             >.value {
-                font-weight: bold;
+                display: flex;
             }
         }
     }

@@ -46,12 +46,28 @@ export default class UserProfileDisplay extends DomNode {
         el(
           "section.trading-volume",
           el(".icon-container", new MaterialIcon("analytics")),
-          el(".metric", el("h3", "Volume"), el(".value", "0.00 X")),
+          el(
+            ".metric",
+            el("h3", "Volume"),
+            el(
+              ".value",
+              "0.00",
+              el("img.avax-symbol", { src: "/images/avax-symbol.svg" }),
+            ),
+          ),
         ),
         el(
           "section.earned",
           el(".icon-container", new MaterialIcon("savings")),
-          el(".metric", el("h3", "Fees Earned"), el(".value", "0.00 X")),
+          el(
+            ".metric",
+            el("h3", "Fees Earned"),
+            el(
+              ".value",
+              "0.00",
+              el("img.avax-symbol", { src: "/images/avax-symbol.svg" }),
+            ),
+          ),
         ),
         el(
           "section.holdings",
@@ -61,7 +77,15 @@ export default class UserProfileDisplay extends DomNode {
         el(
           "section.price",
           el(".icon-container", new MaterialIcon("sell")),
-          el(".metric", el("h3", "Price"), el(".value", "0.00 X")),
+          el(
+            ".metric",
+            el("h3", "Price"),
+            el(
+              ".value",
+              "0.00",
+              el("img.avax-symbol", { src: "/images/avax-symbol.svg" }),
+            ),
+          ),
         ),
       ),
       el(
