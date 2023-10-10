@@ -4,6 +4,10 @@
     box-shadow   : 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
     padding      : 20px;
 
+    @media @phone {
+        padding: 20px 12px;
+    }
+
     >.profile {
         display       : flex;
         flex-direction: column;
@@ -138,15 +142,57 @@
         }
     }
 
-    >.social-metrics {
+    >.action-buttons {
         margin-top           : 20px;
         display              : grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap                  : 12px;
+
+        >button {
+            border-radius        : 16px;
+            background           : #EBEFF3;
+            box-shadow           : 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
+            display              : flex;
+            justify-content      : center;
+            padding              : 20px 0;
+            cursor               : pointer;
+            color                : #2A2A2A;
+            font-feature-settings: 'clig'off, 'liga'off;
+            font-family          : Quicksand;
+            font-size            : 18px;
+            font-style           : normal;
+            font-weight          : 700;
+            line-height          : normal;
+            text-transform       : capitalize;
+
+            &:active {
+                outline   : 1px solid #F4F7F9;
+                background: #EBEFF3;
+                box-shadow: 4px 4px 8px 0px rgba(255, 255, 255, 0.75), 2px 2px 8px 0px rgba(189, 194, 199, 0.75) inset;
+            }
+
+            &.buy-key {
+                color     : #fff;
+                background: #5585FF;
+                box-shadow: 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25), 4px 4px 8px 0px rgba(255, 255, 255, 0.75) inset, 8px 8px 12px 0px rgba(255, 255, 255, 0.25) inset, -4px -4px 8px 0px rgba(31, 94, 255, 0.75) inset, -8px -8px 12px 0px rgba(31, 94, 255, 0.25) inset;
+
+                &:active {
+                    outline   : 1px solid #5585FF;
+                    box-shadow: 4px 4px 8px 0px rgba(255, 255, 255, 0.75), 2px 2px 8px 0px rgba(31, 94, 255, 0.75) inset;
+                }
+            }
+        }
+    }
+
+    >.social-metrics {
+        display              : none;
+        margin-top           : 20px;
         grid-template-columns: repeat(3, 1fr);
         gap                  : 1px;
         background-color     : #ccc;
 
         @media @phone {
-            display: none;
+            display: grid;
         }
 
         >section {

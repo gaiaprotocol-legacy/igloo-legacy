@@ -66,5 +66,24 @@
                 flex: auto;
             }
         }
+
+        >.user-connections {
+            display       : flex;
+            flex-direction: column;
+            gap           : 20px;
+
+            @media @phone {
+                display: none;
+            }
+
+            >.user-list {
+                max-height: 358px;
+                overflow-y: auto;
+            }
+        }
+    }
+
+    >.post-list {
+        margin-top: 20px;
     }
 }
