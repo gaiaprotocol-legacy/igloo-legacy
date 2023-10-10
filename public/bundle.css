@@ -1106,4 +1106,30 @@ button.component.text:active {
   line-height: normal;
   text-transform: capitalize;
 }
+.user-view > section.profile {
+  display: flex;
+  gap: 30px;
+}
+@media only screen and (max-width: 859px) {
+  .user-view > section.profile {
+    flex-direction: column;
+    gap: 20px;
+  }
+  .user-view > section.profile > .user-connections {
+    display: none;
+  }
+}
+.user-view > section.profile > * {
+  flex: 0 50%;
+}
+@media only screen and (max-width: 859px) {
+  .user-view > section.profile > * {
+    flex: auto;
+  }
+}
+.user-profile-display {
+  border-radius: 16px;
+  background: #EBEFF3;
+  box-shadow: 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
+}
 

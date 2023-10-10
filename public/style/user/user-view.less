@@ -45,4 +45,26 @@
             text-transform       : capitalize;
         }
     }
+
+    >section.profile {
+        display: flex;
+        gap    : 30px;
+
+        @media @phone {
+            flex-direction: column;
+            gap           : 20px;
+
+            >.user-connections {
+                display: none;
+            }
+        }
+
+        >* {
+            flex: 0 50%;
+
+            @media @phone {
+                flex: auto;
+            }
+        }
+    }
 }
