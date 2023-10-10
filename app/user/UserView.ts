@@ -21,6 +21,10 @@ export default class UserView extends View {
   private xUsername!: string;
   private userDetails: UserDetails | undefined;
 
+  private holderList!: HolderList;
+  private followerList!: FollowerList;
+  private followingList!: FollowingList;
+
   constructor(params: ViewParams) {
     super();
     Layout.append(
@@ -71,15 +75,27 @@ export default class UserView extends View {
             id: "following",
             label: "Following",
           }]),
-          new HolderList(),
-          new FollowerList(),
-          new FollowingList(),
+          this.holderList = new HolderList(),
+          this.followerList = new FollowerList(),
+          this.followingList = new FollowingList(),
         ),
       ),
-      new UserPostList(),
+      this.userDetails
+        ? new UserPostList(this.userDetails.user_id).show()
+        : undefined,
     );
 
-    this.tabs.init();
+    this.tabs.on("select", (id: string) => {
+      [this.holderList, this.followerList, this.followingList]
+        .forEach((list) => list.hide());
+      if (id === "holder") {
+        this.holderList.show();
+      } else if (id === "followers") {
+        this.followerList.show();
+      } else if (id === "following") {
+        this.followingList.show();
+      }
+    }).init();
   }
 
   public changeParams(params: ViewParams, uri: string): void {

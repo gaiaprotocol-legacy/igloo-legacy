@@ -2,6 +2,8 @@ import { Supabase } from "common-dapp-module";
 import Post, { PostTarget } from "../database-interface/Post.js";
 
 class PostService {
+  private static readonly LIMIT = 50;
+
   public async post(target: PostTarget, message: string) {
     const { data, error } = await Supabase.client.from("posts").insert({
       target,
@@ -17,11 +19,35 @@ class PostService {
   }
 
   public async fetchGlobalPosts(lastFetchedPostId?: number): Promise<Post[]> {
-    const limit = 50;
-    const { data, error } = await Supabase.client.from("posts").select().order(
+    const { data, error } = await Supabase.client.from("posts").select().lt(
+      "id",
+      lastFetchedPostId ?? Number.MAX_SAFE_INTEGER,
+    ).order(
       "created_at",
       { ascending: false },
-    ).lt("id", lastFetchedPostId ?? Number.MAX_SAFE_INTEGER).limit(limit);
+    ).limit(
+      PostService.LIMIT,
+    );
+    if (error) throw error;
+    return data;
+  }
+
+  public async fetchUserPosts(
+    userId: string,
+    lastFetchedPostId?: number,
+  ): Promise<Post[]> {
+    const { data, error } = await Supabase.client.from("posts").select().eq(
+      "author",
+      userId,
+    ).lt(
+      "id",
+      lastFetchedPostId ?? Number.MAX_SAFE_INTEGER,
+    ).order(
+      "created_at",
+      { ascending: false },
+    ).limit(
+      PostService.LIMIT,
+    );
     if (error) throw error;
     return data;
   }

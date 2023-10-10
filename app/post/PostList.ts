@@ -23,9 +23,11 @@ export default abstract class PostList extends DomNode {
       this.fetchContent();
       this.contentFetched = true;
     }
+    return this;
   }
 
   public hide() {
     this.addClass("hidden");
+    return this;
   }
 }

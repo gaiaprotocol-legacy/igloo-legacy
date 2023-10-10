@@ -65,10 +65,23 @@ export default class UserProfileDisplay extends DomNode {
         ),
       ),
       el(
+        ".action-buttons",
+        el("button.follow", "Follow"),
+        el("button.buy-key", "Buy Key"),
+      ),
+      el(
         ".social-metrics",
         el("section.holders", el("span.value", "0"), el("span", " Holders")),
-        el("section.following", el("span.value", "0"), el("span", " Following")),
-        el("section.followers", el("span.value", "0"), el("span", " Followers")),
+        el(
+          "section.following",
+          el("span.value", "0"),
+          el("span", " Following"),
+        ),
+        el(
+          "section.followers",
+          el("span.value", "0"),
+          el("span", " Followers"),
+        ),
       ),
     );
   }
