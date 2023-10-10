@@ -695,7 +695,7 @@ button.component.text:active {
   display: none;
 }
 .post-view {
-  padding: 31px 30px;
+  padding: 21px 30px 31px 30px;
 }
 @media only screen and (max-width: 859px) {
   .post-view {
@@ -703,7 +703,7 @@ button.component.text:active {
   }
 }
 .post-view > header {
-  margin-bottom: 40px;
+  margin-bottom: 30px;
   display: flex;
   align-items: center;
   gap: 20px;
@@ -927,14 +927,13 @@ button.component.text:active {
   margin-top: -4px;
   margin-right: -4px;
   margin-left: auto;
-  display: none;
   width: 43.5px;
   height: 43.5px;
   flex-shrink: 0;
   border-radius: 16px;
   color: #2B2B2B;
   cursor: pointer;
-  display: flex;
+  display: none;
   justify-content: center;
   align-items: center;
 }
@@ -1056,7 +1055,7 @@ button.component.text:active {
   }
 }
 .user-view {
-  padding: 31px 30px;
+  padding: 21px 30px 31px 30px;
 }
 @media only screen and (max-width: 859px) {
   .user-view {
@@ -1064,7 +1063,7 @@ button.component.text:active {
   }
 }
 .user-view > header {
-  margin-bottom: 40px;
+  margin-bottom: 30px;
   display: flex;
   align-items: center;
   gap: 20px;
@@ -1100,5 +1099,82 @@ button.component.text:active {
   font-weight: 700;
   line-height: normal;
   text-transform: capitalize;
+}
+.user-view > section.profile {
+  display: flex;
+  gap: 30px;
+}
+@media only screen and (max-width: 859px) {
+  .user-view > section.profile {
+    flex-direction: column;
+    gap: 20px;
+  }
+  .user-view > section.profile > .user-connections {
+    display: none;
+  }
+}
+.user-view > section.profile > * {
+  flex: 0 50%;
+}
+@media only screen and (max-width: 859px) {
+  .user-view > section.profile > * {
+    flex: auto;
+  }
+}
+.user-profile-display {
+  border-radius: 16px;
+  background: #EBEFF3;
+  box-shadow: 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
+  padding: 20px;
+}
+.user-profile-display > .profile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+.user-profile-display > .profile > .profile-image-wrapper {
+  display: flex;
+  flex-shrink: 0;
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  box-shadow: 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
+  align-items: center;
+  justify-content: center;
+}
+.user-profile-display > .profile > .profile-image-wrapper > .profile-image {
+  width: 120px;
+  height: 120px;
+  display: flex;
+  flex-shrink: 0;
+  border-radius: 50%;
+  border: 1px solid #FFF;
+  background: lightgray 50% / cover no-repeat;
+}
+.user-profile-display > .profile > h2 {
+  color: #2A2A2A;
+  font-feature-settings: 'clig' off, 'liga' off;
+  font-family: Quicksand;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+.user-profile-display > .profile > h3 > a {
+  color: #2A2A2A;
+  font-feature-settings: 'clig' off, 'liga' off;
+  font-family: Quicksand;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.user-profile-display > .profile > h3 > a > .x-symbol {
+  height: 14px;
+  padding-top: 2px;
 }
 

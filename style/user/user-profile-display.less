@@ -1,0 +1,62 @@
+.user-profile-display {
+    border-radius: 16px;
+    background   : #EBEFF3;
+    box-shadow   : 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
+    padding      : 20px;
+
+    >.profile {
+        display       : flex;
+        flex-direction: column;
+        align-items   : center;
+        gap           : 12px;
+
+        >.profile-image-wrapper {
+            display        : flex;
+            flex-shrink    : 0;
+            width          : 140px;
+            height         : 140px;
+            border-radius  : 50%;
+            box-shadow     : 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
+            align-items    : center;
+            justify-content: center;
+
+            >.profile-image {
+                width        : 120px;
+                height       : 120px;
+                display      : flex;
+                flex-shrink  : 0;
+                border-radius: 50%;
+                border       : 1px solid #FFF;
+                background   : lightgray 50% / cover no-repeat;
+            }
+        }
+
+        >h2 {
+            color                : #2A2A2A;
+            font-feature-settings: 'clig'off, 'liga'off;
+            font-family          : Quicksand;
+            font-size            : 18px;
+            font-style           : normal;
+            font-weight          : 700;
+            line-height          : normal;
+        }
+
+        >h3>a {
+            color                : #2A2A2A;
+            font-feature-settings: 'clig'off, 'liga'off;
+            font-family          : Quicksand;
+            font-size            : 14px;
+            font-style           : normal;
+            font-weight          : 500;
+            line-height          : normal;
+            display              : flex;
+            align-items          : center;
+            gap                  : 4px;
+
+            >.x-symbol {
+                height     : 14px;
+                padding-top: 2px;
+            }
+        }
+    }
+}

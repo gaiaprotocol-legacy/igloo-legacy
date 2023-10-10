@@ -1,12 +1,12 @@
 .user-view {
-    padding: 31px 30px;
+    padding: 21px 30px 31px 30px;
 
     @media @phone {
         padding: 20px;
     }
 
     >header {
-        margin-bottom: 40px;
+        margin-bottom: 30px;
         display      : flex;
         align-items  : center;
         gap          : 20px;
@@ -43,6 +43,28 @@
             font-weight          : 700;
             line-height          : normal;
             text-transform       : capitalize;
+        }
+    }
+
+    >section.profile {
+        display: flex;
+        gap    : 30px;
+
+        @media @phone {
+            flex-direction: column;
+            gap           : 20px;
+
+            >.user-connections {
+                display: none;
+            }
+        }
+
+        >* {
+            flex: 0 50%;
+
+            @media @phone {
+                flex: auto;
+            }
         }
     }
 }
