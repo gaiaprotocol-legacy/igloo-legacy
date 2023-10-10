@@ -26,6 +26,12 @@
         gap        : 30px;
         align-items: flex-start;
 
+        @media @phone {
+            flex-direction: column;
+            gap           : 20px;
+            align-items   : stretch;
+        }
+
         >section.x {
             flex         : 0 50%;
             border-radius: 16px;
