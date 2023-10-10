@@ -24,6 +24,24 @@ CREATE EXTENSION IF NOT EXISTS "supabase_vault" WITH SCHEMA "vault";
 
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp" WITH SCHEMA "extensions";
 
+CREATE OR REPLACE FUNCTION "public"."handle_new_user"() RETURNS "trigger"
+    LANGUAGE "plpgsql" SECURITY DEFINER
+    SET "search_path" TO 'public'
+    AS $$
+begin
+  insert into public.user_details (user_id, display_name, profile_image, x_username)
+  values (
+    new.id,
+    new.raw_user_meta_data ->> 'full_name',
+    new.raw_user_meta_data ->> 'avatar_url',
+    new.raw_user_meta_data ->> 'user_name'
+  );
+  return new;
+end;
+$$;
+
+ALTER FUNCTION "public"."handle_new_user"() OWNER TO "postgres";
+
 CREATE OR REPLACE FUNCTION "public"."set_notification_read_at"() RETURNS "trigger"
     LANGUAGE "plpgsql" SECURITY DEFINER
     AS $$BEGIN
@@ -343,6 +361,8 @@ ALTER TABLE "public"."tracked_event_blocks" ENABLE ROW LEVEL SECURITY;
 
 ALTER TABLE "public"."user_details" ENABLE ROW LEVEL SECURITY;
 
+CREATE POLICY "view everyone" ON "public"."user_details" FOR SELECT USING (true);
+
 CREATE POLICY "view everyone or only keyholders" ON "public"."posts" FOR SELECT USING ((("target" = 0) OR ("author" = "auth"."uid"()) OR (("target" = 1) AND (( SELECT "subject_key_holders"."last_fetched_balance"
    FROM "public"."subject_key_holders"
   WHERE (("subject_key_holders"."subject" = ( SELECT "user_details"."wallet_address"
@@ -357,6 +377,10 @@ GRANT USAGE ON SCHEMA "public" TO "postgres";
 GRANT USAGE ON SCHEMA "public" TO "anon";
 GRANT USAGE ON SCHEMA "public" TO "authenticated";
 GRANT USAGE ON SCHEMA "public" TO "service_role";
+
+GRANT ALL ON FUNCTION "public"."handle_new_user"() TO "anon";
+GRANT ALL ON FUNCTION "public"."handle_new_user"() TO "authenticated";
+GRANT ALL ON FUNCTION "public"."handle_new_user"() TO "service_role";
 
 GRANT ALL ON FUNCTION "public"."set_notification_read_at"() TO "anon";
 GRANT ALL ON FUNCTION "public"."set_notification_read_at"() TO "authenticated";

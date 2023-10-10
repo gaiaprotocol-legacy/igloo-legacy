@@ -1,5 +1,6 @@
 import { DomNode, el, View, ViewParams } from "common-dapp-module";
 import Layout from "../layout/Layout.js";
+import SignedUserManager from "../user/SignedUserManager.js";
 
 export default class SettingsView extends View {
   private container: DomNode;
@@ -10,6 +11,9 @@ export default class SettingsView extends View {
       this.container = el(
         ".settings-view",
         el("h1", "Settings"),
+        el("button", "Log out", {
+          click: () => SignedUserManager.signOut(),
+        }),
       ),
     );
   }

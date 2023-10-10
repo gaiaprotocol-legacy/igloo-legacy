@@ -18,22 +18,28 @@ class PostCacher extends EventContainer {
       if (payload.eventType === "INSERT" || payload.eventType === "UPDATE") {
         this.refresh(payload.new.id);
       } else if (payload.eventType === "DELETE") {
-        this.store.delete(String(payload.old.id));
-        this.fireEvent("delete", payload.old.id);
+        this.deleteCache(payload.old.id);
       }
     }).subscribe();
+  }
+
+  private deleteCache(id: number) {
+    this.store.delete(String(id));
+    this.fireEvent("delete", id);
+  }
+
+  private cache(id: number, post: Post | undefined) {
+    if (!post) {
+      this.deleteCache(id);
+    } else if (!isEqualPost(post, this.get(id))) {
+      this.store.set(String(id), post, true);
+      this.fireEvent("update", post);
+    }
   }
 
   public get(id: number): Post | undefined {
     const cached = this.store.get<Post>(String(id));
     if (cached) return cached;
-  }
-
-  private cache(post: Post) {
-    if (!isEqualPost(post, this.get(post.id))) {
-      this.store.set(String(post.id), post, true);
-      this.fireEvent("update", post);
-    }
   }
 
   public async refresh(id: number) {
@@ -43,12 +49,12 @@ class PostCacher extends EventContainer {
     );
     if (error) throw error;
     const post: Post | undefined = data?.[0] as any;
-    if (post) this.cache(post);
+    this.cache(id, post);
   }
 
   public cachePosts(posts: Post[]) {
     for (const post of posts) {
-      this.cache(post);
+      this.cache(post.id, post);
     }
   }
 }
