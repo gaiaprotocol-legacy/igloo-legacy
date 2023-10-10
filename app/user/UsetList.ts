@@ -1,7 +1,7 @@
 import { DomNode } from "common-dapp-module";
 
-export default class UserList extends DomNode {
-  constructor() {
-    super(".user-list");
+export default abstract class UserList extends DomNode {
+  constructor(tag: string) {
+    super(tag + ".user-list");
   }
 }
