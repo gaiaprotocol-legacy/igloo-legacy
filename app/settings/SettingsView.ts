@@ -17,24 +17,26 @@ export default class SettingsView extends View {
           ),
           el(
             "section.actions",
-            el(
-              "section.connect-wallet",
-              el("h2", "Connect Wallet"),
-              SignedUserManager.walletConnected
-                ? el(
-                  "p",
-                  "Connected: ",
-                  el("a", SignedUserManager.walletAddress, {
-                    href:
-                      `https://snowtrace.io/address/${SignedUserManager.walletAddress}`,
-                    target: "_blank",
-                  }),
-                )
-                : el("p", "You can connect your wallet to use Igloo."),
-              el("button", "Connect Wallet", {
-                click: () => SignedUserManager.connectWallet(),
-              }),
-            ),
+            SignedUserManager.signed
+              ? el(
+                "section.connect-wallet",
+                el("h2", "Connect Wallet"),
+                SignedUserManager.walletConnected
+                  ? el(
+                    "p",
+                    "Connected: ",
+                    el("a", SignedUserManager.walletAddress, {
+                      href:
+                        `https://snowtrace.io/address/${SignedUserManager.walletAddress}`,
+                      target: "_blank",
+                    }),
+                  )
+                  : el("p", "You can connect your wallet to use Igloo."),
+                el("button", "Connect Wallet", {
+                  click: () => SignedUserManager.connectWallet(),
+                }),
+              )
+              : undefined,
             SignedUserManager.signed
               ? el(
                 "section.logout",
