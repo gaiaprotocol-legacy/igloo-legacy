@@ -1131,7 +1131,7 @@ button.component.text:active {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 12px;
+  gap: 14px;
 }
 .user-profile-display > .profile > .profile-image-wrapper {
   display: flex;
@@ -1169,12 +1169,107 @@ button.component.text:active {
   font-style: normal;
   font-weight: 500;
   line-height: normal;
+  border-radius: 4px;
+  padding: 4px 8px;
+}
+.user-profile-display > .profile > h3 > a:active {
+  outline: 1px solid #F4F7F9;
+  box-shadow: 4px 4px 8px 0px rgba(255, 255, 255, 0.75), 2px 2px 8px 0px rgba(189, 194, 199, 0.75) inset;
+}
+.user-profile-display > .profile > .socials {
+  margin-top: 4px;
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 8px;
 }
-.user-profile-display > .profile > h3 > a > .x-symbol {
+.user-profile-display > .profile > .socials > a {
+  display: flex;
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  box-shadow: 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
+  align-items: center;
+  justify-content: center;
+}
+.user-profile-display > .profile > .socials > a > img {
   height: 14px;
-  padding-top: 2px;
+}
+.user-profile-display > .profile > .socials > a:active {
+  outline: 1px solid #F4F7F9;
+  box-shadow: 4px 4px 8px 0px rgba(255, 255, 255, 0.75), 2px 2px 8px 0px rgba(189, 194, 199, 0.75) inset;
+}
+.user-profile-display > .trading-metrics {
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+.user-profile-display > .trading-metrics > section {
+  border-radius: 16px;
+  background: #EBEFF3;
+  box-shadow: 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
+  display: flex;
+  padding: 8px;
+  gap: 12px;
+  align-items: center;
+}
+.user-profile-display > .trading-metrics > section > .icon-container {
+  border-radius: 16px;
+  background: #EBEFF3;
+  box-shadow: 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
+  padding: 8px;
+  display: flex;
+}
+.user-profile-display > .trading-metrics > section > .metric {
+  display: flex;
+  flex-direction: column;
+}
+.user-profile-display > .trading-metrics > section > .metric > h3 {
+  color: #2A2A2A;
+  font-feature-settings: 'clig' off, 'liga' off;
+  font-family: Quicksand;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  text-transform: capitalize;
+}
+.user-profile-display > .trading-metrics > section > .metric > .value {
+  color: #2A2A2A;
+  font-feature-settings: 'clig' off, 'liga' off;
+  font-family: Quicksand;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  text-transform: capitalize;
+}
+.user-profile-display > .social-metrics {
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background-color: #ccc;
+}
+@media only screen and (max-width: 859px) {
+  .user-profile-display > .social-metrics {
+    display: none;
+  }
+}
+.user-profile-display > .social-metrics > section {
+  background: #EBEFF3;
+  text-align: center;
+  color: #2A2A2A;
+  font-feature-settings: 'clig' off, 'liga' off;
+  font-family: Quicksand;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  cursor: pointer;
+}
+.user-profile-display > .social-metrics > section > .value {
+  font-weight: bold;
 }
 
