@@ -701,7 +701,7 @@ button.component.text:active {
   display: none;
 }
 .post-view {
-  padding: 31px 30px;
+  padding: 21px 30px 31px 30px;
 }
 @media only screen and (max-width: 859px) {
   .post-view {
@@ -709,7 +709,7 @@ button.component.text:active {
   }
 }
 .post-view > header {
-  margin-bottom: 40px;
+  margin-bottom: 30px;
   display: flex;
   align-items: center;
   gap: 20px;
@@ -1061,7 +1061,7 @@ button.component.text:active {
   }
 }
 .user-view {
-  padding: 31px 30px;
+  padding: 21px 30px 31px 30px;
 }
 @media only screen and (max-width: 859px) {
   .user-view {
@@ -1069,7 +1069,7 @@ button.component.text:active {
   }
 }
 .user-view > header {
-  margin-bottom: 40px;
+  margin-bottom: 30px;
   display: flex;
   align-items: center;
   gap: 20px;
