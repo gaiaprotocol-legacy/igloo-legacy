@@ -22,7 +22,7 @@ export default class GlobalPostList extends PostList {
   protected async fetchContent() {
     const posts = await PostService.fetchGlobalPosts(this.lastFetchedPostId);
     PostCacher.cachePosts(posts);
-    this.lastFetchedPostId = posts[posts.length - 1].id;
+    this.lastFetchedPostId = posts[posts.length - 1]?.id;
 
     if (this.isContentFromCache) {
       this.isContentFromCache = false;
