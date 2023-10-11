@@ -58,7 +58,7 @@ export default class UserView extends View {
         el("button", new MaterialIcon("arrow_back"), {
           click: () => history.back(),
         }),
-        el("h1", "@" + this.xUsername),
+        el("h1", `${this.userDetails?.display_name}'s Igloo`),
       ),
       el(
         "section.profile",
@@ -80,9 +80,9 @@ export default class UserView extends View {
           this.followingList = new FollowingList(),
         ),
       ),
-      /*this.userDetails
+      this.userDetails
         ? new UserPostList(this.userDetails.user_id).show()
-        : undefined,*/
+        : undefined,
     );
 
     this.tabs.on("select", (id: string) => {
