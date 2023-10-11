@@ -1,8 +1,8 @@
 import { EventContainer, Store, Supabase } from "common-dapp-module";
 import UserDetails, {
   DefaultUserDetails,
-  isEqualUserDetails,
   UserDetailsSelectQuery,
+  isEqualUserDetails,
 } from "../database-interface/UserDetails.js";
 
 class UserDetailsCacher extends EventContainer {
@@ -68,7 +68,7 @@ class UserDetailsCacher extends EventContainer {
   }
 
   public getByXUsername(xUsername: string) {
-    return this.store.getAll<UserDetails>().find(
+    return Object.values(this.store.getAll<UserDetails>()).find(
       (userDetails) => userDetails.x_username === xUsername,
     );
   }

@@ -1,3 +1,6 @@
+/*!**********************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[1].use[1]!./public/style/lib/reset.css ***!
+  \**********************************************************************************************************/
 /***
     The new CSS reset - version 1.8.4 (last updated 14.2.2023)
     GitHub page: https://github.com/elad2412/the-new-css-reset
@@ -98,6 +101,9 @@ meter {
 :where(dialog:modal) {
     all: revert;
 }
+/*!*********************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[1].use[1]!./node_modules/less-loader/dist/cjs.js!./public/style/main.less ***!
+  \*********************************************************************************************************************************************/
 @font-face {
   font-family: 'Quicksand';
   font-style: normal;
@@ -1390,6 +1396,9 @@ button.component.text:active {
 .user-profile-display > .action-buttons > button.buy-key:active {
   outline: 1px solid #5585FF;
   box-shadow: 4px 4px 8px 0px rgba(255, 255, 255, 0.75), 2px 2px 8px 0px rgba(31, 94, 255, 0.75) inset;
+}
+.user-profile-display > .action-buttons > button.hidden {
+  display: none;
 }
 .user-profile-display > .social-metrics {
   display: none;

@@ -80,9 +80,9 @@ export default class UserView extends View {
           this.followingList = new FollowingList(),
         ),
       ),
-      this.userDetails
+      /*this.userDetails
         ? new UserPostList(this.userDetails.user_id).show()
-        : undefined,
+        : undefined,*/
     );
 
     this.tabs.on("select", (id: string) => {

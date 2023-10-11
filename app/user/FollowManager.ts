@@ -16,17 +16,17 @@ class FollowCacher extends EventContainer {
     );
     if (error) throw error;
 
-    const cachedFollows: Set<string> = new Set(
+    const cachedFolloweeIds: Set<string> = new Set(
       Object.keys(this.store.getAll()),
     );
     for (const follow of data) {
       const followeeId = follow.followee_id;
-      if (!cachedFollows.has(followeeId)) {
+      if (!cachedFolloweeIds.has(followeeId)) {
         this._follow(followeeId);
       }
-      cachedFollows.delete(followeeId);
+      cachedFolloweeIds.delete(followeeId);
     }
-    for (const unfolloweeId of cachedFollows) {
+    for (const unfolloweeId of cachedFolloweeIds) {
       this._unfollow(unfolloweeId);
     }
   }
@@ -41,11 +41,15 @@ class FollowCacher extends EventContainer {
   }
 
   public async follow(userId: string) {
+    const followed = this.isFollowing(userId);
     this._follow(userId);
     const { error } = await Supabase.client.from("follows").insert({
       followee_id: userId,
     });
-    if (error) throw error;
+    if (error) {
+      if (!followed) this._unfollow(userId);
+      throw error;
+    }
   }
 
   private _unfollow(userId: string) {
@@ -54,6 +58,7 @@ class FollowCacher extends EventContainer {
   }
 
   public async unfollow(userId: string) {
+    const followed = this.isFollowing(userId);
     this._unfollow(userId);
     const { error } = await Supabase.client.from("follows").delete().eq(
       "follower_id",
@@ -62,7 +67,10 @@ class FollowCacher extends EventContainer {
       "followee_id",
       userId,
     );
-    if (error) throw error;
+    if (error) {
+      if (followed) this._follow(userId);
+      throw error;
+    }
   }
 
   public isFollowing(userId: string): boolean {

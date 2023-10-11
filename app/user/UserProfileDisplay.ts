@@ -1,8 +1,13 @@
-import { DomNode, el, MaterialIcon } from "common-dapp-module";
+import { DomNode, el, MaterialIcon, Router } from "common-dapp-module";
 import UserDetails from "../database-interface/UserDetails.js";
+import FollowManager from "./FollowManager.js";
+import SignedUserManager from "./SignedUserManager.js";
 
 export default class UserProfileDisplay extends DomNode {
-  constructor(userDetails: UserDetails) {
+  private settingsButton: DomNode;
+  private followButton: DomNode;
+
+  constructor(private userDetails: UserDetails) {
     super(".user-profile-display");
     this.append(
       el(
@@ -90,8 +95,19 @@ export default class UserProfileDisplay extends DomNode {
       ),
       el(
         ".action-buttons",
-        el("button.follow", "Follow"),
+        this.followButton = el("button.follow", "Follow", {
+          click: () => {
+            FollowManager.isFollowing(userDetails.user_id)
+              ? FollowManager.unfollow(userDetails.user_id)
+              : FollowManager.follow(userDetails.user_id);
+          },
+        }),
         el("button.buy-key", "Buy Key"),
+        this.settingsButton = el(
+          "button.settings",
+          "Settings",
+          { click: () => Router.go("/settings") },
+        ),
       ),
       el(
         ".social-metrics",
@@ -109,5 +125,31 @@ export default class UserProfileDisplay extends DomNode {
         ),
       ),
     );
+
+    this.checkSignedUser();
+    this.onDelegate(
+      SignedUserManager,
+      "userFetched",
+      () => this.checkSignedUser(),
+    );
+
+    this.checkFollowing();
+    this.onDelegate(FollowManager, ["follow", "unfollow"], (userId) => {
+      if (userId === userDetails.user_id) {
+        this.checkFollowing();
+      }
+    });
+  }
+
+  private checkSignedUser() {
+    SignedUserManager.userId === this.userDetails.user_id
+      ? this.followButton.addClass("hidden")
+      : this.settingsButton.addClass("hidden");
+  }
+
+  private checkFollowing() {
+    FollowManager.isFollowing(this.userDetails.user_id)
+      ? this.followButton.text = "Unfollow"
+      : this.followButton.text = "Follow";
   }
 }
