@@ -95,16 +95,17 @@ export default class UserProfileDisplay extends DomNode {
       ),
       el(
         ".social-metrics",
-        el("section.holders", el("span.value", "0"), el("span", " Holders")),
+        el(
+          "section.holders",
+          el("a", el("span.value", "1230"), el("span", " Holders")),
+        ),
         el(
           "section.following",
-          el("span.value", "0"),
-          el("span", " Following"),
+          el("a", el("span.value", "1230"), el("span", " Following")),
         ),
         el(
           "section.followers",
-          el("span.value", "0"),
-          el("span", " Followers"),
+          el("a", el("span.value", "1230"), el("span", " Followers")),
         ),
       ),
     );

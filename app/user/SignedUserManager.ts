@@ -1,6 +1,7 @@
 import { User } from "@supabase/supabase-js";
 import { EventContainer, Supabase } from "common-dapp-module";
 import EnvironmentManager from "../EnvironmentManager.js";
+import FollowCacher from "./FollowCacher.js";
 
 class SignedUserManager extends EventContainer {
   public user: User | undefined;
@@ -55,6 +56,8 @@ class SignedUserManager extends EventContainer {
         }
       });
       UserDetailsCacher.refresh(this.user.id);*/
+
+      FollowCacher.fetchSignedUserFollowsOnInit();
     }
   }
 

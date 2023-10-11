@@ -13,7 +13,7 @@ user_details
 	created_at - timestampz - now()
 	updated_at - timestampz
 
-followers
+follows
 	follower_id - uuid - pk
 	following_id - uuid - pk
 	created_at - timestampz - now()
