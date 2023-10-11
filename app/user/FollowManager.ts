@@ -9,7 +9,7 @@ class FollowCacher extends EventContainer {
     this.addAllowedEvents("update");
   }
 
-  public async fetchSignedUserFollowsOnInit() {
+  public async fetchSignedUserFollows() {
     const { data, error } = await Supabase.client.from("follows").select().eq(
       "follower_id",
       SignedUserManager.userId,
@@ -17,6 +17,18 @@ class FollowCacher extends EventContainer {
     if (error) throw error;
     //TODO:
     console.log(data);
+  }
+
+  public clearCache() {
+    this.store.clear();
+  }
+
+  public follow(userId: string) {
+    //TODO:
+  }
+
+  public unfollow(userId: string) {
+    //TODO:
   }
 }
 
