@@ -1177,7 +1177,6 @@ button.component.text:active {
   font-style: normal;
   font-weight: 700;
   line-height: normal;
-  text-transform: capitalize;
 }
 .user-view > section.profile {
   display: flex;
