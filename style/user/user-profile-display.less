@@ -205,19 +205,30 @@
         }
 
         >section {
-            background           : #EBEFF3;
-            text-align           : center;
-            color                : #2A2A2A;
-            font-feature-settings: 'clig'off, 'liga'off;
-            font-family          : Quicksand;
-            font-size            : 14px;
-            font-style           : normal;
-            font-weight          : 500;
-            line-height          : normal;
-            cursor               : pointer;
+            background     : #EBEFF3;
+            display        : flex;
+            justify-content: center;
 
-            >.value {
-                font-weight: bold;
+            >a {
+                color                : #2A2A2A;
+                font-feature-settings: 'clig'off, 'liga'off;
+                font-family          : Quicksand;
+                font-size            : 12px;
+                font-style           : normal;
+                font-weight          : 500;
+                line-height          : normal;
+                cursor               : pointer;
+                padding              : 3.5px 7px;
+                border-radius        : 7px;
+
+                >.value {
+                    font-weight: bold;
+                }
+
+                &:active {
+                    outline   : 1px solid #F4F7F9;
+                    box-shadow: 4px 4px 8px 0px rgba(255, 255, 255, 0.75), 2px 2px 8px 0px rgba(189, 194, 199, 0.75) inset;
+                }
             }
         }
     }
