@@ -1,4 +1,4 @@
-import { DomNode, el, MaterialIcon, Router } from "common-dapp-module";
+import { Confirm, DomNode, el, MaterialIcon, Router } from "common-dapp-module";
 import UserDetails from "../database-interface/UserDetails.js";
 import FollowManager from "./FollowManager.js";
 import SignedUserManager from "./SignedUserManager.js";
@@ -97,12 +97,38 @@ export default class UserProfileDisplay extends DomNode {
         ".action-buttons",
         this.followButton = el("button.follow", "Follow", {
           click: () => {
-            FollowManager.isFollowing(userDetails.user_id)
-              ? FollowManager.unfollow(userDetails.user_id)
-              : FollowManager.follow(userDetails.user_id);
+            if (!SignedUserManager.userId) {
+              new Confirm({
+                title: "Login Required",
+                message: "You must be logged in to follow users.",
+                confirmTitle: "Login",
+              }, () => SignedUserManager.signIn());
+            } else {
+              FollowManager.isFollowing(userDetails.user_id)
+                ? FollowManager.unfollow(userDetails.user_id)
+                : FollowManager.follow(userDetails.user_id);
+            }
           },
         }),
-        el("button.buy-key", "Buy Key"),
+        el("button.buy-key", "Buy Key", {
+          click: () => {
+            if (!SignedUserManager.userId) {
+              new Confirm({
+                title: "Login Required",
+                message: "You must be logged in to buy keys.",
+                confirmTitle: "Login",
+              }, () => SignedUserManager.signIn());
+            } else if (!SignedUserManager.walletConnected) {
+              new Confirm({
+                title: "Wallet Required",
+                message: "You must connect a wallet to buy keys.",
+                confirmTitle: "Connect Wallet",
+              }, () => SignedUserManager.connectWallet());
+            } else {
+              //TODO: Buy key
+            }
+          },
+        }),
         this.settingsButton = el(
           "button.settings",
           "Settings",

@@ -1,11 +1,10 @@
 import {
-  ButtonType,
   Confirm,
   DomNode,
   DropdownMenu,
   el,
   MaterialIcon,
-  Router,
+  Router
 } from "common-dapp-module";
 import Post from "../database-interface/Post.js";
 import SignedUserManager from "../user/SignedUserManager.js";
@@ -70,7 +69,6 @@ export default class PostListItem extends DomNode {
                       message: "Are you sure you want to delete this post?",
                       confirmTitle: "Delete",
                       loadingTitle: "Deleting...",
-                      buttonType: ButtonType.Contained,
                     }, () => PostService.deletePost(this.post.id));
                   },
                 }],
