@@ -6,7 +6,7 @@ class FollowCacher extends EventContainer {
 
   constructor() {
     super();
-    this.addAllowedEvents("update");
+    this.addAllowedEvents("follow", "unfollow");
   }
 
   public async fetchSignedUserFollows() {
@@ -15,20 +15,58 @@ class FollowCacher extends EventContainer {
       SignedUserManager.userId,
     );
     if (error) throw error;
-    //TODO:
-    console.log(data);
+
+    const cachedFollows: Set<string> = new Set(
+      Object.keys(this.store.getAll()),
+    );
+    for (const follow of data) {
+      const followeeId = follow.followee_id;
+      if (!cachedFollows.has(followeeId)) {
+        this._follow(followeeId);
+      }
+      cachedFollows.delete(followeeId);
+    }
+    for (const unfolloweeId of cachedFollows) {
+      this._unfollow(unfolloweeId);
+    }
   }
 
   public clearCache() {
     this.store.clear();
   }
 
-  public follow(userId: string) {
-    //TODO:
+  private _follow(userId: string) {
+    this.store.set(userId, true);
+    this.fireEvent("follow", userId);
   }
 
-  public unfollow(userId: string) {
-    //TODO:
+  public async follow(userId: string) {
+    this._follow(userId);
+    const { error } = await Supabase.client.from("follows").insert({
+      followee_id: userId,
+    });
+    if (error) throw error;
+  }
+
+  private _unfollow(userId: string) {
+    this.store.delete(userId);
+    this.fireEvent("unfollow", userId);
+  }
+
+  public async unfollow(userId: string) {
+    this._unfollow(userId);
+    const { error } = await Supabase.client.from("follows").delete().eq(
+      "follower_id",
+      SignedUserManager.userId,
+    ).eq(
+      "followee_id",
+      userId,
+    );
+    if (error) throw error;
+  }
+
+  public isFollowing(userId: string): boolean {
+    return this.store.get(userId) === true;
   }
 }
 
