@@ -1,5 +1,5 @@
 import { User } from "@supabase/supabase-js";
-import { EventContainer, Supabase } from "common-dapp-module";
+import { Confirm, EventContainer, Supabase } from "common-dapp-module";
 import EnvironmentManager from "../EnvironmentManager.js";
 import FollowCacher from "./FollowManager.js";
 import LinkWalletPopup from "./LinkWalletPopup.js";
@@ -56,7 +56,19 @@ class SignedUserManager extends EventContainer {
           this.fireEvent("userFetched");
         }
       });
-      UserDetailsCacher.refresh(this.user.id);
+      UserDetailsCacher.refresh(this.user.id).then(() => {
+        if (!this.walletLinked) {
+          new Confirm({
+            title: "Wallet Link Required",
+            message:
+              "You must link your wallet to access all features of Igloo. Would you like to link your wallet now?",
+            confirmTitle: "Link Wallet",
+            cancelTitle: "Later",
+          }, () => {
+            new LinkWalletPopup();
+          });
+        }
+      });
       FollowCacher.fetchSignedUserFollows();
     }
   }

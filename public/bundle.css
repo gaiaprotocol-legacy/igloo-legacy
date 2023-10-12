@@ -285,6 +285,7 @@ button.component.text:active {
   font-weight: 500;
   line-height: normal;
   text-transform: capitalize;
+  line-height: 1.5;
 }
 @media only screen and (max-width: 859px) {
   .popup.component > main > p {
