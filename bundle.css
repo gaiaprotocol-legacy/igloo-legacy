@@ -279,6 +279,7 @@ button.component.text:active {
   font-weight: 500;
   line-height: normal;
   text-transform: capitalize;
+  line-height: 1.5;
 }
 @media only screen and (max-width: 859px) {
   .popup.component > main > p {
@@ -1083,10 +1084,16 @@ button.component.text:active {
   padding: 20px;
 }
 .settings-view > main > section.actions {
+  width: 50%;
   flex: 0 50%;
   display: flex;
   flex-direction: column;
   gap: 20px;
+}
+@media only screen and (max-width: 859px) {
+  .settings-view > main > section.actions {
+    width: 100%;
+  }
 }
 .settings-view > main > section.actions > section {
   border-radius: 16px;
@@ -1114,6 +1121,12 @@ button.component.text:active {
   font-weight: 500;
   line-height: normal;
   text-transform: capitalize;
+}
+.settings-view > main > section.actions > section > p.linked {
+  text-transform: capitalize;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 .settings-view > main > section.actions > section > button {
   margin-top: 12px;

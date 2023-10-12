@@ -41,10 +41,15 @@
         }
 
         >section.actions {
+            width         : 50%;
             flex          : 0 50%;
             display       : flex;
             flex-direction: column;
             gap           : 20px;
+
+            @media @phone {
+                width: 100%;
+            }
 
             >section {
                 border-radius: 16px;
@@ -73,6 +78,13 @@
                     font-weight          : 500;
                     line-height          : normal;
                     text-transform       : capitalize;
+
+                    &.linked {
+                        text-transform: capitalize;
+                        white-space   : nowrap;
+                        text-overflow : ellipsis;
+                        overflow      : hidden;
+                    }
                 }
 
                 >button {
