@@ -46,10 +46,10 @@ class WalletManager extends EventContainer {
 
     this.web3modal = new Web3Modal({
       projectId,
-      themeMode: "dark",
+      themeMode: "light",
       themeVariables: {
-        "--w3m-accent-color": "#5a65ea",
-        "--w3m-background-color": "#1e1f23",
+        "--w3m-accent-color": "#5585FF",
+        "--w3m-background-color": "#5585FF",
         "--w3m-z-index": "999999",
       },
     }, ethereumClient);
