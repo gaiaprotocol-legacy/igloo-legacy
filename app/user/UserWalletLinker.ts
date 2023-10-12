@@ -1,4 +1,6 @@
 import { Supabase } from "common-dapp-module";
+import SignedUserManager from "./SignedUserManager.js";
+import UserDetailsCacher from "./UserDetailsCacher.js";
 import WalletManager from "./WalletManager.js";
 
 class UserWalletLinker {
@@ -22,11 +24,16 @@ class UserWalletLinker {
       `${this.messageForWalletLinking}\n\nNonce: ${nonceData.nonce}`,
     );
 
-    const { error: linkError } = await Supabase.client.functions.invoke(
-      "link-wallet-to-user",
-      { body: { walletAddress, signedMessage } },
-    );
+    const { error: linkError } = await Supabase.client.functions
+      .invoke(
+        "link-wallet-to-user",
+        { body: { walletAddress, signedMessage } },
+      );
     if (linkError) throw linkError;
+
+    if (SignedUserManager.userId) {
+      UserDetailsCacher.refresh(SignedUserManager.userId);
+    }
   }
 }
 
