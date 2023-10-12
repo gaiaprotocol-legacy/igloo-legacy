@@ -2,6 +2,8 @@ import { User } from "@supabase/supabase-js";
 import { EventContainer, Supabase } from "common-dapp-module";
 import EnvironmentManager from "../EnvironmentManager.js";
 import FollowCacher from "./FollowManager.js";
+import LinkWalletPopup from "./LinkWalletPopup.js";
+import UserDetailsCacher from "./UserDetailsCacher.js";
 
 class SignedUserManager extends EventContainer {
   public user: User | undefined;
@@ -30,12 +32,11 @@ class SignedUserManager extends EventContainer {
 
   public get walletAddress() {
     if (this.user) {
-      return undefined;
-      //return UserDetailsCacher.get(this.user.id).wallet_address;
+      return UserDetailsCacher.get(this.user.id).wallet_address;
     }
   }
 
-  public get walletConnected() {
+  public get walletLinked() {
     return this.walletAddress !== undefined;
   }
 
@@ -50,13 +51,12 @@ class SignedUserManager extends EventContainer {
     this.user = data?.session?.user;
     if (this.user) {
       this.fireEvent("userFetched");
-      /*this.onDelegate(UserDetailsCacher, "update", (userDetails) => {
+      this.onDelegate(UserDetailsCacher, "update", (userDetails) => {
         if (userDetails.user_id === this.user?.id) {
           this.fireEvent("userFetched");
         }
       });
-      UserDetailsCacher.refresh(this.user.id);*/
-
+      UserDetailsCacher.refresh(this.user.id);
       FollowCacher.fetchSignedUserFollows();
     }
   }
@@ -70,8 +70,8 @@ class SignedUserManager extends EventContainer {
     });
   }
 
-  public connectWallet() {
-    //new LinkWalletPopup();
+  public linkWallet() {
+    new LinkWalletPopup();
   }
 
   public async signOut() {

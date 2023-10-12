@@ -118,12 +118,12 @@ export default class UserProfileDisplay extends DomNode {
                 message: "You must be logged in to buy keys.",
                 confirmTitle: "Login",
               }, () => SignedUserManager.signIn());
-            } else if (!SignedUserManager.walletConnected) {
+            } else if (!SignedUserManager.walletLinked) {
               new Confirm({
                 title: "Wallet Required",
-                message: "You must connect a wallet to buy keys.",
-                confirmTitle: "Connect Wallet",
-              }, () => SignedUserManager.connectWallet());
+                message: "You must link a wallet to buy keys.",
+                confirmTitle: "Link Wallet",
+              }, () => SignedUserManager.linkWallet());
             } else {
               //TODO: Buy key
             }
