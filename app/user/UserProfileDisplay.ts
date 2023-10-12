@@ -1,5 +1,13 @@
-import { Confirm, DomNode, el, MaterialIcon, Router } from "common-dapp-module";
+import {
+  Confirm,
+  DomNode,
+  el,
+  ErrorAlert,
+  MaterialIcon,
+  Router,
+} from "common-dapp-module";
 import UserDetails from "../database-interface/UserDetails.js";
+import BuySubjectKeyPopup from "../subject/BuySubjectKeyPopup.js";
 import FollowManager from "./FollowManager.js";
 import SignedUserManager from "./SignedUserManager.js";
 
@@ -124,8 +132,13 @@ export default class UserProfileDisplay extends DomNode {
                 message: "You must link a wallet to buy keys.",
                 confirmTitle: "Link Wallet",
               }, () => SignedUserManager.linkWallet());
+            } else if (!userDetails.wallet_address) {
+              new ErrorAlert({
+                title: "No wallet address",
+                message: "This user has not linked a wallet.",
+              });
             } else {
-              //TODO: Buy key
+              new BuySubjectKeyPopup();
             }
           },
         }),

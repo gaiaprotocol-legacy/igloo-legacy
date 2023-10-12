@@ -5,7 +5,7 @@ import {
   signMessage,
   watchAccount,
 } from "@wagmi/core";
-import { base } from "@wagmi/core/chains";
+import { avalanche, avalancheFuji } from "@wagmi/core/chains";
 import {
   EthereumClient,
   w3mConnectors,
@@ -30,7 +30,7 @@ class WalletManager extends EventContainer {
   }
 
   public init(projectId: string) {
-    const chains = [base];
+    const chains = [avalanche, avalancheFuji];
 
     const { publicClient } = configureChains(chains, [
       w3mProvider({ projectId }),
@@ -72,6 +72,17 @@ class WalletManager extends EventContainer {
   public async signMessage(message: string) {
     if (!this.address) throw new Error("Wallet is not connected");
     return await signMessage({ message });
+  }
+
+  public async connect() {
+    if (this.address !== undefined) {
+      this.connected = true;
+      this.fireEvent("accountChanged");
+    }
+    return new Promise<void>((resolve) => {
+      this._resolveConnection = resolve;
+      this.web3modal.openModal();
+    });
   }
 }
 

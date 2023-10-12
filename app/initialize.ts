@@ -20,6 +20,7 @@ dayjs.extend(relativeTime);
 
 export default async function initialize(config: Config) {
   EnvironmentManager.dev = config.dev;
+  EnvironmentManager.avaxRpc = config.avaxRpc;
 
   if (sessionStorage.__spa_path) {
     Router.goNoHistory(sessionStorage.__spa_path);

@@ -1,9 +1,12 @@
 import { User } from "@supabase/supabase-js";
+import { getNetwork, getWalletClient } from "@wagmi/core";
 import { Confirm, EventContainer, Supabase } from "common-dapp-module";
+import { BrowserProvider, JsonRpcSigner } from "ethers";
 import EnvironmentManager from "../EnvironmentManager.js";
 import FollowCacher from "./FollowManager.js";
 import LinkWalletPopup from "./LinkWalletPopup.js";
 import UserDetailsCacher from "./UserDetailsCacher.js";
+import WalletManager from "./WalletManager.js";
 
 class SignedUserManager extends EventContainer {
   public user: User | undefined;
@@ -91,6 +94,39 @@ class SignedUserManager extends EventContainer {
     if (error) throw error;
     FollowCacher.clearCache();
     location.reload();
+  }
+
+  public async getContractSigner() {
+    if (!this.user) throw new Error("User not signed in");
+    if (WalletManager.connected !== true) {
+      throw new Error("Wallet not connected");
+    }
+    if (!this.walletAddress) throw new Error("Wallet not linked");
+
+    const walletClient = await getWalletClient();
+    if (!walletClient) throw new Error("Wallet not connected");
+    const { account, transport } = walletClient;
+
+    if (account.address !== this.walletAddress) {
+      throw new Error("Wallet address mismatch");
+    }
+
+    const { chain } = getNetwork();
+    if (!chain) throw new Error("Chain not found");
+    if (chain.id !== EnvironmentManager.avaxChainId) {
+      throw new Error("Wrong chain");
+    }
+
+    if (chain && account && transport) {
+      return new JsonRpcSigner(
+        new BrowserProvider(transport, {
+          chainId: chain.id,
+          name: chain.name,
+          ensAddress: chain.contracts?.ensRegistry?.address,
+        }),
+        account.address,
+      );
+    }
   }
 }
 

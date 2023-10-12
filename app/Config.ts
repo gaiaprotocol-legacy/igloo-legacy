@@ -4,4 +4,6 @@ export default interface Config {
   supabaseAnonKey: string;
   walletConnectProjectId: string;
   messageForWalletLinking: string;
+  avaxRpc: string;
+  avaxChainId: number;
 }

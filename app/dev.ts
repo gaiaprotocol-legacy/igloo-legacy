@@ -13,4 +13,7 @@ await initialize({
 
   walletConnectProjectId: "53ce7f51ed886a719bf634b25061f424",
   messageForWalletLinking: "Link Wallet to Igloo",
+
+  avaxRpc: "https://api.avax.network/ext/bc/C/rpc",
+  avaxChainId: 43114,
 });
