@@ -256,6 +256,13 @@ button.component.text:active {
   font-weight: 700;
   line-height: normal;
   text-transform: capitalize;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.popup.component > header > h1 > .material-icon {
+  display: flex;
+  color: #FC5132;
 }
 @media only screen and (max-width: 859px) {
   .popup.component > header > h1 {
