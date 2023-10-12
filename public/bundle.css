@@ -1223,10 +1223,12 @@ button.component.text:active {
 }
 .user-view > section.profile > * {
   flex: 0 50%;
+  width: 50%;
 }
 @media only screen and (max-width: 859px) {
   .user-view > section.profile > * {
     flex: auto;
+    width: auto;
   }
 }
 .user-view > section.profile > .user-connections {
@@ -1238,6 +1240,13 @@ button.component.text:active {
   .user-view > section.profile > .user-connections {
     display: none;
   }
+}
+.user-view > section.profile > .user-connections > .tabs {
+  gap: 0;
+}
+.user-view > section.profile > .user-connections > .tabs > .tab {
+  font-size: 14px;
+  padding: 0;
 }
 .user-view > section.profile > .user-connections > .user-list {
   max-height: 358px;

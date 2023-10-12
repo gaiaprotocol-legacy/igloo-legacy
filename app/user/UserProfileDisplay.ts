@@ -138,7 +138,7 @@ export default class UserProfileDisplay extends DomNode {
                 message: "This user has not linked a wallet.",
               });
             } else {
-              new BuySubjectKeyPopup();
+              new BuySubjectKeyPopup(userDetails);
             }
           },
         }),

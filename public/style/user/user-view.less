@@ -59,10 +59,12 @@
         }
 
         >* {
-            flex: 0 50%;
+            flex : 0 50%;
+            width: 50%;
 
             @media @phone {
-                flex: auto;
+                flex : auto;
+                width: auto;
             }
         }
 
@@ -73,6 +75,15 @@
 
             @media @phone {
                 display: none;
+            }
+
+            >.tabs {
+                gap: 0;
+
+                >.tab {
+                    font-size: 14px;
+                    padding  : 0;
+                }
             }
 
             >.user-list {

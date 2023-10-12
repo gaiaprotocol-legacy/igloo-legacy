@@ -52,50 +52,52 @@ export default class UserView extends View {
   }
 
   private render() {
-    this.container.empty().append(
-      el(
-        "header",
-        el("button", new MaterialIcon("arrow_back"), {
-          click: () => history.back(),
-        }),
-        el("h1", `${this.userDetails?.display_name}'s Igloo`),
-      ),
-      el(
-        "section.profile",
-        this.userDetails ? new UserProfileDisplay(this.userDetails) : undefined,
-        el(
-          ".user-connections",
-          this.tabs = new Tabs("user-connections", [{
-            id: "holders",
-            label: "Holders",
-          }, {
-            id: "followers",
-            label: "Followers",
-          }, {
-            id: "following",
-            label: "Following",
-          }]),
-          this.holderList = new HolderList(),
-          this.followerList = new FollowerList(),
-          this.followingList = new FollowingList(),
-        ),
-      ),
-      this.userDetails
-        ? new UserPostList(this.userDetails.user_id).show()
-        : undefined,
-    );
+    this.container.empty();
 
-    this.tabs.on("select", (id: string) => {
-      [this.holderList, this.followerList, this.followingList]
-        .forEach((list) => list.hide());
-      if (id === "holder") {
-        this.holderList.show();
-      } else if (id === "followers") {
-        this.followerList.show();
-      } else if (id === "following") {
-        this.followingList.show();
-      }
-    }).init();
+    if (this.userDetails) {
+      this.container.append(
+        el(
+          "header",
+          el("button", new MaterialIcon("arrow_back"), {
+            click: () => history.back(),
+          }),
+          el("h1", `${this.userDetails.display_name}'s Igloo`),
+        ),
+        el(
+          "section.profile",
+          new UserProfileDisplay(this.userDetails),
+          el(
+            ".user-connections",
+            this.tabs = new Tabs("user-connections", [{
+              id: "holders",
+              label: "n Holders",
+            }, {
+              id: "followers",
+              label: this.userDetails.follower_count + " Followers",
+            }, {
+              id: "following",
+              label: this.userDetails.following_count + " Following",
+            }]),
+            this.holderList = new HolderList(this.userDetails.user_id),
+            this.followerList = new FollowerList(this.userDetails.user_id),
+            this.followingList = new FollowingList(this.userDetails.user_id),
+          ),
+        ),
+        new UserPostList(this.userDetails.user_id).show(),
+      );
+
+      this.tabs.on("select", (id: string) => {
+        [this.holderList, this.followerList, this.followingList]
+          .forEach((list) => list.hide());
+        if (id === "holder") {
+          this.holderList.show();
+        } else if (id === "followers") {
+          this.followerList.show();
+        } else if (id === "following") {
+          this.followingList.show();
+        }
+      }).init();
+    }
   }
 
   public changeParams(params: ViewParams, uri: string): void {

@@ -1,7 +1,7 @@
 import UserList from "./UsetList.js";
 
 export default class FollowerList extends UserList {
-  constructor() {
+  constructor(private userId: string) {
     super(".follower-list");
   }
 
