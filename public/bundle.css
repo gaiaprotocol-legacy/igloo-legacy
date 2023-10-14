@@ -310,6 +310,18 @@ button.component.text:active {
     margin-top: 20px;
   }
 }
+.popup.component > footer > button.contained {
+  color: #fff;
+  background: #5585FF;
+  box-shadow: 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25), 4px 4px 8px 0px rgba(255, 255, 255, 0.75) inset, 8px 8px 12px 0px rgba(255, 255, 255, 0.25) inset, -4px -4px 8px 0px rgba(31, 94, 255, 0.75) inset, -8px -8px 12px 0px rgba(31, 94, 255, 0.25) inset;
+}
+.popup.component > footer > button.contained:active {
+  outline: 1px solid #5585FF;
+  box-shadow: 4px 4px 8px 0px rgba(255, 255, 255, 0.75), 2px 2px 8px 0px rgba(31, 94, 255, 0.75) inset;
+}
+.popup.component > footer > button.contained.disabled {
+  opacity: 0.5;
+}
 .snackbar.component {
   position: fixed;
   left: 0;
@@ -1691,6 +1703,30 @@ button.component.text:active {
   font-weight: 700;
   line-height: normal;
 }
+.switch-to-avax-popup > main {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.switch-to-avax-popup > main > p > a {
+  padding: 6px 20px;
+  border-radius: 16px;
+  background: radial-gradient(50% 50% at 50% 50%, #FC5132 0%, #FC5132 100%);
+  box-shadow: 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25), 4px 4px 8px 0px rgba(255, 255, 255, 0.75) inset, 8px 8px 12px 0px rgba(255, 255, 255, 0.25) inset, -4px -4px 8px 0px rgba(252, 81, 50, 0.75) inset, -8px -8px 12px 0px rgba(252, 81, 50, 0.25) inset;
+  color: #FFF;
+  text-align: center;
+  font-feature-settings: 'clig' off, 'liga' off;
+  font-family: Quicksand;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 22px;
+  text-transform: capitalize;
+}
+.switch-to-avax-popup > main > .banner {
+  border-radius: 16px;
+  box-shadow: 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
+}
 .buy-subject-key-popup {
   max-width: 420px !important;
 }
@@ -1771,17 +1807,5 @@ button.component.text:active {
   padding-top: 1px;
   height: 18px;
   display: flex;
-}
-.buy-subject-key-popup > footer > .buy-token-button {
-  color: #fff;
-  background: #5585FF;
-  box-shadow: 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25), 4px 4px 8px 0px rgba(255, 255, 255, 0.75) inset, 8px 8px 12px 0px rgba(255, 255, 255, 0.25) inset, -4px -4px 8px 0px rgba(31, 94, 255, 0.75) inset, -8px -8px 12px 0px rgba(31, 94, 255, 0.25) inset;
-}
-.buy-subject-key-popup > footer > .buy-token-button:active {
-  outline: 1px solid #5585FF;
-  box-shadow: 4px 4px 8px 0px rgba(255, 255, 255, 0.75), 2px 2px 8px 0px rgba(31, 94, 255, 0.75) inset;
-}
-.buy-subject-key-popup > footer > .buy-token-button.disabled {
-  opacity: 0.5;
 }
 

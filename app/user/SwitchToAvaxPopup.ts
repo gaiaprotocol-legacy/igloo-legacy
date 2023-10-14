@@ -21,15 +21,18 @@ export default class SwitchToAvaxPopup extends Popup {
         el("header", el("h1", "Switch to Avalanche for Igloo")),
         el(
           "main",
-          el("img", { src: "/images/avax-banner.png" }),
+          el("img.banner", { src: "/images/avax-banner.jpg" }),
           el(
             "p",
             "Igloo operates on Avalanche. To utilize Igloo, please change your wallet's chain to Avalanche.",
           ),
-          el("a", "What is Avalanche?", {
-            href: "https://www.avax.network/",
-            target: "_blank",
-          }),
+          el(
+            "p",
+            el("a", "What is Avalanche?", {
+              href: "https://www.avax.network/",
+              target: "_blank",
+            }),
+          ),
         ),
         el(
           "footer",
@@ -48,7 +51,6 @@ export default class SwitchToAvaxPopup extends Popup {
             title: "Later",
           }),
           new Button({
-            type: ButtonType.Text,
             tag: ".switch-button",
             click: async () => {
               await switchNetwork({ chainId: EnvironmentManager.avaxChainId });
