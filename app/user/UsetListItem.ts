@@ -13,30 +13,22 @@ export default class UserListItem extends DomNode {
         this.render();
       }
     });
+
+    this.onDom("click", () => Router.go(`/${this.userDetails.x_username}`));
   }
 
   private render() {
     this.empty().append(
       el(".profile-image", {
         style: { backgroundImage: `url(${this.userDetails.profile_image})` },
-        click: (event) => this.goAuthorProfile(event),
       }),
       el(
         ".info",
-        el(".name", this.userDetails.display_name, {
-          click: (event) => this.goAuthorProfile(event),
-        }),
+        el(".name", this.userDetails.display_name),
         this.userDetails.x_username
-          ? el(".x-username", `@${this.userDetails.x_username}`, {
-            click: (event) => this.goAuthorProfile(event),
-          })
+          ? el(".x-username", `@${this.userDetails.x_username}`)
           : undefined,
       ),
     );
-  }
-
-  private goAuthorProfile(event: MouseEvent) {
-    event.stopPropagation();
-    Router.go(`/${this.userDetails.x_username}`);
   }
 }
