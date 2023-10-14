@@ -15,9 +15,9 @@ export default interface SubjectDetails {
 
 export const DefaultSubjectDetails: SubjectDetails = {
   subject: "",
-  last_fetched_key_price: "",
-  total_trading_key_volume: "",
-  total_earned_trading_fees: "",
+  last_fetched_key_price: "0",
+  total_trading_key_volume: "0",
+  total_earned_trading_fees: "0",
   last_message_sent_at: "",
   key_holder_count: 0,
   last_key_purchased_at: "-infinity",

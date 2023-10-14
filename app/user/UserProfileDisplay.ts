@@ -6,6 +6,7 @@ import {
   MaterialIcon,
   Router,
 } from "common-dapp-module";
+import { ethers } from "ethers";
 import SubjectDetails from "../database-interface/SubjectDetails.js";
 import UserDetails from "../database-interface/UserDetails.js";
 import BuySubjectKeyPopup from "../subject/BuySubjectKeyPopup.js";
@@ -68,7 +69,9 @@ export default class UserProfileDisplay extends DomNode {
             el("h3", "Volume"),
             el(
               ".value",
-              "0.00",
+              subjectDetails
+                ? ethers.formatEther(subjectDetails.total_trading_key_volume)
+                : "0",
               el("img.avax-symbol", { src: "/images/avax-symbol.svg" }),
             ),
           ),
@@ -81,7 +84,9 @@ export default class UserProfileDisplay extends DomNode {
             el("h3", "Fees Earned"),
             el(
               ".value",
-              "0.00",
+              userDetails
+                ? ethers.formatEther(userDetails.total_earned_trading_fees)
+                : "0",
               el("img.avax-symbol", { src: "/images/avax-symbol.svg" }),
             ),
           ),
