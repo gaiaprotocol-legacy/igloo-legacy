@@ -16,4 +16,6 @@ await initialize({
 
   avaxRpc: "https://api.avax.network/ext/bc/C/rpc",
   avaxChainId: 43114,
+
+  iglooSubjectAddress: "0xa6940B0A43B4832dbfD6Db8a57bb441B905D6dAC",
 });

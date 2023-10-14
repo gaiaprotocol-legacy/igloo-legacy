@@ -2,6 +2,7 @@ import { el, msg, Router, SplashScreen, Supabase } from "common-dapp-module";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime.js";
 import Config from "./Config.js";
+import IglooSubjectContract from "./contracts/IglooSubjectContract.js";
 import EnvironmentManager from "./EnvironmentManager.js";
 import ExploreView from "./explore/ExploreView.js";
 import HomeView from "./HomeView.js";
@@ -38,6 +39,8 @@ export default async function initialize(config: Config) {
   );
   WalletManager.init(config.walletConnectProjectId);
   UserWalletLinker.init(config.messageForWalletLinking);
+
+  IglooSubjectContract.init(config.iglooSubjectAddress);
 
   const splash = new SplashScreen(
     el("img", { src: "/images/igloo-character.png" }),

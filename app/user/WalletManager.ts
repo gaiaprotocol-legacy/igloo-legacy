@@ -1,6 +1,7 @@
 import {
   configureChains,
   createConfig,
+  fetchBalance,
   getAccount,
   signMessage,
   watchAccount,
@@ -83,6 +84,12 @@ class WalletManager extends EventContainer {
       this._resolveConnection = resolve;
       this.web3modal.openModal();
     });
+  }
+
+  public async getBalance(): Promise<bigint> {
+    if (!this.address) throw new Error("Wallet is not connected");
+    const result = await fetchBalance({ address: this.address });
+    return result.value;
   }
 }
 

@@ -6,4 +6,5 @@ export default interface Config {
   messageForWalletLinking: string;
   avaxRpc: string;
   avaxChainId: number;
+  iglooSubjectAddress: string;
 }

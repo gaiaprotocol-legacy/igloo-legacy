@@ -1,7 +1,7 @@
 import Contract from "./Contract.js";
 import { IglooSubject } from "./abi/igloo/IglooSubject.js";
 import IglooSubjectArtifact from "./abi/igloo/IglooSubject.json" assert {
-    type: "json"
+  type: "json",
 };
 
 class IglooSubjectContract extends Contract<IglooSubject> {
@@ -9,30 +9,28 @@ class IglooSubjectContract extends Contract<IglooSubject> {
     super(IglooSubjectArtifact.abi);
   }
 
-  public async getBuyPrice(tokenAddress: string, amount: bigint) {
-    return this.viewContract.getBuyPrice(tokenAddress, amount);
+  public async getBuyPrice(subject: string, amount: bigint) {
+    return this.viewContract.getBuyPrice(subject, amount);
   }
 
-  public async getSellPrice(tokenAddress: string, amount: bigint) {
-    return this.viewContract.getSellPrice(tokenAddress, amount);
+  public async getSellPrice(subject: string, amount: bigint) {
+    return this.viewContract.getSellPrice(subject, amount);
   }
 
-  public async getBuyPriceAfterFee(tokenAddress: string, amount: bigint) {
-    return this.viewContract.getBuyPriceAfterFee(tokenAddress, amount);
+  public async getBuyPriceAfterFee(subject: string, amount: bigint) {
+    return this.viewContract.getBuyPriceAfterFee(subject, amount);
   }
 
-  public async getSellPriceAfterFee(tokenAddress: string, amount: bigint) {
-    return this.viewContract.getSellPriceAfterFee(tokenAddress, amount);
+  public async getSellPriceAfterFee(subject: string, amount: bigint) {
+    return this.viewContract.getSellPriceAfterFee(subject, amount);
   }
 
-  public async buyKeys(subject: string, amount: bigint) {
+  public async buyKeys(subject: string, amount: bigint, value: bigint) {
     const writeContract = await this.getWriteContract();
     if (!writeContract) {
       throw new Error("No signer");
     }
-    const tx = await writeContract.buyKeys(subject, amount, {
-      value: await this.getBuyPriceAfterFee(subject, amount),
-    });
+    const tx = await writeContract.buyKeys(subject, amount, { value });
     return tx.wait();
   }
 

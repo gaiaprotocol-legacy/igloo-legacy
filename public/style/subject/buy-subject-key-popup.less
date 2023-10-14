@@ -32,13 +32,18 @@
 
         >.price-info {
             >.price {
-                margin-top    : 20px;
-                border-radius : 16px;
-                background    : #EBEFF3;
-                box-shadow    : 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
-                display       : flex;
-                flex-direction: column;
-                padding       : 20px 30px;
+                margin-top   : 20px;
+                border-radius: 16px;
+                background   : #EBEFF3;
+                box-shadow   : 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
+                display      : flex;
+                align-items  : center;
+                padding      : 20px;
+
+                @media @phone {
+                    align-items   : normal;
+                    flex-direction: column;
+                }
 
                 >label {
                     color                : #2A2A2A;
@@ -53,7 +58,6 @@
                 }
 
                 >.value {
-                    margin-top   : 10px;
                     border-radius: 16px;
                     border       : 1px solid #F4F7F9;
                     background   : #EBEFF3;
@@ -68,7 +72,20 @@
                     line-height          : normal;
                     text-transform       : capitalize;
                     padding              : 10px 20px;
-                    text-align           : right;
+                    display              : flex;
+                    align-items          : center;
+                    gap                  : 8px;
+                    justify-content      : right;
+
+                    @media @phone {
+                        margin-top: 10px;
+                    }
+
+                    >.avax-symbol {
+                        padding-top: 1px;
+                        height     : 18px;
+                        display    : flex;
+                    }
                 }
             }
         }
