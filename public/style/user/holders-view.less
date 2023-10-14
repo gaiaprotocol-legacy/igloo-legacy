@@ -1,0 +1,47 @@
+.holders-view {
+    padding: 21px 30px 31px 30px;
+
+    @media @phone {
+        padding: 20px;
+    }
+
+    >header {
+        margin-bottom: 30px;
+        display      : flex;
+        align-items  : center;
+        gap          : 20px;
+
+        @media @phone {
+            display: none;
+        }
+
+        >button {
+            width          : 48px;
+            height         : 48px;
+            flex-shrink    : 0;
+            border-radius  : 16px;
+            background     : #EBEFF3;
+            color          : #2B2B2B;
+            box-shadow     : 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
+            cursor         : pointer;
+            display        : flex;
+            justify-content: center;
+            align-items    : center;
+
+            &:active {
+                outline   : 1px solid #F4F7F9;
+                box-shadow: 4px 4px 8px 0px rgba(255, 255, 255, 0.75), 2px 2px 8px 0px rgba(189, 194, 199, 0.75) inset;
+            }
+        }
+
+        >h1 {
+            color                : #2A2A2A;
+            font-feature-settings: 'clig'off, 'liga'off;
+            font-family          : Quicksand;
+            font-size            : 22px;
+            font-style           : normal;
+            font-weight          : 700;
+            line-height          : normal;
+        }
+    }
+}

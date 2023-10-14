@@ -12,6 +12,9 @@ import PostCacher from "./post/PostCacher.js";
 import PostView from "./post/PostView.js";
 import SettingsView from "./settings/SettingsView.js";
 import SubjectDetailsCacher from "./subject/SubjectDetailsCacher.js";
+import FollowersView from "./user/FollowersView.js";
+import FollowingView from "./user/FollowingView.js";
+import HoldersView from "./user/HoldersView.js";
 import SignedUserManager from "./user/SignedUserManager.js";
 import UserDetailsCacher from "./user/UserDetailsCacher.js";
 import UserView from "./user/UserView.js";
@@ -61,5 +64,12 @@ export default async function initialize(config: Config) {
     "notifications",
     "settings",
     "post/{postId}",
+    "{xUsername}/holders",
+    "{xUsername}/following",
+    "{xUsername}/followers",
   ]);
+
+  Router.route("{xUsername}/holders", HoldersView, ["post/{postId}"]);
+  Router.route("{xUsername}/following", FollowingView, ["post/{postId}"]);
+  Router.route("{xUsername}/followers", FollowersView, ["post/{postId}"]);
 }

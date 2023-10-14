@@ -6,6 +6,7 @@ import {
   MaterialIcon,
   Router,
 } from "common-dapp-module";
+import SubjectDetails from "../database-interface/SubjectDetails.js";
 import UserDetails from "../database-interface/UserDetails.js";
 import BuySubjectKeyPopup from "../subject/BuySubjectKeyPopup.js";
 import FollowManager from "./FollowManager.js";
@@ -15,7 +16,10 @@ export default class UserProfileDisplay extends DomNode {
   private settingsButton: DomNode;
   private followButton: DomNode;
 
-  constructor(private userDetails: UserDetails) {
+  constructor(
+    private userDetails: UserDetails,
+    subjectDetails: SubjectDetails | undefined,
+  ) {
     super(".user-profile-display");
     this.append(
       el(
@@ -154,17 +158,34 @@ export default class UserProfileDisplay extends DomNode {
       ),
       el(
         ".social-metrics",
-        el(
-          "section.holders",
-          el("a", el("span.value", "1230"), el("span", " Holders")),
-        ),
+        subjectDetails
+          ? el(
+            "section.holders",
+            el(
+              "a",
+              el("span.value", String(subjectDetails.key_holder_count)),
+              el("span", " Holders"),
+              { click: () => Router.go(`/${userDetails.x_username}/holders`) },
+            ),
+          )
+          : undefined,
         el(
           "section.following",
-          el("a", el("span.value", "1230"), el("span", " Following")),
+          el(
+            "a",
+            el("span.value", String(userDetails.following_count)),
+            el("span", " Following"),
+            { click: () => Router.go(`/${userDetails.x_username}/following`) },
+          ),
         ),
         el(
           "section.followers",
-          el("a", el("span.value", "1230"), el("span", " Followers")),
+          el(
+            "a",
+            el("span.value", String(userDetails.follower_count)),
+            el("span", " Followers"),
+            { click: () => Router.go(`/${userDetails.x_username}/followers`) },
+          ),
         ),
       ),
     );

@@ -7,7 +7,7 @@ import {
   } from "common-dapp-module";
   import Layout from "../layout/Layout.js";
   
-  export default class MobileFollowingView extends View {
+  export default class HoldersView extends View {
     private container: DomNode;
     private xUsername!: string;
   
@@ -15,7 +15,7 @@ import {
       super();
       Layout.append(
         this.container = el(
-          ".mobile-following-view",
+          ".holders-view",
         ),
       );
   

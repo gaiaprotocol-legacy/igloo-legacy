@@ -93,7 +93,7 @@ export default class UserView extends View {
         ),
         el(
           "section.profile",
-          new UserProfileDisplay(this.userDetails),
+          new UserProfileDisplay(this.userDetails, this.subjectDetails),
           el(
             ".user-connections",
             this.tabs = new Tabs(
