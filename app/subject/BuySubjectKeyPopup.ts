@@ -19,10 +19,7 @@ export default class BuySubjectKeyPopup extends Popup {
   private totalPriceDisplay: DomNode;
   private buyButton: Button;
 
-  constructor(
-    private userDetails: UserDetails,
-    private boughtCallback: () => void,
-  ) {
+  constructor(private userDetails: UserDetails) {
     super({ barrierDismissible: true });
 
     this.append(
@@ -123,7 +120,6 @@ export default class BuySubjectKeyPopup extends Popup {
         });
       } else {
         await SubjectKeyService.buyKey(subject, totalPrice);
-        this.boughtCallback();
         this.delete();
       }
     } catch (e) {

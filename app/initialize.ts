@@ -40,7 +40,6 @@ export default async function initialize(config: Config) {
   );
   WalletManager.init(config.walletConnectProjectId);
   UserWalletLinker.init(config.messageForWalletLinking);
-
   IglooSubjectContract.init(config.iglooSubjectAddress);
 
   const splash = new SplashScreen(

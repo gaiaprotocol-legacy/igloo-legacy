@@ -51,6 +51,7 @@ class SignedUserManager extends EventContainer {
   public async fetchUserOnInit() {
     const { data, error } = await Supabase.client.auth.getSession();
     if (error) throw error;
+    //console.log(data?.session?.access_token);
     this.user = data?.session?.user;
     if (this.user) {
       this.fireEvent("userFetched");
