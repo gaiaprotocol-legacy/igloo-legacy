@@ -11,6 +11,7 @@ import { ethers } from "ethers";
 import IglooSubjectContract from "../contracts/IglooSubjectContract.js";
 import UserDetails from "../database-interface/UserDetails.js";
 import WalletManager from "../user/WalletManager.js";
+import SubjectKeyService from "./SubjectKeyService.js";
 
 export default class BuySubjectKeyPopup extends Popup {
   public content: DomNode;
@@ -121,18 +122,7 @@ export default class BuySubjectKeyPopup extends Popup {
           } AVAX to buy this key.`,
         });
       } else {
-        await IglooSubjectContract.buyKeys(subject, 1n, totalPrice);
-
-        /*SupabaseManager.supabase.functions.invoke("track-events");
-        SupabaseManager.supabase.functions.invoke(
-          "refresh-token-prices-and-balances",
-          {
-            body: {
-              tokenAddresses: [this.tokenAddress],
-            },
-          },
-        );*/
-
+        await SubjectKeyService.buyKey(subject, totalPrice);
         this.boughtCallback();
         this.delete();
       }
