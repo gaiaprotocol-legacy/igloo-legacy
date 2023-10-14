@@ -98,7 +98,6 @@ tracked_event_blocks
 subject_contract_events
 	block_number - int8 - pk
 	log_index - int8 - pk
-	event_type - int2 - not null
 	args - text - {}
 	wallet_address - text - not null
 	subject - text - not null
