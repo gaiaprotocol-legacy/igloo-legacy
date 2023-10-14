@@ -118,30 +118,34 @@ export default class UserProfileDisplay extends DomNode {
             }
           },
         }),
-        el("button.buy-key", "Buy Key", {
-          click: () => {
-            if (!SignedUserManager.userId) {
-              new Confirm({
-                title: "Login Required",
-                message: "You must be logged in to buy keys.",
-                confirmTitle: "Login",
-              }, () => SignedUserManager.signIn());
-            } else if (!SignedUserManager.walletLinked) {
-              new Confirm({
-                title: "Wallet Required",
-                message: "You must link a wallet to buy keys.",
-                confirmTitle: "Link Wallet",
-              }, () => SignedUserManager.linkWallet());
-            } else if (!userDetails.wallet_address) {
-              new ErrorAlert({
-                title: "No wallet address",
-                message: "This user has not linked a wallet.",
-              });
-            } else {
-              new BuySubjectKeyPopup(userDetails);
-            }
+        el(
+          "button.buy-key" + (!userDetails.wallet_address ? ".disabled" : ""),
+          "Buy Key",
+          {
+            click: () => {
+              if (!SignedUserManager.userId) {
+                new Confirm({
+                  title: "Login Required",
+                  message: "You must be logged in to buy keys.",
+                  confirmTitle: "Login",
+                }, () => SignedUserManager.signIn());
+              } else if (!SignedUserManager.walletLinked) {
+                new Confirm({
+                  title: "Wallet Required",
+                  message: "You must link a wallet to buy keys.",
+                  confirmTitle: "Link Wallet",
+                }, () => SignedUserManager.linkWallet());
+              } else if (!userDetails.wallet_address) {
+                new ErrorAlert({
+                  title: "No wallet address",
+                  message: "This user has not linked a wallet.",
+                });
+              } else {
+                new BuySubjectKeyPopup(userDetails);
+              }
+            },
           },
-        }),
+        ),
         this.settingsButton = el(
           "button.settings",
           "Settings",

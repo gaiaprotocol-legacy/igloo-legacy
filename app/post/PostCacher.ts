@@ -6,7 +6,7 @@ class PostCacher extends EventContainer {
 
   constructor() {
     super();
-    this.addAllowedEvents("update");
+    this.addAllowedEvents("update", "delete");
   }
 
   public init() {

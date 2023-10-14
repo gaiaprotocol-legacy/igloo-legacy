@@ -40,4 +40,7 @@ export const isEqualUserDetails = (a: UserDetails, b: UserDetails) =>
   a.display_name === b.display_name &&
   a.profile_image === b.profile_image &&
   a.x_username === b.x_username &&
-  isEqualMetadata(a.metadata, b.metadata);
+  isEqualMetadata(a.metadata, b.metadata) &&
+  a.follower_count === b.follower_count &&
+  a.following_count === b.following_count &&
+  a.blocked === b.blocked;

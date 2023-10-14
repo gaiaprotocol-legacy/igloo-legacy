@@ -1429,6 +1429,9 @@ button.component.text:active {
   outline: 1px solid #5585FF;
   box-shadow: 4px 4px 8px 0px rgba(255, 255, 255, 0.75), 2px 2px 8px 0px rgba(31, 94, 255, 0.75) inset;
 }
+.user-profile-display > .action-buttons > button.buy-key.disabled {
+  opacity: 0.5;
+}
 .user-profile-display > .action-buttons > button.hidden {
   display: none;
 }

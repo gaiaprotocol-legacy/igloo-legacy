@@ -11,7 +11,9 @@ import NotificationsView from "./notification/NotificationsView.js";
 import PostCacher from "./post/PostCacher.js";
 import PostView from "./post/PostView.js";
 import SettingsView from "./settings/SettingsView.js";
+import SubjectDetailsCacher from "./subject/SubjectDetailsCacher.js";
 import SignedUserManager from "./user/SignedUserManager.js";
+import UserDetailsCacher from "./user/UserDetailsCacher.js";
 import UserView from "./user/UserView.js";
 import UserWalletLinker from "./user/UserWalletLinker.js";
 import WalletManager from "./user/WalletManager.js";
@@ -28,7 +30,9 @@ export default async function initialize(config: Config) {
   }
 
   Supabase.connect(config.supabaseUrl, config.supabaseAnonKey);
-  [PostCacher].forEach((cacher) => cacher.init());
+  [UserDetailsCacher, SubjectDetailsCacher, PostCacher].forEach((cacher) =>
+    cacher.init()
+  );
   WalletManager.init(config.walletConnectProjectId);
   UserWalletLinker.init(config.messageForWalletLinking);
 

@@ -1,8 +1,8 @@
 import { EventContainer, Store, Supabase } from "common-dapp-module";
 import UserDetails, {
   DefaultUserDetails,
-  UserDetailsSelectQuery,
   isEqualUserDetails,
+  UserDetailsSelectQuery,
 } from "../database-interface/UserDetails.js";
 
 class UserDetailsCacher extends EventContainer {
@@ -25,15 +25,8 @@ class UserDetailsCacher extends EventContainer {
     }).subscribe();
   }
 
-  private deleteCache(id: string) {
-    this.store.delete(id);
-    this.fireEvent("delete", id);
-  }
-
-  private cache(id: string, userDetails: UserDetails | undefined) {
-    if (!userDetails) {
-      this.deleteCache(id);
-    } else if (!isEqualUserDetails(userDetails, this.get(id))) {
+  private cache(id: string, userDetails: UserDetails) {
+    if (!isEqualUserDetails(userDetails, this.get(id))) {
       this.store.set(id, userDetails, true);
       this.fireEvent("update", userDetails);
     }

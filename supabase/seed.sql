@@ -24,6 +24,24 @@ CREATE EXTENSION IF NOT EXISTS "supabase_vault" WITH SCHEMA "vault";
 
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp" WITH SCHEMA "extensions";
 
+CREATE OR REPLACE FUNCTION "public"."decrease_follow_count"() RETURNS "trigger"
+    LANGUAGE "plpgsql" SECURITY DEFINER
+    AS $$begin
+  update user_details
+  set
+    follower_count = follower_count - 1
+  where
+    user_id = old.followee_id;
+  update user_details
+  set
+    following_count = following_count - 1
+  where
+    user_id = old.follower_id;
+  return null;
+end;$$;
+
+ALTER FUNCTION "public"."decrease_follow_count"() OWNER TO "postgres";
+
 CREATE OR REPLACE FUNCTION "public"."handle_new_user"() RETURNS "trigger"
     LANGUAGE "plpgsql" SECURITY DEFINER
     SET "search_path" TO 'public'
@@ -41,6 +59,24 @@ end;
 $$;
 
 ALTER FUNCTION "public"."handle_new_user"() OWNER TO "postgres";
+
+CREATE OR REPLACE FUNCTION "public"."increase_follow_count"() RETURNS "trigger"
+    LANGUAGE "plpgsql" SECURITY DEFINER
+    AS $$begin
+  update user_details
+  set
+    follower_count = follower_count + 1
+  where
+    user_id = new.followee_id;
+  update user_details
+  set
+    following_count = following_count + 1
+  where
+    user_id = new.follower_id;
+  return null;
+end;$$;
+
+ALTER FUNCTION "public"."increase_follow_count"() OWNER TO "postgres";
 
 CREATE OR REPLACE FUNCTION "public"."set_notification_read_at"() RETURNS "trigger"
     LANGUAGE "plpgsql" SECURITY DEFINER
@@ -78,13 +114,13 @@ SET default_tablespace = '';
 
 SET default_table_access_method = "heap";
 
-CREATE TABLE IF NOT EXISTS "public"."followers" (
+CREATE TABLE IF NOT EXISTS "public"."follows" (
     "follower_id" "uuid" DEFAULT "auth"."uid"() NOT NULL,
-    "following_id" "uuid" DEFAULT "auth"."uid"() NOT NULL,
+    "followee_id" "uuid" NOT NULL,
     "created_at" timestamp with time zone DEFAULT "now"() NOT NULL
 );
 
-ALTER TABLE "public"."followers" OWNER TO "postgres";
+ALTER TABLE "public"."follows" OWNER TO "postgres";
 
 CREATE TABLE IF NOT EXISTS "public"."notifications" (
     "id" bigint NOT NULL,
@@ -174,7 +210,8 @@ CREATE TABLE IF NOT EXISTS "public"."subject_details" (
     "created_at" timestamp with time zone DEFAULT "now"() NOT NULL,
     "updated_at" timestamp with time zone,
     "key_holder_count" integer DEFAULT 0 NOT NULL,
-    "last_key_purchased_at" timestamp with time zone DEFAULT '-infinity'::timestamp with time zone NOT NULL
+    "last_key_purchased_at" timestamp with time zone DEFAULT '-infinity'::timestamp with time zone NOT NULL,
+    "owned_key_count" integer DEFAULT 0 NOT NULL
 );
 
 ALTER TABLE "public"."subject_details" OWNER TO "postgres";
@@ -259,8 +296,8 @@ CREATE TABLE IF NOT EXISTS "public"."wallet_linking_nonces" (
 
 ALTER TABLE "public"."wallet_linking_nonces" OWNER TO "postgres";
 
-ALTER TABLE ONLY "public"."followers"
-    ADD CONSTRAINT "followers_pkey" PRIMARY KEY ("follower_id", "following_id");
+ALTER TABLE ONLY "public"."follows"
+    ADD CONSTRAINT "follows_pkey" PRIMARY KEY ("follower_id", "followee_id");
 
 ALTER TABLE ONLY "public"."notifications"
     ADD CONSTRAINT "notifications_pkey" PRIMARY KEY ("id");
@@ -292,6 +329,10 @@ ALTER TABLE ONLY "public"."user_details"
 ALTER TABLE ONLY "public"."wallet_linking_nonces"
     ADD CONSTRAINT "wallet_linking_nonces_pkey" PRIMARY KEY ("user_id");
 
+CREATE TRIGGER "decrease_follow_count" AFTER DELETE ON "public"."follows" FOR EACH ROW EXECUTE FUNCTION "public"."decrease_follow_count"();
+
+CREATE TRIGGER "increase_follow_count" AFTER INSERT ON "public"."follows" FOR EACH ROW EXECUTE FUNCTION "public"."increase_follow_count"();
+
 CREATE TRIGGER "set_notification_read_at" BEFORE UPDATE ON "public"."notifications" FOR EACH ROW EXECUTE FUNCTION "public"."set_notification_read_at"();
 
 CREATE TRIGGER "set_post_default_values" BEFORE INSERT ON "public"."posts" FOR EACH ROW EXECUTE FUNCTION "public"."set_post_default_values"();
@@ -310,11 +351,11 @@ CREATE TRIGGER "set_tracked_event_blocks_updated_at" BEFORE UPDATE ON "public"."
 
 CREATE TRIGGER "set_user_details_updated_at" BEFORE UPDATE ON "public"."user_details" FOR EACH ROW EXECUTE FUNCTION "public"."set_updated_at"();
 
-ALTER TABLE ONLY "public"."followers"
-    ADD CONSTRAINT "followers_follower_id_fkey" FOREIGN KEY ("follower_id") REFERENCES "auth"."users"("id");
+ALTER TABLE ONLY "public"."follows"
+    ADD CONSTRAINT "follows_followee_id_fkey" FOREIGN KEY ("followee_id") REFERENCES "auth"."users"("id");
 
-ALTER TABLE ONLY "public"."followers"
-    ADD CONSTRAINT "followers_following_id_fkey" FOREIGN KEY ("following_id") REFERENCES "auth"."users"("id");
+ALTER TABLE ONLY "public"."follows"
+    ADD CONSTRAINT "follows_follower_id_fkey" FOREIGN KEY ("follower_id") REFERENCES "auth"."users"("id");
 
 ALTER TABLE ONLY "public"."notifications"
     ADD CONSTRAINT "notifications_source_id_fkey" FOREIGN KEY ("source_id") REFERENCES "auth"."users"("id");
@@ -339,9 +380,13 @@ ALTER TABLE ONLY "public"."wallet_linking_nonces"
 
 CREATE POLICY "can delete only authed" ON "public"."posts" FOR DELETE USING (("author" = "auth"."uid"()));
 
+CREATE POLICY "can follow only follower" ON "public"."follows" FOR INSERT TO "authenticated" WITH CHECK ((("follower_id" = "auth"."uid"()) AND ("follower_id" <> "followee_id")));
+
+CREATE POLICY "can unfollow only follower" ON "public"."follows" FOR DELETE TO "authenticated" USING (("follower_id" = "auth"."uid"()));
+
 CREATE POLICY "can write only authed" ON "public"."posts" FOR INSERT TO "authenticated" WITH CHECK ((("message" <> ''::"text") AND ("author" = "auth"."uid"())));
 
-ALTER TABLE "public"."followers" ENABLE ROW LEVEL SECURITY;
+ALTER TABLE "public"."follows" ENABLE ROW LEVEL SECURITY;
 
 ALTER TABLE "public"."notifications" ENABLE ROW LEVEL SECURITY;
 
@@ -361,6 +406,8 @@ ALTER TABLE "public"."tracked_event_blocks" ENABLE ROW LEVEL SECURITY;
 
 ALTER TABLE "public"."user_details" ENABLE ROW LEVEL SECURITY;
 
+CREATE POLICY "view everyone" ON "public"."follows" FOR SELECT USING (true);
+
 CREATE POLICY "view everyone" ON "public"."user_details" FOR SELECT USING (true);
 
 CREATE POLICY "view everyone or only keyholders" ON "public"."posts" FOR SELECT USING ((("target" = 0) OR ("author" = "auth"."uid"()) OR (("target" = 1) AND (( SELECT "subject_key_holders"."last_fetched_balance"
@@ -378,9 +425,17 @@ GRANT USAGE ON SCHEMA "public" TO "anon";
 GRANT USAGE ON SCHEMA "public" TO "authenticated";
 GRANT USAGE ON SCHEMA "public" TO "service_role";
 
+GRANT ALL ON FUNCTION "public"."decrease_follow_count"() TO "anon";
+GRANT ALL ON FUNCTION "public"."decrease_follow_count"() TO "authenticated";
+GRANT ALL ON FUNCTION "public"."decrease_follow_count"() TO "service_role";
+
 GRANT ALL ON FUNCTION "public"."handle_new_user"() TO "anon";
 GRANT ALL ON FUNCTION "public"."handle_new_user"() TO "authenticated";
 GRANT ALL ON FUNCTION "public"."handle_new_user"() TO "service_role";
+
+GRANT ALL ON FUNCTION "public"."increase_follow_count"() TO "anon";
+GRANT ALL ON FUNCTION "public"."increase_follow_count"() TO "authenticated";
+GRANT ALL ON FUNCTION "public"."increase_follow_count"() TO "service_role";
 
 GRANT ALL ON FUNCTION "public"."set_notification_read_at"() TO "anon";
 GRANT ALL ON FUNCTION "public"."set_notification_read_at"() TO "authenticated";
@@ -394,9 +449,9 @@ GRANT ALL ON FUNCTION "public"."set_updated_at"() TO "anon";
 GRANT ALL ON FUNCTION "public"."set_updated_at"() TO "authenticated";
 GRANT ALL ON FUNCTION "public"."set_updated_at"() TO "service_role";
 
-GRANT ALL ON TABLE "public"."followers" TO "anon";
-GRANT ALL ON TABLE "public"."followers" TO "authenticated";
-GRANT ALL ON TABLE "public"."followers" TO "service_role";
+GRANT ALL ON TABLE "public"."follows" TO "anon";
+GRANT ALL ON TABLE "public"."follows" TO "authenticated";
+GRANT ALL ON TABLE "public"."follows" TO "service_role";
 
 GRANT ALL ON TABLE "public"."notifications" TO "anon";
 GRANT ALL ON TABLE "public"."notifications" TO "authenticated";
