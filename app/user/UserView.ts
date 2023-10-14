@@ -128,7 +128,7 @@ export default class UserView extends View {
       this.tabs.on("select", (id: string) => {
         [this.holderList, this.followerList, this.followingList]
           .forEach((list) => list.hide());
-        if (id === "holder") {
+        if (id === "holders") {
           this.holderList.show();
         } else if (id === "followers") {
           this.followerList.show();

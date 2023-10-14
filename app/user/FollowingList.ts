@@ -7,7 +7,7 @@ export default class FollowingList extends UserList {
   private isContentFromCache: boolean = true;
 
   constructor(private userId: string) {
-    super(".following-list");
+    super(".following-list", "Not following anyone yet");
 
     const cachedUserDetails = this.store.get<UserDetails[]>(
       `user-${userId}-cached-following`,

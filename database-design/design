@@ -16,7 +16,7 @@ user_details
 follows
 	follower_id - uuid - pk
 	followee_id - uuid - pk
-	created_at - timestampz - now()
+	followed_at - timestampz - now()
 
 wallet_linking_nonces
 	user_id - uuid - auth.uid() - pk

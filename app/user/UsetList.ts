@@ -1,15 +1,28 @@
-import { DomNode } from "common-dapp-module";
+import { DomNode, el } from "common-dapp-module";
 import UserDetails from "../database-interface/UserDetails.js";
 import UserListItem from "./UsetListItem.js";
 
 export default abstract class UserList extends DomNode {
   private contentFetched: boolean = false;
+  private emptyMessageDisplay: DomNode | undefined;
 
-  constructor(tag: string) {
+  constructor(tag: string, private emptyMessage: string) {
     super(tag + ".user-list");
+    this.showEmptyMessage();
+  }
+
+  private showEmptyMessage() {
+    this.emptyMessageDisplay?.delete();
+    this.emptyMessageDisplay = el("p.empty-message", this.emptyMessage);
+    this.emptyMessageDisplay.on(
+      "delete",
+      () => this.emptyMessageDisplay = undefined,
+    );
+    this.append(this.emptyMessageDisplay);
   }
 
   protected addUserDetails(userDetails: UserDetails) {
+    this.emptyMessageDisplay?.delete();
     this.append(new UserListItem(userDetails));
   }
 
@@ -25,5 +38,11 @@ export default abstract class UserList extends DomNode {
 
   public hide() {
     this.addClass("hidden");
+  }
+
+  public empty(): this {
+    super.empty();
+    this.showEmptyMessage();
+    return this;
   }
 }
