@@ -83,5 +83,20 @@
         @media @phone {
             margin-top: 20px;
         }
+
+        >button.contained {
+            color     : #fff;
+            background: #5585FF;
+            box-shadow: 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25), 4px 4px 8px 0px rgba(255, 255, 255, 0.75) inset, 8px 8px 12px 0px rgba(255, 255, 255, 0.25) inset, -4px -4px 8px 0px rgba(31, 94, 255, 0.75) inset, -8px -8px 12px 0px rgba(31, 94, 255, 0.25) inset;
+
+            &:active {
+                outline   : 1px solid #5585FF;
+                box-shadow: 4px 4px 8px 0px rgba(255, 255, 255, 0.75), 2px 2px 8px 0px rgba(31, 94, 255, 0.75) inset;
+            }
+
+            &.disabled {
+                opacity: 0.5;
+            }
+        }
     }
 }
