@@ -1,4 +1,9 @@
 begin
+  insert into subject_details (
+    subject
+  ) values (
+    old.subject
+  ) on conflict (subject) do nothing;
   IF old.last_fetched_balance > 0 THEN
     update subject_details
     set

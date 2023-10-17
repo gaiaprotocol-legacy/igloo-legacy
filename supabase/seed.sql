@@ -49,6 +49,11 @@ ALTER FUNCTION "public"."decrease_follow_count"() OWNER TO "postgres";
 CREATE OR REPLACE FUNCTION "public"."decrease_subject_key_holder_count"() RETURNS "trigger"
     LANGUAGE "plpgsql" SECURITY DEFINER
     AS $$begin
+  insert into subject_details (
+    subject
+  ) values (
+    old.subject
+  ) on conflict (subject) do nothing;
   IF old.last_fetched_balance > 0 THEN
     update subject_details
     set
@@ -60,6 +65,24 @@ CREATE OR REPLACE FUNCTION "public"."decrease_subject_key_holder_count"() RETURN
 end;$$;
 
 ALTER FUNCTION "public"."decrease_subject_key_holder_count"() OWNER TO "postgres";
+
+CREATE OR REPLACE FUNCTION "public"."decrease_total_subject_key_balance"() RETURNS "trigger"
+    LANGUAGE "plpgsql" SECURITY DEFINER
+    AS $$begin
+  insert into wallet_total_subject_key_balances (
+    wallet_address
+  ) values (
+    old.wallet_address
+  ) on conflict (wallet_address) do nothing;
+  update wallet_total_subject_key_balances
+  set
+    total_key_balance = total_key_balance - old.last_fetched_balance
+  where
+    wallet_address = old.wallet_address;
+  return null;
+end;$$;
+
+ALTER FUNCTION "public"."decrease_total_subject_key_balance"() OWNER TO "postgres";
 
 CREATE OR REPLACE FUNCTION "public"."handle_new_user"() RETURNS "trigger"
     LANGUAGE "plpgsql" SECURITY DEFINER
@@ -100,6 +123,11 @@ ALTER FUNCTION "public"."increase_follow_count"() OWNER TO "postgres";
 CREATE OR REPLACE FUNCTION "public"."increase_subject_key_holder_count"() RETURNS "trigger"
     LANGUAGE "plpgsql" SECURITY DEFINER
     AS $$begin
+  insert into subject_details (
+    subject
+  ) values (
+    new.subject
+  ) on conflict (subject) do nothing;
   IF new.last_fetched_balance > 0 THEN
     update subject_details
     set
@@ -130,6 +158,24 @@ CREATE OR REPLACE FUNCTION "public"."increase_subject_total_trading_volume_and_f
 end;$$;
 
 ALTER FUNCTION "public"."increase_subject_total_trading_volume_and_fees_earned"() OWNER TO "postgres";
+
+CREATE OR REPLACE FUNCTION "public"."increase_total_subject_key_balance"() RETURNS "trigger"
+    LANGUAGE "plpgsql" SECURITY DEFINER
+    AS $$begin
+  insert into wallet_total_subject_key_balances (
+    wallet_address
+  ) values (
+    new.wallet_address
+  ) on conflict (wallet_address) do nothing;
+  update wallet_total_subject_key_balances
+  set
+    total_key_balance = total_key_balance + new.last_fetched_balance
+  where
+    wallet_address = new.wallet_address;
+  return null;
+end;$$;
+
+ALTER FUNCTION "public"."increase_total_subject_key_balance"() OWNER TO "postgres";
 
 CREATE OR REPLACE FUNCTION "public"."set_notification_read_at"() RETURNS "trigger"
     LANGUAGE "plpgsql" SECURITY DEFINER
@@ -166,6 +212,11 @@ ALTER FUNCTION "public"."set_updated_at"() OWNER TO "postgres";
 CREATE OR REPLACE FUNCTION "public"."update_subject_key_holder_count"() RETURNS "trigger"
     LANGUAGE "plpgsql" SECURITY DEFINER
     AS $$begin
+  insert into subject_details (
+    subject
+  ) values (
+    new.subject
+  ) on conflict (subject) do nothing;
   IF old.last_fetched_balance = 0 AND new.last_fetched_balance > 0 THEN
     update subject_details
     set
@@ -183,6 +234,24 @@ CREATE OR REPLACE FUNCTION "public"."update_subject_key_holder_count"() RETURNS 
 end;$$;
 
 ALTER FUNCTION "public"."update_subject_key_holder_count"() OWNER TO "postgres";
+
+CREATE OR REPLACE FUNCTION "public"."update_total_subject_key_balance"() RETURNS "trigger"
+    LANGUAGE "plpgsql" SECURITY DEFINER
+    AS $$begin
+  insert into wallet_total_subject_key_balances (
+    wallet_address
+  ) values (
+    new.wallet_address
+  ) on conflict (wallet_address) do nothing;
+  update wallet_total_subject_key_balances
+  set
+    total_key_balance = total_key_balance - old.last_fetched_balance + new.last_fetched_balance
+  where
+    wallet_address = new.wallet_address;
+  return null;
+end;$$;
+
+ALTER FUNCTION "public"."update_total_subject_key_balance"() OWNER TO "postgres";
 
 SET default_tablespace = '';
 
@@ -368,6 +437,15 @@ CREATE TABLE IF NOT EXISTS "public"."wallet_linking_nonces" (
 
 ALTER TABLE "public"."wallet_linking_nonces" OWNER TO "postgres";
 
+CREATE TABLE IF NOT EXISTS "public"."wallet_total_subject_key_balances" (
+    "wallet_address" "text" NOT NULL,
+    "total_key_balance" numeric DEFAULT '0'::numeric NOT NULL,
+    "created_at" timestamp with time zone DEFAULT "now"() NOT NULL,
+    "updated_at" timestamp with time zone
+);
+
+ALTER TABLE "public"."wallet_total_subject_key_balances" OWNER TO "postgres";
+
 ALTER TABLE ONLY "public"."follows"
     ADD CONSTRAINT "follows_pkey" PRIMARY KEY ("follower_id", "followee_id");
 
@@ -401,15 +479,22 @@ ALTER TABLE ONLY "public"."user_details"
 ALTER TABLE ONLY "public"."wallet_linking_nonces"
     ADD CONSTRAINT "wallet_linking_nonces_pkey" PRIMARY KEY ("user_id");
 
+ALTER TABLE ONLY "public"."wallet_total_subject_key_balances"
+    ADD CONSTRAINT "wallet_total_subject_key_balances_pkey" PRIMARY KEY ("wallet_address");
+
 CREATE TRIGGER "decrease_follow_count" AFTER DELETE ON "public"."follows" FOR EACH ROW EXECUTE FUNCTION "public"."decrease_follow_count"();
 
 CREATE TRIGGER "decrease_subject_key_holder_count" AFTER DELETE ON "public"."subject_key_holders" FOR EACH ROW EXECUTE FUNCTION "public"."decrease_subject_key_holder_count"();
+
+CREATE TRIGGER "decrease_total_subject_key_balance" AFTER DELETE ON "public"."subject_key_holders" FOR EACH ROW EXECUTE FUNCTION "public"."decrease_total_subject_key_balance"();
 
 CREATE TRIGGER "increase_follow_count" AFTER INSERT ON "public"."follows" FOR EACH ROW EXECUTE FUNCTION "public"."increase_follow_count"();
 
 CREATE TRIGGER "increase_subject_key_holder_count" AFTER INSERT ON "public"."subject_key_holders" FOR EACH ROW EXECUTE FUNCTION "public"."increase_subject_key_holder_count"();
 
 CREATE TRIGGER "increase_subject_total_trading_volume_and_fees_earned" AFTER INSERT ON "public"."subject_contract_events" FOR EACH ROW EXECUTE FUNCTION "public"."increase_subject_total_trading_volume_and_fees_earned"();
+
+CREATE TRIGGER "increase_total_subject_key_balance" AFTER INSERT ON "public"."subject_key_holders" FOR EACH ROW EXECUTE FUNCTION "public"."increase_total_subject_key_balance"();
 
 CREATE TRIGGER "set_notification_read_at" BEFORE UPDATE ON "public"."notifications" FOR EACH ROW EXECUTE FUNCTION "public"."set_notification_read_at"();
 
@@ -429,7 +514,11 @@ CREATE TRIGGER "set_tracked_event_blocks_updated_at" BEFORE UPDATE ON "public"."
 
 CREATE TRIGGER "set_user_details_updated_at" BEFORE UPDATE ON "public"."user_details" FOR EACH ROW EXECUTE FUNCTION "public"."set_updated_at"();
 
+CREATE TRIGGER "set_wallet_total_subject_key_balances_updated_at" BEFORE UPDATE ON "public"."wallet_total_subject_key_balances" FOR EACH ROW EXECUTE FUNCTION "public"."set_updated_at"();
+
 CREATE TRIGGER "update_subject_key_holder_count" AFTER UPDATE ON "public"."subject_key_holders" FOR EACH ROW EXECUTE FUNCTION "public"."update_subject_key_holder_count"();
+
+CREATE TRIGGER "update_total_subject_key_balance" AFTER UPDATE ON "public"."subject_key_holders" FOR EACH ROW EXECUTE FUNCTION "public"."update_total_subject_key_balance"();
 
 ALTER TABLE ONLY "public"."follows"
     ADD CONSTRAINT "follows_followee_id_fkey" FOREIGN KEY ("followee_id") REFERENCES "auth"."users"("id");
@@ -504,6 +593,8 @@ CREATE POLICY "view everyone or only keyholders" ON "public"."posts" FOR SELECT 
 
 ALTER TABLE "public"."wallet_linking_nonces" ENABLE ROW LEVEL SECURITY;
 
+ALTER TABLE "public"."wallet_total_subject_key_balances" ENABLE ROW LEVEL SECURITY;
+
 GRANT USAGE ON SCHEMA "public" TO "postgres";
 GRANT USAGE ON SCHEMA "public" TO "anon";
 GRANT USAGE ON SCHEMA "public" TO "authenticated";
@@ -516,6 +607,10 @@ GRANT ALL ON FUNCTION "public"."decrease_follow_count"() TO "service_role";
 GRANT ALL ON FUNCTION "public"."decrease_subject_key_holder_count"() TO "anon";
 GRANT ALL ON FUNCTION "public"."decrease_subject_key_holder_count"() TO "authenticated";
 GRANT ALL ON FUNCTION "public"."decrease_subject_key_holder_count"() TO "service_role";
+
+GRANT ALL ON FUNCTION "public"."decrease_total_subject_key_balance"() TO "anon";
+GRANT ALL ON FUNCTION "public"."decrease_total_subject_key_balance"() TO "authenticated";
+GRANT ALL ON FUNCTION "public"."decrease_total_subject_key_balance"() TO "service_role";
 
 GRANT ALL ON FUNCTION "public"."handle_new_user"() TO "anon";
 GRANT ALL ON FUNCTION "public"."handle_new_user"() TO "authenticated";
@@ -533,6 +628,10 @@ GRANT ALL ON FUNCTION "public"."increase_subject_total_trading_volume_and_fees_e
 GRANT ALL ON FUNCTION "public"."increase_subject_total_trading_volume_and_fees_earned"() TO "authenticated";
 GRANT ALL ON FUNCTION "public"."increase_subject_total_trading_volume_and_fees_earned"() TO "service_role";
 
+GRANT ALL ON FUNCTION "public"."increase_total_subject_key_balance"() TO "anon";
+GRANT ALL ON FUNCTION "public"."increase_total_subject_key_balance"() TO "authenticated";
+GRANT ALL ON FUNCTION "public"."increase_total_subject_key_balance"() TO "service_role";
+
 GRANT ALL ON FUNCTION "public"."set_notification_read_at"() TO "anon";
 GRANT ALL ON FUNCTION "public"."set_notification_read_at"() TO "authenticated";
 GRANT ALL ON FUNCTION "public"."set_notification_read_at"() TO "service_role";
@@ -548,6 +647,10 @@ GRANT ALL ON FUNCTION "public"."set_updated_at"() TO "service_role";
 GRANT ALL ON FUNCTION "public"."update_subject_key_holder_count"() TO "anon";
 GRANT ALL ON FUNCTION "public"."update_subject_key_holder_count"() TO "authenticated";
 GRANT ALL ON FUNCTION "public"."update_subject_key_holder_count"() TO "service_role";
+
+GRANT ALL ON FUNCTION "public"."update_total_subject_key_balance"() TO "anon";
+GRANT ALL ON FUNCTION "public"."update_total_subject_key_balance"() TO "authenticated";
+GRANT ALL ON FUNCTION "public"."update_total_subject_key_balance"() TO "service_role";
 
 GRANT ALL ON TABLE "public"."follows" TO "anon";
 GRANT ALL ON TABLE "public"."follows" TO "authenticated";
@@ -608,6 +711,10 @@ GRANT ALL ON TABLE "public"."user_details" TO "service_role";
 GRANT ALL ON TABLE "public"."wallet_linking_nonces" TO "anon";
 GRANT ALL ON TABLE "public"."wallet_linking_nonces" TO "authenticated";
 GRANT ALL ON TABLE "public"."wallet_linking_nonces" TO "service_role";
+
+GRANT ALL ON TABLE "public"."wallet_total_subject_key_balances" TO "anon";
+GRANT ALL ON TABLE "public"."wallet_total_subject_key_balances" TO "authenticated";
+GRANT ALL ON TABLE "public"."wallet_total_subject_key_balances" TO "service_role";
 
 ALTER DEFAULT PRIVILEGES FOR ROLE "postgres" IN SCHEMA "public" GRANT ALL ON SEQUENCES  TO "postgres";
 ALTER DEFAULT PRIVILEGES FOR ROLE "postgres" IN SCHEMA "public" GRANT ALL ON SEQUENCES  TO "anon";
