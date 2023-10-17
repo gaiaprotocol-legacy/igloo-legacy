@@ -60,7 +60,10 @@ class TotalSubjectKeyBalanceCacher extends EventContainer {
   public getAndRefresh(walletAddress: string): string {
     const cachedValue = this.get(walletAddress);
     this.refresh(walletAddress).catch((error) =>
-      console.error("Error refreshing total subject key balance details:", error)
+      console.error(
+        "Error refreshing total subject key balance details:",
+        error,
+      )
     );
     return cachedValue;
   }

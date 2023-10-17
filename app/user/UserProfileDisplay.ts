@@ -10,12 +10,14 @@ import { ethers } from "ethers";
 import SubjectDetails from "../database-interface/SubjectDetails.js";
 import UserDetails from "../database-interface/UserDetails.js";
 import BuySubjectKeyPopup from "../subject/BuySubjectKeyPopup.js";
+import TotalSubjectKeyBalanceCacher from "../subject/TotalSubjectKeyBalanceCacher.js";
 import FollowManager from "./FollowManager.js";
 import SignedUserManager from "./SignedUserManager.js";
 
 export default class UserProfileDisplay extends DomNode {
   private settingsButton: DomNode;
   private followButton: DomNode;
+  private holdingsDisplay: DomNode | undefined;
 
   constructor(
     private userDetails: UserDetails,
@@ -91,11 +93,17 @@ export default class UserProfileDisplay extends DomNode {
             ),
           ),
         ),
-        el(
-          "section.holdings",
-          el(".icon-container", new MaterialIcon("account_balance_wallet")),
-          el(".metric", el("h3", "Holdings"), el(".value", "0")),
-        ),
+        userDetails.wallet_address
+          ? el(
+            "section.holdings",
+            el(".icon-container", new MaterialIcon("account_balance_wallet")),
+            el(
+              ".metric",
+              el("h3", "Holdings"),
+              this.holdingsDisplay = el(".value"),
+            ),
+          )
+          : undefined,
         el(
           "section.price",
           el(".icon-container", new MaterialIcon("sell")),
@@ -208,6 +216,21 @@ export default class UserProfileDisplay extends DomNode {
         this.checkFollowing();
       }
     });
+
+    if (userDetails.wallet_address && this.holdingsDisplay) {
+      this.holdingsDisplay.text = TotalSubjectKeyBalanceCacher.getAndRefresh(
+        userDetails.wallet_address,
+      );
+      this.onDelegate(
+        TotalSubjectKeyBalanceCacher,
+        "update",
+        ({ walletAddress, totalKeyBalance }) => {
+          if (walletAddress === userDetails.wallet_address) {
+            this.holdingsDisplay!.text = totalKeyBalance;
+          }
+        },
+      );
+    }
   }
 
   private checkSignedUser() {
