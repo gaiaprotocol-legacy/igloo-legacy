@@ -1,4 +1,4 @@
-import { EventContainer, Store } from "common-dapp-module";
+import { EventContainer, Store, Supabase } from "common-dapp-module";
 
 class TotalSubjectKeyBalanceCacher extends EventContainer {
   private store: Store = new Store("cached-total-subject-key-balances");
@@ -6,6 +6,63 @@ class TotalSubjectKeyBalanceCacher extends EventContainer {
   constructor() {
     super();
     this.addAllowedEvents("update");
+  }
+
+  public init() {
+    Supabase.client.channel("total-subject-key-balances-changes").on(
+      "postgres_changes",
+      {
+        event: "*",
+        schema: "public",
+        table: "total_subject_key_balances",
+      },
+      (payload) => {
+        if (payload.eventType === "INSERT" || payload.eventType === "UPDATE") {
+          this.refresh(payload.new.wallet_address);
+        }
+      },
+    ).subscribe();
+  }
+
+  private cache(walletAddress: string, totalKeyBalance: string) {
+    if (totalKeyBalance !== this.get(walletAddress)) {
+      this.store.set(walletAddress, totalKeyBalance, true);
+      this.fireEvent("update", { walletAddress, totalKeyBalance });
+    }
+  }
+
+  public get(walletAddress: string): string {
+    const cached = this.store.get<string>(walletAddress);
+    if (cached) {
+      return cached;
+    } else {
+      return "0";
+    }
+  }
+
+  public async refresh(walletAddress: string) {
+    const { data, error } = await Supabase.client.from(
+      "total_subject_key_balances",
+    )
+      .select(
+        "*, total_key_balance::text",
+      ).eq("wallet_address", walletAddress);
+    if (error) throw error;
+    const balanceData: any | undefined = data?.[0] as any;
+    if (
+      balanceData &&
+      balanceData.total_key_balance !== this.get(walletAddress)
+    ) {
+      this.cache(walletAddress, balanceData.total_key_balance);
+    }
+  }
+
+  public getAndRefresh(walletAddress: string): string {
+    const cachedValue = this.get(walletAddress);
+    this.refresh(walletAddress).catch((error) =>
+      console.error("Error refreshing total subject key balance details:", error)
+    );
+    return cachedValue;
   }
 }
 

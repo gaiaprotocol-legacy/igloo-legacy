@@ -12,7 +12,7 @@ class SubjectKeyService {
       body: { subjects: [subject] },
     });
 
-    SubjectKeyBalanceCacher.increaseKeyBalance(
+    SubjectKeyBalanceCacher.increaseKeyBalanceInstantly(
       SignedUserManager.userId!,
       subject,
     );
