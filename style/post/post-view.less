@@ -45,4 +45,111 @@
             text-transform       : capitalize;
         }
     }
+
+    >main {
+        border-radius: 16px;
+        background   : #EBEFF3;
+        box-shadow   : 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
+        padding      : 20px;
+
+        >.empty-message {
+            text-align: center;
+            color     : #a1a2ac;
+            padding   : 20px 0;
+        }
+
+        >header {
+            display: flex;
+            gap    : 20px;
+
+            @media @phone {
+                gap: 12px;
+            }
+
+            >.author-profile-image {
+                margin-top   : 1px;
+                display      : flex;
+                width        : 42px;
+                height       : 42px;
+                flex-shrink  : 0;
+                border-radius: 42px;
+                border       : 1px solid #FFF;
+                background   : lightgray 50% / cover no-repeat;
+                cursor       : pointer;
+            }
+
+            >.author {
+                display       : flex;
+                flex-direction: column;
+                gap           : 4px;
+
+                >.name {
+                    color                : #2A2A2A;
+                    font-feature-settings: 'clig'off, 'liga'off;
+                    font-family          : Quicksand;
+                    font-size            : 16px;
+                    font-style           : normal;
+                    font-weight          : 700;
+                    line-height          : normal;
+                    cursor               : pointer;
+                }
+
+                >.x-username {
+                    font-feature-settings: 'clig'off, 'liga'off;
+                    font-family          : Quicksand;
+                    font-size            : 12px;
+                    font-style           : normal;
+                    font-weight          : 500;
+                    color                : #a1a2ac;
+                    cursor               : pointer;
+                }
+            }
+
+            >button.owner-menu {
+                margin-top     : -4px;
+                margin-right   : -4px;
+                margin-left    : auto;
+                display        : none;
+                width          : 43.5px;
+                height         : 43.5px;
+                flex-shrink    : 0;
+                border-radius  : 16px;
+                color          : #2B2B2B;
+                cursor         : pointer;
+                display        : none;
+                justify-content: center;
+                align-items    : center;
+
+                &:active {
+                    outline   : 1px solid #F4F7F9;
+                    background: #EBEFF3;
+                    box-shadow: 4px 4px 8px 0px rgba(255, 255, 255, 0.75), 2px 2px 8px 0px rgba(189, 194, 199, 0.75) inset;
+                }
+            }
+        }
+
+        >p {
+            margin-top           : 20px;
+            color                : #2A2A2A;
+            font-feature-settings: 'clig'off, 'liga'off;
+            font-family          : Quicksand;
+            font-size            : 16px;
+            font-style           : normal;
+            font-weight          : 500;
+
+            @media @phone {
+                font-size: 14px;
+            }
+        }
+    }
+
+    &.owned {
+        >main {
+            >header {
+                >button.owner-menu {
+                    display: flex;
+                }
+            }
+        }
+    }
 }
