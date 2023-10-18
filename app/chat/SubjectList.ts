@@ -1,9 +1,8 @@
 import { DomNode, el } from "common-dapp-module";
-import ChatMessage from "../database-interface/ChatMessage.js";
-import ChatMessageListItem from "./ChatMessageListItem.js";
+import SubjectDetails from "../database-interface/SubjectDetails.js";
+import SubjectListItem from "./SubjectListItem.js";
 
 export default abstract class SubjectList extends DomNode {
-  private contentFetched: boolean = false;
   private emptyMessageDisplay: DomNode | undefined;
 
   constructor(tag: string, private emptyMessage: string) {
@@ -21,12 +20,10 @@ export default abstract class SubjectList extends DomNode {
     this.append(this.emptyMessageDisplay);
   }
 
-  protected addMessage(message: ChatMessage) {
+  protected addSubjectDetails(subjectDetails: SubjectDetails) {
     this.emptyMessageDisplay?.delete();
-    this.append(new ChatMessageListItem(message));
+    this.append(new SubjectListItem(subjectDetails));
   }
-
-  protected abstract fetchContent(): void;
 
   public empty(): this {
     super.empty();

@@ -1216,17 +1216,6 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 
 /***/ }),
 
-/***/ "./app/chat/ChatMessageListItem.ts":
-/*!*****************************************!*\
-  !*** ./app/chat/ChatMessageListItem.ts ***!
-  \*****************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ ChatMessageListItem)\n/* harmony export */ });\n/* harmony import */ var common_dapp_module__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! common-dapp-module */ \"../common-dapp-module/lib/index.js\");\n\nclass ChatMessageListItem extends common_dapp_module__WEBPACK_IMPORTED_MODULE_0__.DomNode {\n    constructor(message) {\n        super(\".chat-message-list-item\");\n    }\n}\n\n\n//# sourceURL=webpack:///./app/chat/ChatMessageListItem.ts?");
-
-/***/ }),
-
 /***/ "./app/chat/ChatsView.ts":
 /*!*******************************!*\
   !*** ./app/chat/ChatsView.ts ***!
@@ -1245,7 +1234,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ FollowingSubjectList)\n/* harmony export */ });\n/* harmony import */ var _SubjectList_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./SubjectList.js */ \"./app/chat/SubjectList.ts\");\n\nclass FollowingSubjectList extends _SubjectList_js__WEBPACK_IMPORTED_MODULE_0__[\"default\"] {\n    constructor() {\n        super(\".following-subject-list\", \"No following subjects yet.\");\n    }\n    fetchContent() {\n    }\n}\n\n\n//# sourceURL=webpack:///./app/chat/FollowingSubjectList.ts?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ FollowingSubjectList)\n/* harmony export */ });\n/* harmony import */ var _SubjectList_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./SubjectList.js */ \"./app/chat/SubjectList.ts\");\n\nclass FollowingSubjectList extends _SubjectList_js__WEBPACK_IMPORTED_MODULE_0__[\"default\"] {\n    constructor() {\n        super(\".following-subject-list\", \"No following subjects yet.\");\n    }\n}\n\n\n//# sourceURL=webpack:///./app/chat/FollowingSubjectList.ts?");
 
 /***/ }),
 
@@ -1256,7 +1245,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ GeneralSubjectList)\n/* harmony export */ });\n/* harmony import */ var _SubjectList_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./SubjectList.js */ \"./app/chat/SubjectList.ts\");\n\nclass GeneralSubjectList extends _SubjectList_js__WEBPACK_IMPORTED_MODULE_0__[\"default\"] {\n    constructor() {\n        super(\".general-subject-list\", \"No general subjects yet.\");\n    }\n    fetchContent() {\n    }\n}\n\n\n//# sourceURL=webpack:///./app/chat/GeneralSubjectList.ts?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ GeneralSubjectList)\n/* harmony export */ });\n/* harmony import */ var _SubjectList_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./SubjectList.js */ \"./app/chat/SubjectList.ts\");\n\nclass GeneralSubjectList extends _SubjectList_js__WEBPACK_IMPORTED_MODULE_0__[\"default\"] {\n    constructor() {\n        super(\".general-subject-list\", \"No general subjects yet.\");\n        this.addSubjectDetails;\n    }\n}\n\n\n//# sourceURL=webpack:///./app/chat/GeneralSubjectList.ts?");
 
 /***/ }),
 
@@ -1267,7 +1256,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ HoldingSubjectList)\n/* harmony export */ });\n/* harmony import */ var _SubjectList_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./SubjectList.js */ \"./app/chat/SubjectList.ts\");\n\nclass HoldingSubjectList extends _SubjectList_js__WEBPACK_IMPORTED_MODULE_0__[\"default\"] {\n    constructor() {\n        super(\".holding-subject-list\", \"No holding subjects yet.\");\n    }\n    fetchContent() {\n    }\n}\n\n\n//# sourceURL=webpack:///./app/chat/HoldingSubjectList.ts?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ HoldingSubjectList)\n/* harmony export */ });\n/* harmony import */ var _SubjectList_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./SubjectList.js */ \"./app/chat/SubjectList.ts\");\n\nclass HoldingSubjectList extends _SubjectList_js__WEBPACK_IMPORTED_MODULE_0__[\"default\"] {\n    constructor() {\n        super(\".holding-subject-list\", \"No holding subjects yet.\");\n    }\n}\n\n\n//# sourceURL=webpack:///./app/chat/HoldingSubjectList.ts?");
 
 /***/ }),
 
@@ -1278,7 +1267,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ MySubjectList)\n/* harmony export */ });\n/* harmony import */ var _SubjectList_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./SubjectList.js */ \"./app/chat/SubjectList.ts\");\n\nclass MySubjectList extends _SubjectList_js__WEBPACK_IMPORTED_MODULE_0__[\"default\"] {\n    constructor() {\n        super(\".my-subject-list\", \"No my subjects yet.\");\n    }\n    fetchContent() {\n    }\n}\n\n\n//# sourceURL=webpack:///./app/chat/MySubjectList.ts?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ MySubjectList)\n/* harmony export */ });\n/* harmony import */ var _SubjectList_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./SubjectList.js */ \"./app/chat/SubjectList.ts\");\n\nclass MySubjectList extends _SubjectList_js__WEBPACK_IMPORTED_MODULE_0__[\"default\"] {\n    constructor() {\n        super(\".my-subject-list\", \"No my subjects yet.\");\n    }\n}\n\n\n//# sourceURL=webpack:///./app/chat/MySubjectList.ts?");
 
 /***/ }),
 
@@ -1289,7 +1278,18 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ SubjectList)\n/* harmony export */ });\n/* harmony import */ var common_dapp_module__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! common-dapp-module */ \"../common-dapp-module/lib/index.js\");\n/* harmony import */ var _ChatMessageListItem_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ChatMessageListItem.js */ \"./app/chat/ChatMessageListItem.ts\");\n\n\nclass SubjectList extends common_dapp_module__WEBPACK_IMPORTED_MODULE_0__.DomNode {\n    emptyMessage;\n    contentFetched = false;\n    emptyMessageDisplay;\n    constructor(tag, emptyMessage) {\n        super(tag + \".subject-list\");\n        this.emptyMessage = emptyMessage;\n        this.showEmptyMessage();\n    }\n    showEmptyMessage() {\n        this.emptyMessageDisplay?.delete();\n        this.emptyMessageDisplay = (0,common_dapp_module__WEBPACK_IMPORTED_MODULE_0__.el)(\"p.empty-message\", this.emptyMessage);\n        this.emptyMessageDisplay.on(\"delete\", () => this.emptyMessageDisplay = undefined);\n        this.append(this.emptyMessageDisplay);\n    }\n    addMessage(message) {\n        this.emptyMessageDisplay?.delete();\n        this.append(new _ChatMessageListItem_js__WEBPACK_IMPORTED_MODULE_1__[\"default\"](message));\n    }\n    empty() {\n        super.empty();\n        this.showEmptyMessage();\n        return this;\n    }\n}\n\n\n//# sourceURL=webpack:///./app/chat/SubjectList.ts?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ SubjectList)\n/* harmony export */ });\n/* harmony import */ var common_dapp_module__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! common-dapp-module */ \"../common-dapp-module/lib/index.js\");\n/* harmony import */ var _SubjectListItem_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SubjectListItem.js */ \"./app/chat/SubjectListItem.ts\");\n\n\nclass SubjectList extends common_dapp_module__WEBPACK_IMPORTED_MODULE_0__.DomNode {\n    emptyMessage;\n    emptyMessageDisplay;\n    constructor(tag, emptyMessage) {\n        super(tag + \".subject-list\");\n        this.emptyMessage = emptyMessage;\n        this.showEmptyMessage();\n    }\n    showEmptyMessage() {\n        this.emptyMessageDisplay?.delete();\n        this.emptyMessageDisplay = (0,common_dapp_module__WEBPACK_IMPORTED_MODULE_0__.el)(\"p.empty-message\", this.emptyMessage);\n        this.emptyMessageDisplay.on(\"delete\", () => this.emptyMessageDisplay = undefined);\n        this.append(this.emptyMessageDisplay);\n    }\n    addSubjectDetails(subjectDetails) {\n        this.emptyMessageDisplay?.delete();\n        this.append(new _SubjectListItem_js__WEBPACK_IMPORTED_MODULE_1__[\"default\"](subjectDetails));\n    }\n    empty() {\n        super.empty();\n        this.showEmptyMessage();\n        return this;\n    }\n}\n\n\n//# sourceURL=webpack:///./app/chat/SubjectList.ts?");
+
+/***/ }),
+
+/***/ "./app/chat/SubjectListItem.ts":
+/*!*************************************!*\
+  !*** ./app/chat/SubjectListItem.ts ***!
+  \*************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ SubjectListItem)\n/* harmony export */ });\n/* harmony import */ var common_dapp_module__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! common-dapp-module */ \"../common-dapp-module/lib/index.js\");\n\nclass SubjectListItem extends common_dapp_module__WEBPACK_IMPORTED_MODULE_0__.DomNode {\n    constructor(subjectDetails) {\n        super(\".subject-list-item\");\n    }\n}\n\n\n//# sourceURL=webpack:///./app/chat/SubjectListItem.ts?");
 
 /***/ }),
 

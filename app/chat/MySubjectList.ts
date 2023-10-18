@@ -4,8 +4,4 @@ export default class MySubjectList extends SubjectList {
   constructor() {
     super(".my-subject-list", "No my subjects yet.");
   }
-
-  protected fetchContent(): void {
-    //TODO:
-  }
 }
