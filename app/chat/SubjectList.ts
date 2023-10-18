@@ -1,7 +1,7 @@
 import { DomNode } from "common-dapp-module";
 
-export default class SubjectList extends DomNode {
-  constructor() {
-    super(".subject-list");
+export default abstract class SubjectList extends DomNode {
+  constructor(tag: string) {
+    super(tag + ".subject-list");
   }
 }
