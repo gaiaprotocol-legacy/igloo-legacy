@@ -22,8 +22,13 @@ export default class ChatsView extends View {
     this.container.empty().append(el("h1", "Chats"));
     if (!SignedUserManager.signed) {
       this.container.append(new LoginRequired());
+    } else {
+      //TODO:
+      // general
+      // me
+      // holding
+      // following
     }
-    //TODO:
   }
 
   public close(): void {
