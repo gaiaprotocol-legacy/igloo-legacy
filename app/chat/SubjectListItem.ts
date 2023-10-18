@@ -3,6 +3,6 @@ import SubjectDetails from "../database-interface/SubjectDetails.js";
 
 export default class SubjectListItem extends DomNode {
   constructor(subjectDetails: SubjectDetails) {
-    super(".subject-list-item");
+    super(".subject-chat-room-list-item");
   }
 }

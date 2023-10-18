@@ -3,7 +3,7 @@ import Layout from "../layout/Layout.js";
 import LoginRequired from "../user/LoginRequired.js";
 import SignedUserManager from "../user/SignedUserManager.js";
 import FollowingSubjectList from "./FollowingSubjectList.js";
-import GeneralSubjectList from "./GeneralSubjectList.js";
+import GeneralTopicList from "./GeneralTopicList.js";
 import HoldingSubjectList from "./HoldingSubjectList.js";
 import MySubjectList from "./MySubjectList.js";
 
@@ -30,7 +30,7 @@ export default class ChatsView extends View {
       this.container.append(
         el(
           "main",
-          el("section.chat", el("h2", "General"), new GeneralSubjectList()),
+          el("section.chat", el("h2", "General"), new GeneralTopicList()),
           el("section.chat", el("h2", "My"), new MySubjectList()),
           el("section.chat", el("h2", "Holding"), new HoldingSubjectList()),
           el("section.chat", el("h2", "Following"), new FollowingSubjectList()),

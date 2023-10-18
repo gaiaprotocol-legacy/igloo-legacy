@@ -6,7 +6,7 @@ export default abstract class SubjectList extends DomNode {
   private emptyMessageDisplay: DomNode | undefined;
 
   constructor(tag: string, private emptyMessage: string) {
-    super(tag + ".subject-list");
+    super(tag + ".subject-chat-room-list");
     this.showEmptyMessage();
   }
 
