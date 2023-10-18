@@ -28,10 +28,13 @@ export default class ChatsView extends View {
       this.container.append(new LoginRequired());
     } else {
       this.container.append(
-        el("section.chat", el("h2", "General"), new GeneralSubjectList()),
-        el("section.chat", el("h2", "My"), new MySubjectList()),
-        el("section.chat", el("h2", "Holding"), new HoldingSubjectList()),
-        el("section.chat", el("h2", "Following"), new FollowingSubjectList()),
+        el(
+          "main",
+          el("section.chat", el("h2", "General"), new GeneralSubjectList()),
+          el("section.chat", el("h2", "My"), new MySubjectList()),
+          el("section.chat", el("h2", "Holding"), new HoldingSubjectList()),
+          el("section.chat", el("h2", "Following"), new FollowingSubjectList()),
+        ),
       );
     }
   }
