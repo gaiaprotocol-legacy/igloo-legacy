@@ -57,9 +57,9 @@ export default class SettingsView extends View {
             )
             : el(
               "section.login",
-              el("h2", "Log In"),
-              el("p", "You can log in to this device."),
-              el("button", "Log In", {
+              el("h2", "Login"),
+              el("p", "You can login to this device."),
+              el("button", "Login with 𝕏", {
                 click: () => SignedUserManager.signIn(),
               }),
             ),
