@@ -9,7 +9,7 @@ export default class UserPostList extends PostList {
   private isContentFromCache: boolean = true;
 
   constructor(private userId: string) {
-    super(".user-post-list");
+    super(".user-post-list", "No posts from this user yet");
 
     const cachedPosts = this.store.get<Post[]>(`user-${userId}-cached-posts`);
     if (cachedPosts) {

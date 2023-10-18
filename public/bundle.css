@@ -726,9 +726,6 @@ button.component.text:active {
 .home-view > button.post:active {
   background-color: #3770ff;
 }
-.home-view > button.post.hidden {
-  display: none;
-}
 .post-view {
   padding: 21px 30px 31px 30px;
 }
@@ -804,6 +801,7 @@ button.component.text:active {
   border-radius: 42px;
   border: 1px solid #FFF;
   background: lightgray 50% / cover no-repeat;
+  cursor: pointer;
 }
 .post-view > main > header > .author {
   display: flex;
@@ -818,6 +816,7 @@ button.component.text:active {
   font-style: normal;
   font-weight: 700;
   line-height: normal;
+  cursor: pointer;
 }
 .post-view > main > header > .author > .x-username {
   font-feature-settings: 'clig' off, 'liga' off;
@@ -826,6 +825,7 @@ button.component.text:active {
   font-style: normal;
   font-weight: 500;
   color: #a1a2ac;
+  cursor: pointer;
 }
 .post-view > main > header > button.owner-menu {
   margin-top: -4px;
@@ -982,6 +982,11 @@ button.component.text:active {
   display: flex;
   flex-direction: column;
   gap: 20px;
+}
+.post-list > .empty-message {
+  text-align: center;
+  color: #a1a2ac;
+  padding: 20px 0;
 }
 .post-list.hidden {
   display: none;

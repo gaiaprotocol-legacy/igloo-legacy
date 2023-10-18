@@ -3,6 +3,7 @@ import Post, { PostTarget } from "../database-interface/Post.js";
 
 class PostService {
   private static readonly LIMIT = 50;
+  private static readonly FETCH_FOLLOWEES_LIMIT = 5000;
 
   public async post(target: PostTarget, message: string) {
     const { data, error } = await Supabase.client.from("posts").insert({
@@ -39,6 +40,34 @@ class PostService {
     const { data, error } = await Supabase.client.from("posts").select().eq(
       "author",
       userId,
+    ).lt(
+      "id",
+      lastFetchedPostId ?? Number.MAX_SAFE_INTEGER,
+    ).order(
+      "created_at",
+      { ascending: false },
+    ).limit(PostService.LIMIT);
+    if (error) throw error;
+    return data;
+  }
+
+  public async fetchFollowingPosts(
+    userId: string,
+    lastFetchedPostId?: number,
+  ): Promise<Post[]> {
+    const { data: followsData, error: followsError } = await Supabase.client
+      .from("follows").select().eq(
+        "follower_id",
+        userId,
+      ).order(
+        "followed_at",
+        { ascending: false },
+      ).limit(PostService.FETCH_FOLLOWEES_LIMIT);
+    if (followsError) throw followsError;
+    const followeeIds = followsData.map((follow) => follow.followee_id);
+    const { data, error } = await Supabase.client.from("posts").select().in(
+      "author",
+      followeeIds,
     ).lt(
       "id",
       lastFetchedPostId ?? Number.MAX_SAFE_INTEGER,

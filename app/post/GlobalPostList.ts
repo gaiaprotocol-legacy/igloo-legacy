@@ -9,7 +9,7 @@ export default class GlobalPostList extends PostList {
   private isContentFromCache: boolean = true;
 
   constructor() {
-    super(".global-post-list");
+    super(".global-post-list", "No posts yet");
 
     const cachedPosts = this.store.get<Post[]>("cached-posts");
     if (cachedPosts) {
