@@ -218,15 +218,17 @@ export default class UserProfileDisplay extends DomNode {
     });
 
     if (userDetails.wallet_address && this.holdingsDisplay) {
-      this.holdingsDisplay.text = TotalSubjectKeyBalanceCacher.getAndRefresh(
-        userDetails.wallet_address,
+      this.holdingsDisplay.text = String(
+        TotalSubjectKeyBalanceCacher.getAndRefresh(
+          userDetails.wallet_address,
+        ),
       );
       this.onDelegate(
         TotalSubjectKeyBalanceCacher,
         "update",
         ({ walletAddress, totalKeyBalance }) => {
           if (walletAddress === userDetails.wallet_address) {
-            this.holdingsDisplay!.text = totalKeyBalance;
+            this.holdingsDisplay!.text = String(totalKeyBalance);
           }
         },
       );

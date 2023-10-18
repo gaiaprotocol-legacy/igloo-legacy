@@ -24,19 +24,19 @@ class SubjectKeyBalanceCacher extends EventContainer {
     ).subscribe();
   }
 
-  private cache(subject: string, walletAddress: string, balance: string) {
+  private cache(subject: string, walletAddress: string, balance: number) {
     if (balance !== this.get(subject, walletAddress)) {
       this.store.set(`${subject}-${walletAddress}`, balance, true);
       this.fireEvent("update", { subject, walletAddress, balance });
     }
   }
 
-  public get(subject: string, walletAddress: string): string {
-    const cached = this.store.get<string>(`${subject}-${walletAddress}`);
+  public get(subject: string, walletAddress: string): number {
+    const cached = this.store.get<number>(`${subject}-${walletAddress}`);
     if (cached) {
       return cached;
     } else {
-      return "0";
+      return 0;
     }
   }
 
@@ -57,7 +57,7 @@ class SubjectKeyBalanceCacher extends EventContainer {
     }
   }
 
-  public getAndRefresh(subject: string, walletAddress: string): string {
+  public getAndRefresh(subject: string, walletAddress: string): number {
     const cachedValue = this.get(subject, walletAddress);
     this.refresh(subject, walletAddress).catch((error) =>
       console.error("Error refreshing subject key balance details:", error)
@@ -67,7 +67,7 @@ class SubjectKeyBalanceCacher extends EventContainer {
 
   public increaseKeyBalanceInstantly(walletAddress: string, subject: string) {
     const cachedValue = this.get(subject, walletAddress);
-    this.cache(subject, walletAddress, (BigInt(cachedValue) + 1n).toString());
+    this.cache(subject, walletAddress, cachedValue + 1);
   }
 }
 

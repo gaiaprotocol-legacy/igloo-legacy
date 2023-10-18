@@ -14,8 +14,10 @@ import SubjectDetailsCacher from "../subject/SubjectDetailsCacher.js";
 import FollowerList from "./FollowerList.js";
 import FollowingList from "./FollowingList.js";
 import HolderList from "./HolderList.js";
+import HoldingList from "./HoldingList.js";
 import UserDetailsCacher from "./UserDetailsCacher.js";
 import UserProfileDisplay from "./UserProfileDisplay.js";
+import TotalSubjectKeyBalanceCacher from "../subject/TotalSubjectKeyBalanceCacher.js";
 
 export default class UserView extends View {
   private container: DomNode;
@@ -23,10 +25,12 @@ export default class UserView extends View {
   private xUsername!: string;
   private userDetails: UserDetails | undefined;
   private subjectDetails: SubjectDetails | undefined;
+  private holdingCount = 0;
 
+  private holdingList!: HoldingList;
   private holderList!: HolderList;
-  private followerList!: FollowerList;
   private followingList!: FollowingList;
+  private followerList!: FollowerList;
 
   constructor(params: ViewParams) {
     super();
@@ -45,6 +49,11 @@ export default class UserView extends View {
         this.userDetails.wallet_address,
       )
       : undefined;
+    this.holdingCount = this.userDetails?.wallet_address
+      ? TotalSubjectKeyBalanceCacher.getAndRefresh(
+        this.userDetails.wallet_address,
+      )
+      : 0;
 
     this.render();
     this.container.onDelegate(
@@ -117,9 +126,10 @@ export default class UserView extends View {
                 return tabs;
               })(),
             ),
+            this.holdingList = new HoldingList(this.userDetails.user_id),
             this.holderList = new HolderList(this.userDetails.user_id),
-            this.followerList = new FollowerList(this.userDetails.user_id),
             this.followingList = new FollowingList(this.userDetails.user_id),
+            this.followerList = new FollowerList(this.userDetails.user_id),
           ),
         ),
         new UserPostList(this.userDetails.user_id).show(),

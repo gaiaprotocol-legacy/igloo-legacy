@@ -24,19 +24,19 @@ class TotalSubjectKeyBalanceCacher extends EventContainer {
     ).subscribe();
   }
 
-  private cache(walletAddress: string, totalKeyBalance: string) {
+  private cache(walletAddress: string, totalKeyBalance: number) {
     if (totalKeyBalance !== this.get(walletAddress)) {
       this.store.set(walletAddress, totalKeyBalance, true);
       this.fireEvent("update", { walletAddress, totalKeyBalance });
     }
   }
 
-  public get(walletAddress: string): string {
-    const cached = this.store.get<string>(walletAddress);
+  public get(walletAddress: string): number {
+    const cached = this.store.get<number>(walletAddress);
     if (cached) {
       return cached;
     } else {
-      return "0";
+      return 0;
     }
   }
 
@@ -57,7 +57,7 @@ class TotalSubjectKeyBalanceCacher extends EventContainer {
     }
   }
 
-  public getAndRefresh(walletAddress: string): string {
+  public getAndRefresh(walletAddress: string): number {
     const cachedValue = this.get(walletAddress);
     this.refresh(walletAddress).catch((error) =>
       console.error(
