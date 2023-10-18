@@ -411,16 +411,19 @@ button.component.text:active {
 .layout > main {
   flex-grow: 1;
 }
-.layout > .trend-section {
+.layout > .trend-section,
+.layout > .top-user-section {
   width: 360px;
   flex-shrink: 0;
 }
 @media only screen and (max-width: 859px) {
-  .layout > .trend-section {
+  .layout > .trend-section,
+  .layout > .top-user-section {
     display: none;
   }
 }
-.layout > .trend-section.hidden {
+.layout > .trend-section.hidden,
+.layout > .top-user-section.hidden {
   display: none;
 }
 .nav-bar {
@@ -656,6 +659,10 @@ button.component.text:active {
   background: #EBEFF3;
   box-shadow: 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
   padding: 30px;
+}
+.top-user-section {
+  padding-top: 21px;
+  padding-right: 21px;
 }
 .home-view {
   position: relative;
