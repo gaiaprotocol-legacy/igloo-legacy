@@ -15,8 +15,8 @@ export default class NavBar extends DomNode {
       el("button.home", new MaterialIcon("home"), {
         click: () => Router.go("/"),
       }),
-      el("button.inbox", new MaterialIcon("inbox"), {
-        click: () => Router.go("/inbox"),
+      el("button.chats", new MaterialIcon("chat"), {
+        click: () => Router.go("/chats"),
       }),
       el("button.explore", new MaterialIcon("search"), {
         click: () => Router.go("/explore"),

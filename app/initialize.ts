@@ -6,7 +6,7 @@ import IglooSubjectContract from "./contracts/IglooSubjectContract.js";
 import EnvironmentManager from "./EnvironmentManager.js";
 import ExploreView from "./explore/ExploreView.js";
 import HomeView from "./HomeView.js";
-import InboxView from "./inbox/InboxView.js";
+import ChatsView from "./chat/ChatsView.js";
 import Layout from "./layout/Layout.js";
 import NotificationsView from "./notification/NotificationsView.js";
 import PostCacher from "./post/PostCacher.js";
@@ -55,14 +55,14 @@ export default async function initialize(config: Config) {
 
   Router.route("**", Layout);
   Router.route("", HomeView);
-  Router.route("inbox", InboxView);
+  Router.route("chats", ChatsView);
   Router.route("explore", ExploreView);
   Router.route("notifications", NotificationsView);
   Router.route("settings", SettingsView);
   Router.route("post/{postId}", PostView);
 
   Router.route("{xUsername}", UserView, [
-    "inbox",
+    "chats",
     "explore",
     "notifications",
     "settings",

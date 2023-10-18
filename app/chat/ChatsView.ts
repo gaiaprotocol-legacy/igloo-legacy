@@ -3,12 +3,12 @@ import Layout from "../layout/Layout.js";
 import LoginRequired from "../user/LoginRequired.js";
 import SignedUserManager from "../user/SignedUserManager.js";
 
-export default class InboxView extends View {
+export default class ChatsView extends View {
   private container: DomNode;
 
   constructor(params: ViewParams) {
     super();
-    Layout.append(this.container = el(".inbox-view"));
+    Layout.append(this.container = el(".chats-view"));
 
     this.render();
     this.container.onDelegate(
@@ -19,7 +19,7 @@ export default class InboxView extends View {
   }
 
   private render() {
-    this.container.empty().append(el("h1", "Inbox"));
+    this.container.empty().append(el("h1", "Chats"));
     if (!SignedUserManager.signed) {
       this.container.append(new LoginRequired());
     }

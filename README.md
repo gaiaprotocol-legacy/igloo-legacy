@@ -2,7 +2,7 @@
 Top bar: Profile - Feed, Activities, Trades / Buttons: Chat, Holders, Holding
 
 - Home - Global Posts, Following Posts, Holding Key Posts
-- Inbox - Chat Rooms
+- Chats - Chat Rooms
 - Search - Trending, Top, New, Activity
 - Notifications
 
@@ -10,7 +10,7 @@ Top bar: Profile - Feed, Activities, Trades / Buttons: Chat, Holders, Holding
 
 - Home
 - Topics (#)
-- Inbox (Balloon)
+- Chats (Balloon)
 - Search
 - Notifications
 
@@ -18,7 +18,7 @@ Top bar: Profile - Feed, Activities, Trades / Buttons: Chat, Holders, Holding
 
 - Home
 - Topics (#)
-- Chat (Balloon)
-- Group Chat (Balloons)
+- Chats (Balloon)
+- Group Chats (Balloons)
 - Search
 - Notifications

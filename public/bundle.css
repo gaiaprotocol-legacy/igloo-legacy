@@ -1086,15 +1086,15 @@ button.component.text:active {
 .post-list-item.owned > main > header > button.owner-menu {
   display: flex;
 }
-.inbox-view {
+.chats-view {
   padding: 31px 30px;
 }
 @media only screen and (max-width: 859px) {
-  .inbox-view {
+  .chats-view {
     padding: 20px;
   }
 }
-.inbox-view > h1 {
+.chats-view > h1 {
   color: #2A2A2A;
   font-feature-settings: 'clig' off, 'liga' off;
   font-family: Quicksand;
@@ -1106,7 +1106,7 @@ button.component.text:active {
   margin-bottom: 40px;
 }
 @media only screen and (max-width: 859px) {
-  .inbox-view > h1 {
+  .chats-view > h1 {
     display: none;
   }
 }
