@@ -1,3 +1,6 @@
+/*!**********************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[1].use[1]!./public/style/lib/reset.css ***!
+  \**********************************************************************************************************/
 /***
     The new CSS reset - version 1.8.4 (last updated 14.2.2023)
     GitHub page: https://github.com/elad2412/the-new-css-reset
@@ -98,6 +101,9 @@ meter {
 :where(dialog:modal) {
     all: revert;
 }
+/*!*********************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[1].use[1]!./node_modules/less-loader/dist/cjs.js!./public/style/main.less ***!
+  \*********************************************************************************************************************************************/
 @font-face {
   font-family: 'Quicksand';
   font-style: normal;
@@ -768,6 +774,94 @@ button.component.text:active {
   font-weight: 700;
   line-height: normal;
   text-transform: capitalize;
+}
+.post-view > main {
+  border-radius: 16px;
+  background: #EBEFF3;
+  box-shadow: 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
+  padding: 20px;
+}
+.post-view > main > .empty-message {
+  text-align: center;
+  color: #a1a2ac;
+  padding: 20px 0;
+}
+.post-view > main > header {
+  display: flex;
+  gap: 20px;
+}
+@media only screen and (max-width: 859px) {
+  .post-view > main > header {
+    gap: 12px;
+  }
+}
+.post-view > main > header > .author-profile-image {
+  margin-top: 1px;
+  display: flex;
+  width: 42px;
+  height: 42px;
+  flex-shrink: 0;
+  border-radius: 42px;
+  border: 1px solid #FFF;
+  background: lightgray 50% / cover no-repeat;
+}
+.post-view > main > header > .author {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.post-view > main > header > .author > .name {
+  color: #2A2A2A;
+  font-feature-settings: 'clig' off, 'liga' off;
+  font-family: Quicksand;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+.post-view > main > header > .author > .x-username {
+  font-feature-settings: 'clig' off, 'liga' off;
+  font-family: Quicksand;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  color: #a1a2ac;
+}
+.post-view > main > header > button.owner-menu {
+  margin-top: -4px;
+  margin-right: -4px;
+  margin-left: auto;
+  width: 43.5px;
+  height: 43.5px;
+  flex-shrink: 0;
+  border-radius: 16px;
+  color: #2B2B2B;
+  cursor: pointer;
+  display: none;
+  justify-content: center;
+  align-items: center;
+}
+.post-view > main > header > button.owner-menu:active {
+  outline: 1px solid #F4F7F9;
+  background: #EBEFF3;
+  box-shadow: 4px 4px 8px 0px rgba(255, 255, 255, 0.75), 2px 2px 8px 0px rgba(189, 194, 199, 0.75) inset;
+}
+.post-view > main > p {
+  margin-top: 20px;
+  color: #2A2A2A;
+  font-feature-settings: 'clig' off, 'liga' off;
+  font-family: Quicksand;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+}
+@media only screen and (max-width: 859px) {
+  .post-view > main > p {
+    font-size: 14px;
+  }
+}
+.post-view.owned > main > header > button.owner-menu {
+  display: flex;
 }
 .post-popup {
   max-width: 600px !important;

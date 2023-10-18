@@ -1,8 +1,8 @@
 import { EventContainer, Store, Supabase } from "common-dapp-module";
 import UserDetails, {
   DefaultUserDetails,
-  UserDetailsSelectQuery,
   isEqualUserDetails,
+  UserDetailsSelectQuery,
 } from "../database-interface/UserDetails.js";
 
 class UserDetailsCacher extends EventContainer {
@@ -53,11 +53,11 @@ class UserDetailsCacher extends EventContainer {
   }
 
   public getAndRefresh(userId: string): UserDetails {
-    const cachedValue = this.get(userId);
+    const cached = this.get(userId);
     this.refresh(userId).catch((error) =>
       console.error("Error refreshing user details:", error)
     );
-    return cachedValue;
+    return cached;
   }
 
   public getByXUsername(xUsername: string) {

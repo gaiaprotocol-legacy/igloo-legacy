@@ -52,6 +52,14 @@ class PostCacher extends EventContainer {
     this.cache(id, post);
   }
 
+  public getAndRefresh(id: number): Post | undefined {
+    const cached = this.get(id);
+    this.refresh(id).catch((error) =>
+      console.error("Error refreshing post:", error)
+    );
+    return cached;
+  }
+
   public cachePosts(posts: Post[]) {
     for (const post of posts) {
       this.cache(post.id, post);

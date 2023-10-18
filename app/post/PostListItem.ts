@@ -76,7 +76,7 @@ export default class PostListItem extends DomNode {
             },
           }),
         ),
-        el("p", this.post.message),
+        el("p.message", this.post.message),
       ),
     );
   }
