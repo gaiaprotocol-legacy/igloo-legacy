@@ -10,18 +10,17 @@ import { ethers } from "ethers";
 import SubjectDetails from "../database-interface/SubjectDetails.js";
 import UserDetails from "../database-interface/UserDetails.js";
 import BuySubjectKeyPopup from "../subject/BuySubjectKeyPopup.js";
-import TotalSubjectKeyBalanceCacher from "../subject/TotalSubjectKeyBalanceCacher.js";
 import FollowManager from "./FollowManager.js";
 import SignedUserManager from "./SignedUserManager.js";
 
 export default class UserProfileDisplay extends DomNode {
   private settingsButton: DomNode;
   private followButton: DomNode;
-  private holdingsDisplay: DomNode | undefined;
 
   constructor(
     private userDetails: UserDetails,
     subjectDetails: SubjectDetails | undefined,
+    holdingCount: number,
   ) {
     super(".user-profile-display");
     this.append(
@@ -93,17 +92,6 @@ export default class UserProfileDisplay extends DomNode {
             ),
           ),
         ),
-        userDetails.wallet_address
-          ? el(
-            "section.holdings",
-            el(".icon-container", new MaterialIcon("account_balance_wallet")),
-            el(
-              ".metric",
-              el("h3", "Holdings"),
-              this.holdingsDisplay = el(".value"),
-            ),
-          )
-          : undefined,
         el(
           "section.price",
           el(".icon-container", new MaterialIcon("sell")),
@@ -171,23 +159,33 @@ export default class UserProfileDisplay extends DomNode {
       ),
       el(
         ".social-metrics",
-        subjectDetails
-          ? el(
-            "section.holders",
+        el(
+          "section.holdings",
+          el(
+            "a",
+            el("span.value", String(holdingCount)),
+            el("span", "Holdings"),
+            { click: () => Router.go(`/${userDetails.x_username}/holdings`) },
+          ),
+        ),
+        el(
+          "section.holders",
+          el(
+            "a",
             el(
-              "a",
-              el("span.value", String(subjectDetails.key_holder_count)),
-              el("span", " Holders"),
-              { click: () => Router.go(`/${userDetails.x_username}/holders`) },
+              "span.value",
+              subjectDetails ? String(subjectDetails.key_holder_count) : "0",
             ),
-          )
-          : undefined,
+            el("span", "Holders"),
+            { click: () => Router.go(`/${userDetails.x_username}/holders`) },
+          ),
+        ),
         el(
           "section.following",
           el(
             "a",
             el("span.value", String(userDetails.following_count)),
-            el("span", " Following"),
+            el("span", "Following"),
             { click: () => Router.go(`/${userDetails.x_username}/following`) },
           ),
         ),
@@ -196,7 +194,7 @@ export default class UserProfileDisplay extends DomNode {
           el(
             "a",
             el("span.value", String(userDetails.follower_count)),
-            el("span", " Followers"),
+            el("span", "Followers"),
             { click: () => Router.go(`/${userDetails.x_username}/followers`) },
           ),
         ),
@@ -216,23 +214,6 @@ export default class UserProfileDisplay extends DomNode {
         this.checkFollowing();
       }
     });
-
-    if (userDetails.wallet_address && this.holdingsDisplay) {
-      this.holdingsDisplay.text = String(
-        TotalSubjectKeyBalanceCacher.getAndRefresh(
-          userDetails.wallet_address,
-        ),
-      );
-      this.onDelegate(
-        TotalSubjectKeyBalanceCacher,
-        "update",
-        ({ walletAddress, totalKeyBalance }) => {
-          if (walletAddress === userDetails.wallet_address) {
-            this.holdingsDisplay!.text = String(totalKeyBalance);
-          }
-        },
-      );
-    }
   }
 
   private checkSignedUser() {

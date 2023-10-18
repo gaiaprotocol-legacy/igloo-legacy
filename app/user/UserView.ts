@@ -11,13 +11,13 @@ import UserDetails from "../database-interface/UserDetails.js";
 import Layout from "../layout/Layout.js";
 import UserPostList from "../post/UserPostList.js";
 import SubjectDetailsCacher from "../subject/SubjectDetailsCacher.js";
+import TotalSubjectKeyBalanceCacher from "../subject/TotalSubjectKeyBalanceCacher.js";
 import FollowerList from "./FollowerList.js";
 import FollowingList from "./FollowingList.js";
 import HolderList from "./HolderList.js";
 import HoldingList from "./HoldingList.js";
 import UserDetailsCacher from "./UserDetailsCacher.js";
 import UserProfileDisplay from "./UserProfileDisplay.js";
-import TotalSubjectKeyBalanceCacher from "../subject/TotalSubjectKeyBalanceCacher.js";
 
 export default class UserView extends View {
   private container: DomNode;
@@ -76,6 +76,16 @@ export default class UserView extends View {
         }
       },
     );
+    this.container.onDelegate(
+      TotalSubjectKeyBalanceCacher,
+      "update",
+      ({ walletAddress, totalKeyBalance }) => {
+        if (walletAddress === this.userDetails?.wallet_address) {
+          this.holdingCount = totalKeyBalance;
+          this.render();
+        }
+      },
+    );
   }
 
   private render() {
@@ -102,29 +112,45 @@ export default class UserView extends View {
         ),
         el(
           "section.profile",
-          new UserProfileDisplay(this.userDetails, this.subjectDetails),
+          new UserProfileDisplay(
+            this.userDetails,
+            this.subjectDetails,
+            this.holdingCount,
+          ),
           el(
             ".user-connections",
             this.tabs = new Tabs(
               "user-connections",
-              (() => {
-                const tabs: { id: string; label: string }[] = [];
-                if (this.subjectDetails) {
-                  tabs.push({
-                    id: "holders",
-                    label: this.subjectDetails.key_holder_count + " Holders",
-                  });
-                }
-                tabs.push({
-                  id: "followers",
-                  label: this.userDetails.follower_count + " Followers",
-                });
-                tabs.push({
-                  id: "following",
-                  label: this.userDetails.following_count + " Following",
-                });
-                return tabs;
-              })(),
+              [{
+                id: "holdings",
+                label: [
+                  el("span.value", String(this.holdingCount)),
+                  "Holdings",
+                ],
+              }, {
+                id: "holders",
+                label: [
+                  el(
+                    "span.value",
+                    this.subjectDetails
+                      ? String(this.subjectDetails.key_holder_count)
+                      : "0",
+                  ),
+                  "Holders",
+                ],
+              }, {
+                id: "following",
+                label: [
+                  el("span.value", String(this.userDetails.following_count)),
+                  "Following",
+                ],
+              }, {
+                id: "followers",
+                label: [
+                  el("span.value", String(this.userDetails.follower_count)),
+                  "Followers",
+                ],
+              }],
             ),
             this.holdingList = new HoldingList(this.userDetails.user_id),
             this.holderList = new HolderList(this.userDetails.user_id),
@@ -136,14 +162,21 @@ export default class UserView extends View {
       );
 
       this.tabs.on("select", (id: string) => {
-        [this.holderList, this.followerList, this.followingList]
+        [
+          this.holdingList,
+          this.holderList,
+          this.followingList,
+          this.followerList,
+        ]
           .forEach((list) => list.hide());
-        if (id === "holders") {
+        if (id === "holdings") {
+          this.holdingList.show();
+        } else if (id === "holders") {
           this.holderList.show();
-        } else if (id === "followers") {
-          this.followerList.show();
         } else if (id === "following") {
           this.followingList.show();
+        } else if (id === "followers") {
+          this.followerList.show();
         }
       }).init();
     }
