@@ -2,6 +2,10 @@ import { DomNode, el, View, ViewParams } from "common-dapp-module";
 import Layout from "../layout/Layout.js";
 import LoginRequired from "../user/LoginRequired.js";
 import SignedUserManager from "../user/SignedUserManager.js";
+import FollowingSubjectList from "./FollowingSubjectList.js";
+import GeneralSubjectList from "./GeneralSubjectList.js";
+import HoldingSubjectList from "./HoldingSubjectList.js";
+import MySubjectList from "./MySubjectList.js";
 
 export default class ChatsView extends View {
   private container: DomNode;
@@ -23,11 +27,12 @@ export default class ChatsView extends View {
     if (!SignedUserManager.signed) {
       this.container.append(new LoginRequired());
     } else {
-      //TODO:
-      // general
-      // me
-      // holding
-      // following
+      this.container.append(
+        el("section.chat", el("h2", "General"), new GeneralSubjectList()),
+        el("section.chat", el("h2", "My"), new MySubjectList()),
+        el("section.chat", el("h2", "Holding"), new HoldingSubjectList()),
+        el("section.chat", el("h2", "Following"), new FollowingSubjectList()),
+      );
     }
   }
 
