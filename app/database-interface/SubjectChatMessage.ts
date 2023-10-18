@@ -1,4 +1,4 @@
-import ChatMessage from "./ChatMessag.js";
+import ChatMessage from "./ChatMessage.js";
 
 export default interface SubjectChatMessage extends ChatMessage {
   subject: string;

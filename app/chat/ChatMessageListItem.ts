@@ -1,7 +1,8 @@
 import { DomNode } from "common-dapp-module";
+import ChatMessage from "../database-interface/ChatMessage.js";
 
 export default class ChatMessageListItem extends DomNode {
-  constructor() {
+  constructor(message: ChatMessage) {
     super(".chat-message-list-item");
   }
 }
