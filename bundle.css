@@ -405,16 +405,19 @@ button.component.text:active {
 .layout > main {
   flex-grow: 1;
 }
-.layout > .trend-section {
+.layout > .trend-section,
+.layout > .top-user-section {
   width: 360px;
   flex-shrink: 0;
 }
 @media only screen and (max-width: 859px) {
-  .layout > .trend-section {
+  .layout > .trend-section,
+  .layout > .top-user-section {
     display: none;
   }
 }
-.layout > .trend-section.hidden {
+.layout > .trend-section.hidden,
+.layout > .top-user-section.hidden {
   display: none;
 }
 .nav-bar {
@@ -650,6 +653,10 @@ button.component.text:active {
   background: #EBEFF3;
   box-shadow: 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
   padding: 30px;
+}
+.top-user-section {
+  padding-top: 21px;
+  padding-right: 21px;
 }
 .home-view {
   position: relative;
@@ -1080,15 +1087,15 @@ button.component.text:active {
 .post-list-item.owned > main > header > button.owner-menu {
   display: flex;
 }
-.inbox-view {
+.chats-view {
   padding: 31px 30px;
 }
 @media only screen and (max-width: 859px) {
-  .inbox-view {
+  .chats-view {
     padding: 20px;
   }
 }
-.inbox-view > h1 {
+.chats-view > h1 {
   color: #2A2A2A;
   font-feature-settings: 'clig' off, 'liga' off;
   font-family: Quicksand;
@@ -1100,9 +1107,33 @@ button.component.text:active {
   margin-bottom: 40px;
 }
 @media only screen and (max-width: 859px) {
-  .inbox-view > h1 {
+  .chats-view > h1 {
     display: none;
   }
+}
+.chats-view > main {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.chats-view > main > section.chat {
+  display: flex;
+  flex-direction: column;
+  border-radius: 16px;
+  background: #EBEFF3;
+  box-shadow: 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
+  padding: 20px;
+  gap: 20px;
+}
+.chats-view > main > section.chat > h2 {
+  color: #2A2A2A;
+  font-feature-settings: 'clig' off, 'liga' off;
+  font-family: Quicksand;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  text-transform: capitalize;
 }
 .explore-view {
   padding: 31px 30px;
@@ -1356,10 +1387,13 @@ button.component.text:active {
 }
 .user-view > section.profile > .user-connections > .user-list {
   flex-grow: 1;
-  max-height: 471.5px;
+  height: 423.5px;
   overflow-y: auto;
-  padding: 15px;
-  margin: -15px;
+  border-radius: 16px;
+  background: #EBEFF3;
+  box-shadow: 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
+  padding: 20px;
+  gap: 20px;
 }
 .user-view > .post-list {
   margin-top: 20px;
@@ -1825,6 +1859,54 @@ button.component.text:active {
 .switch-to-avax-popup > main > .banner {
   border-radius: 16px;
   box-shadow: 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
+}
+.login-required {
+  border-radius: 16px;
+  background: #EBEFF3;
+  box-shadow: 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
+  padding: 20px 30px;
+}
+.login-required > p {
+  margin-top: 4px;
+  color: #2A2A2A;
+  font-feature-settings: 'clig' off, 'liga' off;
+  font-family: Quicksand;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  text-transform: capitalize;
+}
+.login-required > p.linked {
+  text-transform: capitalize;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+.login-required > button {
+  margin-top: 12px;
+  border-radius: 16px;
+  background: #5585FF;
+  box-shadow: 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25), 4px 4px 8px 0px rgba(255, 255, 255, 0.75) inset, 8px 8px 12px 0px rgba(255, 255, 255, 0.25) inset, -4px -4px 8px 0px rgba(31, 94, 255, 0.75) inset, -8px -8px 12px 0px rgba(31, 94, 255, 0.25) inset;
+  display: flex;
+  justify-content: center;
+  padding: 5px 20px;
+  cursor: pointer;
+  color: #FFF;
+  font-feature-settings: 'clig' off, 'liga' off;
+  font-family: Quicksand;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 22px;
+  text-transform: capitalize;
+}
+.login-required > button:active {
+  outline: 1px solid #5585FF;
+  box-shadow: 4px 4px 8px 0px rgba(255, 255, 255, 0.75), 2px 2px 8px 0px rgba(31, 94, 255, 0.75) inset;
+}
+.subject-list > .empty-message {
+  color: #a1a2ac;
 }
 .buy-subject-key-popup {
   max-width: 420px !important;
