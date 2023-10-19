@@ -1,4 +1,4 @@
-import { el, MaterialIcon } from "common-dapp-module";
+import { el, MaterialIcon, Router } from "common-dapp-module";
 import ChatRoomHeader from "../chat/ChatRoomHeader.js";
 import SubjectDetails from "../database-interface/SubjectDetails.js";
 import UserDetails from "../database-interface/UserDetails.js";
@@ -38,7 +38,24 @@ export default class SubjectChatRoomHeader extends ChatRoomHeader {
 
   private render() {
     this.empty().append(
-      el("header"),
+      el(
+        "header",
+        el(".subject-owner-profile-image", {
+          style: { backgroundImage: `url(${this.userDetails.profile_image})` },
+          click: () => Router.go(`/${this.userDetails.x_username}`),
+        }),
+        el(
+          ".subject-owner-info",
+          el(".name", this.userDetails.display_name, {
+            click: () => Router.go(`/${this.userDetails.x_username}`),
+          }),
+          this.userDetails.x_username
+            ? el(".x-username", `@${this.userDetails.x_username}`, {
+              click: () => Router.go(`/${this.userDetails.x_username}`),
+            })
+            : undefined,
+        ),
+      ),
       el(
         "footer",
         el("button.close", new MaterialIcon("close"), {

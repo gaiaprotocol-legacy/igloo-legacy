@@ -39,7 +39,7 @@ export default class ChatsView extends View {
           el("section.chat", el("h2", "General"), new GeneralTopicList()),
           el("section.chat", el("h2", "My"), new MySubjectList()),
           el("section.chat", el("h2", "Holding"), new HoldingSubjectList()),
-          el("section.chat", el("h2", "Following"), new FollowingSubjectList()),
+          //el("section.chat", el("h2", "Following"), new FollowingSubjectList()),
         ),
       );
     }

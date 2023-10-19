@@ -40,11 +40,11 @@ export default class SubjectListItem extends ChatRoomListItem {
 
   private render() {
     this.empty().append(
-      el(".user-profile-image", {
+      el(".subject-owner-profile-image", {
         style: { backgroundImage: `url(${this.userDetails.profile_image})` },
       }),
       el(
-        ".user-info",
+        ".subject-owner-info",
         el(".name", this.userDetails.display_name),
         this.userDetails.x_username
           ? el(".x-username", `@${this.userDetails.x_username}`)
