@@ -1158,16 +1158,18 @@ button.component.text:active {
   border-radius: 16px;
   background: #EBEFF3;
   box-shadow: 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
-  padding: 20px;
   position: absolute;
   left: 510px;
   top: 20px;
   width: calc(100% - 530px);
   height: calc(100% - 40px);
+  display: flex;
+  flex-direction: column;
 }
 @media only screen and (max-width: 859px) {
   .chat-room-view {
     position: fixed;
+    border-radius: 0;
     left: 0;
     top: 0;
     width: 100%;
@@ -1178,6 +1180,25 @@ button.component.text:active {
   .chat-room-view.mobile-hidden {
     display: none;
   }
+}
+.chat-room-view > .chat-message-list {
+  height: 0px;
+  flex-grow: 1;
+  overflow-y: scroll;
+}
+.chat-room-header {
+  border-radius: 16px 16px 0 0;
+  padding: 20px;
+  box-shadow: 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
+  display: flex;
+}
+@media only screen and (max-width: 859px) {
+  .chat-room-header {
+    border-radius: 0;
+  }
+}
+.chat-room-header > header {
+  flex-grow: 1;
 }
 .chat-room-header > footer > button {
   cursor: pointer;
@@ -1190,7 +1211,27 @@ button.component.text:active {
     display: flex;
   }
 }
+.chat-message-form {
+  border-radius: 0 0 16px 16px;
+  padding: 20px;
+  box-shadow: 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
+}
+@media only screen and (max-width: 859px) {
+  .chat-message-form {
+    border-radius: 0;
+  }
+}
 .topic-list-item > h3 {
+  color: #2A2A2A;
+  font-feature-settings: 'clig' off, 'liga' off;
+  font-family: Quicksand;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  text-transform: capitalize;
+}
+.topic-chat-room-header > header > h1 {
   color: #2A2A2A;
   font-feature-settings: 'clig' off, 'liga' off;
   font-family: Quicksand;
