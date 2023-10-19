@@ -57,7 +57,7 @@ export default async function initialize(config: Config) {
 
   Router.route("**", Layout);
   Router.route("", HomeView);
-  Router.route("chats", ChatsView);
+  Router.route(["chats", "chats/{topic}"], ChatsView);
   Router.route("chats/0x{walletAddress}", SubjectChatRoomView);
   Router.route(["chats", "chats/{topic}"], TopicChatRoomView, [
     "chats/0x{walletAddress}",
