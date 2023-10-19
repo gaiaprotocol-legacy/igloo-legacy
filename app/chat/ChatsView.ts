@@ -2,10 +2,10 @@ import { DomNode, el, View, ViewParams } from "common-dapp-module";
 import Layout from "../layout/Layout.js";
 import LoginRequired from "../user/LoginRequired.js";
 import SignedUserManager from "../user/SignedUserManager.js";
-import FollowingSubjectList from "./FollowingSubjectList.js";
-import GeneralTopicList from "./GeneralTopicList.js";
-import HoldingSubjectList from "./HoldingSubjectList.js";
-import MySubjectList from "./MySubjectList.js";
+import FollowingSubjectList from "../chat-subject/FollowingSubjectList.js";
+import GeneralTopicList from "../chat-topic/GeneralTopicList.js";
+import HoldingSubjectList from "../chat-subject/HoldingSubjectList.js";
+import MySubjectList from "../chat-subject/MySubjectList.js";
 
 export default class ChatsView extends View {
   private container: DomNode;

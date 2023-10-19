@@ -3,19 +3,20 @@ import SubjectDetails from "../database-interface/SubjectDetails.js";
 import SubjectDetailsCacher from "../subject/SubjectDetailsCacher.js";
 import SubjectService from "../subject/SubjectService.js";
 import SignedUserManager from "../user/SignedUserManager.js";
-import SubjectList from "../chat-subject/SubjectList.js";
+import SubjectList from "./SubjectList.js";
 
-export default class FollowingSubjectList extends SubjectList {
-  private store: Store = new Store("following-subject-list");
+export default class HoldingSubjectList extends SubjectList {
+  private store: Store = new Store("hoding-subject-list");
 
   constructor() {
-    super(".following-subject-list", "No following subjects yet.");
+    super(".holding-subject-list", "No holding subjects yet.");
     if (
-      SignedUserManager.userId &&
-      SignedUserManager.userId === this.store.get<string>("cached-user-id")
+      SignedUserManager.walletAddress &&
+      SignedUserManager.walletAddress ===
+        this.store.get<string>("cached-wallet-address")
     ) {
       const cached = this.store.get<SubjectDetails[]>(
-        "cached-following-subjects",
+        "cached-holding-subjects",
       );
       if (cached) {
         for (const subjectDetails of cached) {
@@ -27,17 +28,17 @@ export default class FollowingSubjectList extends SubjectList {
   }
 
   private async fetchSubjects() {
-    if (SignedUserManager.userId) {
+    if (SignedUserManager.walletAddress) {
       this.store.set(
-        "cached-user-id",
-        SignedUserManager.userId,
+        "cached-wallet-address",
+        SignedUserManager.walletAddress,
         true,
       );
 
-      const cached = await SubjectService.fetchFollowingSubjects(
-        SignedUserManager.userId,
+      const cached = await SubjectService.fetchHoldingSubjects(
+        SignedUserManager.walletAddress,
       );
-      this.store.set("cached-following-subjects", cached, true);
+      this.store.set("cached-holding-subjects", cached, true);
       SubjectDetailsCacher.cacheMultiple(cached);
 
       await this.fetchUsers(cached);
