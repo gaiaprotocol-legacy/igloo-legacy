@@ -1333,7 +1333,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ SubjectListItem)\n/* harmony export */ });\n/* harmony import */ var _ChatRoomListItem_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ChatRoomListItem.js */ \"./app/chat/ChatRoomListItem.ts\");\n\nclass SubjectListItem extends _ChatRoomListItem_js__WEBPACK_IMPORTED_MODULE_0__[\"default\"] {\n    constructor(subjectDetails) {\n        super(\".subject-list-item\");\n    }\n}\n\n\n//# sourceURL=webpack:///./app/chat/SubjectListItem.ts?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ SubjectListItem)\n/* harmony export */ });\n/* harmony import */ var common_dapp_module__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! common-dapp-module */ \"../common-dapp-module/lib/index.js\");\n/* harmony import */ var _ChatRoomListItem_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ChatRoomListItem.js */ \"./app/chat/ChatRoomListItem.ts\");\n\n\nclass SubjectListItem extends _ChatRoomListItem_js__WEBPACK_IMPORTED_MODULE_1__[\"default\"] {\n    constructor(subjectDetails) {\n        super(\".subject-list-item\");\n        this.onDom(\"click\", () => common_dapp_module__WEBPACK_IMPORTED_MODULE_0__.Router.go(`/chats/${subjectDetails.subject}`));\n    }\n}\n\n\n//# sourceURL=webpack:///./app/chat/SubjectListItem.ts?");
 
 /***/ }),
 
