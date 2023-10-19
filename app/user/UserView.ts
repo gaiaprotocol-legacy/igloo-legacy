@@ -23,7 +23,7 @@ export default class UserView extends View {
   private container: DomNode;
   private tabs!: Tabs;
   private xUsername!: string;
-  private userDetails: UserDetails | undefined;
+  private userDetails: UserDetails;
   private subjectDetails: SubjectDetails | undefined;
   private holdingCount = 0;
 
@@ -44,12 +44,12 @@ export default class UserView extends View {
     this.userDetails = UserDetailsCacher.getAndRefreshByXUsername(
       this.xUsername,
     );
-    this.subjectDetails = this.userDetails?.wallet_address
+    this.subjectDetails = this.userDetails.wallet_address
       ? SubjectDetailsCacher.getAndRefresh(
         this.userDetails.wallet_address,
       )
       : undefined;
-    this.holdingCount = this.userDetails?.wallet_address
+    this.holdingCount = this.userDetails.wallet_address
       ? TotalSubjectKeyBalanceCacher.getAndRefresh(
         this.userDetails.wallet_address,
       )
@@ -70,7 +70,7 @@ export default class UserView extends View {
       SubjectDetailsCacher,
       "update",
       (updatedDetails: SubjectDetails) => {
-        if (updatedDetails.subject === this.userDetails?.wallet_address) {
+        if (updatedDetails.subject === this.userDetails.wallet_address) {
           this.subjectDetails = updatedDetails;
           this.render();
         }
@@ -80,7 +80,7 @@ export default class UserView extends View {
       TotalSubjectKeyBalanceCacher,
       "update",
       ({ walletAddress, totalKeyBalance }) => {
-        if (walletAddress === this.userDetails?.wallet_address) {
+        if (walletAddress === this.userDetails.wallet_address) {
           this.holdingCount = totalKeyBalance;
           this.render();
         }
@@ -89,97 +89,83 @@ export default class UserView extends View {
   }
 
   private render() {
-    this.container.empty();
-
-    if (!this.userDetails) {
-      this.container.append(
-        el(
-          "header",
-          el("button", new MaterialIcon("arrow_back"), {
-            click: () => history.back(),
-          }),
-          el("h1", "User Not Found"),
-        ),
-      );
-    } else {
-      this.container.append(
-        el(
-          "header",
-          el("button", new MaterialIcon("arrow_back"), {
-            click: () => history.back(),
-          }),
-          el("h1", `${this.userDetails.display_name}'s Igloo`),
+    this.container.empty().append(
+      el(
+        "header",
+        el("button", new MaterialIcon("arrow_back"), {
+          click: () => history.back(),
+        }),
+        el("h1", `${this.userDetails.display_name}'s Igloo`),
+      ),
+      el(
+        "section.profile",
+        new UserProfileDisplay(
+          this.userDetails,
+          this.subjectDetails,
+          this.holdingCount,
         ),
         el(
-          "section.profile",
-          new UserProfileDisplay(
-            this.userDetails,
-            this.subjectDetails,
-            this.holdingCount,
+          ".user-connections",
+          this.tabs = new Tabs(
+            "user-connections",
+            [{
+              id: "holdings",
+              label: [
+                el("span.value", String(this.holdingCount)),
+                "Holdings",
+              ],
+            }, {
+              id: "holders",
+              label: [
+                el(
+                  "span.value",
+                  this.subjectDetails
+                    ? String(this.subjectDetails.key_holder_count)
+                    : "0",
+                ),
+                "Holders",
+              ],
+            }, {
+              id: "following",
+              label: [
+                el("span.value", String(this.userDetails.following_count)),
+                "Following",
+              ],
+            }, {
+              id: "followers",
+              label: [
+                el("span.value", String(this.userDetails.follower_count)),
+                "Followers",
+              ],
+            }],
           ),
-          el(
-            ".user-connections",
-            this.tabs = new Tabs(
-              "user-connections",
-              [{
-                id: "holdings",
-                label: [
-                  el("span.value", String(this.holdingCount)),
-                  "Holdings",
-                ],
-              }, {
-                id: "holders",
-                label: [
-                  el(
-                    "span.value",
-                    this.subjectDetails
-                      ? String(this.subjectDetails.key_holder_count)
-                      : "0",
-                  ),
-                  "Holders",
-                ],
-              }, {
-                id: "following",
-                label: [
-                  el("span.value", String(this.userDetails.following_count)),
-                  "Following",
-                ],
-              }, {
-                id: "followers",
-                label: [
-                  el("span.value", String(this.userDetails.follower_count)),
-                  "Followers",
-                ],
-              }],
-            ),
-            this.holdingList = new HoldingList(this.userDetails.user_id),
-            this.holderList = new HolderList(this.userDetails.user_id),
-            this.followingList = new FollowingList(this.userDetails.user_id),
-            this.followerList = new FollowerList(this.userDetails.user_id),
-          ),
+          this.holdingList = new HoldingList(this.userDetails.user_id),
+          this.holderList = new HolderList(this.userDetails.user_id),
+          this.followingList = new FollowingList(this.userDetails.user_id),
+          this.followerList = new FollowerList(this.userDetails.user_id),
         ),
-        new UserPostList(this.userDetails.user_id).show(),
-      );
+      ),
+      new UserPostList(this.userDetails.user_id).show(),
+    );
 
-      this.tabs.on("select", (id: string) => {
-        [
-          this.holdingList,
-          this.holderList,
-          this.followingList,
-          this.followerList,
-        ]
-          .forEach((list) => list.hide());
-        if (id === "holdings") {
-          this.holdingList.show();
-        } else if (id === "holders") {
-          this.holderList.show();
-        } else if (id === "following") {
-          this.followingList.show();
-        } else if (id === "followers") {
-          this.followerList.show();
-        }
-      }).init();
-    }
+    this.tabs.on("select", (id: string) => {
+      [
+        this.holdingList,
+        this.holderList,
+        this.followingList,
+        this.followerList,
+      ]
+        .forEach((list) => list.hide());
+      if (id === "holdings") {
+        this.holdingList.show();
+      } else if (id === "holders") {
+        this.holderList.show();
+      } else if (id === "following") {
+        this.followingList.show();
+      } else if (id === "followers") {
+        this.followerList.show();
+      }
+    }).init();
   }
 
   public changeParams(params: ViewParams, uri: string): void {
@@ -187,7 +173,7 @@ export default class UserView extends View {
     this.userDetails = UserDetailsCacher.getAndRefreshByXUsername(
       this.xUsername,
     );
-    this.subjectDetails = this.userDetails?.wallet_address
+    this.subjectDetails = this.userDetails.wallet_address
       ? SubjectDetailsCacher.getAndRefresh(
         this.userDetails.wallet_address,
       )

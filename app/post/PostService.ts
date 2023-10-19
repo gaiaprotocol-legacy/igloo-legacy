@@ -3,7 +3,6 @@ import Post, { PostTarget } from "../database-interface/Post.js";
 
 class PostService {
   private static readonly LIMIT = 50;
-  private static readonly FETCH_FOLLOWEES_LIMIT = 5000;
 
   public async post(target: PostTarget, message: string) {
     const { data, error } = await Supabase.client.from("posts").insert({
@@ -62,7 +61,7 @@ class PostService {
       ).order(
         "followed_at",
         { ascending: false },
-      ).limit(PostService.FETCH_FOLLOWEES_LIMIT);
+      );
     if (followsError) throw followsError;
     const followeeIds = followsData.map((follow) => follow.followee_id);
     const { data, error } = await Supabase.client.from("posts").select().in(

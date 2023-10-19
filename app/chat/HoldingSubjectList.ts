@@ -1,5 +1,8 @@
 import { Store } from "common-dapp-module";
 import SubjectDetails from "../database-interface/SubjectDetails.js";
+import SubjectDetailsCacher from "../subject/SubjectDetailsCacher.js";
+import SubjectService from "../subject/SubjectService.js";
+import SignedUserManager from "../user/SignedUserManager.js";
 import SubjectList from "./SubjectList.js";
 
 export default class HoldingSubjectList extends SubjectList {
@@ -7,16 +10,45 @@ export default class HoldingSubjectList extends SubjectList {
 
   constructor() {
     super(".holding-subject-list", "No holding subjects yet.");
-    const cached = this.store.get<SubjectDetails[]>("cached-holding-subjects");
-    if (cached) {
-      for (const subjectDetails of cached) {
-        this.addSubjectDetails(subjectDetails);
+    if (
+      SignedUserManager.walletAddress &&
+      SignedUserManager.walletAddress ===
+        this.store.get<string>("cached-wallet-address")
+    ) {
+      const cached = this.store.get<SubjectDetails[]>(
+        "cached-holding-subjects",
+      );
+      if (cached) {
+        for (const subjectDetails of cached) {
+          this.addSubjectDetails(subjectDetails);
+        }
       }
     }
     this.fetchSubjects();
   }
 
   private async fetchSubjects() {
-    //TODO:
+    if (SignedUserManager.walletAddress) {
+      this.store.set(
+        "cached-wallet-address",
+        SignedUserManager.walletAddress,
+        true,
+      );
+
+      const cached = await SubjectService.fetchHoldingSubjects(
+        SignedUserManager.walletAddress,
+      );
+      this.store.set("cached-holding-subjects", cached, true);
+      SubjectDetailsCacher.cacheMultiple(cached);
+
+      await this.fetchUsers(cached);
+
+      if (!this.deleted) {
+        this.empty();
+        for (const subjectDetails of cached) {
+          this.addSubjectDetails(subjectDetails);
+        }
+      }
+    }
   }
 }

@@ -1,8 +1,8 @@
 import { EventContainer, Store, Supabase } from "common-dapp-module";
 import SubjectDetails, {
-    DefaultSubjectDetails,
-    SubjectDetailsSelectQuery,
-    isEqualSubjectDetails,
+  DefaultSubjectDetails,
+  isEqualSubjectDetails,
+  SubjectDetailsSelectQuery,
 } from "../database-interface/SubjectDetails.js";
 
 class SubjectDetailsCacher extends EventContainer {
@@ -25,9 +25,11 @@ class SubjectDetailsCacher extends EventContainer {
     }).subscribe();
   }
 
-  private cache(subject: string, subjectDetails: SubjectDetails) {
-    if (!isEqualSubjectDetails(subjectDetails, this.get(subject))) {
-      this.store.set(subject, subjectDetails, true);
+  public cache(subjectDetails: SubjectDetails) {
+    if (
+      !isEqualSubjectDetails(subjectDetails, this.get(subjectDetails.subject))
+    ) {
+      this.store.set(subjectDetails.subject, subjectDetails, true);
       this.fireEvent("update", subjectDetails);
     }
   }
@@ -52,7 +54,7 @@ class SubjectDetailsCacher extends EventContainer {
       subjectDetails &&
       !isEqualSubjectDetails(subjectDetails, this.get(subject))
     ) {
-      this.cache(subject, subjectDetails);
+      this.cache(subjectDetails);
     }
   }
 
@@ -62,6 +64,12 @@ class SubjectDetailsCacher extends EventContainer {
       console.error("Error refreshing subject details:", error)
     );
     return cachedValue;
+  }
+
+  public cacheMultiple(subjectDetailsSet: SubjectDetails[]) {
+    for (const subjectDetails of subjectDetailsSet) {
+      this.cache(subjectDetails);
+    }
   }
 }
 

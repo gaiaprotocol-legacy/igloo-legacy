@@ -1,8 +1,8 @@
 import { EventContainer, Store, Supabase } from "common-dapp-module";
 import UserDetails, {
   DefaultUserDetails,
-  isEqualUserDetails,
   UserDetailsSelectQuery,
+  isEqualUserDetails,
 } from "../database-interface/UserDetails.js";
 
 class UserDetailsCacher extends EventContainer {
@@ -25,7 +25,7 @@ class UserDetailsCacher extends EventContainer {
     }).subscribe();
   }
 
-  private cache(userId: string, userDetails: UserDetails) {
+  public cache(userId: string, userDetails: UserDetails) {
     if (!isEqualUserDetails(userDetails, this.get(userId))) {
       this.store.set(userId, userDetails, true);
       this.fireEvent("update", userDetails);
@@ -34,11 +34,7 @@ class UserDetailsCacher extends EventContainer {
 
   public get(userId: string): UserDetails {
     const cached = this.store.get<UserDetails>(userId);
-    if (cached) {
-      return cached;
-    } else {
-      return { ...DefaultUserDetails, user_id: userId };
-    }
+    return cached ? cached : { ...DefaultUserDetails, user_id: userId };
   }
 
   public async refresh(userId: string) {
@@ -61,9 +57,10 @@ class UserDetailsCacher extends EventContainer {
   }
 
   public getByXUsername(xUsername: string) {
-    return Object.values(this.store.getAll<UserDetails>()).find(
+    const cached = Object.values(this.store.getAll<UserDetails>()).find(
       (userDetails) => userDetails.x_username === xUsername,
     );
+    return cached ? cached : { ...DefaultUserDetails, x_username: xUsername };
   }
 
   public async refreshByXUsername(xUsername: string) {
@@ -88,7 +85,14 @@ class UserDetailsCacher extends EventContainer {
     return cachedValue;
   }
 
-  public cacheUserDetails(userDetailsSet: UserDetails[]) {
+  public getByWalletAddress(walletAddress: string) {
+    const cached = Object.values(this.store.getAll<UserDetails>()).find(
+      (userDetails) => userDetails.wallet_address === walletAddress,
+    );
+    return cached ? cached : { ...DefaultUserDetails, wallet_address: walletAddress };
+  }
+
+  public cacheMultiple(userDetailsSet: UserDetails[]) {
     for (const userDetails of userDetailsSet) {
       this.cache(userDetails.user_id, userDetails);
     }

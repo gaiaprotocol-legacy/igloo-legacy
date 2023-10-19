@@ -42,7 +42,7 @@ export default abstract class UserList extends DomNode {
 
   public empty(): this {
     super.empty();
-    this.showEmptyMessage();
+    if (!this.deleted) this.showEmptyMessage();
     return this;
   }
 }

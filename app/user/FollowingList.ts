@@ -27,7 +27,7 @@ export default class FollowingList extends UserList {
       this.userId,
       this.lastFetchedFollowedAt,
     );
-    UserDetailsCacher.cacheUserDetails(result.userDetailsSet);
+    UserDetailsCacher.cacheMultiple(result.userDetailsSet);
     this.lastFetchedFollowedAt = result.lastFetchedFollowedAt;
 
     if (this.isContentFromCache) {
