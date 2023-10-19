@@ -1100,6 +1100,9 @@ button.component.text:active {
     height: auto;
     overflow-y: visible;
   }
+  .chats-view.mobile-hidden {
+    display: none;
+  }
 }
 .chats-view > h1 {
   color: #2A2A2A;
