@@ -1249,6 +1249,28 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 
 /***/ }),
 
+/***/ "./app/chat-subject/SubjectChatMessageForm.ts":
+/*!****************************************************!*\
+  !*** ./app/chat-subject/SubjectChatMessageForm.ts ***!
+  \****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ SubjectChatMessageForm)\n/* harmony export */ });\n/* harmony import */ var _chat_ChatMessageForm_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../chat/ChatMessageForm.js */ \"./app/chat/ChatMessageForm.ts\");\n\nclass SubjectChatMessageForm extends _chat_ChatMessageForm_js__WEBPACK_IMPORTED_MODULE_0__[\"default\"] {\n    constructor(subject) {\n        super(\".subject-chat-message-form\");\n    }\n}\n\n\n//# sourceURL=webpack:///./app/chat-subject/SubjectChatMessageForm.ts?");
+
+/***/ }),
+
+/***/ "./app/chat-subject/SubjectChatRoomHeader.ts":
+/*!***************************************************!*\
+  !*** ./app/chat-subject/SubjectChatRoomHeader.ts ***!
+  \***************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ SubjectChatRoomHeader)\n/* harmony export */ });\n/* harmony import */ var common_dapp_module__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! common-dapp-module */ \"../common-dapp-module/lib/index.js\");\n\nclass SubjectChatRoomHeader extends common_dapp_module__WEBPACK_IMPORTED_MODULE_0__.DomNode {\n    constructor(subject) {\n        super(\".subject-chat-room-header\");\n    }\n}\n\n\n//# sourceURL=webpack:///./app/chat-subject/SubjectChatRoomHeader.ts?");
+
+/***/ }),
+
 /***/ "./app/chat-subject/SubjectChatRoomView.ts":
 /*!*************************************************!*\
   !*** ./app/chat-subject/SubjectChatRoomView.ts ***!
@@ -1256,7 +1278,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ SubjectChatRoomView)\n/* harmony export */ });\n/* harmony import */ var _chat_ChatRoomView_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../chat/ChatRoomView.js */ \"./app/chat/ChatRoomView.ts\");\n\nclass SubjectChatRoomView extends _chat_ChatRoomView_js__WEBPACK_IMPORTED_MODULE_0__[\"default\"] {\n    subject;\n    constructor(params) {\n        super(params, \".subject-chat-room-view\");\n        this.subject = params.subject;\n        this.render();\n    }\n    changeParams(params, uri) {\n        this.subject = params.subject;\n        this.render();\n    }\n    render() {\n        this.container.empty();\n    }\n}\n\n\n//# sourceURL=webpack:///./app/chat-subject/SubjectChatRoomView.ts?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ SubjectChatRoomView)\n/* harmony export */ });\n/* harmony import */ var ethers__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ethers */ \"./node_modules/ethers/lib.esm/address/address.js\");\n/* harmony import */ var _chat_ChatRoomView_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../chat/ChatRoomView.js */ \"./app/chat/ChatRoomView.ts\");\n/* harmony import */ var _subject_SubjectChatMessageList_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../subject/SubjectChatMessageList.js */ \"./app/subject/SubjectChatMessageList.ts\");\n/* harmony import */ var _SubjectChatMessageForm_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./SubjectChatMessageForm.js */ \"./app/chat-subject/SubjectChatMessageForm.ts\");\n/* harmony import */ var _SubjectChatRoomHeader_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./SubjectChatRoomHeader.js */ \"./app/chat-subject/SubjectChatRoomHeader.ts\");\n\n\n\n\n\nclass SubjectChatRoomView extends _chat_ChatRoomView_js__WEBPACK_IMPORTED_MODULE_0__[\"default\"] {\n    subject;\n    constructor(params) {\n        super(params, \".subject-chat-room-view\");\n        this.subject = params.subject;\n        this.render();\n    }\n    changeParams(params, uri) {\n        this.subject = params.subject;\n        this.render();\n    }\n    render() {\n        const subject = ethers__WEBPACK_IMPORTED_MODULE_4__.getAddress(this.subject);\n        this.container.empty().append(new _SubjectChatRoomHeader_js__WEBPACK_IMPORTED_MODULE_3__[\"default\"](subject), new _subject_SubjectChatMessageList_js__WEBPACK_IMPORTED_MODULE_1__[\"default\"](subject), new _SubjectChatMessageForm_js__WEBPACK_IMPORTED_MODULE_2__[\"default\"](subject));\n    }\n}\n\n\n//# sourceURL=webpack:///./app/chat-subject/SubjectChatRoomView.ts?");
 
 /***/ }),
 
@@ -1293,6 +1315,39 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 
 /***/ }),
 
+/***/ "./app/chat-topic/TopicChatMessageForm.ts":
+/*!************************************************!*\
+  !*** ./app/chat-topic/TopicChatMessageForm.ts ***!
+  \************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ TopicChatMessageForm)\n/* harmony export */ });\n/* harmony import */ var _chat_ChatMessageForm_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../chat/ChatMessageForm.js */ \"./app/chat/ChatMessageForm.ts\");\n\nclass TopicChatMessageForm extends _chat_ChatMessageForm_js__WEBPACK_IMPORTED_MODULE_0__[\"default\"] {\n    constructor(topic) {\n        super(\".topic-chat-message-form\");\n    }\n}\n\n\n//# sourceURL=webpack:///./app/chat-topic/TopicChatMessageForm.ts?");
+
+/***/ }),
+
+/***/ "./app/chat-topic/TopicChatMessageList.ts":
+/*!************************************************!*\
+  !*** ./app/chat-topic/TopicChatMessageList.ts ***!
+  \************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ TopicChatMessageList)\n/* harmony export */ });\n/* harmony import */ var _chat_ChatMessageList_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../chat/ChatMessageList.js */ \"./app/chat/ChatMessageList.ts\");\n\nclass TopicChatMessageList extends _chat_ChatMessageList_js__WEBPACK_IMPORTED_MODULE_0__[\"default\"] {\n    constructor(topic) {\n        super(\".topic-chat-message-list\", \"No messages yet.\");\n    }\n}\n\n\n//# sourceURL=webpack:///./app/chat-topic/TopicChatMessageList.ts?");
+
+/***/ }),
+
+/***/ "./app/chat-topic/TopicChatRoomHeader.ts":
+/*!***********************************************!*\
+  !*** ./app/chat-topic/TopicChatRoomHeader.ts ***!
+  \***********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ TopicChatRoomHeader)\n/* harmony export */ });\n/* harmony import */ var common_dapp_module__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! common-dapp-module */ \"../common-dapp-module/lib/index.js\");\n\nclass TopicChatRoomHeader extends common_dapp_module__WEBPACK_IMPORTED_MODULE_0__.DomNode {\n    constructor(topic) {\n        super(\".topic-chat-room-header\");\n    }\n}\n\n\n//# sourceURL=webpack:///./app/chat-topic/TopicChatRoomHeader.ts?");
+
+/***/ }),
+
 /***/ "./app/chat-topic/TopicChatRoomView.ts":
 /*!*********************************************!*\
   !*** ./app/chat-topic/TopicChatRoomView.ts ***!
@@ -1300,7 +1355,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ TopicChatRoomView)\n/* harmony export */ });\n/* harmony import */ var _chat_ChatRoomView_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../chat/ChatRoomView.js */ \"./app/chat/ChatRoomView.ts\");\n\nclass TopicChatRoomView extends _chat_ChatRoomView_js__WEBPACK_IMPORTED_MODULE_0__[\"default\"] {\n    topic;\n    constructor(params) {\n        super(params, \".topic-chat-room-view\");\n        this.topic = params.topic;\n        this.render();\n    }\n    changeParams(params, uri) {\n        this.topic = params.topic;\n        this.render();\n    }\n    render() {\n        this.container.deleteClass(\"mobile-hidden\");\n        if (!this.topic)\n            this.container.addClass(\"mobile-hidden\");\n        this.container.empty();\n    }\n}\n\n\n//# sourceURL=webpack:///./app/chat-topic/TopicChatRoomView.ts?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ TopicChatRoomView)\n/* harmony export */ });\n/* harmony import */ var _chat_ChatRoomView_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../chat/ChatRoomView.js */ \"./app/chat/ChatRoomView.ts\");\n/* harmony import */ var _TopicChatMessageForm_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./TopicChatMessageForm.js */ \"./app/chat-topic/TopicChatMessageForm.ts\");\n/* harmony import */ var _TopicChatMessageList_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./TopicChatMessageList.js */ \"./app/chat-topic/TopicChatMessageList.ts\");\n/* harmony import */ var _TopicChatRoomHeader_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./TopicChatRoomHeader.js */ \"./app/chat-topic/TopicChatRoomHeader.ts\");\n\n\n\n\nclass TopicChatRoomView extends _chat_ChatRoomView_js__WEBPACK_IMPORTED_MODULE_0__[\"default\"] {\n    topic;\n    constructor(params) {\n        super(params, \".topic-chat-room-view\");\n        this.topic = params.topic;\n        this.render();\n    }\n    changeParams(params, uri) {\n        this.topic = params.topic;\n        this.render();\n    }\n    render() {\n        this.container.deleteClass(\"mobile-hidden\");\n        if (!this.topic)\n            this.container.addClass(\"mobile-hidden\");\n        const topic = this.topic ? this.topic.toLowerCase() : \"general\";\n        this.container.empty().append(new _TopicChatRoomHeader_js__WEBPACK_IMPORTED_MODULE_3__[\"default\"](topic), new _TopicChatMessageList_js__WEBPACK_IMPORTED_MODULE_2__[\"default\"](topic), new _TopicChatMessageForm_js__WEBPACK_IMPORTED_MODULE_1__[\"default\"](topic));\n    }\n}\n\n\n//# sourceURL=webpack:///./app/chat-topic/TopicChatRoomView.ts?");
 
 /***/ }),
 
@@ -1323,6 +1378,39 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 
 "use strict";
 eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ TopicListItem)\n/* harmony export */ });\n/* harmony import */ var common_dapp_module__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! common-dapp-module */ \"../common-dapp-module/lib/index.js\");\n/* harmony import */ var _chat_ChatRoomListItem_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../chat/ChatRoomListItem.js */ \"./app/chat/ChatRoomListItem.ts\");\n\n\nclass TopicListItem extends _chat_ChatRoomListItem_js__WEBPACK_IMPORTED_MODULE_1__[\"default\"] {\n    constructor(topic) {\n        super(\".topic-list-item\");\n        this.append((0,common_dapp_module__WEBPACK_IMPORTED_MODULE_0__.el)(\"h3\", topic));\n        this.onDom(\"click\", () => common_dapp_module__WEBPACK_IMPORTED_MODULE_0__.Router.go(`/chats/${topic}`));\n    }\n}\n\n\n//# sourceURL=webpack:///./app/chat-topic/TopicListItem.ts?");
+
+/***/ }),
+
+/***/ "./app/chat/ChatMessageForm.ts":
+/*!*************************************!*\
+  !*** ./app/chat/ChatMessageForm.ts ***!
+  \*************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ ChatMessageForm)\n/* harmony export */ });\n/* harmony import */ var common_dapp_module__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! common-dapp-module */ \"../common-dapp-module/lib/index.js\");\n\nclass ChatMessageForm extends common_dapp_module__WEBPACK_IMPORTED_MODULE_0__.DomNode {\n    constructor(tag) {\n        super(tag + \".chat-message-form\");\n    }\n}\n\n\n//# sourceURL=webpack:///./app/chat/ChatMessageForm.ts?");
+
+/***/ }),
+
+/***/ "./app/chat/ChatMessageList.ts":
+/*!*************************************!*\
+  !*** ./app/chat/ChatMessageList.ts ***!
+  \*************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ ChatMessageList)\n/* harmony export */ });\n/* harmony import */ var common_dapp_module__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! common-dapp-module */ \"../common-dapp-module/lib/index.js\");\n/* harmony import */ var _ChatMessageListItem_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ChatMessageListItem.js */ \"./app/chat/ChatMessageListItem.ts\");\n\n\nclass ChatMessageList extends common_dapp_module__WEBPACK_IMPORTED_MODULE_0__.DomNode {\n    emptyMessage;\n    emptyMessageDisplay;\n    constructor(tag, emptyMessage) {\n        super(tag + \".chat-message-list\");\n        this.emptyMessage = emptyMessage;\n        this.showEmptyMessage();\n    }\n    showEmptyMessage() {\n        this.emptyMessageDisplay?.delete();\n        this.emptyMessageDisplay = (0,common_dapp_module__WEBPACK_IMPORTED_MODULE_0__.el)(\"p.empty-message\", this.emptyMessage);\n        this.emptyMessageDisplay.on(\"delete\", () => this.emptyMessageDisplay = undefined);\n        this.append(this.emptyMessageDisplay);\n    }\n    addMessage(message) {\n        this.emptyMessageDisplay?.delete();\n        this.append(new _ChatMessageListItem_js__WEBPACK_IMPORTED_MODULE_1__[\"default\"](message));\n    }\n    empty() {\n        super.empty();\n        if (!this.deleted)\n            this.showEmptyMessage();\n        return this;\n    }\n}\n\n\n//# sourceURL=webpack:///./app/chat/ChatMessageList.ts?");
+
+/***/ }),
+
+/***/ "./app/chat/ChatMessageListItem.ts":
+/*!*****************************************!*\
+  !*** ./app/chat/ChatMessageListItem.ts ***!
+  \*****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ ChatMessageListItem)\n/* harmony export */ });\n/* harmony import */ var common_dapp_module__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! common-dapp-module */ \"../common-dapp-module/lib/index.js\");\n\nclass ChatMessageListItem extends common_dapp_module__WEBPACK_IMPORTED_MODULE_0__.DomNode {\n    constructor(message) {\n        super(\".chat-message-list-item\");\n    }\n}\n\n\n//# sourceURL=webpack:///./app/chat/ChatMessageListItem.ts?");
 
 /***/ }),
 
@@ -1653,6 +1741,17 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 
 "use strict";
 eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ BuySubjectKeyPopup)\n/* harmony export */ });\n/* harmony import */ var common_dapp_module__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! common-dapp-module */ \"../common-dapp-module/lib/index.js\");\n/* harmony import */ var ethers__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ethers */ \"./node_modules/ethers/lib.esm/utils/units.js\");\n/* harmony import */ var _contracts_IglooSubjectContract_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../contracts/IglooSubjectContract.js */ \"./app/contracts/IglooSubjectContract.ts\");\n/* harmony import */ var _user_WalletManager_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../user/WalletManager.js */ \"./app/user/WalletManager.ts\");\n/* harmony import */ var _SubjectKeyService_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./SubjectKeyService.js */ \"./app/subject/SubjectKeyService.ts\");\n\n\n\n\n\nclass BuySubjectKeyPopup extends common_dapp_module__WEBPACK_IMPORTED_MODULE_0__.Popup {\n    userDetails;\n    content;\n    priceDisplay;\n    totalPriceDisplay;\n    buyButton;\n    constructor(userDetails) {\n        super({ barrierDismissible: true });\n        this.userDetails = userDetails;\n        this.append(this.content = new common_dapp_module__WEBPACK_IMPORTED_MODULE_0__.Component(\".popup.buy-subject-key-popup\", (0,common_dapp_module__WEBPACK_IMPORTED_MODULE_0__.el)(\"header\", (0,common_dapp_module__WEBPACK_IMPORTED_MODULE_0__.el)(\"h1\", `Buy 1 ${userDetails.display_name}'s Key`)), (0,common_dapp_module__WEBPACK_IMPORTED_MODULE_0__.el)(\"main\", (0,common_dapp_module__WEBPACK_IMPORTED_MODULE_0__.el)(\".owner-profile-image-wrapper\", (0,common_dapp_module__WEBPACK_IMPORTED_MODULE_0__.el)(\".owner-profile-image\", {\n            style: {\n                backgroundImage: `url(${userDetails.profile_image?.replace(\"_normal\", \"\")})`,\n            },\n        })), (0,common_dapp_module__WEBPACK_IMPORTED_MODULE_0__.el)(\".price-info\", (0,common_dapp_module__WEBPACK_IMPORTED_MODULE_0__.el)(\".price\", (0,common_dapp_module__WEBPACK_IMPORTED_MODULE_0__.el)(\"label\", \"Price\"), (0,common_dapp_module__WEBPACK_IMPORTED_MODULE_0__.el)(\".value\", this.priceDisplay = (0,common_dapp_module__WEBPACK_IMPORTED_MODULE_0__.el)(\"span\", \"...\"), (0,common_dapp_module__WEBPACK_IMPORTED_MODULE_0__.el)(\"img.avax-symbol\", { src: \"/images/avax-symbol.svg\" }))), (0,common_dapp_module__WEBPACK_IMPORTED_MODULE_0__.el)(\".price\", (0,common_dapp_module__WEBPACK_IMPORTED_MODULE_0__.el)(\"label\", \"Total (including fee)\"), (0,common_dapp_module__WEBPACK_IMPORTED_MODULE_0__.el)(\".value\", this.totalPriceDisplay = (0,common_dapp_module__WEBPACK_IMPORTED_MODULE_0__.el)(\"span\", \"...\"), (0,common_dapp_module__WEBPACK_IMPORTED_MODULE_0__.el)(\"img.avax-symbol\", { src: \"/images/avax-symbol.svg\" }))))), (0,common_dapp_module__WEBPACK_IMPORTED_MODULE_0__.el)(\"footer\", new common_dapp_module__WEBPACK_IMPORTED_MODULE_0__.Button({\n            type: common_dapp_module__WEBPACK_IMPORTED_MODULE_0__.ButtonType.Text,\n            tag: \".cancel-button\",\n            click: () => this.delete(),\n            title: \"Cancel\",\n        }), this.buyButton = new common_dapp_module__WEBPACK_IMPORTED_MODULE_0__.Button({\n            type: common_dapp_module__WEBPACK_IMPORTED_MODULE_0__.ButtonType.Contained,\n            tag: \".buy-token-button\",\n            click: () => this.buyKey(),\n            title: `Buy 1 ${userDetails.display_name}'s Key`,\n        }))));\n        this.fetchPrice();\n        this.fetchTotalPrice();\n    }\n    async fetchPrice() {\n        const price = await _contracts_IglooSubjectContract_js__WEBPACK_IMPORTED_MODULE_1__[\"default\"].getBuyPrice(this.userDetails.wallet_address, 1n);\n        this.priceDisplay.text = `${ethers__WEBPACK_IMPORTED_MODULE_4__.formatEther(price)}`;\n    }\n    async fetchTotalPrice() {\n        const price = await _contracts_IglooSubjectContract_js__WEBPACK_IMPORTED_MODULE_1__[\"default\"].getBuyPriceAfterFee(this.userDetails.wallet_address, 1n);\n        this.totalPriceDisplay.text = `${ethers__WEBPACK_IMPORTED_MODULE_4__.formatEther(price)}`;\n    }\n    async buyKey() {\n        this.buyButton.disable().title = \"Buying...\";\n        try {\n            const subject = this.userDetails.wallet_address;\n            if (!_user_WalletManager_js__WEBPACK_IMPORTED_MODULE_2__[\"default\"].connected)\n                await _user_WalletManager_js__WEBPACK_IMPORTED_MODULE_2__[\"default\"].connect();\n            const [balance, totalPrice] = await Promise.all([\n                _user_WalletManager_js__WEBPACK_IMPORTED_MODULE_2__[\"default\"].getBalance(),\n                _contracts_IglooSubjectContract_js__WEBPACK_IMPORTED_MODULE_1__[\"default\"].getBuyPriceAfterFee(subject, 1n),\n            ]);\n            if (balance < totalPrice) {\n                new common_dapp_module__WEBPACK_IMPORTED_MODULE_0__.ErrorAlert({\n                    title: \"Insufficient balance\",\n                    message: `You need at least ${ethers__WEBPACK_IMPORTED_MODULE_4__.formatEther(totalPrice)} AVAX to buy this key.`,\n                });\n            }\n            else {\n                await _SubjectKeyService_js__WEBPACK_IMPORTED_MODULE_3__[\"default\"].buyKey(subject, totalPrice);\n                this.delete();\n            }\n        }\n        catch (e) {\n            console.error(e);\n            this.buyButton.enable().title =\n                `Buy 1 ${this.userDetails.display_name}'s Key`;\n        }\n    }\n}\n\n\n//# sourceURL=webpack:///./app/subject/BuySubjectKeyPopup.ts?");
+
+/***/ }),
+
+/***/ "./app/subject/SubjectChatMessageList.ts":
+/*!***********************************************!*\
+  !*** ./app/subject/SubjectChatMessageList.ts ***!
+  \***********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ SubjectChatMessageList)\n/* harmony export */ });\n/* harmony import */ var _chat_ChatMessageList_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../chat/ChatMessageList.js */ \"./app/chat/ChatMessageList.ts\");\n\nclass SubjectChatMessageList extends _chat_ChatMessageList_js__WEBPACK_IMPORTED_MODULE_0__[\"default\"] {\n    constructor(subject) {\n        super(\".subject-chat-message-list\", \"No messages yet.\");\n    }\n}\n\n\n//# sourceURL=webpack:///./app/subject/SubjectChatMessageList.ts?");
 
 /***/ }),
 
