@@ -1088,11 +1088,17 @@ button.component.text:active {
   display: flex;
 }
 .chats-view {
-  padding: 31px 30px;
+  padding: 31px 20px 31px 30px;
+  width: 410px;
+  height: 100%;
+  overflow-y: scroll;
 }
 @media only screen and (max-width: 859px) {
   .chats-view {
     padding: 20px;
+    width: 100%;
+    height: auto;
+    overflow-y: visible;
   }
 }
 .chats-view > h1 {
@@ -1134,6 +1140,81 @@ button.component.text:active {
   font-weight: 700;
   line-height: normal;
   text-transform: capitalize;
+}
+.chat-room-view {
+  border-radius: 16px;
+  background: #EBEFF3;
+  box-shadow: 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
+  padding: 20px;
+  position: absolute;
+  left: 510px;
+  top: 20px;
+  width: calc(100% - 530px);
+  height: calc(100% - 40px);
+}
+@media only screen and (max-width: 859px) {
+  .chat-room-view {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 999991;
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
+.chat-room-list-item {
+  border-radius: 16px;
+  background: #EBEFF3;
+  box-shadow: 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
+  padding: 20px;
+  cursor: pointer;
+}
+.topic-list-item > h3 {
+  color: #2A2A2A;
+  font-feature-settings: 'clig' off, 'liga' off;
+  font-family: Quicksand;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  text-transform: capitalize;
+}
+.subject-list-item {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+.subject-list-item > .user-profile-image {
+  display: flex;
+  width: 42px;
+  height: 42px;
+  flex-shrink: 0;
+  border-radius: 42px;
+  border: 1px solid #FFF;
+  background: lightgray 50% / cover no-repeat;
+}
+.subject-list-item > .user-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.subject-list-item > .user-info > .name {
+  color: #2A2A2A;
+  font-feature-settings: 'clig' off, 'liga' off;
+  font-family: Quicksand;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+.subject-list-item > .user-info > .x-username {
+  font-feature-settings: 'clig' off, 'liga' off;
+  font-family: Quicksand;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  color: #a1a2ac;
 }
 .explore-view {
   padding: 31px 30px;
@@ -1639,7 +1720,7 @@ button.component.text:active {
   box-shadow: 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
   padding: 20px;
   display: flex;
-  gap: 20px;
+  gap: 12px;
   align-items: center;
   cursor: pointer;
 }
