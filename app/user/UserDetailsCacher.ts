@@ -1,8 +1,8 @@
 import { EventContainer, Store, Supabase } from "common-dapp-module";
 import UserDetails, {
   DefaultUserDetails,
-  UserDetailsSelectQuery,
   isEqualUserDetails,
+  UserDetailsSelectQuery,
 } from "../database-interface/UserDetails.js";
 
 class UserDetailsCacher extends EventContainer {
@@ -70,8 +70,7 @@ class UserDetailsCacher extends EventContainer {
     if (error) throw error;
     const userDetails: UserDetails | undefined = data?.[0] as any;
     if (userDetails) {
-      const cached = this.getByXUsername(xUsername);
-      if (!cached || !isEqualUserDetails(userDetails, cached)) {
+      if (!isEqualUserDetails(userDetails, this.getByXUsername(xUsername))) {
         this.cache(userDetails.user_id, userDetails);
       }
     }
@@ -89,7 +88,32 @@ class UserDetailsCacher extends EventContainer {
     const cached = Object.values(this.store.getAll<UserDetails>()).find(
       (userDetails) => userDetails.wallet_address === walletAddress,
     );
-    return cached ? cached : { ...DefaultUserDetails, wallet_address: walletAddress };
+    return cached
+      ? cached
+      : { ...DefaultUserDetails, wallet_address: walletAddress };
+  }
+
+  public async refreshByWalletAddress(walletAddress: string) {
+    const { data, error } = await Supabase.client.from("user_details").select(
+      UserDetailsSelectQuery,
+    ).eq("wallet_address", walletAddress);
+    if (error) throw error;
+    const userDetails: UserDetails | undefined = data?.[0] as any;
+    if (userDetails) {
+      if (
+        !isEqualUserDetails(userDetails, this.getByWalletAddress(walletAddress))
+      ) {
+        this.cache(userDetails.user_id, userDetails);
+      }
+    }
+  }
+
+  public getAndRefreshByWalletAddress(walletAddress: string) {
+    const cached = this.getByWalletAddress(walletAddress);
+    this.refreshByWalletAddress(walletAddress).catch((error) =>
+      console.error("Error refreshing user details:", error)
+    );
+    return cached;
   }
 
   public cacheMultiple(userDetailsSet: UserDetails[]) {

@@ -10,12 +10,12 @@ export default class SubjectChatRoomView extends ChatRoomView {
 
   constructor(params: ViewParams) {
     super(params, ".subject-chat-room-view");
-    this.subject = params.subject!;
+    this.subject = "0x" + params.subject!;
     this.render();
   }
 
   public changeParams(params: ViewParams, uri: string): void {
-    this.subject = params.subject!;
+    this.subject = "0x" + params.subject!;
     this.render();
   }
 

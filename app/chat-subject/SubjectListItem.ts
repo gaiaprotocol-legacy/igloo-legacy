@@ -1,13 +1,14 @@
 import { el, Router } from "common-dapp-module";
+import ChatRoomListItem from "../chat/ChatRoomListItem.js";
 import SubjectDetails from "../database-interface/SubjectDetails.js";
 import UserDetails from "../database-interface/UserDetails.js";
+import SubjectDetailsCacher from "../subject/SubjectDetailsCacher.js";
 import UserDetailsCacher from "../user/UserDetailsCacher.js";
-import ChatRoomListItem from "../chat/ChatRoomListItem.js";
 
 export default class SubjectListItem extends ChatRoomListItem {
   private userDetails: UserDetails;
 
-  constructor(subjectDetails: SubjectDetails) {
+  constructor(private subjectDetails: SubjectDetails) {
     super(".subject-list-item");
 
     this.userDetails = UserDetailsCacher.getByWalletAddress(
@@ -15,8 +16,20 @@ export default class SubjectListItem extends ChatRoomListItem {
     );
 
     this.render();
+
+    this.onDelegate(
+      SubjectDetailsCacher,
+      "update",
+      (subjectDetails: SubjectDetails) => {
+        if (subjectDetails.subject === this.subjectDetails.subject) {
+          this.subjectDetails = subjectDetails;
+          this.render();
+        }
+      },
+    );
+
     this.onDelegate(UserDetailsCacher, "update", (userDetails: UserDetails) => {
-      if (userDetails.user_id === this.userDetails.user_id) {
+      if (userDetails.wallet_address === this.subjectDetails.subject) {
         this.userDetails = userDetails;
         this.render();
       }
