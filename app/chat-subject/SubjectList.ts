@@ -1,7 +1,7 @@
 import SubjectDetails from "../database-interface/SubjectDetails.js";
 import UserDetailsCacher from "../user/UserDetailsCacher.js";
 import UserService from "../user/UserService.js";
-import ChatRoomList from "./ChatRoomList.js";
+import ChatRoomList from "../chat/ChatRoomList.js";
 import SubjectListItem from "./SubjectListItem.js";
 
 export default abstract class SubjectList extends ChatRoomList {

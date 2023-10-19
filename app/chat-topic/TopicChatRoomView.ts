@@ -1,5 +1,5 @@
 import { ViewParams } from "common-dapp-module";
-import ChatRoomView from "./ChatRoomView.js";
+import ChatRoomView from "../chat/ChatRoomView.js";
 
 export default class TopicChatRoomView extends ChatRoomView {
   private topic: string | undefined;

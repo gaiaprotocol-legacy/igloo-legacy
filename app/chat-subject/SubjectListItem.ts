@@ -2,7 +2,7 @@ import { el, Router } from "common-dapp-module";
 import SubjectDetails from "../database-interface/SubjectDetails.js";
 import UserDetails from "../database-interface/UserDetails.js";
 import UserDetailsCacher from "../user/UserDetailsCacher.js";
-import ChatRoomListItem from "./ChatRoomListItem.js";
+import ChatRoomListItem from "../chat/ChatRoomListItem.js";
 
 export default class SubjectListItem extends ChatRoomListItem {
   private userDetails: UserDetails;

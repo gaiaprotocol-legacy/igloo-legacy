@@ -3,7 +3,7 @@ import SubjectDetails from "../database-interface/SubjectDetails.js";
 import SubjectDetailsCacher from "../subject/SubjectDetailsCacher.js";
 import SubjectService from "../subject/SubjectService.js";
 import SignedUserManager from "../user/SignedUserManager.js";
-import SubjectList from "./SubjectList.js";
+import SubjectList from "../chat-subject/SubjectList.js";
 
 export default class FollowingSubjectList extends SubjectList {
   private store: Store = new Store("following-subject-list");

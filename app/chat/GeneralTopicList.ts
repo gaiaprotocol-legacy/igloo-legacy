@@ -1,4 +1,4 @@
-import TopicList from "./TopicList.js";
+import TopicList from "../chat-topic/TopicList.js";
 
 export default class GeneralTopicList extends TopicList {
   constructor() {

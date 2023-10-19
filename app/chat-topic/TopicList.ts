@@ -1,4 +1,4 @@
-import ChatRoomList from "./ChatRoomList.js";
+import ChatRoomList from "../chat/ChatRoomList.js";
 import TopicListItem from "./TopicListItem.js";
 
 export default abstract class TopicList extends ChatRoomList {
