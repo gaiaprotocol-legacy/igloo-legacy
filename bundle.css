@@ -1100,9 +1100,6 @@ button.component.text:active {
     height: auto;
     overflow-y: visible;
   }
-  .chats-view.mobile-hidden {
-    display: none;
-  }
 }
 .chats-view > h1 {
   color: #2A2A2A;
@@ -1164,6 +1161,9 @@ button.component.text:active {
     height: 100%;
     z-index: 999991;
     padding-bottom: env(safe-area-inset-bottom);
+  }
+  .chat-room-view.mobile-hidden {
+    display: none;
   }
 }
 .chat-room-list-item {
