@@ -3,25 +3,70 @@
     padding      : 20px;
     box-shadow   : 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
     display      : flex;
+    align-items  : center;
 
     @media @phone {
         border-radius: 0;
+        padding      : 12px;
     }
 
     >header {
-        flex-grow: 1;
-    }
+        flex-grow  : 1;
+        display    : flex;
+        align-items: center;
+        gap        : 20px;
 
-    >footer {
-        >button {
-            cursor: pointer;
+        @media @phone {
+            gap: 12px;
         }
 
-        >button.close {
+        >button {
+            width          : 48px;
+            height         : 48px;
+            flex-shrink    : 0;
+            border-radius  : 16px;
+            background     : #EBEFF3;
+            color          : #2B2B2B;
+            box-shadow     : 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
+            cursor         : pointer;
+            display        : flex;
+            justify-content: center;
+            align-items    : center;
+
+            &:active,
+            &.active {
+                outline   : 1px solid #F4F7F9;
+                box-shadow: 4px 4px 8px 0px rgba(255, 255, 255, 0.75), 2px 2px 8px 0px rgba(189, 194, 199, 0.75) inset;
+            }
+        }
+
+        >button.back {
             display: none;
 
             @media @phone {
                 display: flex;
+            }
+        }
+    }
+
+    >footer {
+        >button {
+            width          : 48px;
+            height         : 48px;
+            flex-shrink    : 0;
+            border-radius  : 16px;
+            background     : #EBEFF3;
+            color          : #2B2B2B;
+            box-shadow     : 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
+            cursor         : pointer;
+            display        : flex;
+            justify-content: center;
+            align-items    : center;
+
+            &:active,
+            &.active {
+                outline   : 1px solid #F4F7F9;
+                box-shadow: 4px 4px 8px 0px rgba(255, 255, 255, 0.75), 2px 2px 8px 0px rgba(189, 194, 199, 0.75) inset;
             }
         }
     }
