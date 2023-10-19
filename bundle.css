@@ -1141,6 +1141,13 @@ button.component.text:active {
   line-height: normal;
   text-transform: capitalize;
 }
+.chat-room-list-item {
+  border-radius: 16px;
+  background: #EBEFF3;
+  box-shadow: 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
+  padding: 20px;
+  cursor: pointer;
+}
 .chat-room-view {
   border-radius: 16px;
   background: #EBEFF3;
@@ -1166,12 +1173,16 @@ button.component.text:active {
     display: none;
   }
 }
-.chat-room-list-item {
-  border-radius: 16px;
-  background: #EBEFF3;
-  box-shadow: 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
-  padding: 20px;
+.chat-room-header > footer > button {
   cursor: pointer;
+}
+.chat-room-header > footer > button.close {
+  display: none;
+}
+@media only screen and (max-width: 859px) {
+  .chat-room-header > footer > button.close {
+    display: flex;
+  }
 }
 .topic-list-item > h3 {
   color: #2A2A2A;
