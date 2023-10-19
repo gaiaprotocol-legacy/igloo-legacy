@@ -1,18 +1,20 @@
 import { Supabase } from "common-dapp-module";
-import SubjectDetails from "../database-interface/SubjectDetails.js";
+import SubjectDetails, {
+  SubjectDetailsSelectQuery,
+} from "../database-interface/SubjectDetails.js";
 
 class SubjectService {
   public async fetchSubject(
     subject: string,
   ): Promise<SubjectDetails | undefined> {
     const { data, error } = await Supabase.client.from("subject_details")
-      .select()
+      .select(SubjectDetailsSelectQuery)
       .eq(
         "subject",
         subject,
       );
     if (error) throw error;
-    return data?.[0];
+    return data?.[0] as any;
   }
 
   public async fetchHoldingSubjects(
@@ -21,7 +23,7 @@ class SubjectService {
     const { data: holderData, error: holderError } = await Supabase.client.from(
       "subject_key_holders",
     )
-      .select()
+      .select("subject")
       .eq(
         "wallet_address",
         walletAddress,
@@ -30,20 +32,20 @@ class SubjectService {
     const subjects = holderData.map((holder) => holder.subject);
     const { data: subjectData, error: subjectError } = await Supabase.client
       .from("subject_details")
-      .select()
+      .select(SubjectDetailsSelectQuery)
       .in(
         "subject",
         subjects,
       );
     if (subjectError) throw subjectError;
-    return subjectData;
+    return subjectData as any;
   }
 
   public async fetchFollowingSubjects(
     userId: string,
   ): Promise<SubjectDetails[]> {
     const { data: followsData, error: followsError } = await Supabase.client
-      .from("follows").select().eq(
+      .from("follows").select("followee_id").eq(
         "follower_id",
         userId,
       ).order(
@@ -62,13 +64,13 @@ class SubjectService {
     if (userError) throw userError;
     const walletAddresses = userData.map((user) => user.wallet_address);
     const { data: subjectData, error: subjectError } = await Supabase.client
-      .from("subject_details").select()
+      .from("subject_details").select(SubjectDetailsSelectQuery)
       .in(
         "subject",
         walletAddresses,
       );
     if (subjectError) throw subjectError;
-    return subjectData;
+    return subjectData as any;
   }
 }
 

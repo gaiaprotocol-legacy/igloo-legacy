@@ -14,7 +14,7 @@ class UserService {
     lastFetchedFollowedAt: string | undefined;
   }> {
     const { data: followsData, error: followsError } = await Supabase.client
-      .from("follows").select().eq(
+      .from("follows").select("follower_id, followed_at").eq(
         "followee_id",
         userId,
       ).lt(
@@ -50,7 +50,7 @@ class UserService {
     lastFetchedFollowedAt: string | undefined;
   }> {
     const { data: followsData, error: followsError } = await Supabase.client
-      .from("follows").select().eq(
+      .from("follows").select("followee_id, followed_at").eq(
         "follower_id",
         userId,
       ).lt(
@@ -78,7 +78,9 @@ class UserService {
     };
   }
 
-  public async fetchByWalletAddresses(walletAddresses: string[]): Promise<UserDetails[]> {
+  public async fetchByWalletAddresses(
+    walletAddresses: string[],
+  ): Promise<UserDetails[]> {
     const { data, error } = await Supabase.client.from("user_details").select(
       UserDetailsSelectQuery,
     )
