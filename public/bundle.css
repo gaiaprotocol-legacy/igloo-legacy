@@ -1191,25 +1191,68 @@ button.component.text:active {
   padding: 20px;
   box-shadow: 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
   display: flex;
+  align-items: center;
 }
 @media only screen and (max-width: 859px) {
   .chat-room-header {
     border-radius: 0;
+    padding: 12px;
   }
 }
 .chat-room-header > header {
   flex-grow: 1;
+  display: flex;
+  align-items: center;
+  gap: 20px;
 }
-.chat-room-header > footer > button {
+@media only screen and (max-width: 859px) {
+  .chat-room-header > header {
+    gap: 12px;
+  }
+}
+.chat-room-header > header > button {
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+  border-radius: 16px;
+  background: #EBEFF3;
+  color: #2B2B2B;
+  box-shadow: 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
   cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-.chat-room-header > footer > button.close {
+.chat-room-header > header > button:active,
+.chat-room-header > header > button.active {
+  outline: 1px solid #F4F7F9;
+  box-shadow: 4px 4px 8px 0px rgba(255, 255, 255, 0.75), 2px 2px 8px 0px rgba(189, 194, 199, 0.75) inset;
+}
+.chat-room-header > header > button.back {
   display: none;
 }
 @media only screen and (max-width: 859px) {
-  .chat-room-header > footer > button.close {
+  .chat-room-header > header > button.back {
     display: flex;
   }
+}
+.chat-room-header > footer > button {
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+  border-radius: 16px;
+  background: #EBEFF3;
+  color: #2B2B2B;
+  box-shadow: 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.chat-room-header > footer > button:active,
+.chat-room-header > footer > button.active {
+  outline: 1px solid #F4F7F9;
+  box-shadow: 4px 4px 8px 0px rgba(255, 255, 255, 0.75), 2px 2px 8px 0px rgba(189, 194, 199, 0.75) inset;
 }
 .chat-message-form {
   border-radius: 0 0 16px 16px;
@@ -1221,6 +1264,8 @@ button.component.text:active {
 @media only screen and (max-width: 859px) {
   .chat-message-form {
     border-radius: 0;
+    padding: 12px;
+    gap: 12px;
   }
 }
 .chat-message-form > input.upload {
@@ -1249,7 +1294,13 @@ button.component.text:active {
   display: flex;
   gap: 20px;
 }
+@media only screen and (max-width: 859px) {
+  .chat-message-form > form {
+    gap: 12px;
+  }
+}
 .chat-message-form > form > input {
+  width: 0;
   flex-grow: 1;
   border-radius: 16px;
   border: 1px solid #F4F7F9;

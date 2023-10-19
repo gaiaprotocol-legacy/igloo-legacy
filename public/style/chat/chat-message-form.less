@@ -7,6 +7,8 @@
 
     @media @phone {
         border-radius: 0;
+        padding      : 12px;
+        gap          : 12px;
     }
 
     >input.upload {
@@ -38,7 +40,12 @@
         display  : flex;
         gap      : 20px;
 
+        @media @phone {
+            gap: 12px;
+        }
+
         >input {
+            width                : 0;
             flex-grow            : 1;
             border-radius        : 16px;
             border               : 1px solid #F4F7F9;

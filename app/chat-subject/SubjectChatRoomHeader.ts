@@ -40,6 +40,9 @@ export default class SubjectChatRoomHeader extends ChatRoomHeader {
     this.empty().append(
       el(
         "header",
+        el("button.back", new MaterialIcon("arrow_back"), {
+          click: () => history.back(),
+        }),
         el(".subject-owner-profile-image", {
           style: { backgroundImage: `url(${this.userDetails.profile_image})` },
           click: () => Router.go(`/${this.userDetails.x_username}`),
@@ -58,9 +61,6 @@ export default class SubjectChatRoomHeader extends ChatRoomHeader {
       ),
       el(
         "footer",
-        el("button.close", new MaterialIcon("close"), {
-          click: () => history.back(),
-        }),
       ),
     );
   }

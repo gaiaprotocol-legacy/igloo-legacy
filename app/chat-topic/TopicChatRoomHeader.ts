@@ -5,12 +5,15 @@ export default class TopicChatRoomHeader extends ChatRoomHeader {
   constructor(topic: string) {
     super(".topic-chat-room-header");
     this.append(
-      el("header", el("h1", topic)),
       el(
-        "footer",
-        el("button.close", new MaterialIcon("close"), {
+        "header",
+        el("button.back", new MaterialIcon("arrow_back"), {
           click: () => history.back(),
         }),
+        el("h1", topic),
+      ),
+      el(
+        "footer",
       ),
     );
   }
