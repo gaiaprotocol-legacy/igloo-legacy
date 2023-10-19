@@ -1,16 +1,18 @@
 .chat-room-view {
-    border-radius: 16px;
-    background   : #EBEFF3;
-    box-shadow   : 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
-    padding      : 20px;
-    position     : absolute;
-    left         : 510px;
-    top          : 20px;
-    width        : calc(100% - 530px);
-    height       : calc(100% - 40px);
+    border-radius : 16px;
+    background    : #EBEFF3;
+    box-shadow    : 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
+    position      : absolute;
+    left          : 510px;
+    top           : 20px;
+    width         : calc(100% - 530px);
+    height        : calc(100% - 40px);
+    display       : flex;
+    flex-direction: column;
 
     @media @phone {
         position      : fixed;
+        border-radius : 0;
         left          : 0;
         top           : 0;
         width         : 100%;
@@ -21,5 +23,11 @@
         &.mobile-hidden {
             display: none;
         }
+    }
+
+    >.chat-message-list {
+        height    : 0px;
+        flex-grow : 1;
+        overflow-y: scroll;
     }
 }
