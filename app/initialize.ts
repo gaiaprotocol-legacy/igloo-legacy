@@ -1,12 +1,14 @@
 import { el, msg, Router, SplashScreen, Supabase } from "common-dapp-module";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime.js";
+import ChatsView from "./chat/ChatsView.js";
+import SubjectChatRoomView from "./chat/SubjectChatRoomView.js";
+import TopicChatRoomView from "./chat/TopicChatRoomView.js";
 import Config from "./Config.js";
 import IglooSubjectContract from "./contracts/IglooSubjectContract.js";
 import EnvironmentManager from "./EnvironmentManager.js";
 import ExploreView from "./explore/ExploreView.js";
 import HomeView from "./HomeView.js";
-import ChatsView from "./chat/ChatsView.js";
 import Layout from "./layout/Layout.js";
 import NotificationsView from "./notification/NotificationsView.js";
 import PostCacher from "./post/PostCacher.js";
@@ -56,6 +58,10 @@ export default async function initialize(config: Config) {
   Router.route("**", Layout);
   Router.route("", HomeView);
   Router.route("chats", ChatsView);
+  Router.route("chats/0x{walletAddress}", SubjectChatRoomView);
+  Router.route(["chats", "chats/{topic}"], TopicChatRoomView, [
+    "chats/0x{walletAddress}",
+  ]);
   Router.route("explore", ExploreView);
   Router.route("notifications", NotificationsView);
   Router.route("settings", SettingsView);

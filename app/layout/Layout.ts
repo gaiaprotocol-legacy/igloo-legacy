@@ -41,8 +41,17 @@ export default class Layout extends View {
   }
 
   private activeNavBarButton(uri: string): void {
-    this.navBar.activeButton(uri === "" ? "home" : uri);
-    uri === "explore" ? this.trendSection.hide() : this.trendSection.show();
+    this.navBar.activeButton(
+      uri === ""
+        ? "home"
+        : uri.substring(
+          0,
+          uri.indexOf("/") === -1 ? uri.length : uri.indexOf("/"),
+        ),
+    );
+    uri === "explore" || uri.startsWith("chats")
+      ? this.trendSection.hide()
+      : this.trendSection.show();
     uri === "explore" ? this.topUserSection.show() : this.topUserSection.hide();
     this.mobileTitleBar.uri = uri;
   }

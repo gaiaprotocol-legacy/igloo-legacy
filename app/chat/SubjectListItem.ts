@@ -1,8 +1,8 @@
-import { DomNode } from "common-dapp-module";
 import SubjectDetails from "../database-interface/SubjectDetails.js";
+import ChatRoomListItem from "./ChatRoomListItem.js";
 
-export default class SubjectListItem extends DomNode {
+export default class SubjectListItem extends ChatRoomListItem {
   constructor(subjectDetails: SubjectDetails) {
-    super(".subject-chat-room-list-item");
+    super(".subject-list-item");
   }
 }

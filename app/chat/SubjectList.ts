@@ -1,33 +1,14 @@
-import { DomNode, el } from "common-dapp-module";
 import SubjectDetails from "../database-interface/SubjectDetails.js";
+import ChatRoomList from "./ChatRoomList.js";
 import SubjectListItem from "./SubjectListItem.js";
 
-export default abstract class SubjectList extends DomNode {
-  private emptyMessageDisplay: DomNode | undefined;
-
-  constructor(tag: string, private emptyMessage: string) {
-    super(tag + ".subject-chat-room-list");
-    this.showEmptyMessage();
-  }
-
-  private showEmptyMessage() {
-    this.emptyMessageDisplay?.delete();
-    this.emptyMessageDisplay = el("p.empty-message", this.emptyMessage);
-    this.emptyMessageDisplay.on(
-      "delete",
-      () => this.emptyMessageDisplay = undefined,
-    );
-    this.append(this.emptyMessageDisplay);
+export default abstract class SubjectList extends ChatRoomList {
+  constructor(tag: string, emptyMessage: string) {
+    super(tag + ".subject-list", emptyMessage);
   }
 
   protected addSubjectDetails(subjectDetails: SubjectDetails) {
     this.emptyMessageDisplay?.delete();
     this.append(new SubjectListItem(subjectDetails));
-  }
-
-  public empty(): this {
-    super.empty();
-    this.showEmptyMessage();
-    return this;
   }
 }
