@@ -1,3 +1,6 @@
+/*!**********************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[1].use[1]!./public/style/lib/reset.css ***!
+  \**********************************************************************************************************/
 /***
     The new CSS reset - version 1.8.4 (last updated 14.2.2023)
     GitHub page: https://github.com/elad2412/the-new-css-reset
@@ -98,6 +101,9 @@ meter {
 :where(dialog:modal) {
     all: revert;
 }
+/*!*********************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[1].use[1]!./node_modules/less-loader/dist/cjs.js!./public/style/main.less ***!
+  \*********************************************************************************************************************************************/
 @font-face {
   font-family: 'Quicksand';
   font-style: normal;
@@ -1318,6 +1324,75 @@ button.component.text:active {
   box-shadow: 4px 4px 8px 0px rgba(255, 255, 255, 0.75), 2px 2px 8px 0px rgba(31, 94, 255, 0.75) inset;
 }
 .chat-message-form > form > button.send.disabled {
+  opacity: 0.5;
+}
+.chat-message-list {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.chat-message-list-item {
+  display: flex;
+  gap: 8px;
+}
+.chat-message-list-item > .author-profile-image {
+  margin-top: 1px;
+  display: flex;
+  width: 42px;
+  height: 42px;
+  flex-shrink: 0;
+  border-radius: 42px;
+  border: 1px solid #FFF;
+  background: lightgray 50% / cover no-repeat;
+  cursor: pointer;
+}
+.chat-message-list-item > main {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.chat-message-list-item > main > header > .author {
+  display: flex;
+}
+.chat-message-list-item > main > header > .author > .name {
+  color: #2A2A2A;
+  font-feature-settings: 'clig' off, 'liga' off;
+  font-family: Quicksand;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  cursor: pointer;
+}
+.chat-message-list-item > main > p.message {
+  border-radius: 16px;
+  background: #EBEFF3;
+  box-shadow: 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
+  padding: 8px 20px;
+  color: #2A2A2A;
+  font-feature-settings: 'clig' off, 'liga' off;
+  font-family: Quicksand;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+}
+@media only screen and (max-width: 859px) {
+  .chat-message-list-item > main > p.message {
+    font-size: 12px;
+  }
+}
+.chat-message-list-item.owner {
+  justify-content: end;
+}
+.chat-message-list-item.owner > main > header > .author {
+  justify-content: end;
+}
+.chat-message-list-item.owner > main > p.message {
+  background-color: #5585FF;
+  color: #fff;
+}
+.chat-message-list-item.waiting > main > p.message {
   opacity: 0.5;
 }
 .topic-list-item > h3 {

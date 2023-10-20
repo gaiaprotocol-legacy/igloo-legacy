@@ -8,6 +8,12 @@ export default abstract class ChatMessageList extends DomNode {
   constructor(tag: string, private emptyMessage: string) {
     super(tag + ".chat-message-list");
     this.showEmptyMessage();
+    this.on("visible", () => {
+      this.scrollToBottom();
+      setTimeout(() => {
+        if (!this.deleted) this.scrollToBottom();
+      });
+    });
   }
 
   private showEmptyMessage() {
@@ -23,7 +29,9 @@ export default abstract class ChatMessageList extends DomNode {
   public addMessage(message: ChatMessage) {
     this.emptyMessageDisplay?.delete();
     const item = new ChatMessageListItem(message);
+    item.on("imageLoaded", () => this.scrollToBottom());
     this.append(item);
+    this.scrollToBottom();
     return item;
   }
 
@@ -32,6 +40,13 @@ export default abstract class ChatMessageList extends DomNode {
       item instanceof ChatMessageListItem &&
       item.message.id === messageId
     ) as ChatMessageListItem | undefined;
+  }
+
+  public scrollToBottom() {
+    this.domElement.scrollTo(
+      0,
+      this.domElement.scrollHeight,
+    );
   }
 
   public empty(): this {

@@ -37,6 +37,8 @@ export default abstract class ChatMessageForm extends DomNode {
         },
       ),
     );
+
+    this.on("visible", () => this.messageInput.domElement.focus());
   }
 
   protected abstract sendMessage(message: string): void;
