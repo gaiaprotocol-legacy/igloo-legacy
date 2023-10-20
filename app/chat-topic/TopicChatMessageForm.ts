@@ -20,6 +20,7 @@ export default class TopicChatMessageForm extends ChatMessageForm {
       message,
     );
     //TODO:
+    console.log(messageId);
   }
 
   protected upload(file: File) {
