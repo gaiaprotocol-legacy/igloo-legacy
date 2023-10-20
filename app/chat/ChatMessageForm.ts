@@ -1,4 +1,7 @@
 import { Button, DomNode, el, MaterialIcon } from "common-dapp-module";
+import ChatMessage, { MessageType } from "../database-interface/ChatMessage.js";
+import { UploadedFile } from "../database-interface/Rich.js";
+import SignedUserManager from "../user/SignedUserManager.js";
 
 export default abstract class ChatMessageForm extends DomNode {
   private uploadInput: DomNode<HTMLInputElement>;
@@ -13,9 +16,7 @@ export default abstract class ChatMessageForm extends DomNode {
         accept: "image/*",
         change: (event) => {
           const file = event.target.files?.[0];
-          if (file) {
-            //this.upload(file);
-          }
+          if (file) this.upload(file);
         },
       }),
       this.uploadButton = el("button.upload", new MaterialIcon("upload"), {}),
@@ -29,10 +30,37 @@ export default abstract class ChatMessageForm extends DomNode {
         {
           submit: (event) => {
             event.preventDefault();
-            //this.sendMessage();
+            const message = this.messageInput.domElement.value;
+            if (message) this.sendMessage(message);
+            this.messageInput.domElement.value = "";
           },
         },
       ),
     );
+  }
+
+  protected abstract sendMessage(message: string): void;
+  protected abstract upload(file: File): void;
+
+  protected getOptimisticData(
+    messageType: MessageType,
+    message?: string,
+    rich?: {
+      files?: UploadedFile[];
+    },
+  ): ChatMessage {
+    if (!SignedUserManager.signed) {
+      throw new Error("User is not signed");
+    }
+    return {
+      id: -1,
+      author: SignedUserManager.userId!,
+      author_name: SignedUserManager.name,
+      author_avatar_url: SignedUserManager.avatarUrl,
+      message_type: messageType,
+      message,
+      rich,
+      created_at: new Date().toISOString(),
+    };
   }
 }
