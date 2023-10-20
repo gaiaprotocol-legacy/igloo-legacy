@@ -7,8 +7,7 @@ import TopicChatService from "./TopicChatService.js";
 export default class TopicChatMessageList extends ChatMessageList {
   private store: Store = new Store("topic-chat-message-list");
   private isContentFromCache: boolean = true;
-
-  private _channel: RealtimeChannel;
+  private channel: RealtimeChannel;
 
   constructor(public topic: string) {
     super(".topic-chat-message-list", "No messages yet.");
@@ -23,7 +22,7 @@ export default class TopicChatMessageList extends ChatMessageList {
     }
     this.fetchMessages();
 
-    this._channel = Supabase.client
+    this.channel = Supabase.client
       .channel("topic-chat-message-changes")
       .on(
         "postgres_changes",
@@ -66,7 +65,7 @@ export default class TopicChatMessageList extends ChatMessageList {
   }
 
   public delete() {
-    this._channel.unsubscribe();
+    this.channel.unsubscribe();
     super.delete();
   }
 }
