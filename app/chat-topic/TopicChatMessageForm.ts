@@ -14,13 +14,16 @@ export default class TopicChatMessageForm extends ChatMessageForm {
       topic: this.messageList.topic,
       ...this.getOptimisticData(MessageType.MESSAGE, message),
     };
+
     const item = this.messageList.addMessage(optimistic).wait();
     const messageId = await TopicChatService.sendMessage(
       this.messageList.topic,
       message,
     );
-    //TODO:
-    console.log(messageId);
+
+    this.messageList.findMessageItem(messageId)?.delete();
+    item.message.id = messageId;
+    item.done();
   }
 
   protected upload(file: File) {

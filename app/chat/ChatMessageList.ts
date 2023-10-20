@@ -27,6 +27,13 @@ export default abstract class ChatMessageList extends DomNode {
     return item;
   }
 
+  public findMessageItem(messageId: number) {
+    return this.children.find((item) =>
+      item instanceof ChatMessageListItem &&
+      item.message.id === messageId
+    ) as ChatMessageListItem | undefined;
+  }
+
   public empty(): this {
     super.empty();
     if (!this.deleted) this.showEmptyMessage();
