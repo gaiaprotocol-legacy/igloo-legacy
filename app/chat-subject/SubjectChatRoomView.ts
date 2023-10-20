@@ -1,12 +1,13 @@
 import { ViewParams } from "common-dapp-module";
 import { ethers } from "ethers";
 import ChatRoomView from "../chat/ChatRoomView.js";
-import SubjectChatMessageList from "../subject/SubjectChatMessageList.js";
 import SubjectChatMessageForm from "./SubjectChatMessageForm.js";
+import SubjectChatMessageList from "./SubjectChatMessageList.js";
 import SubjectChatRoomHeader from "./SubjectChatRoomHeader.js";
 
 export default class SubjectChatRoomView extends ChatRoomView {
   private subject: string;
+  private messageList!: SubjectChatMessageList;
 
   constructor(params: ViewParams) {
     super(params, ".subject-chat-room-view");
@@ -23,8 +24,8 @@ export default class SubjectChatRoomView extends ChatRoomView {
     const subject = ethers.getAddress(this.subject);
     this.container.empty().append(
       new SubjectChatRoomHeader(subject),
-      new SubjectChatMessageList(subject),
-      new SubjectChatMessageForm(subject),
+      this.messageList = new SubjectChatMessageList(subject),
+      new SubjectChatMessageForm(this.messageList),
     );
   }
 }

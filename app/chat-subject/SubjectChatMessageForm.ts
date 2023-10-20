@@ -1,7 +1,8 @@
 import ChatMessageForm from "../chat/ChatMessageForm.js";
+import SubjectChatMessageList from "./SubjectChatMessageList.js";
 
 export default class SubjectChatMessageForm extends ChatMessageForm {
-  constructor(subject: string) {
+  constructor(private messageList: SubjectChatMessageList) {
     super(".subject-chat-message-form");
   }
 

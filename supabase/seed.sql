@@ -177,6 +177,17 @@ end;$$;
 
 ALTER FUNCTION "public"."increase_total_subject_key_balance"() OWNER TO "postgres";
 
+CREATE OR REPLACE FUNCTION "public"."set_author_default_values"() RETURNS "trigger"
+    LANGUAGE "plpgsql" SECURITY DEFINER
+    AS $$BEGIN
+  new.author_name := (SELECT raw_user_meta_data ->> 'full_name' FROM auth.users WHERE id = new.author);
+  new.author_avatar_url := (SELECT raw_user_meta_data ->> 'avatar_url' FROM auth.users WHERE id = new.author);
+  new.author_x_username := (SELECT raw_user_meta_data ->> 'user_name' FROM auth.users WHERE id = new.author);
+  RETURN new;
+END;$$;
+
+ALTER FUNCTION "public"."set_author_default_values"() OWNER TO "postgres";
+
 CREATE OR REPLACE FUNCTION "public"."set_notification_read_at"() RETURNS "trigger"
     LANGUAGE "plpgsql" SECURITY DEFINER
     AS $$BEGIN
@@ -188,17 +199,6 @@ END;
 $$;
 
 ALTER FUNCTION "public"."set_notification_read_at"() OWNER TO "postgres";
-
-CREATE OR REPLACE FUNCTION "public"."set_post_default_values"() RETURNS "trigger"
-    LANGUAGE "plpgsql" SECURITY DEFINER
-    AS $$BEGIN
-  new.author_name := (SELECT raw_user_meta_data ->> 'full_name' FROM auth.users WHERE id = new.author);
-  new.author_avatar_url := (SELECT raw_user_meta_data ->> 'avatar_url' FROM auth.users WHERE id = new.author);
-  new.author_x_username := (SELECT raw_user_meta_data ->> 'user_name' FROM auth.users WHERE id = new.author);
-  RETURN new;
-END;$$;
-
-ALTER FUNCTION "public"."set_post_default_values"() OWNER TO "postgres";
 
 CREATE OR REPLACE FUNCTION "public"."set_updated_at"() RETURNS "trigger"
     LANGUAGE "plpgsql" SECURITY DEFINER
@@ -496,9 +496,13 @@ CREATE TRIGGER "increase_subject_total_trading_volume_and_fees_earned" AFTER INS
 
 CREATE TRIGGER "increase_total_subject_key_balance" AFTER INSERT ON "public"."subject_key_holders" FOR EACH ROW EXECUTE FUNCTION "public"."increase_total_subject_key_balance"();
 
-CREATE TRIGGER "set_notification_read_at" BEFORE UPDATE ON "public"."notifications" FOR EACH ROW EXECUTE FUNCTION "public"."set_notification_read_at"();
+CREATE TRIGGER "set_author_default_values" BEFORE INSERT ON "public"."posts" FOR EACH ROW EXECUTE FUNCTION "public"."set_author_default_values"();
 
-CREATE TRIGGER "set_post_default_values" BEFORE INSERT ON "public"."posts" FOR EACH ROW EXECUTE FUNCTION "public"."set_post_default_values"();
+CREATE TRIGGER "set_author_default_values" BEFORE INSERT ON "public"."subject_chat_messages" FOR EACH ROW EXECUTE FUNCTION "public"."set_author_default_values"();
+
+CREATE TRIGGER "set_author_default_values" BEFORE INSERT ON "public"."topic_chat_messages" FOR EACH ROW EXECUTE FUNCTION "public"."set_author_default_values"();
+
+CREATE TRIGGER "set_notification_read_at" BEFORE UPDATE ON "public"."notifications" FOR EACH ROW EXECUTE FUNCTION "public"."set_notification_read_at"();
 
 CREATE TRIGGER "set_posts_updated_at" BEFORE UPDATE ON "public"."posts" FOR EACH ROW EXECUTE FUNCTION "public"."set_updated_at"();
 
@@ -555,6 +559,8 @@ CREATE POLICY "can unfollow only follower" ON "public"."follows" FOR DELETE TO "
 
 CREATE POLICY "can write only authed" ON "public"."posts" FOR INSERT TO "authenticated" WITH CHECK ((("message" <> ''::"text") AND ("author" = "auth"."uid"())));
 
+CREATE POLICY "can write only authed" ON "public"."topic_chat_messages" FOR INSERT TO "authenticated" WITH CHECK (((("message" <> ''::"text") OR ("rich" <> NULL::"jsonb")) AND ("author" = "auth"."uid"())));
+
 ALTER TABLE "public"."follows" ENABLE ROW LEVEL SECURITY;
 
 ALTER TABLE "public"."notifications" ENABLE ROW LEVEL SECURITY;
@@ -582,6 +588,8 @@ CREATE POLICY "view everyone" ON "public"."follows" FOR SELECT USING (true);
 CREATE POLICY "view everyone" ON "public"."subject_details" FOR SELECT USING (true);
 
 CREATE POLICY "view everyone" ON "public"."subject_key_holders" FOR SELECT USING (true);
+
+CREATE POLICY "view everyone" ON "public"."topic_chat_messages" FOR SELECT USING (true);
 
 CREATE POLICY "view everyone" ON "public"."total_subject_key_balances" FOR SELECT USING (true);
 
@@ -634,13 +642,13 @@ GRANT ALL ON FUNCTION "public"."increase_total_subject_key_balance"() TO "anon";
 GRANT ALL ON FUNCTION "public"."increase_total_subject_key_balance"() TO "authenticated";
 GRANT ALL ON FUNCTION "public"."increase_total_subject_key_balance"() TO "service_role";
 
+GRANT ALL ON FUNCTION "public"."set_author_default_values"() TO "anon";
+GRANT ALL ON FUNCTION "public"."set_author_default_values"() TO "authenticated";
+GRANT ALL ON FUNCTION "public"."set_author_default_values"() TO "service_role";
+
 GRANT ALL ON FUNCTION "public"."set_notification_read_at"() TO "anon";
 GRANT ALL ON FUNCTION "public"."set_notification_read_at"() TO "authenticated";
 GRANT ALL ON FUNCTION "public"."set_notification_read_at"() TO "service_role";
-
-GRANT ALL ON FUNCTION "public"."set_post_default_values"() TO "anon";
-GRANT ALL ON FUNCTION "public"."set_post_default_values"() TO "authenticated";
-GRANT ALL ON FUNCTION "public"."set_post_default_values"() TO "service_role";
 
 GRANT ALL ON FUNCTION "public"."set_updated_at"() TO "anon";
 GRANT ALL ON FUNCTION "public"."set_updated_at"() TO "authenticated";

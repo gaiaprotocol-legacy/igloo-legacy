@@ -6,6 +6,7 @@ import TopicChatRoomHeader from "./TopicChatRoomHeader.js";
 
 export default class TopicChatRoomView extends ChatRoomView {
   private topic: string | undefined;
+  private messageList!: TopicChatMessageList;
 
   constructor(params: ViewParams) {
     super(params, ".topic-chat-room-view");
@@ -24,8 +25,8 @@ export default class TopicChatRoomView extends ChatRoomView {
     const topic = this.topic ? this.topic.toLowerCase() : "general";
     this.container.empty().append(
       new TopicChatRoomHeader(topic),
-      new TopicChatMessageList(topic),
-      new TopicChatMessageForm(topic),
+      this.messageList = new TopicChatMessageList(topic),
+      new TopicChatMessageForm(this.messageList),
     );
   }
 }

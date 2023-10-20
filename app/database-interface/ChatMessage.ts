@@ -4,8 +4,7 @@ import { UploadedFile } from "./Rich.js";
 export enum MessageType {
   MESSAGE,
   FILE_UPLOAD,
-  EMOJI,
-  POST,
+  POST_REF,
 }
 
 export default interface ChatMessage {

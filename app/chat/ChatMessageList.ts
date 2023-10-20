@@ -20,9 +20,11 @@ export default abstract class ChatMessageList extends DomNode {
     this.append(this.emptyMessageDisplay);
   }
 
-  protected addMessage(message: ChatMessage) {
+  public addMessage(message: ChatMessage) {
     this.emptyMessageDisplay?.delete();
-    this.append(new ChatMessageListItem(message));
+    const item = new ChatMessageListItem(message);
+    this.append(item);
+    return item;
   }
 
   public empty(): this {
