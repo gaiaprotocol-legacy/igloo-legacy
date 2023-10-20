@@ -53,7 +53,7 @@ class PostService {
   public async fetchFollowingPosts(
     userId: string,
     lastFetchedPostId?: number,
-  ): Promise<Post[]> {
+  ): Promise<{ followeeIds: string[]; posts: Post[] }> {
     const { data: followsData, error: followsError } = await Supabase.client
       .from("follows").select().eq(
         "follower_id",
@@ -77,7 +77,7 @@ class PostService {
       PostService.LIMIT,
     );
     if (error) throw error;
-    return data;
+    return { followeeIds, posts: data };
   }
 }
 
