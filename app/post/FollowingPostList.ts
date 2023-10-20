@@ -20,10 +20,10 @@ export default class FollowingPostList extends PostList {
   }
 
   protected async fetchContent() {
-    const posts = await PostService.fetchFollowingPosts(
+    const posts = (await PostService.fetchFollowingPosts(
       this.userId,
       this.lastFetchedPostId,
-    );
+    )).reverse();
     PostCacher.cachePosts(posts);
     this.lastFetchedPostId = posts[posts.length - 1]?.id;
 

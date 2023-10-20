@@ -23,7 +23,7 @@ export default class TopicChatMessageList extends ChatMessageList {
     this.fetchMessages();
 
     this.channel = Supabase.client
-      .channel("topic-chat-message-changes")
+      .channel(`topic-${topic}-chat-message-changes`)
       .on(
         "postgres_changes",
         {

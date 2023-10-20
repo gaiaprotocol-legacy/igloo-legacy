@@ -25,7 +25,7 @@ export default abstract class PostList extends DomNode {
 
   protected addPost(post: Post) {
     this.emptyMessageDisplay?.delete();
-    this.append(new PostListItem(post));
+    new PostListItem(post).appendTo(this, 0);
   }
 
   protected abstract fetchContent(): void;
