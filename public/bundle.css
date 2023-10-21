@@ -1,3 +1,6 @@
+/*!**********************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[1].use[1]!./public/style/lib/reset.css ***!
+  \**********************************************************************************************************/
 /***
     The new CSS reset - version 1.8.4 (last updated 14.2.2023)
     GitHub page: https://github.com/elad2412/the-new-css-reset
@@ -98,6 +101,9 @@ meter {
 :where(dialog:modal) {
     all: revert;
 }
+/*!*********************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[1].use[1]!./node_modules/less-loader/dist/cjs.js!./public/style/main.less ***!
+  \*********************************************************************************************************************************************/
 @font-face {
   font-family: 'Quicksand';
   font-style: normal;
@@ -1556,6 +1562,62 @@ button.component.text:active {
     padding: 0;
     font-size: 14px;
   }
+}
+.search-view {
+  padding: 31px 30px;
+}
+@media only screen and (max-width: 859px) {
+  .search-view {
+    padding: 20px;
+  }
+}
+.search-view > h1 {
+  color: #2A2A2A;
+  font-feature-settings: 'clig' off, 'liga' off;
+  font-family: Quicksand;
+  font-size: 22px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  text-transform: capitalize;
+  margin-bottom: 40px;
+}
+@media only screen and (max-width: 859px) {
+  .search-view > h1 {
+    display: none;
+  }
+}
+.search-view > .search-bar {
+  height: 48px;
+  flex-shrink: 0;
+  border-radius: 16px;
+  border: 1px solid #F4F7F9;
+  background: #EBEFF3;
+  box-shadow: 4px 4px 8px 0px rgba(255, 255, 255, 0.75), 2px 2px 8px 0px rgba(189, 194, 199, 0.75) inset;
+  display: flex;
+  align-items: center;
+  padding: 14px 20px;
+  gap: 20px;
+}
+.search-view > .search-bar > .material-icon {
+  color: #a1a2ac;
+}
+.search-view > .search-bar > input {
+  flex-grow: 1;
+  color: #2A2A2A;
+  font-feature-settings: 'clig' off, 'liga' off;
+  font-family: Quicksand;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  height: 100%;
+}
+.search-view > .search-bar > input::placeholder {
+  color: #a1a2ac;
+}
+.search-view > .search-bar:focus-within > .material-icon {
+  color: #2A2A2A;
 }
 .notifications-view {
   padding: 31px 30px;

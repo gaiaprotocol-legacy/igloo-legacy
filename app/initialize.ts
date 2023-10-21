@@ -23,6 +23,7 @@ import UserDetailsCacher from "./user/UserDetailsCacher.js";
 import UserView from "./user/UserView.js";
 import UserWalletLinker from "./user/UserWalletLinker.js";
 import WalletManager from "./user/WalletManager.js";
+import SearchView from "./explore/SearchView.js";
 
 dayjs.extend(relativeTime);
 
@@ -63,6 +64,7 @@ export default async function initialize(config: Config) {
     "chats/0x{subject}",
   ]);
   Router.route("explore", ExploreView);
+  Router.route("search", SearchView);
   Router.route("notifications", NotificationsView);
   Router.route("settings", SettingsView);
   Router.route("post/{postId}", PostView);
@@ -70,6 +72,7 @@ export default async function initialize(config: Config) {
   Router.route("{xUsername}", UserView, [
     "chats",
     "explore",
+    "search",
     "notifications",
     "settings",
     "post/{postId}",

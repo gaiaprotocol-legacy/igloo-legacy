@@ -1,29 +1,30 @@
 import {
-  DomNode,
-  el,
-  MaterialIcon,
-  Router,
-  Tabs,
-  View,
-  ViewParams,
+    DomNode,
+    el,
+    MaterialIcon,
+    Router,
+    View,
+    ViewParams,
 } from "common-dapp-module";
 import Layout from "../layout/Layout.js";
 
-export default class ExploreView extends View {
+export default class SearchView extends View {
   private container: DomNode;
-  private tabs: Tabs;
   private searchInput: DomNode<HTMLInputElement>;
 
   constructor(params: ViewParams) {
     super();
     Layout.append(
       this.container = el(
-        ".explore-view",
-        el("h1", "Explorer"),
+        ".search-view",
+        el("h1", "Search"),
         el(
           "form.search-bar",
           new MaterialIcon("search"),
-          this.searchInput = el("input", { placeholder: "Search" }),
+          this.searchInput = el("input", {
+            placeholder: "Search",
+            value: new URLSearchParams(location.search).get("q") ?? "",
+          }),
           {
             submit: (event) => {
               event.preventDefault();
@@ -31,23 +32,17 @@ export default class ExploreView extends View {
             },
           },
         ),
-        this.tabs = new Tabs("explore", [{
-          id: "trending",
-          label: "Trending",
-        }, {
-          id: "top",
-          label: "Top",
-        }, {
-          id: "new",
-          label: "New",
-        }, {
-          id: "activity",
-          label: "Activity",
-        }]),
       ),
     );
+    this.fetchSearchResults();
+  }
 
-    this.tabs.init();
+  public changeParams(params: ViewParams, uri: string): void {
+    this.fetchSearchResults();
+  }
+
+  private async fetchSearchResults(): Promise<void> {
+    console.log(new URLSearchParams(location.search).get("q"));
   }
 
   public close(): void {
