@@ -8,11 +8,19 @@ import {
   ViewParams,
 } from "common-dapp-module";
 import Layout from "../layout/Layout.js";
+import ActivityList from "./ActivityList.js";
+import NewUserList from "./NewUserList.js";
+import TopUserList from "./TopUserList.js";
+import TrendingUserList from "./TrendingUserList.js";
 
 export default class ExploreView extends View {
   private container: DomNode;
   private tabs: Tabs;
   private searchInput: DomNode<HTMLInputElement>;
+  private trendingUserList: TrendingUserList;
+  private topUserList: TopUserList;
+  private newUsersList: NewUserList;
+  private activityList: ActivityList;
 
   constructor(params: ViewParams) {
     super();
@@ -44,10 +52,26 @@ export default class ExploreView extends View {
           id: "activity",
           label: "Activity",
         }]),
+        this.trendingUserList = new TrendingUserList(),
+        this.topUserList = new TopUserList(),
+        this.newUsersList = new NewUserList(),
+        this.activityList = new ActivityList(),
       ),
     );
 
-    this.tabs.init();
+    this.tabs.on("select", (id: string) => {
+      [
+        this.trendingUserList,
+        this.topUserList,
+        this.newUsersList,
+        this.activityList,
+      ]
+        .forEach((list) => list.hide());
+      if (id === "trending") this.trendingUserList.show();
+      else if (id === "top") this.topUserList.show();
+      else if (id === "new") this.newUsersList.show();
+      else if (id === "activity") this.activityList.show();
+    }).init();
   }
 
   public close(): void {

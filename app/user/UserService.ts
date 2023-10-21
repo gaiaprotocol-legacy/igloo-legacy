@@ -109,6 +109,50 @@ class UserService {
     const walletAddresses = holderData.map((holder) => holder.wallet_address);
     return await this.fetchByWalletAddresses(walletAddresses);
   }
+
+  public async fetchNewUsers(): Promise<UserDetails[]> {
+    const { data, error } = await Supabase.client.from("user_details").select(
+      UserDetailsSelectQuery,
+    )
+      .order(
+        "created_at",
+        { ascending: false },
+      ).limit(
+        UserService.LIMIT,
+      );
+    if (error) throw error;
+    return data as any;
+  }
+
+  public async fetchTopUsers(): Promise<UserDetails[]> {
+    const { data: subjectData, error: subjectError } = await Supabase.client
+      .from(
+        "subject_details",
+      ).select().order(
+        "last_fetched_key_price",
+        { ascending: false },
+      ).limit(
+        UserService.LIMIT,
+      );
+    if (subjectError) throw subjectError;
+    const walletAddresses = subjectData.map((subject) => subject.subject);
+    return await this.fetchByWalletAddresses(walletAddresses);
+  }
+
+  public async fetchTrendingUsers(): Promise<UserDetails[]> {
+    const { data: subjectData, error: subjectError } = await Supabase.client
+      .from(
+        "subject_details",
+      ).select().order(
+        "last_key_purchased_at",
+        { ascending: false },
+      ).limit(
+        UserService.LIMIT,
+      );
+    if (subjectError) throw subjectError;
+    const walletAddresses = subjectData.map((subject) => subject.subject);
+    return await this.fetchByWalletAddresses(walletAddresses);
+  }
 }
 
 export default new UserService();

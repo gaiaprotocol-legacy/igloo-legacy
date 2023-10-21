@@ -171,15 +171,10 @@ export default class UserView extends View {
         this.followerList,
       ]
         .forEach((list) => list?.hide());
-      if (id === "holdings") {
-        this.holdingList?.show();
-      } else if (id === "holders") {
-        this.holderList?.show();
-      } else if (id === "following") {
-        this.followingList.show();
-      } else if (id === "followers") {
-        this.followerList.show();
-      }
+      if (id === "holdings") this.holdingList?.show();
+      else if (id === "holders") this.holderList?.show();
+      else if (id === "following") this.followingList.show();
+      else if (id === "followers") this.followerList.show();
     }).init();
   }
 

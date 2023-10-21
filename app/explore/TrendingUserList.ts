@@ -1,4 +1,38 @@
+import { Store } from "common-dapp-module";
+import UserDetails from "../database-interface/UserDetails.js";
+import UserDetailsCacher from "../user/UserDetailsCacher.js";
+import UserService from "../user/UserService.js";
 import UserList from "../user/UsetList.js";
 
 export default class TrendingUserList extends UserList {
+  private isContentFromCache: boolean = true;
+  private store: Store = new Store("trending-user-list");
+
+  constructor() {
+    super(".trending-user-list", "No users yet");
+
+    const cachedUserDetails = this.store.get<UserDetails[]>("cached-users");
+    if (cachedUserDetails) {
+      for (const userDetails of cachedUserDetails) {
+        this.addUserDetails(userDetails);
+      }
+    }
+  }
+
+  protected async fetchContent() {
+    const userDetailsSet = await UserService.fetchTrendingUsers();
+    UserDetailsCacher.cacheMultiple(userDetailsSet);
+
+    if (this.isContentFromCache) {
+      this.isContentFromCache = false;
+      this.store.set("cached-users", userDetailsSet, true);
+      if (!this.deleted) this.empty();
+    }
+
+    if (!this.deleted) {
+      for (const userDetails of userDetailsSet) {
+        this.addUserDetails(userDetails);
+      }
+    }
+  }
 }

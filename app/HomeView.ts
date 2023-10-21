@@ -20,7 +20,6 @@ export default class HomeView extends View {
   private globalPostList!: GlobalPostList;
   private followingPostList!: FollowingPostList;
   private keyHeldPostList!: KeyHeldPostList;
-  private postButton!: DomNode;
 
   constructor(params: ViewParams) {
     super();
@@ -65,10 +64,12 @@ export default class HomeView extends View {
           ))
           : undefined,
         SignedUserManager.walletAddress
-          ? this.keyHeldPostList = new KeyHeldPostList(SignedUserManager.walletAddress)
+          ? this.keyHeldPostList = new KeyHeldPostList(
+            SignedUserManager.walletAddress,
+          )
           : undefined,
       ),
-      this.postButton = el("button.post", new MaterialIcon("add"), {
+      el("button.post", new MaterialIcon("add"), {
         click: () => new PostPopup(),
       }),
     );
@@ -79,13 +80,9 @@ export default class HomeView extends View {
       this.tabs.on("select", (id: string) => {
         [this.globalPostList, this.followingPostList, this.keyHeldPostList]
           .forEach((list) => list.hide());
-        if (id === "global") {
-          this.globalPostList.show();
-        } else if (id === "following") {
-          this.followingPostList.show();
-        } else if (id === "held") {
-          this.keyHeldPostList.show();
-        }
+        if (id === "global") this.globalPostList.show();
+        else if (id === "following") this.followingPostList.show();
+        else if (id === "held") this.keyHeldPostList.show();
       }).init();
     }
   }
