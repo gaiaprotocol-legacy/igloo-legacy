@@ -1513,6 +1513,15 @@ button.component.text:active {
     display: none;
   }
 }
+@media only screen and (max-width: 859px) {
+  .explore-view > .tabs {
+    padding: 12px;
+  }
+  .explore-view > .tabs > .tab {
+    padding: 0;
+    font-size: 14px;
+  }
+}
 .notifications-view {
   padding: 31px 30px;
 }
