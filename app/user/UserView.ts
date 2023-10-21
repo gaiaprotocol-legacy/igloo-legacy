@@ -28,8 +28,8 @@ export default class UserView extends View {
   private subjectDetails: SubjectDetails | undefined;
   private holdingCount = 0;
 
-  private holdingList!: HoldingList;
-  private holderList!: HolderList;
+  private holdingList: HoldingList | undefined;
+  private holderList: HolderList | undefined;
   private followingList!: FollowingList;
   private followerList!: FollowerList;
 
@@ -111,39 +111,51 @@ export default class UserView extends View {
           ".user-connections",
           this.tabs = new Tabs(
             "user-connections",
-            [{
-              id: "holdings",
-              label: [
-                el("span.value", String(this.holdingCount)),
-                "Holdings",
-              ],
-            }, {
-              id: "holders",
-              label: [
-                el(
-                  "span.value",
-                  this.subjectDetails
-                    ? String(this.subjectDetails.key_holder_count)
-                    : "0",
-                ),
-                "Holders",
-              ],
-            }, {
-              id: "following",
-              label: [
-                el("span.value", String(this.userDetails.following_count)),
-                "Following",
-              ],
-            }, {
-              id: "followers",
-              label: [
-                el("span.value", String(this.userDetails.follower_count)),
-                "Followers",
-              ],
-            }],
+            (() => {
+              const tabs = this.userDetails.wallet_address
+                ? [{
+                  id: "holdings",
+                  label: [
+                    el("span.value", String(this.holdingCount)),
+                    "Holdings",
+                  ],
+                }, {
+                  id: "holders",
+                  label: [
+                    el(
+                      "span.value",
+                      this.subjectDetails
+                        ? String(this.subjectDetails.key_holder_count)
+                        : "0",
+                    ),
+                    "Holders",
+                  ],
+                }]
+                : [];
+              tabs.push({
+                id: "following",
+                label: [
+                  el("span.value", String(this.userDetails.following_count)),
+                  "Following",
+                ],
+              }, {
+                id: "followers",
+                label: [
+                  el("span.value", String(this.userDetails.follower_count)),
+                  "Followers",
+                ],
+              });
+              return tabs;
+            })(),
           ),
-          this.holdingList = new HoldingList(this.userDetails.user_id),
-          this.holderList = new HolderList(this.userDetails.user_id),
+          this.userDetails.wallet_address
+            ? this.holdingList = new HoldingList(
+              this.userDetails.wallet_address,
+            )
+            : undefined,
+          this.userDetails.wallet_address
+            ? this.holderList = new HolderList(this.userDetails.wallet_address)
+            : undefined,
           this.followingList = new FollowingList(this.userDetails.user_id),
           this.followerList = new FollowerList(this.userDetails.user_id),
         ),
@@ -158,11 +170,11 @@ export default class UserView extends View {
         this.followingList,
         this.followerList,
       ]
-        .forEach((list) => list.hide());
+        .forEach((list) => list?.hide());
       if (id === "holdings") {
-        this.holdingList.show();
+        this.holdingList?.show();
       } else if (id === "holders") {
-        this.holderList.show();
+        this.holderList?.show();
       } else if (id === "following") {
         this.followingList.show();
       } else if (id === "followers") {

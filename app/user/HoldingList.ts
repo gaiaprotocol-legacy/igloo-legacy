@@ -1,11 +1,39 @@
+import { Store } from "common-dapp-module";
+import UserDetails from "../database-interface/UserDetails.js";
+import UserDetailsCacher from "./UserDetailsCacher.js";
+import UserService from "./UserService.js";
 import UserList from "./UsetList.js";
 
 export default class HoldingList extends UserList {
-  constructor(private userId: string) {
+  private store: Store;
+  private isContentFromCache: boolean = true;
+
+  constructor(private walletAddress: string) {
     super(".holding-list", "No holdings");
+    this.store = new Store(`subject-${walletAddress}-holding-list`);
+
+    const cachedUserDetails = this.store.get<UserDetails[]>("cached-holdings");
+    if (cachedUserDetails) {
+      for (const userDetails of cachedUserDetails) {
+        this.addUserDetails(userDetails);
+      }
+    }
   }
 
   protected async fetchContent() {
-    //TODO:
+    const userDetailsSet = await UserService.fetchHoldings(this.walletAddress);
+    UserDetailsCacher.cacheMultiple(userDetailsSet);
+
+    if (this.isContentFromCache) {
+      this.isContentFromCache = false;
+      this.store.set("cached-holdings", userDetailsSet, true);
+      if (!this.deleted) this.empty();
+    }
+
+    if (!this.deleted) {
+      for (const userDetails of userDetailsSet) {
+        this.addUserDetails(userDetails);
+      }
+    }
   }
 }

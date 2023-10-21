@@ -5,7 +5,7 @@ import UserService from "./UserService.js";
 import UserList from "./UsetList.js";
 
 export default class FollowingList extends UserList {
-  private store: Store = new Store("following-list");
+  private store: Store;
   private isContentFromCache: boolean = true;
   private lastFetchedFollowedAt: string | undefined;
 
