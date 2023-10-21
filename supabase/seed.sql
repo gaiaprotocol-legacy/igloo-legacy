@@ -156,7 +156,8 @@ CREATE OR REPLACE FUNCTION "public"."increase_subject_total_trading_volume_and_f
     update subject_details
     set
         total_trading_key_volume = total_trading_key_volume + new.args[5]::numeric,
-        total_earned_trading_fees = total_earned_trading_fees + new.args[7]::numeric
+        total_earned_trading_fees = total_earned_trading_fees + new.args[7]::numeric,
+        last_key_purchased_at = now()
     where
         subject = new.args[2];
     return null;
@@ -605,6 +606,8 @@ ALTER TABLE "public"."tracked_event_blocks" ENABLE ROW LEVEL SECURITY;
 ALTER TABLE "public"."user_details" ENABLE ROW LEVEL SECURITY;
 
 CREATE POLICY "view everyone" ON "public"."follows" FOR SELECT USING (true);
+
+CREATE POLICY "view everyone" ON "public"."subject_contract_events" FOR SELECT USING (true);
 
 CREATE POLICY "view everyone" ON "public"."subject_details" FOR SELECT USING (true);
 
