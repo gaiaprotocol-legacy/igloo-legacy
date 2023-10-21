@@ -1553,6 +1553,7 @@ button.component.text:active {
 }
 .explore-view > .tabs {
   margin-top: 20px;
+  margin-bottom: 20px;
 }
 @media only screen and (max-width: 859px) {
   .explore-view > .tabs {
