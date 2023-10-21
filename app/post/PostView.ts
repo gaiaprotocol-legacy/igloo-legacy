@@ -115,7 +115,7 @@ export default class PostView extends View {
           el("p.message", this.post.message),
         ),
         el("footer"),
-        //TODO:
+        //TODO: dynamic loading
       );
     }
   }
