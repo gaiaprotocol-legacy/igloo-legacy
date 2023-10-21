@@ -1141,6 +1141,11 @@ button.component.text:active {
   line-height: normal;
   text-transform: capitalize;
 }
+.chat-room-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
 .chat-room-list-item {
   border-radius: 16px;
   background: #EBEFF3;
