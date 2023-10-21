@@ -100,7 +100,9 @@ export default class UserProfileDisplay extends DomNode {
             el("h3", "Price"),
             el(
               ".value",
-              "0.00",
+              subjectDetails
+                ? ethers.formatEther(subjectDetails.last_fetched_key_price)
+                : "0",
               el("img.avax-symbol", { src: "/images/avax-symbol.svg" }),
             ),
           ),

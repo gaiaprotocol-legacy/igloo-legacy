@@ -6,12 +6,13 @@ import PostList from "./PostList.js";
 import PostService from "./PostService.js";
 
 export default class UserPostList extends PostList {
-  private store: Store = new Store("user-post-list");
+  private store: Store;
   private isContentFromCache: boolean = true;
   private channel: RealtimeChannel;
 
   constructor(private userId: string) {
     super(".user-post-list", "No posts from this user yet");
+    this.store = new Store(`user-${userId}-post-list`);
 
     const cachedPosts = this.store.get<Post[]>(`user-${userId}-cached-posts`);
     if (cachedPosts) {
@@ -31,9 +32,10 @@ export default class UserPostList extends PostList {
           filter: "author=eq." + userId,
         },
         (payload: any) => {
-          const cachedPosts = this.store.get<Post[]>(`user-${this.userId}-cached-posts`) ?? [];
+          const cachedPosts =
+            this.store.get<Post[]>("cached-posts") ?? [];
           cachedPosts.push(payload.new);
-          this.store.set(`user-${this.userId}-cached-posts`, cachedPosts, true);
+          this.store.set("cached-posts", cachedPosts, true);
           this.addPost(payload.new);
         },
       )
@@ -50,7 +52,7 @@ export default class UserPostList extends PostList {
 
     if (this.isContentFromCache) {
       this.isContentFromCache = false;
-      this.store.set(`user-${this.userId}-cached-posts`, posts, true);
+      this.store.set("cached-posts", posts, true);
       if (!this.deleted) this.empty();
     }
 

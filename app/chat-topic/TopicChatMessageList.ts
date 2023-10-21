@@ -5,12 +5,13 @@ import TopicChatMessage from "../database-interface/TopicChatMessage.js";
 import TopicChatService from "./TopicChatService.js";
 
 export default class TopicChatMessageList extends ChatMessageList {
-  private store: Store = new Store("topic-chat-message-list");
+  private store: Store;
   private isContentFromCache: boolean = true;
   private channel: RealtimeChannel;
 
   constructor(public topic: string) {
     super(".topic-chat-message-list", "No messages yet.");
+    this.store = new Store(`topic-${topic}-chat-message-list`);
 
     const cachedMessages = this.store.get<TopicChatMessage[]>(
       "cached-messages",

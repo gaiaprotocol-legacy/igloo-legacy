@@ -64,7 +64,9 @@ export default class HomeView extends View {
             SignedUserManager.userId,
           ))
           : undefined,
-        this.keyHeldPostList = new KeyHeldPostList(),
+        SignedUserManager.walletAddress
+          ? this.keyHeldPostList = new KeyHeldPostList(SignedUserManager.walletAddress)
+          : undefined,
       ),
       this.postButton = el("button.post", new MaterialIcon("add"), {
         click: () => new PostPopup(),

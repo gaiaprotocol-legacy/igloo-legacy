@@ -11,10 +11,9 @@ export default class FollowerList extends UserList {
 
   constructor(private userId: string) {
     super(".follower-list", "No followers yet");
+    this.store = new Store(`user-${userId}-follower-list`);
 
-    const cachedUserDetails = this.store.get<UserDetails[]>(
-      `user-${userId}-cached-followers`,
-    );
+    const cachedUserDetails = this.store.get<UserDetails[]>("cached-followers");
     if (cachedUserDetails) {
       for (const userDetail of cachedUserDetails) {
         this.addUserDetails(userDetail);
@@ -32,11 +31,7 @@ export default class FollowerList extends UserList {
 
     if (this.isContentFromCache) {
       this.isContentFromCache = false;
-      this.store.set(
-        `user-${this.userId}-cached-followers`,
-        result.userDetailsSet,
-        true,
-      );
+      this.store.set("cached-followers", result.userDetailsSet, true);
       if (!this.deleted) this.empty();
     }
 

@@ -69,12 +69,12 @@ ALTER FUNCTION "public"."decrease_subject_key_holder_count"() OWNER TO "postgres
 CREATE OR REPLACE FUNCTION "public"."decrease_total_subject_key_balance"() RETURNS "trigger"
     LANGUAGE "plpgsql" SECURITY DEFINER
     AS $$begin
-  insert into wallet_total_subject_key_balances (
+  insert into total_subject_key_balances (
     wallet_address
   ) values (
     old.wallet_address
   ) on conflict (wallet_address) do nothing;
-  update wallet_total_subject_key_balances
+  update total_subject_key_balances
   set
     total_key_balance = total_key_balance - old.last_fetched_balance
   where
@@ -143,17 +143,22 @@ ALTER FUNCTION "public"."increase_subject_key_holder_count"() OWNER TO "postgres
 CREATE OR REPLACE FUNCTION "public"."increase_subject_total_trading_volume_and_fees_earned"() RETURNS "trigger"
     LANGUAGE "plpgsql" SECURITY DEFINER
     AS $$begin
+    update user_details
+    set
+        total_earned_trading_fees = total_earned_trading_fees + new.args[7]::numeric
+    where
+        wallet_address = new.args[1];
+    insert into subject_details (
+        subject
+    ) values (
+        new.args[2]
+    ) on conflict (subject) do nothing;
     update subject_details
     set
         total_trading_key_volume = total_trading_key_volume + new.args[5]::numeric,
         total_earned_trading_fees = total_earned_trading_fees + new.args[7]::numeric
     where
-        subject = new.args[1];
-    update user_details
-    set
-        total_earned_trading_fees = total_earned_trading_fees + new.args[7]::numeric
-    where
-        wallet_address = new.args[2];
+        subject = new.args[2];
     return null;
 end;$$;
 
@@ -162,12 +167,12 @@ ALTER FUNCTION "public"."increase_subject_total_trading_volume_and_fees_earned"(
 CREATE OR REPLACE FUNCTION "public"."increase_total_subject_key_balance"() RETURNS "trigger"
     LANGUAGE "plpgsql" SECURITY DEFINER
     AS $$begin
-  insert into wallet_total_subject_key_balances (
+  insert into total_subject_key_balances (
     wallet_address
   ) values (
     new.wallet_address
   ) on conflict (wallet_address) do nothing;
-  update wallet_total_subject_key_balances
+  update total_subject_key_balances
   set
     total_key_balance = total_key_balance + new.last_fetched_balance
   where
@@ -238,12 +243,12 @@ ALTER FUNCTION "public"."update_subject_key_holder_count"() OWNER TO "postgres";
 CREATE OR REPLACE FUNCTION "public"."update_total_subject_key_balance"() RETURNS "trigger"
     LANGUAGE "plpgsql" SECURITY DEFINER
     AS $$begin
-  insert into wallet_total_subject_key_balances (
+  insert into total_subject_key_balances (
     wallet_address
   ) values (
     new.wallet_address
   ) on conflict (wallet_address) do nothing;
-  update wallet_total_subject_key_balances
+  update total_subject_key_balances
   set
     total_key_balance = total_key_balance - old.last_fetched_balance + new.last_fetched_balance
   where

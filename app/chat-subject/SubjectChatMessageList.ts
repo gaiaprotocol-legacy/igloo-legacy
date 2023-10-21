@@ -5,12 +5,13 @@ import SubjectChatMessage from "../database-interface/SubjectChatMessage.js";
 import SubjectChatService from "./SubjectChatService.js";
 
 export default class SubjectChatMessageList extends ChatMessageList {
-  private store: Store = new Store("subject-chat-message-list");
+  private store: Store;
   private isContentFromCache: boolean = true;
   private channel: RealtimeChannel;
 
   constructor(public subject: string) {
     super(".subject-chat-message-list", "No messages yet.");
+    this.store = new Store(`subject-${this.subject}-chat-message-list`);
 
     const cachedMessages = this.store.get<SubjectChatMessage[]>(
       "cached-messages",

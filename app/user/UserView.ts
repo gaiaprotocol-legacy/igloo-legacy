@@ -2,6 +2,7 @@ import {
   DomNode,
   el,
   MaterialIcon,
+  Supabase,
   Tabs,
   View,
   ViewParams,
@@ -86,6 +87,8 @@ export default class UserView extends View {
         }
       },
     );
+
+    this.trackPriceAndBalance();
   }
 
   private render() {
@@ -179,6 +182,15 @@ export default class UserView extends View {
       )
       : undefined;
     this.render();
+    this.trackPriceAndBalance();
+  }
+
+  private trackPriceAndBalance(): void {
+    if (this.userDetails.wallet_address) {
+      Supabase.client.functions.invoke("track-subject-price-and-balance", {
+        body: { subjects: [this.userDetails.wallet_address] },
+      });
+    }
   }
 
   public close(): void {

@@ -24,18 +24,21 @@ serveWithOptions(async (req) => {
   ]);
 
   const priceDataSet = subjects.map((subject: string, index: number) => ({
-    subject,
+    subject: ethers.getAddress(subject),
     last_fetched_key_price: prices[index].toString(),
   }));
 
   const balanceDataSet = subjects.map((subject: string, index: number) => ({
-    subject,
+    subject: ethers.getAddress(subject),
     wallet_address: walletAddress,
-    last_fetched_balance: balances[index].toString(),
+    last_fetched_balance: Number(balances[index]),
   }));
 
-  await Promise.all([
+  const [{ error: detailError }, { error: holderError }] = await Promise.all([
     supabase.from("subject_details").upsert(priceDataSet),
     supabase.from("subject_key_holders").upsert(balanceDataSet),
   ]);
+
+  if (detailError) throw detailError;
+  if (holderError) throw holderError;
 });

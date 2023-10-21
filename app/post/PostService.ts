@@ -79,6 +79,42 @@ class PostService {
     if (error) throw error;
     return { followeeIds, posts: data };
   }
+
+  public async fetchKeyHeldPosts(
+    walletAddress: string,
+    lastFetchedPostId?: number,
+  ): Promise<{ keyOwnerIds: string[]; posts: Post[] }> {
+    const { data: holderData, error: holderError } = await Supabase.client.from(
+      "subject_key_holders",
+    ).select().eq(
+      "wallet_address",
+      walletAddress,
+    );
+    if (holderError) throw holderError;
+    const subjects = holderData.map((h) => h.subject);
+    const { data: userData, error: userError } = await Supabase.client.from(
+      "user_details",
+    ).select().in(
+      "wallet_address",
+      subjects,
+    );
+    if (userError) throw userError;
+    const keyOwnerIds = userData.map((u) => u.user_id);
+    const { data, error } = await Supabase.client.from("posts").select().in(
+      "author",
+      keyOwnerIds,
+    ).lt(
+      "id",
+      lastFetchedPostId ?? Number.MAX_SAFE_INTEGER,
+    ).order(
+      "created_at",
+      { ascending: false },
+    ).limit(
+      PostService.LIMIT,
+    );
+    if (error) throw error;
+    return { keyOwnerIds, posts: data };
+  }
 }
 
 export default new PostService();
