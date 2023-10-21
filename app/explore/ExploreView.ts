@@ -10,6 +10,7 @@ import Layout from "../layout/Layout.js";
 
 export default class ExploreView extends View {
   private container: DomNode;
+  private tabs: Tabs;
 
   constructor(params: ViewParams) {
     super();
@@ -22,7 +23,7 @@ export default class ExploreView extends View {
           new MaterialIcon("search"),
           el("input", { placeholder: "Search" }),
         ),
-        new Tabs("explore", [{
+        this.tabs = new Tabs("explore", [{
           id: "trending",
           label: "Trending",
         }, {
@@ -37,6 +38,8 @@ export default class ExploreView extends View {
         }]),
       ),
     );
+
+    this.tabs.init();
   }
 
   public close(): void {
