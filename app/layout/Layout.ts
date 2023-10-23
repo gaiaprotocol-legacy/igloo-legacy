@@ -47,10 +47,13 @@ export default class Layout extends View {
         uri.indexOf("/") === -1 ? uri.length : uri.indexOf("/"),
       ),
     );
-    uri === "explore" || uri === "chats" || uri.startsWith("chats/")
+    uri === "explore" || uri === "search" || uri === "chats" ||
+      uri.startsWith("chats/")
       ? this.trendSection.hide()
       : this.trendSection.show();
-    uri === "explore" ? this.topUserSection.show() : this.topUserSection.hide();
+    uri === "explore" || uri === "search"
+      ? this.topUserSection.show()
+      : this.topUserSection.hide();
     this.mobileTitleBar.uri = uri;
   }
 

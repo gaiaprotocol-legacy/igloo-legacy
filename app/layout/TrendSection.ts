@@ -1,4 +1,5 @@
 import { DomNode, el, MaterialIcon, Router } from "common-dapp-module";
+import TrendingUserList from "../explore/TrendingUserList.js";
 
 export default class TrendSection extends DomNode {
   private searchInput: DomNode<HTMLInputElement>;
@@ -17,7 +18,7 @@ export default class TrendSection extends DomNode {
           },
         },
       ),
-      el(".trend-list"),
+      new TrendingUserList(),
     );
   }
 
