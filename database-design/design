@@ -110,8 +110,10 @@ subject_contract_events
 
 notifications
 	id - int8 - auto_increment - pk
-	user_id - uuid - auth.uid()
-	type - int2 - not null  -- 알림의 유형 (예: 'new_follower', 'new_message', 'key_purchased', etc.)
-	source_id - uuid - nullable  -- 알림의 원인이 된 사용자나 주제의 ID (예: 새로운 팔로워의 ID, 메시지를 보낸 사용자의 ID)
-	read_at - timestampz - nullable  -- 알림이 읽힌 시간
-	created_at - timestampz - now()  -- 알림이 생성된 시간
+    user_id - uuid - auth.uid()
+    triggered_by - uuid - not null
+	type - int2 - not null
+	source_id - int8 - nullable
+	amount - int8 - nullable
+	read_at - timestampz - nullable
+	created_at - timestampz - now()
