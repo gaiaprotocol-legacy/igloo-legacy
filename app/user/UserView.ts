@@ -24,7 +24,7 @@ export default class UserView extends View {
   private container: DomNode;
   private tabs!: Tabs;
   private xUsername!: string;
-  private userDetails: UserDetails;
+  private userDetails!: UserDetails;
   private subjectDetails: SubjectDetails | undefined;
   private holdingCount = 0;
 
@@ -42,20 +42,6 @@ export default class UserView extends View {
     );
 
     this.xUsername = params.xUsername!;
-    this.userDetails = UserDetailsCacher.getAndRefreshByXUsername(
-      this.xUsername,
-    );
-    this.subjectDetails = this.userDetails.wallet_address
-      ? SubjectDetailsCacher.getAndRefresh(
-        this.userDetails.wallet_address,
-      )
-      : undefined;
-    this.holdingCount = this.userDetails.wallet_address
-      ? TotalSubjectKeyBalanceCacher.getAndRefresh(
-        this.userDetails.wallet_address,
-      )
-      : 0;
-
     this.render();
     this.container.onDelegate(
       UserDetailsCacher,
@@ -92,6 +78,20 @@ export default class UserView extends View {
   }
 
   private render() {
+    this.userDetails = UserDetailsCacher.getAndRefreshByXUsername(
+      this.xUsername,
+    );
+    this.subjectDetails = this.userDetails.wallet_address
+      ? SubjectDetailsCacher.getAndRefresh(
+        this.userDetails.wallet_address,
+      )
+      : undefined;
+    this.holdingCount = this.userDetails.wallet_address
+      ? TotalSubjectKeyBalanceCacher.getAndRefresh(
+        this.userDetails.wallet_address,
+      )
+      : 0;
+
     this.container.empty().append(
       el(
         "header",
@@ -180,14 +180,6 @@ export default class UserView extends View {
 
   public changeParams(params: ViewParams, uri: string): void {
     this.xUsername = params.xUsername!;
-    this.userDetails = UserDetailsCacher.getAndRefreshByXUsername(
-      this.xUsername,
-    );
-    this.subjectDetails = this.userDetails.wallet_address
-      ? SubjectDetailsCacher.getAndRefresh(
-        this.userDetails.wallet_address,
-      )
-      : undefined;
     this.render();
     this.trackPriceAndBalance();
   }
