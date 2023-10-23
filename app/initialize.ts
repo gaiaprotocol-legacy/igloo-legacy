@@ -1,13 +1,15 @@
 import { el, msg, Router, SplashScreen, Supabase } from "common-dapp-module";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime.js";
-import ChatsView from "./chat/ChatsView.js";
+import BlockTimeManager from "./BlockTimeManager.js";
 import SubjectChatRoomView from "./chat-subject/SubjectChatRoomView.js";
 import TopicChatRoomView from "./chat-topic/TopicChatRoomView.js";
+import ChatsView from "./chat/ChatsView.js";
 import Config from "./Config.js";
 import IglooSubjectContract from "./contracts/IglooSubjectContract.js";
 import EnvironmentManager from "./EnvironmentManager.js";
 import ExploreView from "./explore/ExploreView.js";
+import SearchView from "./explore/SearchView.js";
 import HomeView from "./HomeView.js";
 import Layout from "./layout/Layout.js";
 import NotificationsView from "./notification/NotificationsView.js";
@@ -23,7 +25,6 @@ import UserDetailsCacher from "./user/UserDetailsCacher.js";
 import UserView from "./user/UserView.js";
 import UserWalletLinker from "./user/UserWalletLinker.js";
 import WalletManager from "./user/WalletManager.js";
-import SearchView from "./explore/SearchView.js";
 
 dayjs.extend(relativeTime);
 
@@ -53,6 +54,7 @@ export default async function initialize(config: Config) {
     msg.loadYAMLs({
       en: ["/locales/en.yml"],
     }),
+    BlockTimeManager.init(),
   ]);
   splash.delete();
 

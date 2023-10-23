@@ -1,0 +1,46 @@
+.activity-list-item {
+    border-radius: 16px;
+    background   : #EBEFF3;
+    box-shadow   : 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
+    padding      : 20px;
+    display      : flex;
+    gap          : 12px;
+    align-items  : center;
+
+    >.trader-profile-image,
+    >.owner-profile-image {
+        display      : flex;
+        width        : 42px;
+        height       : 42px;
+        flex-shrink  : 0;
+        border-radius: 42px;
+        border       : 1px solid #FFF;
+        background   : lightgray 50% / cover no-repeat;
+        cursor       : pointer;
+    }
+
+    >.owner-profile-image {
+        margin-left: -20px;
+    }
+
+    >.description {
+        flex-grow            : 1;
+        color                : #2A2A2A;
+        font-feature-settings: 'clig'off, 'liga'off;
+        font-family          : Quicksand;
+        font-size            : 14px;
+        font-style           : normal;
+        font-weight          : 500;
+        line-height          : normal;
+
+        >a {
+            font-weight: bold;
+            cursor     : pointer;
+        }
+    }
+
+    >.date {
+        color    : #a1a2ac;
+        font-size: 12px;
+    }
+}
