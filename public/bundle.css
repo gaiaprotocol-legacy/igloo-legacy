@@ -1578,6 +1578,7 @@ button.component.text:active {
   display: none;
 }
 .activity-list-item {
+  position: relative;
   border-radius: 16px;
   background: #EBEFF3;
   box-shadow: 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
@@ -1586,8 +1587,17 @@ button.component.text:active {
   gap: 12px;
   align-items: center;
 }
-.activity-list-item > .trader-profile-image,
-.activity-list-item > .owner-profile-image {
+@media only screen and (max-width: 859px) {
+  .activity-list-item {
+    display: block;
+  }
+}
+.activity-list-item > header {
+  display: flex;
+  align-items: center;
+}
+.activity-list-item > header > .trader-profile-image,
+.activity-list-item > header > .owner-profile-image {
   display: flex;
   width: 42px;
   height: 42px;
@@ -1597,10 +1607,11 @@ button.component.text:active {
   background: lightgray 50% / cover no-repeat;
   cursor: pointer;
 }
-.activity-list-item > .owner-profile-image {
-  margin-left: -20px;
+.activity-list-item > header > .owner-profile-image {
+  margin-left: -8px;
 }
 .activity-list-item > .description {
+  width: 0;
   flex-grow: 1;
   color: #2A2A2A;
   font-feature-settings: 'clig' off, 'liga' off;
@@ -1610,6 +1621,12 @@ button.component.text:active {
   font-weight: 500;
   line-height: normal;
 }
+@media only screen and (max-width: 859px) {
+  .activity-list-item > .description {
+    width: auto;
+    margin-top: 12px;
+  }
+}
 .activity-list-item > .description > a {
   font-weight: bold;
   cursor: pointer;
@@ -1617,6 +1634,13 @@ button.component.text:active {
 .activity-list-item > .date {
   color: #a1a2ac;
   font-size: 12px;
+}
+@media only screen and (max-width: 859px) {
+  .activity-list-item > .date {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+  }
 }
 .search-view {
   padding: 31px 30px;

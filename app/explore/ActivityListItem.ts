@@ -20,14 +20,17 @@ export default class ActivityListItem extends DomNode {
     const price = ethers.formatEther(subjectContractEvent.args[4]);
 
     this.append(
-      el(".trader-profile-image", {
-        style: { backgroundImage: `url(${traderDetails.profile_image})` },
-        click: () => Router.go(`/${traderDetails.x_username}`),
-      }),
-      el(".owner-profile-image", {
-        style: { backgroundImage: `url(${ownerDetails.profile_image})` },
-        click: () => Router.go(`/${ownerDetails.x_username}`),
-      }),
+      el(
+        "header",
+        el(".trader-profile-image", {
+          style: { backgroundImage: `url(${traderDetails.profile_image})` },
+          click: () => Router.go(`/${traderDetails.x_username}`),
+        }),
+        el(".owner-profile-image", {
+          style: { backgroundImage: `url(${ownerDetails.profile_image})` },
+          click: () => Router.go(`/${ownerDetails.x_username}`),
+        }),
+      ),
       el(
         "p.description",
         el("a", traderDetails.display_name, {
