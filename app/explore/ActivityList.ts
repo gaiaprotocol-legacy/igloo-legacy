@@ -41,7 +41,7 @@ export default class ActivityList extends DomNode {
 
   private async fetchActivities() {
     const { data: subjectContractEvents, error } = await Supabase.client.from(
-      "subject_contract_events",
+      "subject_trade_events",
     ).select()
       .order(
         "block_number",

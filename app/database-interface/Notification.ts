@@ -2,10 +2,10 @@ export enum Notificationype {
   BUY_KEY,
   SELL_KEY,
   FOLLOW,
-  LIKE,
+  POST_LIKE,
   REPOST,
-  COMMENT,
-  TAG,
+  POST_COMMENT,
+  POST_TAG,
 }
 
 export default interface Notification {

@@ -23,7 +23,7 @@ serveWithOptions(async () => {
   const events = await subjectContract.getTradeEvents(toBlock - 2000, toBlock);
   for (const event of events) {
     const { error: saveEventError } = await supabase
-      .from("subject_contract_events")
+      .from("subject_trade_events")
       .upsert({
         block_number: event.blockNumber,
         log_index: event.index,
