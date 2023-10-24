@@ -18,6 +18,15 @@ class PostService {
     if (error) throw error;
   }
 
+  public async fetchPost(id: number) {
+    const { data, error } = await Supabase.client.from("posts").select().eq(
+      "id",
+      id,
+    );
+    if (error) throw error;
+    return data?.[0];
+  }
+
   public async fetchGlobalPosts(lastFetchedPostId?: number): Promise<Post[]> {
     const { data, error } = await Supabase.client.from("posts").select().lt(
       "id",

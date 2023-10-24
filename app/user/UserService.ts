@@ -6,6 +6,32 @@ import UserDetails, {
 class UserService {
   private static readonly LIMIT = 50;
 
+  public async fetchByIds(userIds: string[]): Promise<UserDetails[]> {
+    const { data, error } = await Supabase.client.from("user_details").select(
+      UserDetailsSelectQuery,
+    )
+      .in(
+        "user_id",
+        userIds,
+      );
+    if (error) throw error;
+    return data as any;
+  }
+
+  public async fetchByWalletAddresses(
+    walletAddresses: string[],
+  ): Promise<UserDetails[]> {
+    const { data, error } = await Supabase.client.from("user_details").select(
+      UserDetailsSelectQuery,
+    )
+      .in(
+        "wallet_address",
+        walletAddresses,
+      );
+    if (error) throw error;
+    return data as any;
+  }
+
   public async fetchFollowers(
     userId: string,
     lastFetchedFollowedAt: string | undefined,
@@ -76,20 +102,6 @@ class UserService {
       userDetailsSet: userDetails as any,
       lastFetchedFollowedAt: followsData[followsData.length - 1]?.followed_at,
     };
-  }
-
-  public async fetchByWalletAddresses(
-    walletAddresses: string[],
-  ): Promise<UserDetails[]> {
-    const { data, error } = await Supabase.client.from("user_details").select(
-      UserDetailsSelectQuery,
-    )
-      .in(
-        "wallet_address",
-        walletAddresses,
-      );
-    if (error) throw error;
-    return data as any;
   }
 
   public async fetchHoldings(walletAddress: string): Promise<UserDetails[]> {

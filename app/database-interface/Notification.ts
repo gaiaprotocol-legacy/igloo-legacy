@@ -1,4 +1,4 @@
-export enum Notificationype {
+export enum NotificationType {
   BUY_KEY,
   SELL_KEY,
   FOLLOW,

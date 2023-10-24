@@ -754,6 +754,8 @@ CREATE POLICY "can view only holder or owner" ON "public"."subject_chat_messages
            FROM "public"."user_details"
           WHERE ("user_details"."user_id" = "auth"."uid"()))))))));
 
+CREATE POLICY "can view only user" ON "public"."notifications" FOR SELECT TO "authenticated" USING (("user_id" = "auth"."uid"()));
+
 CREATE POLICY "can write only authed" ON "public"."posts" FOR INSERT TO "authenticated" WITH CHECK ((("message" <> ''::"text") AND ("author" = "auth"."uid"())));
 
 CREATE POLICY "can write only authed" ON "public"."topic_chat_messages" FOR INSERT TO "authenticated" WITH CHECK (((("message" <> ''::"text") OR ("rich" <> NULL::"jsonb")) AND ("author" = "auth"."uid"())));
