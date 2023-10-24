@@ -40,7 +40,7 @@ class PostService {
     const { data, error } = await Supabase.client.from("posts").select().lt(
       "id",
       lastFetchedPostId ?? Number.MAX_SAFE_INTEGER,
-    ).not("target", "is", "null").order(
+    ).order(
       "created_at",
       { ascending: false },
     ).limit(
