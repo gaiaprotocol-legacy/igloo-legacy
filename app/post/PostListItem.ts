@@ -13,6 +13,9 @@ import PostCommentPopup from "./PostCommentPopup.js";
 import PostService from "./PostService.js";
 
 export default class PostListItem extends DomNode {
+  private repostCountDisplay!: DomNode;
+  private likeCountDisplay!: DomNode;
+
   constructor(private post: Post) {
     super(".post-list-item");
     this.onDom("click", () => Router.go(`/post/${post.id}`));
@@ -94,12 +97,34 @@ export default class PostListItem extends DomNode {
           el(
             "button.repost",
             new MaterialIcon("repeat"),
-            String(this.post.repost_count),
+            this.repostCountDisplay = el(
+              "span",
+              String(this.post.repost_count),
+            ),
+            {
+              click: (event) => {
+                event.stopPropagation();
+                PostService.repost(this.post.id);
+                this.repostCountDisplay.text = String(
+                  this.post.repost_count + 1,
+                );
+              },
+            },
           ),
           el(
             "button.like",
             new MaterialIcon("favorite_border"),
-            String(this.post.like_count),
+            this.likeCountDisplay = el(
+              "span",
+              String(this.post.like_count),
+            ),
+            {
+              click: (event) => {
+                event.stopPropagation();
+                PostService.like(this.post.id);
+                this.likeCountDisplay.text = String(this.post.like_count + 1);
+              },
+            },
           ),
         ),
       ),

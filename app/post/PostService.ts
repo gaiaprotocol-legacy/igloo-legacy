@@ -22,6 +22,36 @@ class PostService {
     return data.id;
   }
 
+  public async repost(postId: number) {
+    const { error } = await Supabase.client.from("reposts").insert({
+      post_id: postId,
+    });
+    if (error) throw error;
+  }
+
+  public async unrepost(postId: number) {
+    const { error } = await Supabase.client.from("reposts").delete().eq(
+      "post_id",
+      postId,
+    );
+    if (error) throw error;
+  }
+
+  public async like(postId: number) {
+    const { error } = await Supabase.client.from("post_likes").insert({
+      post_id: postId,
+    });
+    if (error) throw error;
+  }
+
+  public async unlike(postId: number) {
+    const { error } = await Supabase.client.from("post_likes").delete().eq(
+      "post_id",
+      postId,
+    );
+    if (error) throw error;
+  }
+
   public async deletePost(id: number) {
     const { error } = await Supabase.client.from("posts").delete().eq("id", id);
     if (error) throw error;

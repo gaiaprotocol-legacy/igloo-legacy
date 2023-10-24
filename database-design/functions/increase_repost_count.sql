@@ -1,5 +1,5 @@
 begin
-  update post
+  update posts
   set
     repost_count = repost_count + 1
   where

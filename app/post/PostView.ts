@@ -22,6 +22,8 @@ export default class PostView extends View {
   private container: DomNode;
   private commentTextarea!: DomNode<HTMLTextAreaElement>;
   private commentButton!: Button;
+  private repostCountDisplay!: DomNode;
+  private likeCountDisplay!: DomNode;
 
   private post: Post | undefined;
 
@@ -126,8 +128,7 @@ export default class PostView extends View {
               new MaterialIcon("comment"),
               String(this.post.comment_count),
               {
-                click: (event) => {
-                  event.stopPropagation();
+                click: () => {
                   if (this.post) new PostCommentPopup(this.post);
                 },
               },
@@ -135,12 +136,38 @@ export default class PostView extends View {
             el(
               "button.repost",
               new MaterialIcon("repeat"),
-              String(this.post.repost_count),
+              this.repostCountDisplay = el(
+                "span",
+                String(this.post.repost_count),
+              ),
+              {
+                click: () => {
+                  if (this.post) {
+                    PostService.repost(this.post.id);
+                    this.repostCountDisplay.text = String(
+                      this.post.repost_count + 1,
+                    );
+                  }
+                },
+              },
             ),
             el(
               "button.like",
               new MaterialIcon("favorite_border"),
-              String(this.post.like_count),
+              this.likeCountDisplay = el(
+                "span",
+                String(this.post.like_count),
+              ),
+              {
+                click: () => {
+                  if (this.post) {
+                    PostService.like(this.post.id);
+                    this.likeCountDisplay.text = String(
+                      this.post.like_count + 1,
+                    );
+                  }
+                },
+              },
             ),
           ),
         ),
