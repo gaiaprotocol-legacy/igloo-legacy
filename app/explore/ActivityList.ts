@@ -1,5 +1,6 @@
+import { RealtimeChannel } from "@supabase/supabase-js";
 import { DomNode, el, Store, Supabase } from "common-dapp-module";
-import SubjectContractEvent from "../database-interface/SubjectContractEvent.js";
+import SubjectTradeEvent from "../database-interface/SubjectTradeEvent.js";
 import UserDetailsCacher from "../user/UserDetailsCacher.js";
 import UserService from "../user/UserService.js";
 import ActivityListItem from "./ActivityListItem.js";
@@ -9,19 +10,40 @@ export default class ActivityList extends DomNode {
   private isContentFromCache: boolean = true;
   private contentFetched: boolean = false;
   private emptyMessageDisplay: DomNode | undefined;
+  private channel: RealtimeChannel;
 
   constructor() {
     super(".activity-list");
     this.showEmptyMessage();
 
-    const cachedSubjectContractEvents = this.store.get<SubjectContractEvent[]>(
-      "cached-subject-contract-events",
+    const cachedSubjectContractEvents = this.store.get<SubjectTradeEvent[]>(
+      "cached-subject-trade-events",
     );
     if (cachedSubjectContractEvents) {
       for (const event of cachedSubjectContractEvents) {
         this.addSubjectContractEvent(event);
       }
     }
+
+    this.channel = Supabase.client
+      .channel("activity-changes")
+      .on(
+        "postgres_changes",
+        {
+          event: "INSERT",
+          schema: "public",
+          table: "subject_trade_events",
+        },
+        (payload: any) => {
+          const cachedEvents = this.store.get<SubjectTradeEvent[]>(
+            "cached-subject-trade-events",
+          ) ?? [];
+          cachedEvents.push(payload.new);
+          this.store.set("cached-subject-trade-events", cachedEvents, true);
+          this.addSubjectContractEvent(payload.new);
+        },
+      )
+      .subscribe();
   }
 
   private showEmptyMessage() {
@@ -34,13 +56,13 @@ export default class ActivityList extends DomNode {
     this.append(this.emptyMessageDisplay);
   }
 
-  private addSubjectContractEvent(event: SubjectContractEvent) {
+  private addSubjectContractEvent(event: SubjectTradeEvent) {
     this.emptyMessageDisplay?.delete();
     this.append(new ActivityListItem(event));
   }
 
   private async fetchActivities() {
-    const { data: subjectContractEvents, error } = await Supabase.client.from(
+    const { data, error } = await Supabase.client.from(
       "subject_trade_events",
     ).select()
       .order(
@@ -54,25 +76,23 @@ export default class ActivityList extends DomNode {
 
     if (this.isContentFromCache) {
       this.isContentFromCache = false;
-      this.store.set(
-        "cached-subject-contract-events",
-        subjectContractEvents,
-        true,
-      );
-
-      await this.fetchUsers(subjectContractEvents);
-
+      this.store.set("cached-subject-trade-events", data, true);
+      await this.fetchUsers(data);
       if (!this.deleted) this.empty();
     }
 
     if (!this.deleted) {
-      for (const event of subjectContractEvents) {
-        this.addSubjectContractEvent(event);
+      if (data.length === 0) {
+        this.showEmptyMessage();
+      } else {
+        for (const event of data) {
+          this.addSubjectContractEvent(event);
+        }
       }
     }
   }
 
-  private async fetchUsers(subjectContractEvents: SubjectContractEvent[]) {
+  private async fetchUsers(subjectContractEvents: SubjectTradeEvent[]) {
     const walletAddresses = new Set<string>();
     for (const event of subjectContractEvents) {
       walletAddresses.add(event.wallet_address);
@@ -94,5 +114,10 @@ export default class ActivityList extends DomNode {
 
   public hide() {
     this.addClass("hidden");
+  }
+
+  public delete() {
+    this.channel.unsubscribe();
+    super.delete();
   }
 }

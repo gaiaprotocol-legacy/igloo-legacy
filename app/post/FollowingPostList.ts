@@ -37,8 +37,12 @@ export default class FollowingPostList extends PostList {
     }
 
     if (!this.deleted) {
-      for (const post of posts) {
-        this.addPost(post);
+      if (posts.length === 0) {
+        this.showEmptyMessage();
+      } else {
+        for (const post of posts) {
+          this.addPost(post);
+        }
       }
     }
 

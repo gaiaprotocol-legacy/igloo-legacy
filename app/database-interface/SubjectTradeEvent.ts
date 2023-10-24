@@ -1,7 +1,6 @@
-export default interface SubjectContractEvent {
+export default interface SubjectTradeEvent {
   block_number: number;
   log_index: number;
-  event_type: number;
   args: string;
   wallet_address: string;
   subject: string;

@@ -2,11 +2,11 @@ import { DomNode, el, Router } from "common-dapp-module";
 import dayjs from "dayjs";
 import { ethers } from "ethers";
 import BlockTimeManager from "../BlockTimeManager.js";
-import SubjectContractEvent from "../database-interface/SubjectContractEvent.js";
+import SubjectTradeEvent from "../database-interface/SubjectTradeEvent.js";
 import UserDetailsCacher from "../user/UserDetailsCacher.js";
 
 export default class ActivityListItem extends DomNode {
-  constructor(subjectContractEvent: SubjectContractEvent) {
+  constructor(subjectContractEvent: SubjectTradeEvent) {
     super(".activity-list-item");
 
     const traderDetails = UserDetailsCacher.getByWalletAddress(

@@ -45,8 +45,12 @@ export default class HoldingSubjectList extends SubjectList {
 
       if (!this.deleted) {
         this.empty();
-        for (const subjectDetails of cached) {
-          this.addSubjectDetails(subjectDetails);
+        if (cached.length === 0) {
+          this.showEmptyMessage();
+        } else {
+          for (const subjectDetails of cached) {
+            this.addSubjectDetails(subjectDetails);
+          }
         }
       }
     }

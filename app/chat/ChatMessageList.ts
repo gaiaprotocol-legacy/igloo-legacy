@@ -16,7 +16,7 @@ export default abstract class ChatMessageList extends DomNode {
     });
   }
 
-  private showEmptyMessage() {
+  protected showEmptyMessage() {
     this.emptyMessageDisplay?.delete();
     this.emptyMessageDisplay = el("p.empty-message", this.emptyMessage);
     this.emptyMessageDisplay.on(

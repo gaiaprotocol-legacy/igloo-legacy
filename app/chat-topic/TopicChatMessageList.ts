@@ -59,8 +59,12 @@ export default class TopicChatMessageList extends ChatMessageList {
     }
 
     if (!this.deleted) {
-      for (const message of messages) {
-        this.addMessage(message);
+      if (messages.length === 0) {
+        this.showEmptyMessage();
+      } else {
+        for (const message of messages) {
+          this.addMessage(message);
+        }
       }
     }
   }

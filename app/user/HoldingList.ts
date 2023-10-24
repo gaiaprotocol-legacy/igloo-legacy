@@ -31,8 +31,12 @@ export default class HoldingList extends UserList {
     }
 
     if (!this.deleted) {
-      for (const userDetails of userDetailsSet) {
-        this.addUserDetails(userDetails);
+      if (userDetailsSet.length === 0) {
+        this.showEmptyMessage();
+      } else {
+        for (const userDetails of userDetailsSet) {
+          this.addUserDetails(userDetails);
+        }
       }
     }
   }

@@ -8,7 +8,7 @@ export default abstract class ChatRoomList extends DomNode {
     this.showEmptyMessage();
   }
 
-  private showEmptyMessage() {
+  protected showEmptyMessage() {
     this.emptyMessageDisplay?.delete();
     this.emptyMessageDisplay = el("p.empty-message", this.emptyMessage);
     this.emptyMessageDisplay.on(

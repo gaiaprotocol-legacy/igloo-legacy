@@ -36,8 +36,12 @@ export default class FollowerList extends UserList {
     }
 
     if (!this.deleted) {
-      for (const userDetails of result.userDetailsSet) {
-        this.addUserDetails(userDetails);
+      if (result.userDetailsSet.length === 0) {
+        this.showEmptyMessage();
+      } else {
+        for (const userDetails of result.userDetailsSet) {
+          this.addUserDetails(userDetails);
+        }
       }
     }
   }

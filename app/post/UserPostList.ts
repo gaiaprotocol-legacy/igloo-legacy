@@ -32,8 +32,7 @@ export default class UserPostList extends PostList {
           filter: "author=eq." + userId,
         },
         (payload: any) => {
-          const cachedPosts =
-            this.store.get<Post[]>("cached-posts") ?? [];
+          const cachedPosts = this.store.get<Post[]>("cached-posts") ?? [];
           cachedPosts.push(payload.new);
           this.store.set("cached-posts", cachedPosts, true);
           this.addPost(payload.new);
@@ -57,8 +56,12 @@ export default class UserPostList extends PostList {
     }
 
     if (!this.deleted) {
-      for (const post of posts) {
-        this.addPost(post);
+      if (posts.length === 0) {
+        this.showEmptyMessage();
+      } else {
+        for (const post of posts) {
+          this.addPost(post);
+        }
       }
     }
   }
