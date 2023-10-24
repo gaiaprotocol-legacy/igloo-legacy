@@ -1,6 +1,6 @@
 begin
   IF old.post_ref IS NOT NULL THEN
-    update post
+    update posts
     set
       comment_count = comment_count - 1
     where
