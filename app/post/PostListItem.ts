@@ -9,6 +9,7 @@ import {
 import Post from "../database-interface/Post.js";
 import SignedUserManager from "../user/SignedUserManager.js";
 import PostCacher from "./PostCacher.js";
+import PostCommentPopup from "./PostCommentPopup.js";
 import PostService from "./PostService.js";
 
 export default class PostListItem extends DomNode {
@@ -83,6 +84,12 @@ export default class PostListItem extends DomNode {
             "button.comment",
             new MaterialIcon("comment"),
             String(this.post.comment_count),
+            {
+              click: (event) => {
+                event.stopPropagation();
+                new PostCommentPopup(this.post);
+              },
+            },
           ),
           el(
             "button.repost",

@@ -994,6 +994,166 @@ button.component.text:active {
 .post-popup > .form > footer > .post-button {
   margin-left: auto;
 }
+.post-comment-popup {
+  max-width: 600px !important;
+}
+.post-comment-popup > header {
+  display: flex;
+  justify-content: flex-end;
+}
+.post-comment-popup > header > button {
+  width: 43.5px;
+  height: 43.5px;
+  flex-shrink: 0;
+  border-radius: 16px;
+  color: #2B2B2B;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.post-comment-popup > header > button:active {
+  outline: 1px solid #F4F7F9;
+  background: #EBEFF3;
+  box-shadow: 4px 4px 8px 0px rgba(255, 255, 255, 0.75), 2px 2px 8px 0px rgba(189, 194, 199, 0.75) inset;
+}
+.post-comment-popup > .source {
+  display: flex;
+  gap: 20px;
+}
+@media only screen and (max-width: 859px) {
+  .post-comment-popup > .source {
+    gap: 12px;
+  }
+}
+.post-comment-popup > .source > .author-profile-image {
+  margin-top: 1px;
+  display: flex;
+  width: 42px;
+  height: 42px;
+  flex-shrink: 0;
+  border-radius: 42px;
+  border: 1px solid #FFF;
+  background: lightgray 50% / cover no-repeat;
+}
+.post-comment-popup > .source > main {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+@media only screen and (max-width: 859px) {
+  .post-comment-popup > .source > main {
+    gap: 8px;
+  }
+}
+.post-comment-popup > .source > main > header {
+  display: flex;
+}
+.post-comment-popup > .source > main > header > .author {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.post-comment-popup > .source > main > header > .author > .name {
+  color: #2A2A2A;
+  font-feature-settings: 'clig' off, 'liga' off;
+  font-family: Quicksand;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+.post-comment-popup > .source > main > header > .author > .x-username {
+  font-feature-settings: 'clig' off, 'liga' off;
+  font-family: Quicksand;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  color: #a1a2ac;
+}
+.post-comment-popup > .source > main > p {
+  color: #2A2A2A;
+  font-feature-settings: 'clig' off, 'liga' off;
+  font-family: Quicksand;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+}
+@media only screen and (max-width: 859px) {
+  .post-comment-popup > .source > main > p {
+    font-size: 12px;
+  }
+}
+.post-comment-popup > .form-wrapper {
+  margin-top: 20px;
+  display: flex;
+  gap: 20px;
+}
+@media only screen and (max-width: 859px) {
+  .post-comment-popup > .form-wrapper {
+    gap: 12px;
+  }
+}
+.post-comment-popup > .form-wrapper > .signed-user {
+  margin-top: 1px;
+  display: flex;
+  width: 42px;
+  height: 42px;
+  flex-shrink: 0;
+  border-radius: 42px;
+  border: 1px solid #FFF;
+  background: lightgray 50% / cover no-repeat;
+}
+.post-comment-popup > .form-wrapper > .form {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.post-comment-popup > .form-wrapper > .form > main > textarea {
+  width: 100%;
+  height: 100px;
+  resize: none;
+  border-radius: 16px;
+  border: 1px solid #F4F7F9;
+  background: #EBEFF3;
+  box-shadow: 4px 4px 8px 0px rgba(255, 255, 255, 0.75), 2px 2px 8px 0px rgba(189, 194, 199, 0.75) inset;
+  padding: 12px 20px;
+  color: #2A2A2A;
+  font-feature-settings: 'clig' off, 'liga' off;
+  font-family: Quicksand;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+.post-comment-popup > .form-wrapper > .form > main > textarea::placeholder {
+  color: #a1a2ac;
+}
+.post-comment-popup > .form-wrapper > .form > footer {
+  display: flex;
+}
+.post-comment-popup > .form-wrapper > .form > footer > .icon-button {
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+  border-radius: 16px;
+  background: #EBEFF3;
+  color: #2B2B2B;
+  box-shadow: 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.post-comment-popup > .form-wrapper > .form > footer > .icon-button:active {
+  outline: 1px solid #F4F7F9;
+  box-shadow: 4px 4px 8px 0px rgba(255, 255, 255, 0.75), 2px 2px 8px 0px rgba(189, 194, 199, 0.75) inset;
+}
+.post-comment-popup > .form-wrapper > .form > footer > .post-button {
+  margin-left: auto;
+}
 .post-list {
   display: flex;
   flex-direction: column;

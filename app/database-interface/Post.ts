@@ -13,7 +13,7 @@ interface Rich {
 export default interface Post {
   id: number;
   guild_id?: number;
-  target: PostTarget;
+  target?: PostTarget;
   author: string;
   author_name: string;
   author_avatar_url?: string;

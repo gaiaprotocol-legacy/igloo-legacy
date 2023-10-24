@@ -13,6 +13,15 @@ class PostService {
     return data.id;
   }
 
+  public async comment(ref: number, message: string) {
+    const { data, error } = await Supabase.client.from("posts").insert({
+      message,
+      post_ref: ref,
+    }).select().single();
+    if (error) throw error;
+    return data.id;
+  }
+
   public async deletePost(id: number) {
     const { error } = await Supabase.client.from("posts").delete().eq("id", id);
     if (error) throw error;
@@ -31,7 +40,7 @@ class PostService {
     const { data, error } = await Supabase.client.from("posts").select().lt(
       "id",
       lastFetchedPostId ?? Number.MAX_SAFE_INTEGER,
-    ).order(
+    ).not("target", "is", "null").order(
       "created_at",
       { ascending: false },
     ).limit(

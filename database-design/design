@@ -83,7 +83,7 @@ subject_chat_messages
 posts
 	id - int8 - pk
 	group_id - int8 - nullable
-	target - int2 - not null
+	target - int2 - nullbale
 	author - uuid - auth.uid()
 	author_name - text - not null
 	author_avatar_url - text - nullable
