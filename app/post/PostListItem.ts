@@ -16,7 +16,7 @@ export default class PostListItem extends DomNode {
   private repostCountDisplay!: DomNode;
   private likeCountDisplay!: DomNode;
 
-  constructor(private post: Post) {
+  constructor(private post: Post, reposted: boolean, liked: boolean) {
     super(".post-list-item");
     this.onDom("click", () => Router.go(`/post/${post.id}`));
 

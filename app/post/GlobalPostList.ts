@@ -14,6 +14,11 @@ export default class GlobalPostList extends PostList {
     super(".global-post-list", "No posts yet");
 
     const cachedPosts = this.store.get<Post[]>("cached-posts");
+    const cachedRepostedPostIds =
+      this.store.get<number[]>("cached-reposted-post-ids") ?? [];
+    const cachedLikedPostIds =
+      this.store.get<number[]>("cached-liked-post-ids") ?? [];
+
     if (cachedPosts) {
       for (const post of cachedPosts) {
         this.addPost(post);
