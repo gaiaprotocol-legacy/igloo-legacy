@@ -37,6 +37,36 @@ class PostService {
     if (error) throw error;
   }
 
+  public async checkRepost(postId: number, userId: string) {
+    const { data, error } = await Supabase.client.from("reposts").select(
+      "post_id",
+    )
+      .eq(
+        "post_id",
+        postId,
+      ).eq(
+        "user_id",
+        userId,
+      );
+    if (error) throw error;
+    return data?.[0] !== undefined;
+  }
+
+  public async checkMultipleRepost(postIds: number[], userId: string) {
+    const { data, error } = await Supabase.client.from("reposts").select(
+      "post_id",
+    )
+      .in(
+        "post_id",
+        postIds,
+      ).eq(
+        "user_id",
+        userId,
+      );
+    if (error) throw error;
+    return data ? [] : (data as any).map((d: any) => d.post_id);
+  }
+
   public async like(postId: number) {
     const { error } = await Supabase.client.from("post_likes").insert({
       post_id: postId,
@@ -50,6 +80,34 @@ class PostService {
       postId,
     );
     if (error) throw error;
+  }
+
+  public async checkLike(postId: number, userId: string) {
+    const { data, error } = await Supabase.client.from("post_likes").select(
+      "post_id",
+    ).eq(
+      "post_id",
+      postId,
+    ).eq(
+      "user_id",
+      userId,
+    );
+    if (error) throw error;
+    return data?.[0] !== undefined;
+  }
+
+  public async checkMultipleLike(postIds: number[], userId: string) {
+    const { data, error } = await Supabase.client.from("post_likes").select(
+      "post_id",
+    ).in(
+      "post_id",
+      postIds,
+    ).eq(
+      "user_id",
+      userId,
+    );
+    if (error) throw error;
+    return data ? [] : (data as any).map((d: any) => d.post_id);
   }
 
   public async deletePost(id: number) {

@@ -29,13 +29,7 @@ export default class PostView extends View {
 
   constructor(params: ViewParams) {
     super();
-
-    Layout.append(
-      this.container = el(
-        ".post-view",
-      ),
-    );
-
+    Layout.append(this.container = el(".post-view"));
     this.renderPost(parseInt(params.postId!));
 
     this.checkSigned();
