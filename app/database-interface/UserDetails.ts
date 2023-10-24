@@ -1,3 +1,5 @@
+import { n2u } from "common-dapp-module";
+
 interface UserDetailsMetadata {}
 
 export default interface UserDetails {
@@ -26,21 +28,18 @@ export const DefaultUserDetails: UserDetails = {
 
 export const UserDetailsSelectQuery = `*, total_earned_trading_fees::text`;
 
-const isEqualMetadata = (
-  a: UserDetailsMetadata | undefined,
-  b: UserDetailsMetadata | undefined,
-) => {
+const isEqualMetadata = (a: UserDetailsMetadata, b: UserDetailsMetadata) => {
   return true;
 };
 
 export const isEqualUserDetails = (a: UserDetails, b: UserDetails) =>
-  a.user_id === b.user_id &&
-  a.wallet_address === b.wallet_address &&
-  a.total_earned_trading_fees === b.total_earned_trading_fees &&
-  a.display_name === b.display_name &&
-  a.profile_image === b.profile_image &&
-  a.x_username === b.x_username &&
-  isEqualMetadata(a.metadata, b.metadata) &&
-  a.follower_count === b.follower_count &&
-  a.following_count === b.following_count &&
-  a.blocked === b.blocked;
+  n2u(a.user_id) === n2u(b.user_id) &&
+  n2u(a.wallet_address) === n2u(b.wallet_address) &&
+  n2u(a.total_earned_trading_fees) === n2u(b.total_earned_trading_fees) &&
+  n2u(a.display_name) === n2u(b.display_name) &&
+  n2u(a.profile_image) === n2u(b.profile_image) &&
+  n2u(a.x_username) === n2u(b.x_username) &&
+  isEqualMetadata(a.metadata ?? {}, b.metadata ?? {}) &&
+  n2u(a.follower_count) === n2u(b.follower_count) &&
+  n2u(a.following_count) === n2u(b.following_count) &&
+  n2u(a.blocked) === n2u(b.blocked);

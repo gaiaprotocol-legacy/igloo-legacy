@@ -1,4 +1,4 @@
-import { I18NText } from "common-dapp-module";
+import { I18NText, n2u } from "common-dapp-module";
 import { UploadedFile } from "./Rich.js";
 
 export enum PostTarget {
@@ -30,23 +30,23 @@ const isEqualRich = (a: Rich, b: Rich) => {
   return a.files?.length === b.files?.length && (
     a.files?.every((file, index) => {
       const otherFile = b.files?.[index];
-      return file.url === otherFile?.url &&
-        file.thumbnailURL === otherFile?.thumbnailURL &&
-        file.fileName === otherFile?.fileName &&
-        file.fileType === otherFile?.fileType &&
-        file.fileSize === otherFile?.fileSize;
+      return n2u(file.url) === n2u(otherFile?.url) &&
+        n2u(file.thumbnailURL) === n2u(otherFile?.thumbnailURL) &&
+        n2u(file.fileName) === n2u(otherFile?.fileName) &&
+        n2u(file.fileType) === n2u(otherFile?.fileType) &&
+        n2u(file.fileSize) === n2u(otherFile?.fileSize);
     }) ?? false
   );
 };
 
 export const isEqualPost = (a: Post | undefined, b: Post | undefined) =>
-  a?.id === b?.id &&
-  a?.guild_id === b?.guild_id &&
-  a?.target === b?.target &&
-  a?.author === b?.author &&
-  a?.author_name === b?.author_name &&
-  a?.author_avatar_url === b?.author_avatar_url &&
-  a?.author_x_username === b?.author_x_username &&
-  a?.message === b?.message &&
+  n2u(a?.id) === n2u(b?.id) &&
+  n2u(a?.guild_id) === n2u(b?.guild_id) &&
+  n2u(a?.target) === n2u(b?.target) &&
+  n2u(a?.author) === n2u(b?.author) &&
+  n2u(a?.author_name) === n2u(b?.author_name) &&
+  n2u(a?.author_avatar_url) === n2u(b?.author_avatar_url) &&
+  n2u(a?.author_x_username) === n2u(b?.author_x_username) &&
+  n2u(a?.message) === n2u(b?.message) &&
   isEqualRich(a?.rich ?? {}, b?.rich ?? {}) &&
-  a?.post_ref === b?.post_ref;
+  n2u(a?.post_ref) === n2u(b?.post_ref);
