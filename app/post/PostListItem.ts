@@ -4,7 +4,7 @@ import {
   DropdownMenu,
   el,
   MaterialIcon,
-  Router
+  Router,
 } from "common-dapp-module";
 import Post from "../database-interface/Post.js";
 import SignedUserManager from "../user/SignedUserManager.js";
@@ -77,6 +77,24 @@ export default class PostListItem extends DomNode {
           }),
         ),
         el("p.message", this.post.message),
+        el(
+          ".actions",
+          el(
+            "button.comment",
+            new MaterialIcon("comment"),
+            String(this.post.comment_count),
+          ),
+          el(
+            "button.repost",
+            new MaterialIcon("repeat"),
+            String(this.post.repost_count),
+          ),
+          el(
+            "button.like",
+            new MaterialIcon("favorite_border"),
+            String(this.post.like_count),
+          ),
+        ),
       ),
     );
   }

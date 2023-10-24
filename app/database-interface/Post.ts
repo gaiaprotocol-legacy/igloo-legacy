@@ -22,6 +22,9 @@ export default interface Post {
   translated?: I18NText;
   rich?: Rich;
   post_ref?: number;
+  comment_count: number;
+  repost_count: number;
+  like_count: number;
   created_at: string;
   updated_at?: string;
 }
@@ -49,4 +52,7 @@ export const isEqualPost = (a: Post | undefined, b: Post | undefined) =>
   n2u(a?.author_x_username) === n2u(b?.author_x_username) &&
   n2u(a?.message) === n2u(b?.message) &&
   isEqualRich(a?.rich ?? {}, b?.rich ?? {}) &&
-  n2u(a?.post_ref) === n2u(b?.post_ref);
+  n2u(a?.post_ref) === n2u(b?.post_ref) &&
+  n2u(a?.comment_count) === n2u(b?.comment_count) &&
+  n2u(a?.repost_count) === n2u(b?.repost_count) &&
+  n2u(a?.like_count) === n2u(b?.like_count);

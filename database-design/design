@@ -92,6 +92,7 @@ posts
 	translated - jsonb - nullbale
 	rich - jsonb - nullable
 	post_ref - int8 - nullable
+	comment_count - int4 - 0
 	repost_count - int4 - 0
 	like_count - int4 - 0
 	created_at - timestampz - now()
