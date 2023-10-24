@@ -5,7 +5,7 @@ begin
         ) values (
             (SELECT author FROM posts WHERE id = new.post_ref),
             new.author, 5, new.id
-        )
+        );
     END IF;
     return null;
 end;
