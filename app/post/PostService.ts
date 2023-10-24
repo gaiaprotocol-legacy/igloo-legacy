@@ -133,6 +133,24 @@ class PostService {
     if (error) throw error;
     return { keyOwnerIds, posts: data };
   }
+
+  public async fetchComments(
+    postId: number,
+    lastFetchedPostId?: number,
+  ): Promise<Post[]> {
+    const { data, error } = await Supabase.client.from("posts").select().eq(
+      "post_ref",
+      postId,
+    ).lt(
+      "id",
+      lastFetchedPostId ?? Number.MAX_SAFE_INTEGER,
+    ).order(
+      "created_at",
+      { ascending: false },
+    ).limit(PostService.LIMIT);
+    if (error) throw error;
+    return data;
+  }
 }
 
 export default new PostService();

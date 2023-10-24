@@ -1,10 +1,12 @@
 import {
+  Button,
   Confirm,
   DomNode,
   DropdownMenu,
   el,
   MaterialIcon,
   Router,
+  Snackbar,
   View,
   ViewParams,
 } from "common-dapp-module";
@@ -12,10 +14,13 @@ import Post from "../database-interface/Post.js";
 import Layout from "../layout/Layout.js";
 import SignedUserManager from "../user/SignedUserManager.js";
 import PostCacher from "./PostCacher.js";
+import PostCommentList from "./PostCommentList.js";
 import PostService from "./PostService.js";
 
 export default class PostView extends View {
   private container: DomNode;
+  private commentTextarea!: DomNode<HTMLTextAreaElement>;
+  private commentButton!: Button;
 
   private post: Post | undefined;
 
@@ -114,9 +119,51 @@ export default class PostView extends View {
           ),
           el("p.message", this.post.message),
         ),
-        el("footer"),
-        //TODO: dynamic loading
+        el(
+          ".form-wrapper",
+          el(".signed-user", {
+            style: { backgroundImage: `url(${SignedUserManager.avatarUrl})` },
+          }),
+          el(
+            ".form",
+            el(
+              "main",
+              this.commentTextarea = el("textarea", {
+                placeholder: "What's on your mind?",
+              }),
+            ),
+            el(
+              "footer",
+              el("button.icon-button", new MaterialIcon("image")),
+              this.commentButton = new Button({
+                tag: ".post-button",
+                click: () => this.postComment(),
+                title: "Post",
+              }),
+            ),
+          ),
+        ),
+        new PostCommentList(this.post.id).show(),
       );
+    }
+  }
+
+  private async postComment() {
+    if (this.post) {
+      this.commentButton.disable().text = "Posting...";
+      try {
+        await PostService.comment(
+          this.post.id,
+          this.commentTextarea.domElement.value,
+        );
+        new Snackbar({
+          message: "Your post has been successfully published.",
+        });
+        this.commentTextarea.domElement.value = "";
+      } catch (error) {
+        console.error(error);
+        this.commentButton.enable().text = "Post";
+      }
     }
   }
 

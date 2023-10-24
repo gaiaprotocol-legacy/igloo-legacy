@@ -15,8 +15,8 @@ import PostService from "./PostService.js";
 export default class PostCommentPopup extends Popup {
   public content: DomNode;
 
-  private textarea: DomNode<HTMLTextAreaElement>;
-  private postButton: Button;
+  private commentTextarea: DomNode<HTMLTextAreaElement>;
+  private commentButton: Button;
 
   constructor(private sourcePost: Post) {
     super({ barrierDismissible: true });
@@ -60,16 +60,16 @@ export default class PostCommentPopup extends Popup {
             ".form",
             el(
               "main",
-              this.textarea = el("textarea", {
+              this.commentTextarea = el("textarea", {
                 placeholder: "What's on your mind?",
               }),
             ),
             el(
               "footer",
               el("button.icon-button", new MaterialIcon("image")),
-              this.postButton = new Button({
+              this.commentButton = new Button({
                 tag: ".post-button",
-                click: () => this.post(),
+                click: () => this.postComment(),
                 title: "Post",
               }),
             ),
@@ -77,15 +77,15 @@ export default class PostCommentPopup extends Popup {
         ),
       ),
     );
-    this.textarea.domElement.focus();
+    this.commentTextarea.domElement.focus();
   }
 
-  private async post() {
-    this.postButton.disable().text = "Posting...";
+  private async postComment() {
+    this.commentButton.disable().text = "Posting...";
     try {
       const postId = await PostService.comment(
         this.sourcePost.id,
-        this.textarea.domElement.value,
+        this.commentTextarea.domElement.value,
       );
       new Snackbar({
         message: "Your post has been successfully published.",
@@ -97,7 +97,7 @@ export default class PostCommentPopup extends Popup {
       this.delete();
     } catch (error) {
       console.error(error);
-      this.postButton.enable().text = "Post";
+      this.commentButton.enable().text = "Post";
     }
   }
 }

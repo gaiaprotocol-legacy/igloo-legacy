@@ -5,16 +5,16 @@ import PostCacher from "./PostCacher.js";
 import PostList from "./PostList.js";
 import PostService from "./PostService.js";
 
-export default class UserPostList extends PostList {
+export default class PostCommentList extends PostList {
   private store: Store;
   private isContentFromCache: boolean = true;
   private channel: RealtimeChannel;
 
-  constructor(private userId: string) {
-    super(".user-post-list", "No posts from this user yet");
-    this.store = new Store(`user-${userId}-post-list`);
+  constructor(private postId: number) {
+    super(".post-comment-list", "No comments yet");
+    this.store = new Store(`post-${postId}-comment-list`);
 
-    const cachedPosts = this.store.get<Post[]>(`user-${userId}-cached-posts`);
+    const cachedPosts = this.store.get<Post[]>(`post-${postId}-cached-posts`);
     if (cachedPosts) {
       for (const post of cachedPosts) {
         this.addPost(post);
@@ -22,20 +22,20 @@ export default class UserPostList extends PostList {
     }
 
     this.channel = Supabase.client
-      .channel(`user-${userId}-post-changes`)
+      .channel(`post-${postId}-comment-changes`)
       .on(
         "postgres_changes",
         {
           event: "INSERT",
           schema: "public",
           table: "posts",
-          filter: "author=eq." + userId,
+          filter: "post_req=eq." + postId,
         },
         (payload: any) => {
           const cachedPosts =
-            this.store.get<Post[]>(`user-${userId}-cached-posts`) ?? [];
+            this.store.get<Post[]>(`post-${postId}-cached-posts`) ?? [];
           cachedPosts.push(payload.new);
-          this.store.set(`user-${userId}-cached-posts`, cachedPosts, true);
+          this.store.set(`post-${postId}-cached-posts`, cachedPosts, true);
           this.addPost(payload.new);
         },
       )
@@ -43,8 +43,8 @@ export default class UserPostList extends PostList {
   }
 
   protected async fetchContent() {
-    const posts = (await PostService.fetchUserPosts(
-      this.userId,
+    const posts = (await PostService.fetchComments(
+      this.postId,
       this.lastFetchedPostId,
     )).reverse();
     PostCacher.cachePosts(posts);
@@ -52,7 +52,7 @@ export default class UserPostList extends PostList {
 
     if (this.isContentFromCache) {
       this.isContentFromCache = false;
-      this.store.set(`user-${this.userId}-cached-posts`, posts, true);
+      this.store.set(`post-${this.postId}-cached-posts`, posts, true);
       if (!this.deleted) this.empty();
     }
 
