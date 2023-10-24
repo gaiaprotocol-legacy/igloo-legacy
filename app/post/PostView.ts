@@ -15,6 +15,7 @@ import Layout from "../layout/Layout.js";
 import SignedUserManager from "../user/SignedUserManager.js";
 import PostCacher from "./PostCacher.js";
 import PostCommentList from "./PostCommentList.js";
+import PostCommentPopup from "./PostCommentPopup.js";
 import PostService from "./PostService.js";
 
 export default class PostView extends View {
@@ -118,6 +119,30 @@ export default class PostView extends View {
             }),
           ),
           el("p.message", this.post.message),
+          el(
+            ".actions",
+            el(
+              "button.comment",
+              new MaterialIcon("comment"),
+              String(this.post.comment_count),
+              {
+                click: (event) => {
+                  event.stopPropagation();
+                  if (this.post) new PostCommentPopup(this.post);
+                },
+              },
+            ),
+            el(
+              "button.repost",
+              new MaterialIcon("repeat"),
+              String(this.post.repost_count),
+            ),
+            el(
+              "button.like",
+              new MaterialIcon("favorite_border"),
+              String(this.post.like_count),
+            ),
+          ),
         ),
         el(
           ".form-wrapper",

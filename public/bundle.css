@@ -876,6 +876,35 @@ button.component.text:active {
     font-size: 14px;
   }
 }
+.post-view > main > .actions {
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.post-view > main > .actions > button {
+  border-radius: 16px;
+  border: 1px solid #F4F7F9;
+  background: #EBEFF3;
+  box-shadow: 4px 4px 8px 0px rgba(255, 255, 255, 0.75), 2px 2px 8px 0px rgba(189, 194, 199, 0.75) inset;
+  padding: 6px 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+.post-view > main > .actions > button > .material-icon {
+  font-size: 16px;
+}
+.post-view > main > .actions > button:hover.comment {
+  color: #5585FF;
+}
+.post-view > main > .actions > button:hover.repost {
+  color: #4da787;
+}
+.post-view > main > .actions > button:hover.like {
+  color: #FC5132;
+}
 .post-view.owned > main > header > button.owner-menu {
   display: flex;
 }
@@ -1073,26 +1102,6 @@ button.component.text:active {
 .post-comment-popup {
   max-width: 600px !important;
 }
-.post-comment-popup > header {
-  display: flex;
-  justify-content: flex-end;
-}
-.post-comment-popup > header > button {
-  width: 43.5px;
-  height: 43.5px;
-  flex-shrink: 0;
-  border-radius: 16px;
-  color: #2B2B2B;
-  cursor: pointer;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.post-comment-popup > header > button:active {
-  outline: 1px solid #F4F7F9;
-  background: #EBEFF3;
-  box-shadow: 4px 4px 8px 0px rgba(255, 255, 255, 0.75), 2px 2px 8px 0px rgba(189, 194, 199, 0.75) inset;
-}
 .post-comment-popup > .source {
   display: flex;
   gap: 20px;
@@ -1127,6 +1136,7 @@ button.component.text:active {
   display: flex;
 }
 .post-comment-popup > .source > main > header > .author {
+  flex-grow: 1;
   display: flex;
   flex-direction: column;
   gap: 4px;
@@ -1147,6 +1157,22 @@ button.component.text:active {
   font-style: normal;
   font-weight: 500;
   color: #a1a2ac;
+}
+.post-comment-popup > .source > main > header > button {
+  width: 43.5px;
+  height: 43.5px;
+  flex-shrink: 0;
+  border-radius: 16px;
+  color: #2B2B2B;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.post-comment-popup > .source > main > header > button:active {
+  outline: 1px solid #F4F7F9;
+  background: #EBEFF3;
+  box-shadow: 4px 4px 8px 0px rgba(255, 255, 255, 0.75), 2px 2px 8px 0px rgba(189, 194, 199, 0.75) inset;
 }
 .post-comment-popup > .source > main > p {
   color: #2A2A2A;

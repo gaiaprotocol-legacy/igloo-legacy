@@ -24,12 +24,6 @@ export default class PostCommentPopup extends Popup {
       this.content = new Component(
         ".popup.post-comment-popup",
         el(
-          "header",
-          el("button", new MaterialIcon("close"), {
-            click: () => this.delete(),
-          }),
-        ),
-        el(
           ".source",
           el(".author-profile-image", {
             style: {
@@ -47,6 +41,9 @@ export default class PostCommentPopup extends Popup {
                   ? el(".x-username", `@${this.sourcePost.author_x_username}`)
                   : undefined,
               ),
+              el("button", new MaterialIcon("close"), {
+                click: () => this.delete(),
+              }),
             ),
             el("p.message", this.sourcePost.message),
           ),
