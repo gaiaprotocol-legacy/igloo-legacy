@@ -34,7 +34,7 @@ const isEqualRich = (a: Rich, b: Rich) => {
     a.files?.every((file, index) => {
       const otherFile = b.files?.[index];
       return n2u(file.url) === n2u(otherFile?.url) &&
-        n2u(file.thumbnailURL) === n2u(otherFile?.thumbnailURL) &&
+        n2u(file.thumbnailUrl) === n2u(otherFile?.thumbnailUrl) &&
         n2u(file.fileName) === n2u(otherFile?.fileName) &&
         n2u(file.fileType) === n2u(otherFile?.fileType) &&
         n2u(file.fileSize) === n2u(otherFile?.fileSize);

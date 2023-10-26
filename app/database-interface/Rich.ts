@@ -1,6 +1,6 @@
 export interface UploadedFile {
   url: string;
-  thumbnailURL?: string;
+  thumbnailUrl?: string;
   fileName: string;
   fileType: string;
   fileSize: number;
