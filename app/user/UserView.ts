@@ -22,16 +22,19 @@ import UserProfileDisplay from "./UserProfileDisplay.js";
 
 export default class UserView extends View {
   private container: DomNode;
-  private tabs!: Tabs;
+
   private xUsername!: string;
   private userDetails!: UserDetails;
   private subjectDetails: SubjectDetails | undefined;
   private holdingCount = 0;
 
+  private userConnectionTabs!: Tabs;
   private holdingList: HoldingList | undefined;
   private holderList: HolderList | undefined;
   private followingList!: FollowingList;
   private followerList!: FollowerList;
+
+  private postTabs!: Tabs;
 
   constructor(params: ViewParams) {
     super();
@@ -109,7 +112,7 @@ export default class UserView extends View {
         ),
         el(
           ".user-connections",
-          this.tabs = new Tabs(
+          this.userConnectionTabs = new Tabs(
             "user-connections",
             (() => {
               const tabs = this.userDetails.wallet_address
@@ -163,7 +166,7 @@ export default class UserView extends View {
       new UserPostList(this.userDetails.user_id).show(),
     );
 
-    this.tabs.on("select", (id: string) => {
+    this.userConnectionTabs.on("select", (id: string) => {
       [
         this.holdingList,
         this.holderList,
