@@ -16,6 +16,8 @@ export default class PostPopup extends Popup {
 
   private targetSelect: DomNode<HTMLSelectElement>;
   private textarea: DomNode<HTMLTextAreaElement>;
+  private uploadInput: DomNode<HTMLInputElement>;
+  private uploadButton: DomNode<HTMLButtonElement>;
   private postButton: Button;
 
   constructor() {
@@ -47,7 +49,19 @@ export default class PostPopup extends Popup {
           ),
           el(
             "footer",
-            el("button.icon-button", new MaterialIcon("image")),
+            this.uploadInput = el("input.upload", {
+              type: "file",
+              accept: "image/*",
+              change: (event) => {
+                const file = event.target.files?.[0];
+                if (file) this.upload(file);
+              },
+            }),
+            this.uploadButton = el(
+              "button.icon-button",
+              new MaterialIcon("image"),
+              { click: () => this.uploadInput.domElement.click() },
+            ),
             this.postButton = new Button({
               tag: ".post-button",
               click: () => this.post(),
@@ -58,6 +72,18 @@ export default class PostPopup extends Popup {
       ),
     );
     this.textarea.domElement.focus();
+  }
+
+  protected async upload(file: File) {
+    this.uploadButton.domElement.disabled = true;
+    this.uploadButton.empty().addClass("loading");
+
+    //TODO:
+
+    this.uploadInput.domElement.value = "";
+    this.uploadButton.domElement.disabled = false;
+    this.uploadButton.deleteClass("loading");
+    this.uploadButton.empty().append(new MaterialIcon("image"));
   }
 
   private async post() {

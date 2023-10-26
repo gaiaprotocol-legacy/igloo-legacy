@@ -26,7 +26,7 @@ export default class TopicChatMessageForm extends ChatMessageForm {
     item.done();
   }
 
-  protected upload(file: File) {
+  protected async upload(file: File) {
     throw new Error("Method not implemented.");
   }
 }

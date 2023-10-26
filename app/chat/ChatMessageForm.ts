@@ -16,10 +16,12 @@ export default abstract class ChatMessageForm extends DomNode {
         accept: "image/*",
         change: (event) => {
           const file = event.target.files?.[0];
-          if (file) this.upload(file);
+          if (file) this._upload(file);
         },
       }),
-      this.uploadButton = el("button.upload", new MaterialIcon("upload"), {}),
+      this.uploadButton = el("button.upload", new MaterialIcon("image"), {
+        click: () => this.uploadInput.domElement.click(),
+      }),
       el(
         "form",
         this.messageInput = el("input"),
@@ -41,8 +43,18 @@ export default abstract class ChatMessageForm extends DomNode {
     this.on("visible", () => this.messageInput.domElement.focus());
   }
 
+  private async _upload(file: File) {
+    this.uploadButton.domElement.disabled = true;
+    this.uploadButton.empty().addClass("loading");
+    await this.upload(file);
+    this.uploadInput.domElement.value = "";
+    this.uploadButton.domElement.disabled = false;
+    this.uploadButton.deleteClass("loading");
+    this.uploadButton.empty().append(new MaterialIcon("image"));
+  }
+
   protected abstract sendMessage(message: string): void;
-  protected abstract upload(file: File): void;
+  protected abstract upload(file: File): Promise<void>;
 
   protected getOptimisticData(
     messageType: MessageType,
