@@ -2293,6 +2293,9 @@ button.component.text:active {
   padding: 20px;
   gap: 20px;
 }
+.user-view > .tabs {
+  margin-top: 20px;
+}
 .user-view > .post-list {
   margin-top: 20px;
 }

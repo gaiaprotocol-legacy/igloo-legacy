@@ -10,6 +10,8 @@ import {
 import SubjectDetails from "../database-interface/SubjectDetails.js";
 import UserDetails from "../database-interface/UserDetails.js";
 import Layout from "../layout/Layout.js";
+import UserCommentPostList from "../post/UserCommentPostList.js";
+import UserLikedPostList from "../post/UserLikedPostList.js";
 import UserPostList from "../post/UserPostList.js";
 import SubjectDetailsCacher from "../subject/SubjectDetailsCacher.js";
 import TotalSubjectKeyBalanceCacher from "../subject/TotalSubjectKeyBalanceCacher.js";
@@ -35,6 +37,9 @@ export default class UserView extends View {
   private followerList!: FollowerList;
 
   private postTabs!: Tabs;
+  private userPostList!: UserPostList;
+  private userCommentPostList!: UserCommentPostList;
+  private userLikedPostList!: UserLikedPostList;
 
   constructor(params: ViewParams) {
     super();
@@ -163,7 +168,16 @@ export default class UserView extends View {
           this.followerList = new FollowerList(this.userDetails.user_id),
         ),
       ),
-      new UserPostList(this.userDetails.user_id).show(),
+      this.postTabs = new Tabs("user-posts", [
+        { id: "user-posts", label: "Posts" },
+        { id: "user-replies", label: "Replies" },
+        { id: "user-likes", label: "Likes" },
+      ]),
+      this.userPostList = new UserPostList(this.userDetails.user_id),
+      this.userCommentPostList = new UserCommentPostList(
+        this.userDetails.user_id,
+      ),
+      this.userLikedPostList = new UserLikedPostList(this.userDetails.user_id),
     );
 
     this.userConnectionTabs.on("select", (id: string) => {
@@ -178,6 +192,18 @@ export default class UserView extends View {
       else if (id === "holders") this.holderList?.show();
       else if (id === "following") this.followingList.show();
       else if (id === "followers") this.followerList.show();
+    }).init();
+
+    this.postTabs.on("select", (id: string) => {
+      [
+        this.userPostList,
+        this.userCommentPostList,
+        this.userLikedPostList,
+      ]
+        .forEach((list) => list.hide());
+      if (id === "user-posts") this.userPostList.show();
+      else if (id === "user-replies") this.userCommentPostList.show();
+      else if (id === "user-likes") this.userLikedPostList.show();
     }).init();
   }
 
