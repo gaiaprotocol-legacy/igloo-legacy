@@ -16,6 +16,8 @@ export default class PostCommentPopup extends Popup {
   public content: DomNode;
 
   private commentTextarea: DomNode<HTMLTextAreaElement>;
+  private uploadInput: DomNode<HTMLInputElement>;
+  private uploadButton: DomNode<HTMLButtonElement>;
   private commentButton: Button;
 
   constructor(private sourcePost: Post) {
@@ -63,7 +65,19 @@ export default class PostCommentPopup extends Popup {
             ),
             el(
               "footer",
-              el("button.icon-button", new MaterialIcon("image")),
+              this.uploadInput = el("input.upload", {
+                type: "file",
+                accept: "image/*",
+                change: (event) => {
+                  const file = event.target.files?.[0];
+                  if (file) this.upload(file);
+                },
+              }),
+              this.uploadButton = el(
+                "button.icon-button",
+                new MaterialIcon("image"),
+                { click: () => this.uploadInput.domElement.click() },
+              ),
               this.commentButton = new Button({
                 tag: ".post-button",
                 click: () => this.postComment(),
@@ -75,6 +89,18 @@ export default class PostCommentPopup extends Popup {
       ),
     );
     this.commentTextarea.domElement.focus();
+  }
+
+  private async upload(file: File) {
+    this.uploadButton.domElement.disabled = true;
+    this.uploadButton.empty().addClass("loading");
+
+    //TODO:
+
+    this.uploadInput.domElement.value = "";
+    this.uploadButton.domElement.disabled = false;
+    this.uploadButton.deleteClass("loading");
+    this.uploadButton.empty().append(new MaterialIcon("image"));
   }
 
   private async postComment() {

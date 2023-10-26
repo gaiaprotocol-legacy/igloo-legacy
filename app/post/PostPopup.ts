@@ -74,7 +74,7 @@ export default class PostPopup extends Popup {
     this.textarea.domElement.focus();
   }
 
-  protected async upload(file: File) {
+  private async upload(file: File) {
     this.uploadButton.domElement.disabled = true;
     this.uploadButton.empty().addClass("loading");
 
