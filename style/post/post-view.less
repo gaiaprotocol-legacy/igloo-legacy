@@ -142,6 +142,24 @@
             }
         }
 
+        >.files {
+            margin-top: 20px;
+
+            >.file {
+                >.image-container {
+                    >a {
+                        >img {
+                            border-radius: 16px;
+                            box-shadow   : 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
+                            width        : 100%;
+                            max-width    : 256px;
+                            max-height   : 256px;
+                        }
+                    }
+                }
+            }
+        }
+
         >.actions {
             margin-top : 20px;
             display    : flex;
@@ -185,6 +203,26 @@
             >header {
                 >button.owner-menu {
                     display: flex;
+                }
+            }
+        }
+    }
+
+    &.reposted {
+        >main {
+            >.actions {
+                >button.repost {
+                    color: #4da787;
+                }
+            }
+        }
+    }
+
+    &.liked {
+        >main {
+            >.actions {
+                >button.like {
+                    color: #FC5132;
                 }
             }
         }
@@ -247,6 +285,10 @@
             >footer {
                 display: flex;
 
+                >input.upload {
+                    display: none;
+                }
+
                 >.icon-button {
                     width          : 48px;
                     height         : 48px;
@@ -263,6 +305,12 @@
                     &:active {
                         outline   : 1px solid #F4F7F9;
                         box-shadow: 4px 4px 8px 0px rgba(255, 255, 255, 0.75), 2px 2px 8px 0px rgba(189, 194, 199, 0.75) inset;
+                    }
+
+                    >img {
+                        max-width    : 32px;
+                        max-height   : 32px;
+                        border-radius: 4px;
                     }
                 }
 
