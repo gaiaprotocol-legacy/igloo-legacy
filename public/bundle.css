@@ -876,6 +876,16 @@ button.component.text:active {
     font-size: 14px;
   }
 }
+.post-view > main > .files {
+  margin-top: 20px;
+}
+.post-view > main > .files > .file > .image-container > a > img {
+  border-radius: 16px;
+  box-shadow: 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
+  width: 100%;
+  max-width: 256px;
+  max-height: 256px;
+}
 .post-view > main > .actions {
   margin-top: 20px;
   display: flex;
@@ -1391,6 +1401,13 @@ button.component.text:active {
     font-size: 12px;
   }
 }
+.post-list-item > main > .files > .file > .image-container > a > img {
+  border-radius: 16px;
+  box-shadow: 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
+  width: 100%;
+  max-width: 256px;
+  max-height: 256px;
+}
 .post-list-item > main > .actions {
   display: flex;
   align-items: center;
@@ -1725,6 +1742,7 @@ button.component.text:active {
 .chat-message-list-item > main > .files > .file > .image-container > a > img {
   border-radius: 16px;
   box-shadow: 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
+  width: 100%;
   max-width: 200px;
   max-height: 200px;
 }

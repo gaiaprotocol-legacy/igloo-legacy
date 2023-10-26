@@ -7,6 +7,7 @@ import {
   Router,
 } from "common-dapp-module";
 import Post from "../database-interface/Post.js";
+import { UploadedFile } from "../database-interface/Rich.js";
 import SignedUserManager from "../user/SignedUserManager.js";
 import PostCacher from "./PostCacher.js";
 import PostCommentPopup from "./PostCommentPopup.js";
@@ -87,6 +88,7 @@ export default class PostListItem extends DomNode {
           }),
         ),
         el("p.message", this.post.message),
+        !this.post.rich ? undefined : this.getRich(this.post.rich),
         el(
           ".actions",
           el(
@@ -155,6 +157,32 @@ export default class PostListItem extends DomNode {
         ),
       ),
     );
+  }
+
+  private getRich(rich: { files?: UploadedFile[] }) {
+    if (rich.files) {
+      return el(
+        ".files",
+        ...rich.files.map((file) =>
+          el(
+            ".file",
+            !file.thumbnailUrl ? undefined : el(
+              ".image-container",
+              el(
+                "a",
+                el("img", { src: file.thumbnailUrl }),
+                {
+                  href: file.url,
+                  target: "_blank",
+                  click: (event) => event.stopPropagation(),
+                },
+              ),
+            ),
+          )
+        ),
+      );
+    }
+    return undefined;
   }
 
   private checkSigned() {

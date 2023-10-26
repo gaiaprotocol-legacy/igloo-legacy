@@ -46,10 +46,25 @@ end;$$;
 
 ALTER FUNCTION "public"."decrease_follow_count"() OWNER TO "postgres";
 
+CREATE OR REPLACE FUNCTION "public"."decrease_post_comment_count"() RETURNS "trigger"
+    LANGUAGE "plpgsql" SECURITY DEFINER
+    AS $$begin
+  IF old.post_ref IS NOT NULL THEN
+    update posts
+    set
+      comment_count = comment_count - 1
+    where
+      id = old.post_ref;
+  END IF;
+  return null;
+end;$$;
+
+ALTER FUNCTION "public"."decrease_post_comment_count"() OWNER TO "postgres";
+
 CREATE OR REPLACE FUNCTION "public"."decrease_post_like_count"() RETURNS "trigger"
     LANGUAGE "plpgsql" SECURITY DEFINER
     AS $$begin
-  update post
+  update posts
   set
     like_count = like_count - 1
   where
@@ -62,7 +77,7 @@ ALTER FUNCTION "public"."decrease_post_like_count"() OWNER TO "postgres";
 CREATE OR REPLACE FUNCTION "public"."decrease_repost_count"() RETURNS "trigger"
     LANGUAGE "plpgsql" SECURITY DEFINER
     AS $$begin
-  update post
+  update posts
   set
     repost_count = repost_count - 1
   where
@@ -146,10 +161,25 @@ end;$$;
 
 ALTER FUNCTION "public"."increase_follow_count"() OWNER TO "postgres";
 
+CREATE OR REPLACE FUNCTION "public"."increase_post_comment_count"() RETURNS "trigger"
+    LANGUAGE "plpgsql" SECURITY DEFINER
+    AS $$begin
+  IF new.post_ref IS NOT NULL THEN
+    update posts
+    set
+      comment_count = comment_count + 1
+    where
+      id = new.post_ref;
+  END IF;
+  return null;
+end;$$;
+
+ALTER FUNCTION "public"."increase_post_comment_count"() OWNER TO "postgres";
+
 CREATE OR REPLACE FUNCTION "public"."increase_post_like_count"() RETURNS "trigger"
     LANGUAGE "plpgsql" SECURITY DEFINER
     AS $$begin
-  update post
+  update posts
   set
     like_count = like_count + 1
   where
@@ -162,7 +192,7 @@ ALTER FUNCTION "public"."increase_post_like_count"() OWNER TO "postgres";
 CREATE OR REPLACE FUNCTION "public"."increase_repost_count"() RETURNS "trigger"
     LANGUAGE "plpgsql" SECURITY DEFINER
     AS $$begin
-  update post
+  update posts
   set
     repost_count = repost_count + 1
   where
@@ -449,10 +479,13 @@ CREATE TABLE IF NOT EXISTS "public"."posts" (
     "rich" "jsonb",
     "created_at" timestamp with time zone DEFAULT "now"() NOT NULL,
     "updated_at" timestamp with time zone,
-    "target" smallint NOT NULL,
+    "target" smallint,
     "group_id" bigint,
     "post_ref" bigint,
-    "author_x_username" "text"
+    "author_x_username" "text",
+    "comment_count" integer DEFAULT 0 NOT NULL,
+    "repost_count" integer DEFAULT 0 NOT NULL,
+    "like_count" integer DEFAULT 0 NOT NULL
 );
 
 ALTER TABLE "public"."posts" OWNER TO "postgres";
@@ -649,6 +682,8 @@ ALTER TABLE ONLY "public"."total_subject_key_balances"
 
 CREATE TRIGGER "decrease_follow_count" AFTER DELETE ON "public"."follows" FOR EACH ROW EXECUTE FUNCTION "public"."decrease_follow_count"();
 
+CREATE TRIGGER "decrease_post_comment_count" AFTER DELETE ON "public"."posts" FOR EACH ROW EXECUTE FUNCTION "public"."decrease_post_comment_count"();
+
 CREATE TRIGGER "decrease_post_like_count" AFTER DELETE ON "public"."post_likes" FOR EACH ROW EXECUTE FUNCTION "public"."decrease_post_like_count"();
 
 CREATE TRIGGER "decrease_repost_count" AFTER DELETE ON "public"."reposts" FOR EACH ROW EXECUTE FUNCTION "public"."decrease_repost_count"();
@@ -658,6 +693,8 @@ CREATE TRIGGER "decrease_subject_key_holder_count" AFTER DELETE ON "public"."sub
 CREATE TRIGGER "decrease_total_subject_key_balance" AFTER DELETE ON "public"."subject_key_holders" FOR EACH ROW EXECUTE FUNCTION "public"."decrease_total_subject_key_balance"();
 
 CREATE TRIGGER "increase_follow_count" AFTER INSERT ON "public"."follows" FOR EACH ROW EXECUTE FUNCTION "public"."increase_follow_count"();
+
+CREATE TRIGGER "increase_post_comment_count" AFTER INSERT ON "public"."posts" FOR EACH ROW EXECUTE FUNCTION "public"."increase_post_comment_count"();
 
 CREATE TRIGGER "increase_post_like_count" AFTER INSERT ON "public"."post_likes" FOR EACH ROW EXECUTE FUNCTION "public"."increase_post_like_count"();
 
@@ -744,7 +781,15 @@ CREATE POLICY "can delete only authed" ON "public"."posts" FOR DELETE USING (("a
 
 CREATE POLICY "can follow only follower" ON "public"."follows" FOR INSERT TO "authenticated" WITH CHECK ((("follower_id" = "auth"."uid"()) AND ("follower_id" <> "followee_id")));
 
+CREATE POLICY "can like only authed" ON "public"."post_likes" FOR INSERT TO "authenticated" WITH CHECK (("user_id" = "auth"."uid"()));
+
+CREATE POLICY "can repost only authed" ON "public"."reposts" FOR INSERT TO "authenticated" WITH CHECK (("user_id" = "auth"."uid"()));
+
+CREATE POLICY "can un-repost only authed" ON "public"."reposts" FOR DELETE TO "authenticated" USING (("user_id" = "auth"."uid"()));
+
 CREATE POLICY "can unfollow only follower" ON "public"."follows" FOR DELETE TO "authenticated" USING (("follower_id" = "auth"."uid"()));
+
+CREATE POLICY "can unlike only authed" ON "public"."post_likes" FOR DELETE TO "authenticated" USING (("user_id" = "auth"."uid"()));
 
 CREATE POLICY "can view only holder or owner" ON "public"."subject_chat_messages" FOR SELECT TO "authenticated" USING ((("subject" = ( SELECT "user_details"."wallet_address"
    FROM "public"."user_details"
@@ -758,9 +803,9 @@ CREATE POLICY "can view only user" ON "public"."notifications" FOR SELECT TO "au
 
 CREATE POLICY "can write only authed" ON "public"."posts" FOR INSERT TO "authenticated" WITH CHECK ((("message" <> ''::"text") AND ("author" = "auth"."uid"())));
 
-CREATE POLICY "can write only authed" ON "public"."topic_chat_messages" FOR INSERT TO "authenticated" WITH CHECK (((("message" <> ''::"text") OR ("rich" <> NULL::"jsonb")) AND ("author" = "auth"."uid"())));
+CREATE POLICY "can write only authed" ON "public"."topic_chat_messages" FOR INSERT TO "authenticated" WITH CHECK (((("message" <> ''::"text") OR ("rich" IS NOT NULL)) AND ("author" = "auth"."uid"())));
 
-CREATE POLICY "can write only holder or owner" ON "public"."subject_chat_messages" FOR INSERT TO "authenticated" WITH CHECK ((("auth"."uid"() = "author") AND (("subject" = ( SELECT "user_details"."wallet_address"
+CREATE POLICY "can write only holder or owner" ON "public"."subject_chat_messages" FOR INSERT TO "authenticated" WITH CHECK (((("message" <> ''::"text") OR ("rich" IS NOT NULL)) AND ("author" = "auth"."uid"()) AND (("subject" = ( SELECT "user_details"."wallet_address"
    FROM "public"."user_details"
   WHERE ("user_details"."user_id" = "auth"."uid"()))) OR (1 <= ( SELECT "subject_key_holders"."last_fetched_balance"
    FROM "public"."subject_key_holders"
@@ -796,6 +841,10 @@ ALTER TABLE "public"."user_details" ENABLE ROW LEVEL SECURITY;
 
 CREATE POLICY "view everyone" ON "public"."follows" FOR SELECT USING (true);
 
+CREATE POLICY "view everyone" ON "public"."post_likes" FOR SELECT USING (true);
+
+CREATE POLICY "view everyone" ON "public"."reposts" FOR SELECT USING (true);
+
 CREATE POLICY "view everyone" ON "public"."subject_details" FOR SELECT USING (true);
 
 CREATE POLICY "view everyone" ON "public"."subject_key_holders" FOR SELECT USING (true);
@@ -827,6 +876,10 @@ GRANT ALL ON FUNCTION "public"."decrease_follow_count"() TO "anon";
 GRANT ALL ON FUNCTION "public"."decrease_follow_count"() TO "authenticated";
 GRANT ALL ON FUNCTION "public"."decrease_follow_count"() TO "service_role";
 
+GRANT ALL ON FUNCTION "public"."decrease_post_comment_count"() TO "anon";
+GRANT ALL ON FUNCTION "public"."decrease_post_comment_count"() TO "authenticated";
+GRANT ALL ON FUNCTION "public"."decrease_post_comment_count"() TO "service_role";
+
 GRANT ALL ON FUNCTION "public"."decrease_post_like_count"() TO "anon";
 GRANT ALL ON FUNCTION "public"."decrease_post_like_count"() TO "authenticated";
 GRANT ALL ON FUNCTION "public"."decrease_post_like_count"() TO "service_role";
@@ -850,6 +903,10 @@ GRANT ALL ON FUNCTION "public"."handle_new_user"() TO "service_role";
 GRANT ALL ON FUNCTION "public"."increase_follow_count"() TO "anon";
 GRANT ALL ON FUNCTION "public"."increase_follow_count"() TO "authenticated";
 GRANT ALL ON FUNCTION "public"."increase_follow_count"() TO "service_role";
+
+GRANT ALL ON FUNCTION "public"."increase_post_comment_count"() TO "anon";
+GRANT ALL ON FUNCTION "public"."increase_post_comment_count"() TO "authenticated";
+GRANT ALL ON FUNCTION "public"."increase_post_comment_count"() TO "service_role";
 
 GRANT ALL ON FUNCTION "public"."increase_post_like_count"() TO "anon";
 GRANT ALL ON FUNCTION "public"."increase_post_like_count"() TO "authenticated";
