@@ -64,7 +64,7 @@ class PostService {
         userId,
       );
     if (error) throw error;
-    return data ? [] : (data as any).map((d: any) => d.post_id);
+    return data ? (data as any).map((d: any) => d.post_id) : [];
   }
 
   public async like(postId: number) {
@@ -107,7 +107,7 @@ class PostService {
       userId,
     );
     if (error) throw error;
-    return data ? [] : (data as any).map((d: any) => d.post_id);
+    return data ? (data as any).map((d: any) => d.post_id) : [];
   }
 
   public async deletePost(id: number) {

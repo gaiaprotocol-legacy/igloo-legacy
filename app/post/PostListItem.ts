@@ -16,9 +16,15 @@ export default class PostListItem extends DomNode {
   private repostCountDisplay!: DomNode;
   private likeCountDisplay!: DomNode;
 
-  constructor(private post: Post, reposted: boolean, liked: boolean) {
+  constructor(
+    private post: Post,
+    private reposted: boolean,
+    private liked: boolean,
+  ) {
     super(".post-list-item");
     this.onDom("click", () => Router.go(`/post/${post.id}`));
+    if (reposted) this.addClass("reposted");
+    if (liked) this.addClass("liked");
 
     this.render();
     this.onDelegate(PostCacher, "update", (updatedPost: Post) => {
@@ -104,10 +110,19 @@ export default class PostListItem extends DomNode {
             {
               click: (event) => {
                 event.stopPropagation();
-                PostService.repost(this.post.id);
-                this.repostCountDisplay.text = String(
-                  this.post.repost_count + 1,
-                );
+                if (!this.reposted) {
+                  PostService.repost(this.post.id);
+                  this.post.repost_count += 1;
+                  this.repostCountDisplay.text = String(this.post.repost_count);
+                  this.reposted = true;
+                  this.addClass("reposted");
+                } else {
+                  PostService.unrepost(this.post.id);
+                  this.post.repost_count -= 1;
+                  this.repostCountDisplay.text = String(this.post.repost_count);
+                  this.reposted = false;
+                  this.deleteClass("reposted");
+                }
               },
             },
           ),
@@ -121,8 +136,19 @@ export default class PostListItem extends DomNode {
             {
               click: (event) => {
                 event.stopPropagation();
-                PostService.like(this.post.id);
-                this.likeCountDisplay.text = String(this.post.like_count + 1);
+                if (!this.liked) {
+                  PostService.like(this.post.id);
+                  this.post.like_count += 1;
+                  this.likeCountDisplay.text = String(this.post.like_count);
+                  this.liked = true;
+                  this.addClass("liked");
+                } else {
+                  PostService.unlike(this.post.id);
+                  this.post.like_count -= 1;
+                  this.likeCountDisplay.text = String(this.post.like_count);
+                  this.liked = false;
+                  this.deleteClass("liked");
+                }
               },
             },
           ),

@@ -26,6 +26,8 @@ export default class PostView extends View {
   private likeCountDisplay!: DomNode;
 
   private post: Post | undefined;
+  private reposted: boolean = false;
+  private liked: boolean = false;
 
   constructor(params: ViewParams) {
     super();
@@ -40,6 +42,16 @@ export default class PostView extends View {
     );
   }
 
+  private checkSigned() {
+    if (this.post?.author === SignedUserManager.userId) {
+      this.container.addClass("owned");
+    }
+  }
+
+  public changeParams(params: ViewParams, uri: string): void {
+    this.renderPost(parseInt(params.postId!));
+  }
+
   private renderPost(postId: number) {
     this.container.offDelegate(PostCacher);
     this.post = PostCacher.getAndRefresh(postId);
@@ -50,6 +62,34 @@ export default class PostView extends View {
         this.render();
       }
     });
+    this.checkRepost();
+    this.checkLike();
+  }
+
+  private async checkRepost() {
+    if (
+      this.post && SignedUserManager.userId &&
+      await PostService.checkRepost(this.post.id, SignedUserManager.userId)
+    ) {
+      this.reposted = true;
+      this.container.addClass("reposted");
+    } else {
+      this.reposted = false;
+      this.container.deleteClass("reposted");
+    }
+  }
+
+  private async checkLike() {
+    if (
+      this.post && SignedUserManager.userId &&
+      await PostService.checkLike(this.post.id, SignedUserManager.userId)
+    ) {
+      this.liked = true;
+      this.container.addClass("liked");
+    } else {
+      this.liked = false;
+      this.container.deleteClass("liked");
+    }
   }
 
   private render() {
@@ -137,10 +177,23 @@ export default class PostView extends View {
               {
                 click: () => {
                   if (this.post) {
-                    PostService.repost(this.post.id);
-                    this.repostCountDisplay.text = String(
-                      this.post.repost_count + 1,
-                    );
+                    if (!this.reposted) {
+                      PostService.repost(this.post.id);
+                      this.post.repost_count += 1;
+                      this.repostCountDisplay.text = String(
+                        this.post.repost_count,
+                      );
+                      this.reposted = true;
+                      this.container.addClass("reposted");
+                    } else {
+                      PostService.unrepost(this.post.id);
+                      this.post.repost_count -= 1;
+                      this.repostCountDisplay.text = String(
+                        this.post.repost_count,
+                      );
+                      this.reposted = false;
+                      this.container.deleteClass("reposted");
+                    }
                   }
                 },
               },
@@ -155,10 +208,19 @@ export default class PostView extends View {
               {
                 click: () => {
                   if (this.post) {
-                    PostService.like(this.post.id);
-                    this.likeCountDisplay.text = String(
-                      this.post.like_count + 1,
-                    );
+                    if (!this.liked) {
+                      PostService.like(this.post.id);
+                      this.post.like_count += 1;
+                      this.likeCountDisplay.text = String(this.post.like_count);
+                      this.liked = true;
+                      this.container.addClass("liked");
+                    } else {
+                      PostService.unlike(this.post.id);
+                      this.post.like_count -= 1;
+                      this.likeCountDisplay.text = String(this.post.like_count);
+                      this.liked = false;
+                      this.container.deleteClass("liked");
+                    }
                   }
                 },
               },
@@ -211,16 +273,6 @@ export default class PostView extends View {
         this.commentButton.enable().text = "Post";
       }
     }
-  }
-
-  private checkSigned() {
-    if (this.post?.author === SignedUserManager.userId) {
-      this.container.addClass("owned");
-    }
-  }
-
-  public changeParams(params: ViewParams, uri: string): void {
-    this.renderPost(parseInt(params.postId!));
   }
 
   public close(): void {
