@@ -2081,6 +2081,29 @@ button.component.text:active {
     display: none;
   }
 }
+.notification-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.notification-list > .empty-message {
+  text-align: center;
+  color: #a1a2ac;
+  padding: 20px 0;
+}
+.notification-list-item {
+  border-radius: 16px;
+  background: #EBEFF3;
+  box-shadow: 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
+  padding: 20px;
+  display: flex;
+  gap: 20px;
+}
+@media only screen and (max-width: 859px) {
+  .notification-list-item {
+    gap: 12px;
+  }
+}
 .settings-view {
   padding: 31px 30px;
 }

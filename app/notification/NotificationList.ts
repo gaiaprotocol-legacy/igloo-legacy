@@ -4,6 +4,7 @@ import Notification, {
   NotificationType,
 } from "../database-interface/Notification.js";
 import Post from "../database-interface/Post.js";
+import UserDetails from "../database-interface/UserDetails.js";
 import PostService from "../post/PostService.js";
 import UserDetailsCacher from "../user/UserDetailsCacher.js";
 import UserService from "../user/UserService.js";
@@ -32,19 +33,26 @@ export default class NotificationList extends DomNode {
       "cached-notifications",
     );
 
+    const cachedUserDetails = this.store.get<UserDetails[]>(
+      "cached-user-details",
+    ) ?? [];
+
     const cachedPosts = this.store.get<Post[]>(
       "cached-posts",
     ) ?? [];
 
     if (cachedNotifications) {
       for (const notification of cachedNotifications) {
+        const triggerer = cachedUserDetails.find((user) =>
+          user.user_id === notification.triggered_by
+        )!;
         if (this.checkNotiIsPost(notification)) {
           const post = cachedPosts.find((post) =>
             post.id === notification.source_id
           );
-          this.addNotification(notification, post);
+          this.addNotification(notification, triggerer, post);
         } else {
-          this.addNotification(notification);
+          this.addNotification(notification, triggerer);
         }
       }
     }
@@ -67,6 +75,20 @@ export default class NotificationList extends DomNode {
           cachedNotifications.push(payload.new);
           this.store.set("cached-notifications", cachedNotifications, true);
 
+          const cachedUserDetails = this.store.get<UserDetails[]>(
+            "cached-user-details",
+          ) ?? [];
+          let triggerer = cachedUserDetails.find((user) =>
+            user.user_id === payload.new.triggered_by
+          );
+          if (!triggerer) {
+            triggerer = await UserService.fetchById(
+              payload.new.triggered_by,
+            );
+          }
+          cachedUserDetails.push(triggerer);
+          this.store.set("cached-user-details", cachedUserDetails, true);
+
           const cachedPosts = this.store.get<Post[]>(
             "cached-posts",
           ) ?? [];
@@ -81,7 +103,7 @@ export default class NotificationList extends DomNode {
             this.store.set("cached-posts", cachedPosts, true);
           }
 
-          this.addNotification(payload.new, post);
+          this.addNotification(payload.new, triggerer!, post);
         },
       )
       .subscribe();
@@ -97,9 +119,13 @@ export default class NotificationList extends DomNode {
     this.append(this.emptyMessageDisplay);
   }
 
-  private addNotification(notification: Notification, post?: Post) {
+  private addNotification(
+    notification: Notification,
+    triggerer: UserDetails,
+    post?: Post,
+  ) {
     this.emptyMessageDisplay?.delete();
-    this.append(new NotificationListItem(notification, post));
+    this.append(new NotificationListItem(notification, triggerer, post));
   }
 
   private async fetchNotifications() {
@@ -113,10 +139,14 @@ export default class NotificationList extends DomNode {
       );
     if (notiError) throw notiError;
 
+    const userIds = notiData.map((noti) => noti.triggered_by);
+    const { data: userDetailsData, error: userDetailsError } = await Supabase
+      .client.from("user_details").select().in("user_id", userIds);
+    if (userDetailsError) throw userDetailsError;
+
     const postIds = notiData.filter((noti) => this.checkNotiIsPost(noti)).map(
       (noti) => noti.source_id,
     );
-
     const { data: postData, error: postError } = await Supabase.client.from(
       "posts",
     ).select().in("id", postIds);
@@ -125,6 +155,7 @@ export default class NotificationList extends DomNode {
     if (this.isContentFromCache) {
       this.isContentFromCache = false;
       this.store.set("cached-notifications", notiData, true);
+      this.store.set("cached-user-details", userDetailsData, true);
       this.store.set("cached-posts", postData, true);
       await this.fetchUsers(notiData);
       if (!this.deleted) this.empty();
@@ -134,8 +165,18 @@ export default class NotificationList extends DomNode {
       if (notiData.length === 0) {
         this.showEmptyMessage();
       } else {
-        for (const event of notiData) {
-          this.addNotification(event);
+        for (const notification of notiData) {
+          const triggerer = userDetailsData.find((user) =>
+            user.user_id === notification.triggered_by
+          )!;
+          if (this.checkNotiIsPost(notification)) {
+            const post = postData.find((post) =>
+              post.id === notification.source_id
+            );
+            this.addNotification(notification, triggerer, post);
+          } else {
+            this.addNotification(notification, triggerer);
+          }
         }
       }
     }

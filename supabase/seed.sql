@@ -280,14 +280,18 @@ ALTER FUNCTION "public"."notify_follow_event"() OWNER TO "postgres";
 
 CREATE OR REPLACE FUNCTION "public"."notify_post_comment_event"() RETURNS "trigger"
     LANGUAGE "plpgsql" SECURITY DEFINER
-    AS $$begin
+    AS $$DECLARE
+    v_author UUID;
+begin
     IF new.post_ref IS NOT NULL THEN
-        insert into notifications (
-            user_id, triggered_by, type, source_id
-        ) values (
-            (SELECT author FROM posts WHERE id = new.post_ref),
-            new.author, 5, new.id
-        );
+        SELECT author INTO v_author FROM posts WHERE id = new.post_ref;
+        IF v_author <> new.author THEN
+            INSERT INTO notifications (
+                user_id, triggered_by, type, source_id
+            ) VALUES (
+                v_author, new.author, 5, new.id
+            );
+        END IF;
     END IF;
     return null;
 end;$$;
@@ -296,58 +300,74 @@ ALTER FUNCTION "public"."notify_post_comment_event"() OWNER TO "postgres";
 
 CREATE OR REPLACE FUNCTION "public"."notify_post_like_event"() RETURNS "trigger"
     LANGUAGE "plpgsql" SECURITY DEFINER
-    AS $$begin
-    insert into notifications (
-        user_id, triggered_by, type, source_id
-    ) values (
-        (SELECT author FROM posts WHERE id = new.post_id),
-        new.user_id, 3, new.post_id
-    );
-    return null;
-end;$$;
+    AS $$DECLARE
+    v_author UUID;
+BEGIN
+    SELECT author INTO v_author FROM posts WHERE id = new.post_id;
+    
+    IF v_author <> new.user_id THEN
+        INSERT INTO notifications (
+            user_id, triggered_by, type, source_id
+        ) VALUES (
+            v_author, new.user_id, 3, new.post_id
+        );
+    END IF;
+    
+    RETURN NULL;
+END;
+$$;
 
 ALTER FUNCTION "public"."notify_post_like_event"() OWNER TO "postgres";
 
 CREATE OR REPLACE FUNCTION "public"."notify_repost_event"() RETURNS "trigger"
     LANGUAGE "plpgsql" SECURITY DEFINER
-    AS $$begin
-    insert into notifications (
-        user_id, triggered_by, type, source_id
-    ) values (
-        (SELECT author FROM posts WHERE id = new.post_id),
-        new.user_id, 4, new.post_id
-    );
-    return null;
-end;$$;
+    AS $$DECLARE
+    v_author UUID;
+BEGIN
+    SELECT author INTO v_author FROM posts WHERE id = new.post_id;
+    
+    IF v_author <> new.user_id THEN
+        INSERT INTO notifications (
+            user_id, triggered_by, type, source_id
+        ) VALUES (
+            v_author, new.user_id, 4, new.post_id
+        );
+    END IF;
+    
+    RETURN NULL;
+END;
+$$;
 
 ALTER FUNCTION "public"."notify_repost_event"() OWNER TO "postgres";
 
 CREATE OR REPLACE FUNCTION "public"."notify_trade_key_event"() RETURNS "trigger"
     LANGUAGE "plpgsql" SECURITY DEFINER
-    AS $$begin
-    IF EXISTS (SELECT FROM user_details WHERE wallet_address = new.args[1]) THEN
-        IF EXISTS (SELECT FROM user_details WHERE wallet_address = new.args[2]) THEN
-            IF new.args[3] = 'true' THEN
-                insert into notifications (
-                    user_id, triggered_by, type, amount
-                ) values (
-                    (SELECT user_id FROM user_details WHERE wallet_address = new.args[2]),
-                    (SELECT user_id FROM user_details WHERE wallet_address = new.args[1]),
-                    0, new.args[4]::int8
-                );
-            ELSE
-                insert into notifications (
-                    user_id, triggered_by, type, amount
-                ) values (
-                    (SELECT user_id FROM user_details WHERE wallet_address = new.args[2]),
-                    (SELECT user_id FROM user_details WHERE wallet_address = new.args[1]),
-                    1, new.args[4]::int8
-                );
-            END IF;
+    AS $$DECLARE
+    v_sender UUID;
+    v_receiver UUID;
+BEGIN
+    SELECT user_id INTO v_sender FROM user_details WHERE wallet_address = new.args[1];
+    SELECT user_id INTO v_receiver FROM user_details WHERE wallet_address = new.args[2];
+    
+    IF v_sender IS NOT NULL AND v_receiver IS NOT NULL AND v_sender <> v_receiver THEN
+        IF new.args[3] = 'true' THEN
+            INSERT INTO notifications (
+                user_id, triggered_by, type, amount
+            ) VALUES (
+                v_receiver, v_sender, 0, new.args[4]::int8
+            );
+        ELSE
+            INSERT INTO notifications (
+                user_id, triggered_by, type, amount
+            ) VALUES (
+                v_receiver, v_sender, 1, new.args[4]::int8
+            );
         END IF;
     END IF;
-    return null;
-end;$$;
+
+    RETURN NULL;
+END;
+$$;
 
 ALTER FUNCTION "public"."notify_trade_key_event"() OWNER TO "postgres";
 

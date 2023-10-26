@@ -6,6 +6,18 @@ import UserDetails, {
 class UserService {
   private static readonly LIMIT = 50;
 
+  public async fetchById(userId: string): Promise<UserDetails> {
+    const { data, error } = await Supabase.client.from("user_details").select(
+      UserDetailsSelectQuery,
+    )
+      .eq(
+        "user_id",
+        userId,
+      );
+    if (error) throw error;
+    return data[0] as any;
+  }
+
   public async fetchByIds(userIds: string[]): Promise<UserDetails[]> {
     const { data, error } = await Supabase.client.from("user_details").select(
       UserDetailsSelectQuery,
