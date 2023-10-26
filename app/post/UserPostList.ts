@@ -39,13 +39,13 @@ export default class UserPostList extends PostList {
           event: "INSERT",
           schema: "public",
           table: "posts",
-          filter: "author=eq." + userId,
+          filter: `author=eq.${userId}`,
         },
         (payload: any) => {
-          const cachedPosts =
-            this.store.get<Post[]>(`user-${userId}-cached-posts`) ?? [];
+          if (payload.new.post_ref) return;
+          const cachedPosts = this.store.get<Post[]>("cached-posts") ?? [];
           cachedPosts.push(payload.new);
-          this.store.set(`user-${userId}-cached-posts`, cachedPosts, true);
+          this.store.set("cached-posts", cachedPosts, true);
           this.addPost(payload.new, false, false);
         },
       )

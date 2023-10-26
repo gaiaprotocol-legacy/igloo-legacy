@@ -1,5 +1,4 @@
-import { RealtimeChannel } from "@supabase/supabase-js";
-import { Store, Supabase } from "common-dapp-module";
+import { Store } from "common-dapp-module";
 import Post from "../database-interface/Post.js";
 import SignedUserManager from "../user/SignedUserManager.js";
 import PostCacher from "./PostCacher.js";
@@ -9,11 +8,11 @@ import PostService from "./PostService.js";
 export default class UserLikedPostList extends PostList {
   private store: Store;
   private isContentFromCache: boolean = true;
-  private channel: RealtimeChannel;
+  private lastLikedAt: string = "-infinity";
 
   constructor(private userId: string) {
-    super(".user-post-list", "No posts from this user yet");
-    this.store = new Store(`user-${userId}-post-list`);
+    super(".user-post-list", "No likes from this user yet");
+    this.store = new Store(`user-${userId}-liked-post-list`);
 
     const cachedPosts = this.store.get<Post[]>("cached-posts");
     const cachedRepostedPostIds =
@@ -30,35 +29,17 @@ export default class UserLikedPostList extends PostList {
         );
       }
     }
-
-    this.channel = Supabase.client
-      .channel(`user-${userId}-post-changes`)
-      .on(
-        "postgres_changes",
-        {
-          event: "INSERT",
-          schema: "public",
-          table: "posts",
-          filter: "author=eq." + userId,
-        },
-        (payload: any) => {
-          const cachedPosts =
-            this.store.get<Post[]>(`user-${userId}-cached-posts`) ?? [];
-          cachedPosts.push(payload.new);
-          this.store.set(`user-${userId}-cached-posts`, cachedPosts, true);
-          this.addPost(payload.new, false, false);
-        },
-      )
-      .subscribe();
   }
 
   protected async fetchContent() {
-    const posts = (await PostService.fetchUserPosts(
+    const result = (await PostService.fetchUserLikedPosts(
       this.userId,
-      this.lastFetchedPostId,
+      this.lastLikedAt,
     )).reverse();
+    const posts = result.map((item) => item.post);
+
     PostCacher.cachePosts(posts);
-    this.lastFetchedPostId = posts[posts.length - 1]?.id;
+    this.lastLikedAt = result[result.length - 1]?.likedAt ?? "-infinity";
 
     const postIds = posts.map((post) => post.id);
 
@@ -91,10 +72,5 @@ export default class UserLikedPostList extends PostList {
         }
       }
     }
-  }
-
-  public delete() {
-    this.channel.unsubscribe();
-    super.delete();
   }
 }

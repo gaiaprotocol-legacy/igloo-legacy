@@ -12,8 +12,8 @@ export default class UserCommentPostList extends PostList {
   private channel: RealtimeChannel;
 
   constructor(private userId: string) {
-    super(".user-post-list", "No posts from this user yet");
-    this.store = new Store(`user-${userId}-post-list`);
+    super(".user-post-list", "No comments from this user yet");
+    this.store = new Store(`user-${userId}-comment-post-list`);
 
     const cachedPosts = this.store.get<Post[]>("cached-posts");
     const cachedRepostedPostIds =
@@ -32,20 +32,20 @@ export default class UserCommentPostList extends PostList {
     }
 
     this.channel = Supabase.client
-      .channel(`user-${userId}-post-changes`)
+      .channel(`user-${userId}-comment-post-changes`)
       .on(
         "postgres_changes",
         {
           event: "INSERT",
           schema: "public",
           table: "posts",
-          filter: "author=eq." + userId,
+          filter: `author=eq.${userId}`,
         },
         (payload: any) => {
-          const cachedPosts =
-            this.store.get<Post[]>(`user-${userId}-cached-posts`) ?? [];
+          if (!payload.new.post_ref) return;
+          const cachedPosts = this.store.get<Post[]>("cached-posts") ?? [];
           cachedPosts.push(payload.new);
-          this.store.set(`user-${userId}-cached-posts`, cachedPosts, true);
+          this.store.set("cached-posts", cachedPosts, true);
           this.addPost(payload.new, false, false);
         },
       )
@@ -53,7 +53,7 @@ export default class UserCommentPostList extends PostList {
   }
 
   protected async fetchContent() {
-    const posts = (await PostService.fetchUserPosts(
+    const posts = (await PostService.fetchUserCommentPosts(
       this.userId,
       this.lastFetchedPostId,
     )).reverse();

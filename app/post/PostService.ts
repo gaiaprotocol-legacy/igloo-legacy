@@ -158,6 +158,9 @@ class PostService {
     const { data, error } = await Supabase.client.from("posts").select().eq(
       "author",
       userId,
+    ).is(
+      "post_ref",
+      null,
     ).lt(
       "id",
       lastFetchedPostId ?? Number.MAX_SAFE_INTEGER,
@@ -167,6 +170,58 @@ class PostService {
     ).limit(PostService.LIMIT);
     if (error) throw error;
     return data;
+  }
+
+  public async fetchUserCommentPosts(
+    userId: string,
+    lastFetchedPostId?: number,
+  ): Promise<Post[]> {
+    const { data, error } = await Supabase.client.from("posts").select().eq(
+      "author",
+      userId,
+    ).not(
+      "post_ref",
+      "is",
+      null,
+    ).lt(
+      "id",
+      lastFetchedPostId ?? Number.MAX_SAFE_INTEGER,
+    ).order(
+      "created_at",
+      { ascending: false },
+    ).limit(PostService.LIMIT);
+    if (error) throw error;
+    return data;
+  }
+
+  public async fetchUserLikedPosts(
+    userId: string,
+    lastLikedAt?: string,
+  ): Promise<{ post: Post; likedAt: string }[]> {
+    const { data: likedData, error: likedError } = await Supabase.client.from(
+      "post_likes",
+    ).select().eq(
+      "user_id",
+      userId,
+    ).gt(
+      "created_at",
+      lastLikedAt ?? "1970-01-01T00:00:00.000Z",
+    );
+    if (likedError) throw likedError;
+    const likedPostIds = likedData.map((liked) => liked.post_id);
+    const { data, error } = await Supabase.client.from("posts").select().in(
+      "id",
+      likedPostIds,
+    ).order(
+      "created_at",
+      { ascending: false },
+    );
+    if (error) throw error;
+    return data.map((post) => ({
+      post,
+      likedAt: likedData.find((liked) => liked.post_id === post.id)
+        ?.created_at!,
+    }));
   }
 
   public async fetchFollowingPosts(
