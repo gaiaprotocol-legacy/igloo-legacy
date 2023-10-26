@@ -11,6 +11,7 @@ import {
   ViewParams,
 } from "common-dapp-module";
 import Post from "../database-interface/Post.js";
+import { UploadedFile } from "../database-interface/Rich.js";
 import Layout from "../layout/Layout.js";
 import SignedUserManager from "../user/SignedUserManager.js";
 import PostCacher from "./PostCacher.js";
@@ -29,6 +30,7 @@ export default class PostView extends View {
   private likeCountDisplay!: DomNode;
 
   private post: Post | undefined;
+  private uploadedFile: UploadedFile | undefined;
   private reposted: boolean = false;
   private liked: boolean = false;
 
@@ -273,14 +275,16 @@ export default class PostView extends View {
 
   private async upload(file: File) {
     this.uploadButton.domElement.disabled = true;
-    this.uploadButton.empty().addClass("loading");
+    this.uploadButton.addClass("loading");
 
-    //TODO:
+    this.uploadedFile = await PostService.upload(file);
+    this.uploadButton.empty().append(el("img", {
+      src: this.uploadedFile.thumbnailUrl ?? this.uploadedFile.url,
+    }));
 
     this.uploadInput.domElement.value = "";
     this.uploadButton.domElement.disabled = false;
     this.uploadButton.deleteClass("loading");
-    this.uploadButton.empty().append(new MaterialIcon("image"));
   }
 
   private async postComment() {
@@ -290,15 +294,17 @@ export default class PostView extends View {
         await PostService.comment(
           this.post.id,
           this.commentTextarea.domElement.value,
+          this.uploadedFile,
         );
         new Snackbar({
           message: "Your post has been successfully published.",
         });
         this.commentTextarea.domElement.value = "";
+        this.uploadButton.empty().append(new MaterialIcon("image"));
       } catch (error) {
         console.error(error);
-        this.commentButton.enable().text = "Post";
       }
+      this.commentButton.enable().text = "Post";
     }
   }
 

@@ -24,10 +24,7 @@ class SubjectChatService {
       SignedUserManager.userId,
       file,
       60 * 60 * 24 * 30,
-      {
-        width: 256,
-        height: 256,
-      },
+      { width: 256, height: 256 },
     );
 
     const uploadedFile: UploadedFile = {

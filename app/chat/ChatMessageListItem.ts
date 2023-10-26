@@ -75,7 +75,9 @@ export default class ChatMessageListItem extends DomNode {
                 "a",
                 el("img", {
                   src: file.thumbnailUrl,
-                  load: () => this.fireEvent("imageLoaded"),
+                  load: () => {
+                    if (!this.deleted) this.fireEvent("imageLoaded");
+                  },
                 }),
                 { href: file.url, target: "_blank" },
               ),

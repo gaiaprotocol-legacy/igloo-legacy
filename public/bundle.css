@@ -967,6 +967,9 @@ button.component.text:active {
 .post-view > .form-wrapper > .form > footer {
   display: flex;
 }
+.post-view > .form-wrapper > .form > footer > input.upload {
+  display: none;
+}
 .post-view > .form-wrapper > .form > footer > .icon-button {
   width: 48px;
   height: 48px;
@@ -983,6 +986,11 @@ button.component.text:active {
 .post-view > .form-wrapper > .form > footer > .icon-button:active {
   outline: 1px solid #F4F7F9;
   box-shadow: 4px 4px 8px 0px rgba(255, 255, 255, 0.75), 2px 2px 8px 0px rgba(189, 194, 199, 0.75) inset;
+}
+.post-view > .form-wrapper > .form > footer > .icon-button > img {
+  max-width: 32px;
+  max-height: 32px;
+  border-radius: 4px;
 }
 .post-view > .form-wrapper > .form > footer > .post-button {
   margin-left: auto;
@@ -1085,6 +1093,9 @@ button.component.text:active {
 .post-popup > .form > footer {
   display: flex;
 }
+.post-popup > .form > footer > input.upload {
+  display: none;
+}
 .post-popup > .form > footer > .icon-button {
   width: 48px;
   height: 48px;
@@ -1101,6 +1112,11 @@ button.component.text:active {
 .post-popup > .form > footer > .icon-button:active {
   outline: 1px solid #F4F7F9;
   box-shadow: 4px 4px 8px 0px rgba(255, 255, 255, 0.75), 2px 2px 8px 0px rgba(189, 194, 199, 0.75) inset;
+}
+.post-popup > .form > footer > .icon-button > img {
+  max-width: 32px;
+  max-height: 32px;
+  border-radius: 4px;
 }
 .post-popup > .form > footer > .post-button {
   margin-left: auto;
@@ -1242,6 +1258,9 @@ button.component.text:active {
 .post-comment-popup > .form-wrapper > .form > footer {
   display: flex;
 }
+.post-comment-popup > .form-wrapper > .form > footer > input.upload {
+  display: none;
+}
 .post-comment-popup > .form-wrapper > .form > footer > .icon-button {
   width: 48px;
   height: 48px;
@@ -1258,6 +1277,11 @@ button.component.text:active {
 .post-comment-popup > .form-wrapper > .form > footer > .icon-button:active {
   outline: 1px solid #F4F7F9;
   box-shadow: 4px 4px 8px 0px rgba(255, 255, 255, 0.75), 2px 2px 8px 0px rgba(189, 194, 199, 0.75) inset;
+}
+.post-comment-popup > .form-wrapper > .form > footer > .icon-button > img {
+  max-width: 32px;
+  max-height: 32px;
+  border-radius: 4px;
 }
 .post-comment-popup > .form-wrapper > .form > footer > .post-button {
   margin-left: auto;

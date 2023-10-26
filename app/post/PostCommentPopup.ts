@@ -9,6 +9,7 @@ import {
   Snackbar,
 } from "common-dapp-module";
 import Post from "../database-interface/Post.js";
+import { UploadedFile } from "../database-interface/Rich.js";
 import SignedUserManager from "../user/SignedUserManager.js";
 import PostService from "./PostService.js";
 
@@ -19,6 +20,8 @@ export default class PostCommentPopup extends Popup {
   private uploadInput: DomNode<HTMLInputElement>;
   private uploadButton: DomNode<HTMLButtonElement>;
   private commentButton: Button;
+
+  private uploadedFile: UploadedFile | undefined;
 
   constructor(private sourcePost: Post) {
     super({ barrierDismissible: true });
@@ -93,14 +96,16 @@ export default class PostCommentPopup extends Popup {
 
   private async upload(file: File) {
     this.uploadButton.domElement.disabled = true;
-    this.uploadButton.empty().addClass("loading");
+    this.uploadButton.addClass("loading");
 
-    //TODO:
+    this.uploadedFile = await PostService.upload(file);
+    this.uploadButton.empty().append(el("img", {
+      src: this.uploadedFile.thumbnailUrl ?? this.uploadedFile.url,
+    }));
 
     this.uploadInput.domElement.value = "";
     this.uploadButton.domElement.disabled = false;
     this.uploadButton.deleteClass("loading");
-    this.uploadButton.empty().append(new MaterialIcon("image"));
   }
 
   private async postComment() {
@@ -109,6 +114,7 @@ export default class PostCommentPopup extends Popup {
       const postId = await PostService.comment(
         this.sourcePost.id,
         this.commentTextarea.domElement.value,
+        this.uploadedFile,
       );
       new Snackbar({
         message: "Your post has been successfully published.",
@@ -120,6 +126,7 @@ export default class PostCommentPopup extends Popup {
       this.delete();
     } catch (error) {
       console.error(error);
+      this.uploadButton.empty().append(new MaterialIcon("image"));
       this.commentButton.enable().text = "Post";
     }
   }

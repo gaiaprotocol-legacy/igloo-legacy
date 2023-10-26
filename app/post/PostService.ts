@@ -1,22 +1,35 @@
 import { Supabase } from "common-dapp-module";
+import UploadManager from "../UploadManager.js";
 import Post, { PostTarget } from "../database-interface/Post.js";
+import { UploadedFile } from "../database-interface/Rich.js";
+import SignedUserManager from "../user/SignedUserManager.js";
 
 class PostService {
   private static readonly LIMIT = 50;
 
-  public async post(target: PostTarget, message: string) {
+  public async post(
+    target: PostTarget,
+    message: string,
+    uploadedFile: UploadedFile | undefined,
+  ) {
     const { data, error } = await Supabase.client.from("posts").insert({
       target,
       message,
+      rich: uploadedFile ? { files: [uploadedFile] } : undefined,
     }).select().single();
     if (error) throw error;
     return data.id;
   }
 
-  public async comment(ref: number, message: string) {
+  public async comment(
+    ref: number,
+    message: string,
+    uploadedFile: UploadedFile | undefined,
+  ) {
     const { data, error } = await Supabase.client.from("posts").insert({
       message,
       post_ref: ref,
+      rich: uploadedFile ? { files: [uploadedFile] } : undefined,
     }).select().single();
     if (error) throw error;
     return data.id;
@@ -238,6 +251,27 @@ class PostService {
     ).limit(PostService.LIMIT);
     if (error) throw error;
     return data;
+  }
+
+  public async upload(file: File) {
+    if (!SignedUserManager.userId) throw new Error("User not signed in");
+
+    const result = await UploadManager.uploadImage(
+      "post_upload_files",
+      SignedUserManager.userId,
+      file,
+      60 * 60 * 24 * 30,
+      { width: 256, height: 256 },
+    );
+
+    const uploadedFile: UploadedFile = {
+      url: result.url,
+      thumbnailUrl: result.thumbnailUrl,
+      fileName: file.name,
+      fileType: file.type,
+      fileSize: file.size,
+    };
+    return uploadedFile;
   }
 }
 
