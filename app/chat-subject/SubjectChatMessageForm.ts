@@ -27,6 +27,6 @@ export default class SubjectChatMessageForm extends ChatMessageForm {
   }
 
   protected async upload(file: File) {
-    throw new Error("Method not implemented.");
+    await SubjectChatService.uploadImage(this.messageList.subject, file);
   }
 }

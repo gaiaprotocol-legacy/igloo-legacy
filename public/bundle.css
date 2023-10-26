@@ -1698,6 +1698,12 @@ button.component.text:active {
     font-size: 12px;
   }
 }
+.chat-message-list-item > main > .files > .file > .image-container > a > img {
+  border-radius: 16px;
+  box-shadow: 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
+  max-width: 200px;
+  max-height: 200px;
+}
 .chat-message-list-item.owner {
   justify-content: end;
 }

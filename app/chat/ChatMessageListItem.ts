@@ -1,5 +1,6 @@
 import { DomNode, el, Router } from "common-dapp-module";
 import ChatMessage from "../database-interface/ChatMessage.js";
+import { UploadedFile } from "../database-interface/Rich.js";
 import SignedUserManager from "../user/SignedUserManager.js";
 
 export default class ChatMessageListItem extends DomNode {
@@ -28,7 +29,10 @@ export default class ChatMessageListItem extends DomNode {
               }),
             ),
           ),
-          el("p.message", this.message.message),
+          !this.message.message
+            ? undefined
+            : el("p.message", this.message.message),
+          !this.message.rich ? undefined : this.getRich(this.message.rich),
         ),
         el(".author-profile-image", {
           style: { backgroundImage: `url(${this.message.author_avatar_url})` },
@@ -56,6 +60,31 @@ export default class ChatMessageListItem extends DomNode {
         ),
       );
     }
+  }
+
+  private getRich(rich: { files?: UploadedFile[] }) {
+    if (rich.files) {
+      return el(
+        ".files",
+        ...rich.files.map((file) =>
+          el(
+            ".file",
+            !file.thumbnailUrl ? undefined : el(
+              ".image-container",
+              el(
+                "a",
+                el("img", {
+                  src: file.thumbnailUrl,
+                  load: () => this.fireEvent("imageLoaded"),
+                }),
+                { href: file.url, target: "_blank" },
+              ),
+            ),
+          )
+        ),
+      );
+    }
+    return undefined;
   }
 
   public wait() {
