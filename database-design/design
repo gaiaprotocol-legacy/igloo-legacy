@@ -99,7 +99,7 @@ subject_chat_messages
 subject_trade_events
 	block_number - int8 - pk
 	log_index - int8 - pk
-	args - text - {}
+	args - text[] - not null
 	wallet_address - text - not null
 	subject - text - not null
 	created_at - timestampz - now()

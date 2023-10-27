@@ -585,7 +585,7 @@ ALTER TABLE "public"."subject_key_holders" OWNER TO "postgres";
 CREATE TABLE IF NOT EXISTS "public"."subject_trade_events" (
     "block_number" bigint NOT NULL,
     "log_index" bigint NOT NULL,
-    "args" "text" DEFAULT '{}'::"text" NOT NULL,
+    "args" "text"[] NOT NULL,
     "wallet_address" "text" NOT NULL,
     "subject" "text" NOT NULL,
     "created_at" timestamp with time zone DEFAULT "now"() NOT NULL
