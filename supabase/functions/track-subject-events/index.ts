@@ -10,8 +10,7 @@ const subjectContract = new IglooSubjectContract(signer);
 serveWithOptions(async () => {
   const { data, error: fetchEventBlockError } = await supabase.from(
     "tracked_event_blocks",
-  ).select()
-    .eq("contract_type", "subject");
+  ).select().eq("contract_type", 0);
   if (fetchEventBlockError) throw fetchEventBlockError;
 
   let toBlock = (data?.[0]?.block_number ??
@@ -37,7 +36,7 @@ serveWithOptions(async () => {
   const { error: saveEventBlockError } = await supabase.from(
     "tracked_event_blocks",
   ).upsert({
-    contract_type: "subject",
+    contract_type: 0,
     block_number: toBlock,
     updated_at: new Date().toISOString(),
   });

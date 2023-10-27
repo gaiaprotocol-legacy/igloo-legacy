@@ -13,43 +13,31 @@ user_details
 	created_at - timestampz - now()
 	updated_at - timestampz
 
-follows
-	follower_id - uuid - pk
-	followee_id - uuid - pk
-	followed_at - timestampz - now()
-
 wallet_linking_nonces
 	user_id - uuid - auth.uid() - pk
 	wallet_address - text - not null
 	nonce - uuid - gen_random_uuid()
 	created_at - timestampz - now()
 
-subject_details
-	subject - text - pk
-	last_fetched_key_price - numeric - 68750000000000
-	total_trading_key_volume - numeric - 0
-	total_earned_trading_fees - numeric - 0
-	is_key_price_up - bool - nullable
-	last_message - text - nullable
-	last_message_sent_at - timestampz - -infinity
-	key_holder_count - int4 - 0
-	last_key_purchased_at - timestampz - -infinity
-	owned_key_count - int4 - 0
+notifications
+	id - int8 - auto_increment - pk
+    user_id - uuid - not null
+    triggered_by - uuid - not null
+	type - int2 - not null
+	source_id - int8 - nullable
+	amount - int8 - nullable
+	read_at - timestampz - nullable
 	created_at - timestampz - now()
-	updated_at - timestampz
 
-subject_key_holders
-	subject - text - pk
-	wallet_address - text - pk
-	last_fetched_balance - int8 - 0
-	created_at - timestampz - now()
-	updated_at - timestampz
+follows
+	follower_id - uuid - auth.uid() - pk
+	followee_id - uuid - pk
+	followed_at - timestampz - now()
 
-total_subject_key_balances
-	wallet_address - text - pk
-	total_key_balance - int8 - 0
-	created_at - timestampz - now()
-	updated_at - timestampz
+tracked_event_blocks
+	contract_type - string - pk
+	block_number - int8 - not null
+	updated_at - timestampz - now()
 
 topic_chat_messages
 	id - int8 - pk
@@ -63,7 +51,34 @@ topic_chat_messages
 	translated - jsonb - nullbale
 	rich - jsonb - nullable
 	created_at - timestampz - now()
-	updated_at - timestampz
+	updated_at - timestampz - nullable
+
+subject_details
+	subject - text - pk
+	last_fetched_key_price - numeric - 10000000000000000
+	total_trading_key_volume - numeric - 0
+	total_earned_trading_fees - numeric - 0
+	is_key_price_up - bool - nullable
+	last_message - text - nullable
+	last_message_sent_at - timestampz - -infinity
+	key_holder_count - int4 - 0
+	last_key_purchased_at - timestampz - -infinity
+	owned_key_count - int4 - 0
+	created_at - timestampz - now()
+	updated_at - timestampz - nullable
+
+subject_key_holders
+	subject - text - pk
+	wallet_address - text - pk
+	last_fetched_balance - int8 - 0
+	created_at - timestampz - now()
+	updated_at - timestampz - nullable
+
+total_subject_key_balances
+	wallet_address - text - pk
+	total_key_balance - int8 - 0
+	created_at - timestampz - now()
+	updated_at - timestampz - nullable
 
 subject_chat_messages
 	id - int8 - pk
@@ -78,7 +93,15 @@ subject_chat_messages
 	rich - jsonb - nullable
 	post_ref - int8 - nullable
 	created_at - timestampz - now()
-	updated_at - timestampz
+	updated_at - timestampz - nullable
+
+subject_trade_events
+	block_number - int8 - pk
+	log_index - int8 - pk
+	args - text - {}
+	wallet_address - text - not null
+	subject - text - not null
+	created_at - timestampz - now()
 
 posts
 	id - int8 - pk
@@ -96,7 +119,7 @@ posts
 	repost_count - int4 - 0
 	like_count - int4 - 0
 	created_at - timestampz - now()
-	updated_at - timestampz
+	updated_at - timestampz - nullable
 
 reposts
 	post_id - int8 - pk
@@ -106,27 +129,4 @@ reposts
 post_likes
 	post_id - int8 - pk
 	user_id - uuid - auth.uid() - pk
-	created_at - timestampz - now()
-
-tracked_event_blocks
-	contract_type - string - pk
-	block_number - int8 - not null
-	updated_at - timestampz - now()
-
-subject_contract_events
-	block_number - int8 - pk
-	log_index - int8 - pk
-	args - text - {}
-	wallet_address - text - not null
-	subject - text - not null
-	created_at - timestampz - now()
-
-notifications
-	id - int8 - auto_increment - pk
-    user_id - uuid - auth.uid()
-    triggered_by - uuid - not null
-	type - int2 - not null
-	source_id - int8 - nullable
-	amount - int8 - nullable
-	read_at - timestampz - nullable
 	created_at - timestampz - now()

@@ -25,7 +25,7 @@ export default class NotificationListItem extends DomNode {
           el(
             "header",
             el("b", triggerer.display_name),
-            " purchased a key",
+            " purchased " + notification.amount + " key(s)",
           ),
           el(
             ".date",
@@ -40,7 +40,7 @@ export default class NotificationListItem extends DomNode {
           el(
             "header",
             el("b", triggerer.display_name),
-            " sold a key",
+            " sold " + notification.amount + " key(s)",
           ),
           el(
             ".date",

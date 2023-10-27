@@ -461,7 +461,7 @@ ALTER TABLE "public"."follows" OWNER TO "postgres";
 
 CREATE TABLE IF NOT EXISTS "public"."notifications" (
     "id" bigint NOT NULL,
-    "user_id" "uuid" DEFAULT "auth"."uid"() NOT NULL,
+    "user_id" "uuid" NOT NULL,
     "type" smallint NOT NULL,
     "triggered_by" "uuid" NOT NULL,
     "read_at" timestamp with time zone,
@@ -628,7 +628,7 @@ CREATE TABLE IF NOT EXISTS "public"."total_subject_key_balances" (
 ALTER TABLE "public"."total_subject_key_balances" OWNER TO "postgres";
 
 CREATE TABLE IF NOT EXISTS "public"."tracked_event_blocks" (
-    "contract_type" "text" NOT NULL,
+    "contract_type" smallint NOT NULL,
     "block_number" bigint NOT NULL,
     "updated_at" timestamp with time zone DEFAULT "now"() NOT NULL
 );
@@ -687,6 +687,9 @@ ALTER TABLE ONLY "public"."subject_trade_events"
 
 ALTER TABLE ONLY "public"."topic_chat_messages"
     ADD CONSTRAINT "topic_chat_messages_pkey" PRIMARY KEY ("id");
+
+ALTER TABLE ONLY "public"."tracked_event_blocks"
+    ADD CONSTRAINT "tracked_event_blocks_contract_type_key" UNIQUE ("contract_type");
 
 ALTER TABLE ONLY "public"."tracked_event_blocks"
     ADD CONSTRAINT "tracked_event_blocks_pkey" PRIMARY KEY ("contract_type");
