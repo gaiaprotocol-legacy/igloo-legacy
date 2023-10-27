@@ -2104,6 +2104,16 @@ button.component.text:active {
     gap: 12px;
   }
 }
+.notification-list-item > .triggerer-profile-image {
+  margin-top: 1px;
+  display: flex;
+  width: 42px;
+  height: 42px;
+  flex-shrink: 0;
+  border-radius: 42px;
+  border: 1px solid #FFF;
+  background: lightgray 50% / cover no-repeat;
+}
 .settings-view {
   padding: 31px 30px;
 }

@@ -877,7 +877,7 @@ CREATE POLICY "view everyone" ON "public"."total_subject_key_balances" FOR SELEC
 
 CREATE POLICY "view everyone" ON "public"."user_details" FOR SELECT USING (true);
 
-CREATE POLICY "view everyone or only keyholders" ON "public"."posts" FOR SELECT USING ((("target" = 0) OR ("author" = "auth"."uid"()) OR (("target" = 1) AND (( SELECT "subject_key_holders"."last_fetched_balance"
+CREATE POLICY "view everyone or only keyholders" ON "public"."posts" FOR SELECT USING ((("target" IS NULL) OR ("target" = 0) OR ("author" = "auth"."uid"()) OR (("target" = 1) AND (( SELECT "subject_key_holders"."last_fetched_balance"
    FROM "public"."subject_key_holders"
   WHERE (("subject_key_holders"."subject" = ( SELECT "user_details"."wallet_address"
            FROM "public"."user_details"
