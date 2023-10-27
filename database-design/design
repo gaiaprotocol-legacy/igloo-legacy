@@ -26,6 +26,7 @@ notifications
 	type - int2 - not null
 	source_id - int8 - nullable
 	amount - int8 - nullable
+	read - bool - false
 	read_at - timestampz - nullable
 	created_at - timestampz - now()
 

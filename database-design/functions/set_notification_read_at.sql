@@ -1,5 +1,5 @@
 BEGIN
-  IF old.read_at = false AND new.read_at = true THEN
+  IF old.read = false AND new.read = true THEN
     new.read_at := now();
   END IF;
   RETURN new;

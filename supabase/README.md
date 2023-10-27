@@ -1,3 +1,9 @@
+```
+supabase link --project-ref XXX
+supabase secrets set --env-file ./supabase/.env
+supabase functions deploy
+supabase db dump -f supabase/seed.sql
+```
 
 ```sql
 select * from cron.job;
@@ -15,7 +21,7 @@ select
     $$
     select net.http_get(
         'https://diffcrvgnspbzzbqwtvt.supabase.co/functions/v1/track-subject-events',
-        headers := '{"Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRpZmZjcnZnbnNwYnp6YnF3dHZ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTY3MzU2MjIsImV4cCI6MjAxMjMxMTYyMn0.CtVuTA_yY1t6zQ4NUZJUWEp7aDG2JBpR_6SFdU3vNJg"}'::JSONB
+        headers := '{"Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdzbHFib3Jya29yYXlzdnNvcGp2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTgwMzM0MjksImV4cCI6MjAxMzYwOTQyOX0.A1pCWncoOjXlpT73mH5tFJjpbBEuPMVGBXmVIig_jhQ"}'::JSONB
     ) AS request_id;
     $$
   );
