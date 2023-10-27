@@ -6,6 +6,7 @@ import {
   MaterialIcon,
   Router,
 } from "common-dapp-module";
+import dayjs from "dayjs";
 import Post from "../database-interface/Post.js";
 import { UploadedFile } from "../database-interface/Rich.js";
 import SignedUserManager from "../user/SignedUserManager.js";
@@ -90,7 +91,11 @@ export default class PostListItem extends DomNode {
         el("p.message", this.post.message),
         !this.post.rich ? undefined : this.getRich(this.post.rich),
         el(
-          ".actions",
+          ".date",
+          dayjs(this.post.created_at).fromNow(),
+        ),
+        el(
+          "footer",
           el(
             "button.comment",
             new MaterialIcon("comment"),

@@ -1,4 +1,5 @@
 import { DomNode, el, Router } from "common-dapp-module";
+import dayjs from "dayjs";
 import ChatMessage from "../database-interface/ChatMessage.js";
 import { UploadedFile } from "../database-interface/Rich.js";
 import SignedUserManager from "../user/SignedUserManager.js";
@@ -33,6 +34,10 @@ export default class ChatMessageListItem extends DomNode {
             ? undefined
             : el("p.message", this.message.message),
           !this.message.rich ? undefined : this.getRich(this.message.rich),
+          el(
+            ".date",
+            dayjs(this.message.created_at).fromNow(),
+          ),
         ),
         el(".author-profile-image", {
           style: { backgroundImage: `url(${this.message.author_avatar_url})` },
@@ -56,7 +61,14 @@ export default class ChatMessageListItem extends DomNode {
               }),
             ),
           ),
-          el("p.message", this.message.message),
+          !this.message.message
+            ? undefined
+            : el("p.message", this.message.message),
+          !this.message.rich ? undefined : this.getRich(this.message.rich),
+          el(
+            ".date",
+            dayjs(this.message.created_at).fromNow(),
+          ),
         ),
       );
     }

@@ -112,7 +112,12 @@
             }
         }
 
-        >.actions {
+        >.date {
+            color    : #a1a2ac;
+            font-size: 12px;
+        }
+
+        >footer {
             display    : flex;
             align-items: center;
             gap        : 8px;
@@ -161,7 +166,7 @@
 
     &.reposted {
         >main {
-            >.actions {
+            >footer {
                 >button.repost {
                     color: #4da787;
                 }
@@ -171,7 +176,7 @@
 
     &.liked {
         >main {
-            >.actions {
+            >footer {
                 >button.like {
                     color: #FC5132;
                 }

@@ -27,6 +27,10 @@ export default class NotificationListItem extends DomNode {
             el("b", triggerer.display_name),
             " purchased a key",
           ),
+          el(
+            ".date",
+            dayjs(notification.created_at).fromNow(true),
+          ),
         ),
       );
     } else if (notification.type === NotificationType.SELL_KEY) {
@@ -38,6 +42,10 @@ export default class NotificationListItem extends DomNode {
             el("b", triggerer.display_name),
             " sold a key",
           ),
+          el(
+            ".date",
+            dayjs(notification.created_at).fromNow(true),
+          ),
         ),
       );
     } else if (notification.type === NotificationType.FOLLOW) {
@@ -48,6 +56,10 @@ export default class NotificationListItem extends DomNode {
             "header",
             el("b", triggerer.display_name),
             " started following you",
+          ),
+          el(
+            ".date",
+            dayjs(notification.created_at).fromNow(true),
           ),
         ),
       );
@@ -61,6 +73,10 @@ export default class NotificationListItem extends DomNode {
             " liked your post",
           ),
           el("p", post?.message),
+          el(
+            ".date",
+            dayjs(notification.created_at).fromNow(true),
+          ),
         ),
       ).onDom("click", () => Router.go(`/post/${post?.id}`));
     } else if (notification.type === NotificationType.REPOST) {
@@ -73,6 +89,10 @@ export default class NotificationListItem extends DomNode {
             " reposted your post",
           ),
           el("p", post?.message),
+          el(
+            ".date",
+            dayjs(notification.created_at).fromNow(true),
+          ),
         ),
       ).onDom("click", () => Router.go(`/post/${post?.id}`));
     } else if (notification.type === NotificationType.POST_COMMENT) {
@@ -85,6 +105,10 @@ export default class NotificationListItem extends DomNode {
             " commented on your post",
           ),
           el("p", post?.message),
+          el(
+            ".date",
+            dayjs(notification.created_at).fromNow(true),
+          ),
         ),
       ).onDom("click", () => Router.go(`/post/${post?.id}`));
     } else if (notification.type === NotificationType.POST_TAG) {
@@ -97,15 +121,12 @@ export default class NotificationListItem extends DomNode {
             " tagged you in a post",
           ),
           el("p", post?.message),
+          el(
+            ".date",
+            dayjs(notification.created_at).fromNow(true),
+          ),
         ),
       ).onDom("click", () => Router.go(`/post/${post?.id}`));
     }
-
-    this.append(
-      el(
-        ".date",
-        dayjs(notification.created_at).fromNow(true),
-      ),
-    );
   }
 }

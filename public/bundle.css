@@ -1408,12 +1408,16 @@ button.component.text:active {
   max-width: 256px;
   max-height: 256px;
 }
-.post-list-item > main > .actions {
+.post-list-item > main > .date {
+  color: #a1a2ac;
+  font-size: 12px;
+}
+.post-list-item > main > footer {
   display: flex;
   align-items: center;
   gap: 8px;
 }
-.post-list-item > main > .actions > button {
+.post-list-item > main > footer > button {
   border-radius: 16px;
   border: 1px solid #F4F7F9;
   background: #EBEFF3;
@@ -1424,25 +1428,25 @@ button.component.text:active {
   gap: 8px;
   cursor: pointer;
 }
-.post-list-item > main > .actions > button > .material-icon {
+.post-list-item > main > footer > button > .material-icon {
   font-size: 16px;
 }
-.post-list-item > main > .actions > button:hover.comment {
+.post-list-item > main > footer > button:hover.comment {
   color: #5585FF;
 }
-.post-list-item > main > .actions > button:hover.repost {
+.post-list-item > main > footer > button:hover.repost {
   color: #4da787;
 }
-.post-list-item > main > .actions > button:hover.like {
+.post-list-item > main > footer > button:hover.like {
   color: #FC5132;
 }
 .post-list-item.owned > main > header > button.owner-menu {
   display: flex;
 }
-.post-list-item.reposted > main > .actions > button.repost {
+.post-list-item.reposted > main > footer > button.repost {
   color: #4da787;
 }
-.post-list-item.liked > main > .actions > button.like {
+.post-list-item.liked > main > footer > button.like {
   color: #FC5132;
 }
 .chats-view {
@@ -1746,6 +1750,10 @@ button.component.text:active {
   max-width: 200px;
   max-height: 200px;
 }
+.chat-message-list-item > main > .date {
+  color: #a1a2ac;
+  font-size: 12px;
+}
 .chat-message-list-item.owner {
   justify-content: end;
 }
@@ -1755,6 +1763,9 @@ button.component.text:active {
 .chat-message-list-item.owner > main > p.message {
   background-color: #5585FF;
   color: #fff;
+}
+.chat-message-list-item.owner > main > .date {
+  text-align: right;
 }
 .chat-message-list-item.waiting > main > p.message {
   opacity: 0.5;
@@ -2098,6 +2109,8 @@ button.component.text:active {
   padding: 20px;
   display: flex;
   gap: 20px;
+  position: relative;
+  cursor: pointer;
 }
 @media only screen and (max-width: 859px) {
   .notification-list-item {
@@ -2113,6 +2126,25 @@ button.component.text:active {
   border-radius: 42px;
   border: 1px solid #FFF;
   background: lightgray 50% / cover no-repeat;
+}
+.notification-list-item > main > header > b {
+  font-weight: bold;
+}
+.notification-list-item > main > p {
+  margin-top: 8px;
+  color: #a1a2ac;
+}
+.notification-list-item > main > .date {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  color: #a1a2ac;
+  font-size: 12px;
+}
+@media only screen and (max-width: 859px) {
+  .notification-list-item > main > .date {
+    position: static;
+  }
 }
 .settings-view {
   padding: 31px 30px;

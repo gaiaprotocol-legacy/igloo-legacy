@@ -5,6 +5,8 @@
     padding      : 20px;
     display      : flex;
     gap          : 20px;
+    position     : relative;
+    cursor       : pointer;
 
     @media @phone {
         gap: 12px;
@@ -19,5 +21,30 @@
         border-radius: 42px;
         border       : 1px solid #FFF;
         background   : lightgray 50% / cover no-repeat;
+    }
+
+    >main {
+        >header {
+            >b {
+                font-weight: bold;
+            }
+        }
+
+        >p {
+            margin-top: 8px;
+            color     : #a1a2ac;
+        }
+
+        >.date {
+            position : absolute;
+            top      : 20px;
+            right    : 20px;
+            color    : #a1a2ac;
+            font-size: 12px;
+
+            @media @phone {
+                position: static;
+            }
+        }
     }
 }
