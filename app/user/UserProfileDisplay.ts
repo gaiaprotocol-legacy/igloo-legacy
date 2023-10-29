@@ -10,6 +10,8 @@ import { ethers } from "ethers";
 import SubjectDetails from "../database-interface/SubjectDetails.js";
 import UserDetails from "../database-interface/UserDetails.js";
 import BuySubjectKeyPopup from "../subject/BuySubjectKeyPopup.js";
+import SubjectKeyBalanceCacher from "../subject/SubjectKeyBalanceCacher.js";
+import TradeSubjectKeyPopup from "../subject/TradeSubjectKeyPopup.js";
 import FollowManager from "./FollowManager.js";
 import SignedUserManager from "./SignedUserManager.js";
 
@@ -153,6 +155,34 @@ export default class UserProfileDisplay extends DomNode {
             },
           },
         ),
+        el(
+          "button.trade-key" + (!userDetails.wallet_address ? ".disabled" : ""),
+          "Trade Key",
+          {
+            click: () => {
+              if (!SignedUserManager.userId) {
+                new Confirm({
+                  title: "Login Required",
+                  message: "You must be logged in to buy keys.",
+                  confirmTitle: "Login",
+                }, () => SignedUserManager.signIn());
+              } else if (!SignedUserManager.walletLinked) {
+                new Confirm({
+                  title: "Wallet Required",
+                  message: "You must link a wallet to buy keys.",
+                  confirmTitle: "Link Wallet",
+                }, () => SignedUserManager.linkWallet());
+              } else if (!userDetails.wallet_address) {
+                new ErrorAlert({
+                  title: "No wallet address",
+                  message: "This user has not linked a wallet.",
+                });
+              } else {
+                new TradeSubjectKeyPopup(userDetails);
+              }
+            },
+          },
+        ),
         this.settingsButton = el(
           "button.settings",
           "Settings",
@@ -207,13 +237,26 @@ export default class UserProfileDisplay extends DomNode {
     this.onDelegate(
       SignedUserManager,
       "userFetched",
-      () => this.checkSignedUser(),
+      () => {
+        this.checkSignedUser();
+        this.checkHolder();
+      },
     );
 
     this.checkFollowing();
     this.onDelegate(FollowManager, ["follow", "unfollow"], (userId) => {
       if (userId === userDetails.user_id) {
         this.checkFollowing();
+      }
+    });
+
+    this.checkHolder();
+    this.onDelegate(SubjectKeyBalanceCacher, "update", (data) => {
+      if (
+        data.subject === userDetails.wallet_address &&
+        data.walletAddress === SignedUserManager.walletAddress
+      ) {
+        this.checkHolder();
       }
     });
   }
@@ -228,5 +271,15 @@ export default class UserProfileDisplay extends DomNode {
     FollowManager.isFollowing(this.userDetails.user_id)
       ? this.followButton.text = "Unfollow"
       : this.followButton.text = "Follow";
+  }
+
+  private checkHolder() {
+    if (this.userDetails.wallet_address && SignedUserManager.walletAddress) {
+      const balance = SubjectKeyBalanceCacher.getAndRefresh(
+        this.userDetails.wallet_address,
+        SignedUserManager.walletAddress,
+      );
+      balance > 0 ? this.addClass("holder") : this.deleteClass("holder");
+    }
   }
 }

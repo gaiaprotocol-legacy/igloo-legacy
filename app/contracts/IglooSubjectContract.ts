@@ -25,6 +25,10 @@ class IglooSubjectContract extends Contract<IglooSubject> {
     return this.viewContract.getSellPriceAfterFee(subject, amount);
   }
 
+  public async getKeysBalance(subject: string, walletAddress: string) {
+    return this.viewContract.keysBalance(subject, walletAddress);
+  }
+
   public async buyKeys(subject: string, amount: bigint, value: bigint) {
     const writeContract = await this.getWriteContract();
     if (!writeContract) {

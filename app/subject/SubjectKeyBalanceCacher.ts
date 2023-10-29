@@ -32,10 +32,14 @@ class SubjectKeyBalanceCacher extends EventContainer {
   }
 
   public get(subject: string, walletAddress: string): number {
-    const cached = this.store.get<number>(`${subject}-${walletAddress}`);
-    if (cached) {
-      return cached;
-    } else {
+    try {
+      const cached = this.store.get<number>(`${subject}-${walletAddress}`);
+      if (cached) {
+        return cached;
+      } else {
+        return 0;
+      }
+    } catch (e) {
       return 0;
     }
   }
@@ -46,14 +50,14 @@ class SubjectKeyBalanceCacher extends EventContainer {
     )
       .select(
         "*, last_fetched_balance::text",
-      ).eq("wallet_address", walletAddress);
+      ).eq("subject", subject).eq("wallet_address", walletAddress);
     if (error) throw error;
     const balanceData: any | undefined = data?.[0] as any;
     if (
       balanceData &&
       balanceData.last_fetched_balance !== this.get(subject, walletAddress)
     ) {
-      this.cache(subject, walletAddress, balanceData.total_key_balance);
+      this.cache(subject, walletAddress, balanceData.last_fetched_balance);
     }
   }
 
@@ -68,6 +72,11 @@ class SubjectKeyBalanceCacher extends EventContainer {
   public increaseKeyBalanceInstantly(walletAddress: string, subject: string) {
     const cachedValue = this.get(subject, walletAddress);
     this.cache(subject, walletAddress, cachedValue + 1);
+  }
+
+  public decreaseKeyBalanceInstantly(walletAddress: string, subject: string) {
+    const cachedValue = this.get(subject, walletAddress);
+    this.cache(subject, walletAddress, cachedValue - 1);
   }
 }
 

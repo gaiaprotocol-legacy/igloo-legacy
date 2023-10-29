@@ -14,19 +14,19 @@ import SignedUserManager from "../user/SignedUserManager.js";
 import WalletManager from "../user/WalletManager.js";
 import SubjectKeyService from "./SubjectKeyService.js";
 
-export default class BuySubjectKeyPopup extends Popup {
+export default class SellSubjectKeyPopup extends Popup {
   public content: DomNode;
   private priceDisplay: DomNode;
   private totalPriceDisplay: DomNode;
-  private buyButton: Button;
+  private sellButton: Button;
 
   constructor(private userDetails: UserDetails) {
     super({ barrierDismissible: true });
 
     this.append(
       this.content = new Component(
-        ".popup.buy-subject-key-popup",
-        el("header", el("h1", `Buy 1 ${userDetails.display_name}'s Key`)),
+        ".popup.sell-subject-key-popup",
+        el("header", el("h1", `Sell 1 ${userDetails.display_name}'s Key`)),
         el(
           "main",
           el(
@@ -69,11 +69,11 @@ export default class BuySubjectKeyPopup extends Popup {
             click: () => this.delete(),
             title: "Cancel",
           }),
-          this.buyButton = new Button({
+          this.sellButton = new Button({
             type: ButtonType.Contained,
-            tag: ".buy-token-button",
-            click: () => this.buyKey(),
-            title: `Buy 1 ${userDetails.display_name}'s Key`,
+            tag: ".sell-token-button",
+            click: () => this.sellKey(),
+            title: `Sell 1 ${userDetails.display_name}'s Key`,
           }),
         ),
       ),
@@ -84,7 +84,7 @@ export default class BuySubjectKeyPopup extends Popup {
   }
 
   private async fetchPrice() {
-    const price = await IglooSubjectContract.getBuyPrice(
+    const price = await IglooSubjectContract.getSellPrice(
       this.userDetails.wallet_address!,
       1n,
     );
@@ -92,22 +92,25 @@ export default class BuySubjectKeyPopup extends Popup {
   }
 
   private async fetchTotalPrice() {
-    const price = await IglooSubjectContract.getBuyPriceAfterFee(
+    const price = await IglooSubjectContract.getSellPriceAfterFee(
       this.userDetails.wallet_address!,
       1n,
     );
     this.totalPriceDisplay.text = `${ethers.formatEther(price)}`;
   }
 
-  private async buyKey() {
-    this.buyButton.disable().title = "Buying...";
+  private async sellKey() {
+    this.sellButton.disable().title = "Selling...";
 
     try {
       const subject = this.userDetails.wallet_address!;
 
       if (!WalletManager.connected) await WalletManager.connect();
 
-      if (WalletManager.address !== SignedUserManager.walletAddress) {
+      if (
+        !WalletManager.address ||
+        WalletManager.address !== SignedUserManager.walletAddress
+      ) {
         new ErrorAlert({
           title: "Wrong wallet",
           message:
@@ -117,27 +120,25 @@ export default class BuySubjectKeyPopup extends Popup {
         throw new Error("Wrong wallet");
       }
 
-      const [balance, totalPrice] = await Promise.all([
-        WalletManager.getBalance(),
-        IglooSubjectContract.getBuyPriceAfterFee(subject, 1n),
-      ]);
+      const keysBalance = await IglooSubjectContract.getKeysBalance(
+        subject,
+        WalletManager.address,
+      );
 
-      if (balance < totalPrice) {
+      if (keysBalance < 1n) {
         new ErrorAlert({
           title: "Insufficient balance",
-          message: `You need at least ${
-            ethers.formatEther(totalPrice)
-          } AVAX to buy this key.`,
+          message: `You need at least 1 key to sell.`,
         });
         throw new Error("Insufficient balance");
       } else {
-        await SubjectKeyService.buyKey(subject, totalPrice);
+        await SubjectKeyService.sellKey(subject);
         this.delete();
       }
     } catch (e) {
       console.error(e);
-      this.buyButton.enable().title =
-        `Buy 1 ${this.userDetails.display_name}'s Key`;
+      this.sellButton.enable().title =
+        `Sell 1 ${this.userDetails.display_name}'s Key`;
     }
   }
 }
