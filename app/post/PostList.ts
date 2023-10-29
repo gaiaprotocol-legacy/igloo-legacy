@@ -1,4 +1,4 @@
-import { DomNode, el } from "common-dapp-module";
+import { DomNode, el } from "common-app-module";
 import Post from "../database-interface/Post.js";
 import PostListItem from "./PostListItem.js";
 

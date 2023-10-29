@@ -1,4 +1,4 @@
-import { Supabase } from "common-dapp-module";
+import { Supabase } from "common-app-module";
 import UserDetails, {
   UserDetailsSelectQuery,
 } from "../database-interface/UserDetails.js";

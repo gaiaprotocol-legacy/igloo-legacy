@@ -1,4 +1,4 @@
-import { DomNode, el } from "common-dapp-module";
+import { DomNode, el } from "common-app-module";
 
 export default abstract class ChatRoomList extends DomNode {
   protected emptyMessageDisplay: DomNode | undefined;

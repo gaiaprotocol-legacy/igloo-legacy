@@ -6,7 +6,7 @@ import {
   Tabs,
   View,
   ViewParams,
-} from "common-dapp-module";
+} from "common-app-module";
 import Layout from "../layout/Layout.js";
 import ActivityList from "./ActivityList.js";
 import NewUserList from "./NewUserList.js";

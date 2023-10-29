@@ -5,7 +5,7 @@ import {
   Tabs,
   View,
   ViewParams,
-} from "common-dapp-module";
+} from "common-app-module";
 import Layout from "./layout/Layout.js";
 import FollowingPostList from "./post/FollowingPostList.js";
 import GlobalPostList from "./post/GlobalPostList.js";

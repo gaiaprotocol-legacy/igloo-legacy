@@ -1,5 +1,5 @@
 import { RealtimeChannel } from "@supabase/supabase-js";
-import { Store, Supabase } from "common-dapp-module";
+import { Store, Supabase } from "common-app-module";
 import Post from "../database-interface/Post.js";
 import SignedUserManager from "../user/SignedUserManager.js";
 import PostCacher from "./PostCacher.js";

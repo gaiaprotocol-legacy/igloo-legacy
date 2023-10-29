@@ -1,4 +1,4 @@
-import { DomNode } from "common-dapp-module";
+import { DomNode } from "common-app-module";
 
 export default class ChatRoomHeader extends DomNode {
   constructor(tag: string) {

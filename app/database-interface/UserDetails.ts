@@ -1,4 +1,4 @@
-import { n2u } from "common-dapp-module";
+import { n2u } from "common-app-module";
 
 interface UserDetailsMetadata {}
 

@@ -1,4 +1,4 @@
-import { EventContainer, Store, Supabase } from "common-dapp-module";
+import { EventContainer, Store, Supabase } from "common-app-module";
 import SignedUserManager from "./SignedUserManager.js";
 
 class FollowCacher extends EventContainer {

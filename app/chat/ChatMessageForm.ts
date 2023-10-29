@@ -1,4 +1,4 @@
-import { Button, DomNode, el, MaterialIcon } from "common-dapp-module";
+import { Button, DomNode, el, MaterialIcon } from "common-app-module";
 import ChatMessage, { MessageType } from "../database-interface/ChatMessage.js";
 import { UploadedFile } from "../database-interface/Rich.js";
 import SignedUserManager from "../user/SignedUserManager.js";

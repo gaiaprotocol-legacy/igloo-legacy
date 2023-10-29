@@ -4,7 +4,7 @@ import {
   MaterialIcon,
   View,
   ViewParams,
-} from "common-dapp-module";
+} from "common-app-module";
 import Layout from "../layout/Layout.js";
 
 export default class FollowersView extends View {

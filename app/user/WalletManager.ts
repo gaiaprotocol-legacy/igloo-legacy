@@ -13,7 +13,7 @@ import {
   w3mProvider,
 } from "@web3modal/ethereum";
 import { Web3Modal } from "@web3modal/html";
-import { EventContainer } from "common-dapp-module";
+import { EventContainer } from "common-app-module";
 
 class WalletManager extends EventContainer {
   private web3modal!: Web3Modal;

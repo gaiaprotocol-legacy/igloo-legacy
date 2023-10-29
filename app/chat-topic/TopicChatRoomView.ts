@@ -1,4 +1,4 @@
-import { ViewParams } from "common-dapp-module";
+import { ViewParams } from "common-app-module";
 import ChatRoomView from "../chat/ChatRoomView.js";
 import TopicChatMessageForm from "./TopicChatMessageForm.js";
 import TopicChatMessageList from "./TopicChatMessageList.js";

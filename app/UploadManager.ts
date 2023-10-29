@@ -1,4 +1,4 @@
-import { Supabase } from "common-dapp-module";
+import { Supabase } from "common-app-module";
 import { v4 as uuidv4 } from "uuid";
 
 class UploadManager {

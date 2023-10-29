@@ -1,4 +1,4 @@
-import { Store } from "common-dapp-module";
+import { Store } from "common-app-module";
 import UserDetails from "../database-interface/UserDetails.js";
 import UserDetailsCacher from "../user/UserDetailsCacher.js";
 import UserService from "../user/UserService.js";

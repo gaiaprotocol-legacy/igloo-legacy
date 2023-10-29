@@ -1,5 +1,5 @@
 import { RealtimeChannel } from "@supabase/supabase-js";
-import { Store, Supabase } from "common-dapp-module";
+import { Store, Supabase } from "common-app-module";
 import ChatMessageList from "../chat/ChatMessageList.js";
 import TopicChatMessage from "../database-interface/TopicChatMessage.js";
 import TopicChatService from "./TopicChatService.js";

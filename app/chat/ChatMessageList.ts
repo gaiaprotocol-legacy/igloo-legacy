@@ -1,4 +1,4 @@
-import { DomNode, el } from "common-dapp-module";
+import { DomNode, el } from "common-app-module";
 import ChatMessage from "../database-interface/ChatMessage.js";
 import ChatMessageListItem from "./ChatMessageListItem.js";
 

@@ -5,7 +5,7 @@ import {
   el,
   MaterialIcon,
   Router,
-} from "common-dapp-module";
+} from "common-app-module";
 import dayjs from "dayjs";
 import Post from "../database-interface/Post.js";
 import { UploadedFile } from "../database-interface/Rich.js";

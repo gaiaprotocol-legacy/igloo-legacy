@@ -1,5 +1,5 @@
 import { RealtimeChannel } from "@supabase/supabase-js";
-import { DomNode, el, Store, Supabase } from "common-dapp-module";
+import { DomNode, el, Store, Supabase } from "common-app-module";
 import Notification, {
   NotificationType,
 } from "../database-interface/Notification.js";

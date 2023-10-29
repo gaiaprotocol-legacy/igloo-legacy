@@ -1,4 +1,4 @@
-import { DomNode, el, MaterialIcon, Router } from "common-dapp-module";
+import { DomNode, el, MaterialIcon, Router } from "common-app-module";
 import SignedUserManager from "../user/SignedUserManager.js";
 
 export default class NavBar extends DomNode {

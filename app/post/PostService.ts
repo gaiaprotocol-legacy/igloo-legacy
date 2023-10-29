@@ -1,4 +1,4 @@
-import { Supabase } from "common-dapp-module";
+import { Supabase } from "common-app-module";
 import UploadManager from "../UploadManager.js";
 import Post, { PostTarget } from "../database-interface/Post.js";
 import { UploadedFile } from "../database-interface/Rich.js";

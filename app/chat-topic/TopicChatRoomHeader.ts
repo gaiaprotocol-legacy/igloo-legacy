@@ -1,4 +1,4 @@
-import { el, MaterialIcon } from "common-dapp-module";
+import { el, MaterialIcon } from "common-app-module";
 import ChatRoomHeader from "../chat/ChatRoomHeader.js";
 
 export default class TopicChatRoomHeader extends ChatRoomHeader {

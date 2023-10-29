@@ -1,4 +1,4 @@
-import { DomNode, el } from "common-dapp-module";
+import { DomNode, el } from "common-app-module";
 import SignedUserManager from "./SignedUserManager.js";
 
 export default class LoginRequired extends DomNode {

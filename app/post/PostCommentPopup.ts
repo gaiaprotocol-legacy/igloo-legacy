@@ -7,7 +7,7 @@ import {
   Popup,
   Router,
   Snackbar,
-} from "common-dapp-module";
+} from "common-app-module";
 import Post from "../database-interface/Post.js";
 import { UploadedFile } from "../database-interface/Rich.js";
 import SignedUserManager from "../user/SignedUserManager.js";

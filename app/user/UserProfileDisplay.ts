@@ -5,7 +5,7 @@ import {
   ErrorAlert,
   MaterialIcon,
   Router,
-} from "common-dapp-module";
+} from "common-app-module";
 import { ethers } from "ethers";
 import SubjectDetails from "../database-interface/SubjectDetails.js";
 import UserDetails from "../database-interface/UserDetails.js";

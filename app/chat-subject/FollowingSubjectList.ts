@@ -1,4 +1,4 @@
-import { Store } from "common-dapp-module";
+import { Store } from "common-app-module";
 import SubjectDetails from "../database-interface/SubjectDetails.js";
 import SubjectDetailsCacher from "../subject/SubjectDetailsCacher.js";
 import SubjectService from "../subject/SubjectService.js";

@@ -7,7 +7,7 @@ import {
   DomNode,
   el,
   Popup,
-} from "common-dapp-module";
+} from "common-app-module";
 import EnvironmentManager from "../EnvironmentManager.js";
 
 export default class SwitchToAvaxPopup extends Popup {

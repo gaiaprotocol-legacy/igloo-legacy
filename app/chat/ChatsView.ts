@@ -1,4 +1,4 @@
-import { DomNode, el, View, ViewParams } from "common-dapp-module";
+import { DomNode, el, View, ViewParams } from "common-app-module";
 import FollowingSubjectList from "../chat-subject/FollowingSubjectList.js";
 import HoldingSubjectList from "../chat-subject/HoldingSubjectList.js";
 import MySubjectList from "../chat-subject/MySubjectList.js";

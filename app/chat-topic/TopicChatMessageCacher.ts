@@ -1,4 +1,4 @@
-import { EventContainer, Store } from "common-dapp-module";
+import { EventContainer, Store } from "common-app-module";
 
 class TopicChatMessageCacher extends EventContainer {
   private store: Store = new Store("cached-topic-chat-messages");

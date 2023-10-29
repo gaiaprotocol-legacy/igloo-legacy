@@ -1,4 +1,4 @@
-import { el, MaterialIcon, Router } from "common-dapp-module";
+import { el, MaterialIcon, Router } from "common-app-module";
 import ChatRoomHeader from "../chat/ChatRoomHeader.js";
 import SubjectDetails from "../database-interface/SubjectDetails.js";
 import UserDetails from "../database-interface/UserDetails.js";

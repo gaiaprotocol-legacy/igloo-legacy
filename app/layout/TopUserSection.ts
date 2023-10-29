@@ -1,4 +1,4 @@
-import { DomNode, el } from "common-dapp-module";
+import { DomNode, el } from "common-app-module";
 import TopUserList from "../explore/TopUserList.js";
 
 export default class TopUserSection extends DomNode {

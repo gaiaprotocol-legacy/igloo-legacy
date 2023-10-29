@@ -6,7 +6,7 @@ import {
   Tabs,
   View,
   ViewParams,
-} from "common-dapp-module";
+} from "common-app-module";
 import SubjectDetails from "../database-interface/SubjectDetails.js";
 import UserDetails from "../database-interface/UserDetails.js";
 import Layout from "../layout/Layout.js";

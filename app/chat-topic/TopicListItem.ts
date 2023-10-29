@@ -1,4 +1,4 @@
-import { el, Router } from "common-dapp-module";
+import { el, Router } from "common-app-module";
 import ChatRoomListItem from "../chat/ChatRoomListItem.js";
 
 export default class TopicListItem extends ChatRoomListItem {

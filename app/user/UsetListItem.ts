@@ -1,4 +1,4 @@
-import { DomNode, el, MaterialIcon, Router } from "common-dapp-module";
+import { DomNode, el, MaterialIcon, Router } from "common-app-module";
 import { ethers } from "ethers";
 import UserDetails from "../database-interface/UserDetails.js";
 import SubjectDetailsCacher from "../subject/SubjectDetailsCacher.js";

@@ -1,4 +1,4 @@
-import { DomNode, el, View, ViewParams } from "common-dapp-module";
+import { DomNode, el, View, ViewParams } from "common-app-module";
 import Layout from "../layout/Layout.js";
 
 export default class ChatRoomView extends View {

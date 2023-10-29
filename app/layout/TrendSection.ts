@@ -1,4 +1,4 @@
-import { DomNode, el, MaterialIcon, Router } from "common-dapp-module";
+import { DomNode, el, MaterialIcon, Router } from "common-app-module";
 import TrendingUserList from "../explore/TrendingUserList.js";
 
 export default class TrendSection extends DomNode {

@@ -1,4 +1,4 @@
-import { I18NText, n2u } from "common-dapp-module";
+import { I18NText, n2u } from "common-app-module";
 import { UploadedFile } from "./Rich.js";
 
 export enum PostTarget {

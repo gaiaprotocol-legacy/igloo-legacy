@@ -1,4 +1,4 @@
-import { DomNode, el, Router } from "common-dapp-module";
+import { DomNode, el, Router } from "common-app-module";
 import dayjs from "dayjs";
 import { ethers } from "ethers";
 import BlockTimeManager from "../BlockTimeManager.js";

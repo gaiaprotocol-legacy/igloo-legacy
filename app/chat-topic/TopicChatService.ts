@@ -1,4 +1,4 @@
-import { Supabase } from "common-dapp-module";
+import { Supabase } from "common-app-module";
 import UploadManager from "../UploadManager.js";
 import { MessageType } from "../database-interface/ChatMessage.js";
 import { UploadedFile } from "../database-interface/Rich.js";

@@ -9,7 +9,7 @@ import {
   Snackbar,
   View,
   ViewParams,
-} from "common-dapp-module";
+} from "common-app-module";
 import Post from "../database-interface/Post.js";
 import { UploadedFile } from "../database-interface/Rich.js";
 import Layout from "../layout/Layout.js";

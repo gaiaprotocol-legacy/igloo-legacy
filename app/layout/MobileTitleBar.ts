@@ -4,7 +4,7 @@ import {
   MaterialIcon,
   Router,
   StringUtil,
-} from "common-dapp-module";
+} from "common-app-module";
 import SignedUserManager from "../user/SignedUserManager.js";
 
 export default class MobileTitleBar extends DomNode {

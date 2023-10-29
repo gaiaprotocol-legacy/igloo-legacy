@@ -1,4 +1,4 @@
-import { I18NText } from "common-dapp-module";
+import { I18NText } from "common-app-module";
 import { UploadedFile } from "./Rich.js";
 
 export enum MessageType {

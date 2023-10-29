@@ -1,4 +1,4 @@
-import { el, msg, Router, SplashScreen, Supabase } from "common-dapp-module";
+import { el, msg, Router, SplashScreen, Supabase } from "common-app-module";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime.js";
 import BlockTimeManager from "./BlockTimeManager.js";

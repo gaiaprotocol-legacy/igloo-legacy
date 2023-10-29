@@ -1,4 +1,4 @@
-import { DomNode, el, Router } from "common-dapp-module";
+import { DomNode, el, Router } from "common-app-module";
 import dayjs from "dayjs";
 import ChatMessage from "../database-interface/ChatMessage.js";
 import { UploadedFile } from "../database-interface/Rich.js";

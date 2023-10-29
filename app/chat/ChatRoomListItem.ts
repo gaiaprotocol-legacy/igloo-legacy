@@ -1,4 +1,4 @@
-import { DomNode } from "common-dapp-module";
+import { DomNode } from "common-app-module";
 
 export default abstract class ChatRoomListItem extends DomNode {
   constructor(tag: string) {

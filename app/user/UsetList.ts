@@ -1,4 +1,4 @@
-import { DomNode, el } from "common-dapp-module";
+import { DomNode, el } from "common-app-module";
 import UserDetails from "../database-interface/UserDetails.js";
 import UserListItem from "./UsetListItem.js";
 

@@ -1,4 +1,4 @@
-import { Store } from "common-dapp-module";
+import { Store } from "common-app-module";
 import Post from "../database-interface/Post.js";
 import SignedUserManager from "../user/SignedUserManager.js";
 import PostCacher from "./PostCacher.js";
