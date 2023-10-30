@@ -5,193 +5,195 @@
         padding: 20px;
     }
 
-    >header {
-        margin-bottom: 30px;
-        display      : flex;
-        align-items  : center;
-        gap          : 20px;
-
-        @media @phone {
-            display: none;
-        }
-
-        >button {
-            width          : 48px;
-            height         : 48px;
-            flex-shrink    : 0;
-            border-radius  : 16px;
-            background     : #EBEFF3;
-            color          : #2B2B2B;
-            box-shadow     : 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
-            cursor         : pointer;
-            display        : flex;
-            justify-content: center;
-            align-items    : center;
-
-            &:active {
-                outline   : 1px solid #F4F7F9;
-                box-shadow: 4px 4px 8px 0px rgba(255, 255, 255, 0.75), 2px 2px 8px 0px rgba(189, 194, 199, 0.75) inset;
-            }
-        }
-
-        >h1 {
-            color                : #2A2A2A;
-            font-feature-settings: 'clig'off, 'liga'off;
-            font-family          : Quicksand;
-            font-size            : 22px;
-            font-style           : normal;
-            font-weight          : 700;
-            line-height          : normal;
-            text-transform       : capitalize;
-        }
-    }
-
-    >main {
-        border-radius: 16px;
-        background   : #EBEFF3;
-        box-shadow   : 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
-        padding      : 20px;
-
-        >.empty-message {
-            text-align: center;
-            color     : #a1a2ac;
-            padding   : 20px 0;
-        }
-
+    >.post-container {
         >header {
-            display: flex;
-            gap    : 20px;
+            margin-bottom: 30px;
+            display      : flex;
+            align-items  : center;
+            gap          : 20px;
 
             @media @phone {
-                gap: 12px;
+                display: none;
             }
 
-            >.author-profile-image {
-                margin-top   : 1px;
-                display      : flex;
-                width        : 42px;
-                height       : 42px;
-                flex-shrink  : 0;
-                border-radius: 42px;
-                border       : 1px solid #FFF;
-                background   : lightgray 50% / cover no-repeat;
-                cursor       : pointer;
-            }
-
-            >.author {
-                display       : flex;
-                flex-direction: column;
-                gap           : 4px;
-
-                >.name {
-                    color                : #2A2A2A;
-                    font-feature-settings: 'clig'off, 'liga'off;
-                    font-family          : Quicksand;
-                    font-size            : 16px;
-                    font-style           : normal;
-                    font-weight          : 700;
-                    line-height          : normal;
-                    cursor               : pointer;
-                }
-
-                >.x-username {
-                    font-feature-settings: 'clig'off, 'liga'off;
-                    font-family          : Quicksand;
-                    font-size            : 12px;
-                    font-style           : normal;
-                    font-weight          : 500;
-                    color                : #a1a2ac;
-                    cursor               : pointer;
-                }
-            }
-
-            >button.owner-menu {
-                margin-top     : -4px;
-                margin-right   : -4px;
-                margin-left    : auto;
-                display        : none;
-                width          : 43.5px;
-                height         : 43.5px;
+            >button {
+                width          : 48px;
+                height         : 48px;
                 flex-shrink    : 0;
                 border-radius  : 16px;
+                background     : #EBEFF3;
                 color          : #2B2B2B;
+                box-shadow     : 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
                 cursor         : pointer;
-                display        : none;
+                display        : flex;
                 justify-content: center;
                 align-items    : center;
 
                 &:active {
                     outline   : 1px solid #F4F7F9;
-                    background: #EBEFF3;
                     box-shadow: 4px 4px 8px 0px rgba(255, 255, 255, 0.75), 2px 2px 8px 0px rgba(189, 194, 199, 0.75) inset;
                 }
             }
-        }
 
-        >p {
-            margin-top           : 20px;
-            color                : #2A2A2A;
-            font-feature-settings: 'clig'off, 'liga'off;
-            font-family          : Quicksand;
-            font-size            : 16px;
-            font-style           : normal;
-            font-weight          : 500;
-
-            @media @phone {
-                font-size: 14px;
+            >h1 {
+                color                : #2A2A2A;
+                font-feature-settings: 'clig'off, 'liga'off;
+                font-family          : Quicksand;
+                font-size            : 22px;
+                font-style           : normal;
+                font-weight          : 700;
+                line-height          : normal;
+                text-transform       : capitalize;
             }
         }
 
-        >.files {
-            margin-top: 20px;
+        >main {
+            border-radius: 16px;
+            background   : #EBEFF3;
+            box-shadow   : 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
+            padding      : 20px;
 
-            >.file {
-                >.image-container {
-                    >a {
-                        >img {
-                            border-radius: 16px;
-                            box-shadow   : 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
-                            width        : 100%;
-                            max-width    : 256px;
-                            max-height   : 256px;
+            >.empty-message {
+                text-align: center;
+                color     : #a1a2ac;
+                padding   : 20px 0;
+            }
+
+            >header {
+                display: flex;
+                gap    : 20px;
+
+                @media @phone {
+                    gap: 12px;
+                }
+
+                >.author-profile-image {
+                    margin-top   : 1px;
+                    display      : flex;
+                    width        : 42px;
+                    height       : 42px;
+                    flex-shrink  : 0;
+                    border-radius: 42px;
+                    border       : 1px solid #FFF;
+                    background   : lightgray 50% / cover no-repeat;
+                    cursor       : pointer;
+                }
+
+                >.author {
+                    display       : flex;
+                    flex-direction: column;
+                    gap           : 4px;
+
+                    >.name {
+                        color                : #2A2A2A;
+                        font-feature-settings: 'clig'off, 'liga'off;
+                        font-family          : Quicksand;
+                        font-size            : 16px;
+                        font-style           : normal;
+                        font-weight          : 700;
+                        line-height          : normal;
+                        cursor               : pointer;
+                    }
+
+                    >.x-username {
+                        font-feature-settings: 'clig'off, 'liga'off;
+                        font-family          : Quicksand;
+                        font-size            : 12px;
+                        font-style           : normal;
+                        font-weight          : 500;
+                        color                : #a1a2ac;
+                        cursor               : pointer;
+                    }
+                }
+
+                >button.owner-menu {
+                    margin-top     : -4px;
+                    margin-right   : -4px;
+                    margin-left    : auto;
+                    display        : none;
+                    width          : 43.5px;
+                    height         : 43.5px;
+                    flex-shrink    : 0;
+                    border-radius  : 16px;
+                    color          : #2B2B2B;
+                    cursor         : pointer;
+                    display        : none;
+                    justify-content: center;
+                    align-items    : center;
+
+                    &:active {
+                        outline   : 1px solid #F4F7F9;
+                        background: #EBEFF3;
+                        box-shadow: 4px 4px 8px 0px rgba(255, 255, 255, 0.75), 2px 2px 8px 0px rgba(189, 194, 199, 0.75) inset;
+                    }
+                }
+            }
+
+            >p {
+                margin-top           : 20px;
+                color                : #2A2A2A;
+                font-feature-settings: 'clig'off, 'liga'off;
+                font-family          : Quicksand;
+                font-size            : 16px;
+                font-style           : normal;
+                font-weight          : 500;
+
+                @media @phone {
+                    font-size: 14px;
+                }
+            }
+
+            >.files {
+                margin-top: 20px;
+
+                >.file {
+                    >.image-container {
+                        >a {
+                            >img {
+                                border-radius: 16px;
+                                box-shadow   : 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
+                                width        : 100%;
+                                max-width    : 256px;
+                                max-height   : 256px;
+                            }
                         }
                     }
                 }
             }
-        }
 
-        >.actions {
-            margin-top : 20px;
-            display    : flex;
-            align-items: center;
-            gap        : 8px;
+            >.actions {
+                margin-top : 20px;
+                display    : flex;
+                align-items: center;
+                gap        : 8px;
 
-            >button {
-                border-radius: 16px;
-                border       : 1px solid #F4F7F9;
-                background   : #EBEFF3;
-                box-shadow   : 4px 4px 8px 0px rgba(255, 255, 255, 0.75), 2px 2px 8px 0px rgba(189, 194, 199, 0.75) inset;
-                padding      : 6px 12px;
-                display      : flex;
-                align-items  : center;
-                gap          : 8px;
-                cursor       : pointer;
+                >button {
+                    border-radius: 16px;
+                    border       : 1px solid #F4F7F9;
+                    background   : #EBEFF3;
+                    box-shadow   : 4px 4px 8px 0px rgba(255, 255, 255, 0.75), 2px 2px 8px 0px rgba(189, 194, 199, 0.75) inset;
+                    padding      : 6px 12px;
+                    display      : flex;
+                    align-items  : center;
+                    gap          : 8px;
+                    cursor       : pointer;
 
-                >.material-icon {
-                    font-size: 16px;
-                }
-
-                &:hover {
-                    &.comment {
-                        color: #5585FF;
+                    >.material-icon {
+                        font-size: 16px;
                     }
 
-                    &.repost {
-                        color: #4da787;
-                    }
+                    &:hover {
+                        &.comment {
+                            color: #5585FF;
+                        }
 
-                    &.like {
-                        color: #FC5132;
+                        &.repost {
+                            color: #4da787;
+                        }
+
+                        &.like {
+                            color: #FC5132;
+                        }
                     }
                 }
             }
@@ -199,42 +201,48 @@
     }
 
     &.owned {
-        >main {
-            >header {
-                >button.owner-menu {
-                    display: flex;
+        >.post-container {
+            >main {
+                >header {
+                    >button.owner-menu {
+                        display: flex;
+                    }
                 }
             }
         }
     }
 
     &.reposted {
-        >main {
-            >.actions {
-                >button.repost {
-                    color: #4da787;
+        >.post-container {
+            >main {
+                >.actions {
+                    >button.repost {
+                        color: #4da787;
+                    }
                 }
             }
         }
     }
 
     &.liked {
-        >main {
-            >.actions {
-                >button.like {
-                    color: #FC5132;
+        >.post-container {
+            >main {
+                >.actions {
+                    >button.like {
+                        color: #FC5132;
+                    }
                 }
             }
         }
     }
 
     >.form-wrapper {
+        display      : none;
         border-radius: 16px;
         background   : #EBEFF3;
         box-shadow   : 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
         padding      : 20px;
         margin-top   : 20px;
-        display      : flex;
         gap          : 20px;
 
         @media @phone {
@@ -321,7 +329,13 @@
         }
     }
 
-    >.post-comment-list {
+    &.signed {
+        >.form-wrapper {
+            display: flex;
+        }
+    }
+
+    >.comment-container {
         margin-top: 20px;
     }
 }
