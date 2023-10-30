@@ -1,10 +1,10 @@
 import { DomNode, el, MaterialIcon, View, ViewParams } from "common-app-module";
-import Layout from "../layout/Layout.js";
-import FollowingList from "./FollowingList.js";
 import UserDetails from "../database-interface/UserDetails.js";
+import Layout from "../layout/Layout.js";
+import HoldingList from "./HoldingList.js";
 import UserDetailsCacher from "./UserDetailsCacher.js";
 
-export default class FollowingView extends View {
+export default class HoldingsView extends View {
   private container: DomNode;
   private xUsername!: string;
   private userDetails!: UserDetails;
@@ -13,7 +13,7 @@ export default class FollowingView extends View {
     super();
     Layout.append(
       this.container = el(
-        ".following-view",
+        ".holdings-view",
       ),
     );
 
@@ -43,7 +43,9 @@ export default class FollowingView extends View {
         }),
         el("h1", "@" + this.xUsername),
       ),
-      new FollowingList(this.userDetails.user_id).show(),
+      this.userDetails.wallet_address
+        ? new HoldingList(this.userDetails.wallet_address).show()
+        : undefined,
     );
   }
 

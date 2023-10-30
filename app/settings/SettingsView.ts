@@ -22,7 +22,39 @@ export default class SettingsView extends View {
       el("h1", "Settings"),
       el(
         "main",
-        el("section.x" //TODO:
+        el(
+          "section.x",
+          el("h2", "Igloo's 𝕏"),
+          el(
+            ".profile-image-wrapper",
+            el(".profile-image", {
+              style: {
+                backgroundImage: "url(/images/icon-512x512.png)",
+              },
+            }),
+          ),
+          el(
+            "h3",
+            el(
+              "a",
+              "@iglooax",
+              {
+                href: "https://x.com/iglooax",
+                target: "_blank",
+              },
+            ),
+          ),
+          el(
+            ".socials",
+            el(
+              "a",
+              el("img.x-symbol", { src: "/images/x-symbol.svg" }),
+              {
+                href: "https://x.com/iglooax",
+                target: "_blank",
+              },
+            ),
+          ),
         ),
         el(
           "section.actions",

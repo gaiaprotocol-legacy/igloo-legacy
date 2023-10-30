@@ -1,8 +1,8 @@
 import { EventContainer, Store, Supabase } from "common-app-module";
 import UserDetails, {
   DefaultUserDetails,
-  isEqualUserDetails,
   UserDetailsSelectQuery,
+  isEqualUserDetails,
 } from "../database-interface/UserDetails.js";
 
 class UserDetailsCacher extends EventContainer {
@@ -57,7 +57,10 @@ class UserDetailsCacher extends EventContainer {
   }
 
   public getByXUsername(xUsername: string) {
-    const cached = Object.values(this.store.getAll<UserDetails>()).find(
+    const cached = Object.values(this.store.getAll<UserDetails>()).sort((
+      a,
+      b,
+    ) => (a?.updated_at ?? 0) > (b?.updated_at ?? 0) ? -1 : 1).find(
       (userDetails) => userDetails.x_username === xUsername,
     );
     return cached ? cached : { ...DefaultUserDetails, x_username: xUsername };
@@ -85,7 +88,10 @@ class UserDetailsCacher extends EventContainer {
   }
 
   public getByWalletAddress(walletAddress: string) {
-    const cached = Object.values(this.store.getAll<UserDetails>()).find(
+    const cached = Object.values(this.store.getAll<UserDetails>()).sort((
+      a,
+      b,
+    ) => (a?.updated_at ?? 0) > (b?.updated_at ?? 0) ? -1 : 1).find(
       (userDetails) => userDetails.wallet_address === walletAddress,
     );
     return cached

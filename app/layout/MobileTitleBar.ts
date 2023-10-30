@@ -105,9 +105,13 @@ export default class MobileTitleBar extends DomNode {
       this.showBackButton();
       this.showLoginOrSignedUser();
     } else { // x username
-      this.titleDisplay.text = "@" + uri;
+      const xUsername = uri.split("/")[0];
+      const path = uri.split("/")[1];
+
+      this.titleDisplay.text = "@" + xUsername +
+        (path ? "'s " + StringUtil.toTitleCase(path) : "");
       this.showBackButton();
-      if (SignedUserManager.xUsername === uri) {
+      if (SignedUserManager.xUsername === xUsername) {
         this.showSettingsButton();
       } else {
         this.showLoginOrSignedUser();

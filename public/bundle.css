@@ -596,7 +596,6 @@ button.component.text:active {
   font-style: normal;
   font-weight: 700;
   line-height: normal;
-  text-transform: capitalize;
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
@@ -2194,6 +2193,76 @@ button.component.text:active {
   background: #EBEFF3;
   box-shadow: 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
   padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+.settings-view > main > section.x > .profile-image-wrapper {
+  display: flex;
+  flex-shrink: 0;
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  box-shadow: 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
+  align-items: center;
+  justify-content: center;
+}
+.settings-view > main > section.x > .profile-image-wrapper > .profile-image {
+  width: 120px;
+  height: 120px;
+  display: flex;
+  flex-shrink: 0;
+  border-radius: 50%;
+  border: 1px solid #FFF;
+  background: lightgray 50% / cover no-repeat;
+}
+.settings-view > main > section.x > h2 {
+  color: #2A2A2A;
+  font-feature-settings: 'clig' off, 'liga' off;
+  font-family: Quicksand;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+.settings-view > main > section.x > h3 > a {
+  color: #2A2A2A;
+  font-feature-settings: 'clig' off, 'liga' off;
+  font-family: Quicksand;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  border-radius: 4px;
+  padding: 4px 8px;
+}
+.settings-view > main > section.x > h3 > a:active {
+  outline: 1px solid #F4F7F9;
+  box-shadow: 4px 4px 8px 0px rgba(255, 255, 255, 0.75), 2px 2px 8px 0px rgba(189, 194, 199, 0.75) inset;
+}
+.settings-view > main > section.x > .socials {
+  margin-top: 4px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.settings-view > main > section.x > .socials > a {
+  display: flex;
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  box-shadow: 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
+  align-items: center;
+  justify-content: center;
+}
+.settings-view > main > section.x > .socials > a > img {
+  height: 14px;
+}
+.settings-view > main > section.x > .socials > a:active {
+  outline: 1px solid #F4F7F9;
+  box-shadow: 4px 4px 8px 0px rgba(255, 255, 255, 0.75), 2px 2px 8px 0px rgba(189, 194, 199, 0.75) inset;
 }
 .settings-view > main > section.actions {
   width: 50%;
@@ -2759,6 +2828,51 @@ button.component.text:active {
 .link-wallet-popup > main > ol > li > w3m-core-button {
   display: block;
   margin-top: 18px;
+}
+.holdings-view {
+  padding: 21px 18px 31px 30px;
+}
+@media only screen and (max-width: 859px) {
+  .holdings-view {
+    padding: 20px;
+  }
+}
+.holdings-view > header {
+  margin-bottom: 30px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+@media only screen and (max-width: 859px) {
+  .holdings-view > header {
+    display: none;
+  }
+}
+.holdings-view > header > button {
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+  border-radius: 16px;
+  background: #EBEFF3;
+  color: #2B2B2B;
+  box-shadow: 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.holdings-view > header > button:active {
+  outline: 1px solid #F4F7F9;
+  box-shadow: 4px 4px 8px 0px rgba(255, 255, 255, 0.75), 2px 2px 8px 0px rgba(189, 194, 199, 0.75) inset;
+}
+.holdings-view > header > h1 {
+  color: #2A2A2A;
+  font-feature-settings: 'clig' off, 'liga' off;
+  font-family: Quicksand;
+  font-size: 22px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
 }
 .holders-view {
   padding: 21px 18px 31px 30px;
