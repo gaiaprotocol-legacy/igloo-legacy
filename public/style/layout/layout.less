@@ -17,7 +17,12 @@
     }
 
     >main {
-        flex-grow: 1;
+        flex-grow : 1;
+        overflow-y: auto;
+
+        @media @phone {
+            overflow-y: visible;
+        }
     }
 
     >.trend-section,

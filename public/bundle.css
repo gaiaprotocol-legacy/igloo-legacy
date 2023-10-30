@@ -1,6 +1,3 @@
-/*!**********************************************************************************************************!*\
-  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[1].use[1]!./public/style/lib/reset.css ***!
-  \**********************************************************************************************************/
 /***
     The new CSS reset - version 1.8.4 (last updated 14.2.2023)
     GitHub page: https://github.com/elad2412/the-new-css-reset
@@ -101,9 +98,6 @@ meter {
 :where(dialog:modal) {
     all: revert;
 }
-/*!*********************************************************************************************************************************************!*\
-  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[1].use[1]!./node_modules/less-loader/dist/cjs.js!./public/style/main.less ***!
-  \*********************************************************************************************************************************************/
 @font-face {
   font-family: 'Quicksand';
   font-style: normal;
@@ -410,6 +404,12 @@ button.component.text:active {
 }
 .layout > main {
   flex-grow: 1;
+  overflow-y: auto;
+}
+@media only screen and (max-width: 859px) {
+  .layout > main {
+    overflow-y: visible;
+  }
 }
 .layout > .trend-section,
 .layout > .top-user-section {
@@ -688,12 +688,10 @@ button.component.text:active {
 .home-view > main {
   height: 100%;
   padding: 31px 18px 31px 30px;
-  overflow-y: auto;
 }
 @media only screen and (max-width: 859px) {
   .home-view > main {
     height: auto;
-    overflow-y: visible;
     padding: 20px;
   }
 }
@@ -753,18 +751,18 @@ button.component.text:active {
     padding: 20px;
   }
 }
-.post-view > header {
+.post-view > .post-container > header {
   margin-bottom: 30px;
   display: flex;
   align-items: center;
   gap: 20px;
 }
 @media only screen and (max-width: 859px) {
-  .post-view > header {
+  .post-view > .post-container > header {
     display: none;
   }
 }
-.post-view > header > button {
+.post-view > .post-container > header > button {
   width: 48px;
   height: 48px;
   flex-shrink: 0;
@@ -777,11 +775,11 @@ button.component.text:active {
   justify-content: center;
   align-items: center;
 }
-.post-view > header > button:active {
+.post-view > .post-container > header > button:active {
   outline: 1px solid #F4F7F9;
   box-shadow: 4px 4px 8px 0px rgba(255, 255, 255, 0.75), 2px 2px 8px 0px rgba(189, 194, 199, 0.75) inset;
 }
-.post-view > header > h1 {
+.post-view > .post-container > header > h1 {
   color: #2A2A2A;
   font-feature-settings: 'clig' off, 'liga' off;
   font-family: Quicksand;
@@ -791,27 +789,27 @@ button.component.text:active {
   line-height: normal;
   text-transform: capitalize;
 }
-.post-view > main {
+.post-view > .post-container > main {
   border-radius: 16px;
   background: #EBEFF3;
   box-shadow: 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
   padding: 20px;
 }
-.post-view > main > .empty-message {
+.post-view > .post-container > main > .empty-message {
   text-align: center;
   color: #a1a2ac;
   padding: 20px 0;
 }
-.post-view > main > header {
+.post-view > .post-container > main > header {
   display: flex;
   gap: 20px;
 }
 @media only screen and (max-width: 859px) {
-  .post-view > main > header {
+  .post-view > .post-container > main > header {
     gap: 12px;
   }
 }
-.post-view > main > header > .author-profile-image {
+.post-view > .post-container > main > header > .author-profile-image {
   margin-top: 1px;
   display: flex;
   width: 42px;
@@ -822,12 +820,12 @@ button.component.text:active {
   background: lightgray 50% / cover no-repeat;
   cursor: pointer;
 }
-.post-view > main > header > .author {
+.post-view > .post-container > main > header > .author {
   display: flex;
   flex-direction: column;
   gap: 4px;
 }
-.post-view > main > header > .author > .name {
+.post-view > .post-container > main > header > .author > .name {
   color: #2A2A2A;
   font-feature-settings: 'clig' off, 'liga' off;
   font-family: Quicksand;
@@ -837,7 +835,7 @@ button.component.text:active {
   line-height: normal;
   cursor: pointer;
 }
-.post-view > main > header > .author > .x-username {
+.post-view > .post-container > main > header > .author > .x-username {
   font-feature-settings: 'clig' off, 'liga' off;
   font-family: Quicksand;
   font-size: 12px;
@@ -846,7 +844,7 @@ button.component.text:active {
   color: #a1a2ac;
   cursor: pointer;
 }
-.post-view > main > header > button.owner-menu {
+.post-view > .post-container > main > header > button.owner-menu {
   margin-top: -4px;
   margin-right: -4px;
   margin-left: auto;
@@ -860,12 +858,12 @@ button.component.text:active {
   justify-content: center;
   align-items: center;
 }
-.post-view > main > header > button.owner-menu:active {
+.post-view > .post-container > main > header > button.owner-menu:active {
   outline: 1px solid #F4F7F9;
   background: #EBEFF3;
   box-shadow: 4px 4px 8px 0px rgba(255, 255, 255, 0.75), 2px 2px 8px 0px rgba(189, 194, 199, 0.75) inset;
 }
-.post-view > main > p {
+.post-view > .post-container > main > p {
   margin-top: 20px;
   color: #2A2A2A;
   font-feature-settings: 'clig' off, 'liga' off;
@@ -875,27 +873,27 @@ button.component.text:active {
   font-weight: 500;
 }
 @media only screen and (max-width: 859px) {
-  .post-view > main > p {
+  .post-view > .post-container > main > p {
     font-size: 14px;
   }
 }
-.post-view > main > .files {
+.post-view > .post-container > main > .files {
   margin-top: 20px;
 }
-.post-view > main > .files > .file > .image-container > a > img {
+.post-view > .post-container > main > .files > .file > .image-container > a > img {
   border-radius: 16px;
   box-shadow: 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
   width: 100%;
   max-width: 256px;
   max-height: 256px;
 }
-.post-view > main > .actions {
+.post-view > .post-container > main > .actions {
   margin-top: 20px;
   display: flex;
   align-items: center;
   gap: 8px;
 }
-.post-view > main > .actions > button {
+.post-view > .post-container > main > .actions > button {
   border-radius: 16px;
   border: 1px solid #F4F7F9;
   background: #EBEFF3;
@@ -906,34 +904,34 @@ button.component.text:active {
   gap: 8px;
   cursor: pointer;
 }
-.post-view > main > .actions > button > .material-icon {
+.post-view > .post-container > main > .actions > button > .material-icon {
   font-size: 16px;
 }
-.post-view > main > .actions > button:hover.comment {
+.post-view > .post-container > main > .actions > button:hover.comment {
   color: #5585FF;
 }
-.post-view > main > .actions > button:hover.repost {
+.post-view > .post-container > main > .actions > button:hover.repost {
   color: #4da787;
 }
-.post-view > main > .actions > button:hover.like {
+.post-view > .post-container > main > .actions > button:hover.like {
   color: #FC5132;
 }
-.post-view.owned > main > header > button.owner-menu {
+.post-view.owned > .post-container > main > header > button.owner-menu {
   display: flex;
 }
-.post-view.reposted > main > .actions > button.repost {
+.post-view.reposted > .post-container > main > .actions > button.repost {
   color: #4da787;
 }
-.post-view.liked > main > .actions > button.like {
+.post-view.liked > .post-container > main > .actions > button.like {
   color: #FC5132;
 }
 .post-view > .form-wrapper {
+  display: none;
   border-radius: 16px;
   background: #EBEFF3;
   box-shadow: 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
   padding: 20px;
   margin-top: 20px;
-  display: flex;
   gap: 20px;
 }
 @media only screen and (max-width: 859px) {
@@ -1008,7 +1006,10 @@ button.component.text:active {
 .post-view > .form-wrapper > .form > footer > .post-button {
   margin-left: auto;
 }
-.post-view > .post-comment-list {
+.post-view.signed > .form-wrapper {
+  display: flex;
+}
+.post-view > .comment-container {
   margin-top: 20px;
 }
 .post-popup {
@@ -1398,6 +1399,7 @@ button.component.text:active {
   font-size: 14px;
   font-style: normal;
   font-weight: 500;
+  word-break: break-all;
 }
 @media only screen and (max-width: 859px) {
   .post-list-item > main > p {
@@ -1740,6 +1742,7 @@ button.component.text:active {
   font-size: 14px;
   font-style: normal;
   font-weight: 500;
+  word-break: break-all;
 }
 @media only screen and (max-width: 859px) {
   .chat-message-list-item > main > p.message {

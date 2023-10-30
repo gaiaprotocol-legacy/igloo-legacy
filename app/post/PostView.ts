@@ -21,11 +21,13 @@ import PostService from "./PostService.js";
 
 export default class PostView extends View {
   private container: DomNode;
+  private postContainer: DomNode;
+  private commentContainer: DomNode;
 
-  private commentTextarea!: DomNode<HTMLTextAreaElement>;
-  private uploadInput!: DomNode<HTMLInputElement>;
-  private uploadButton!: DomNode<HTMLButtonElement>;
-  private commentButton!: Button;
+  private commentTextarea: DomNode<HTMLTextAreaElement>;
+  private uploadInput: DomNode<HTMLInputElement>;
+  private uploadButton: DomNode<HTMLButtonElement>;
+  private commentButton: Button;
   private repostCountDisplay!: DomNode;
   private likeCountDisplay!: DomNode;
 
@@ -36,7 +38,49 @@ export default class PostView extends View {
 
   constructor(params: ViewParams) {
     super();
-    Layout.append(this.container = el(".post-view"));
+    Layout.append(
+      this.container = el(
+        ".post-view",
+        this.postContainer = el(".post-container"),
+        el(
+          ".form-wrapper",
+          el(".signed-user", {
+            style: { backgroundImage: `url(${SignedUserManager.avatarUrl})` },
+          }),
+          el(
+            ".form",
+            el(
+              "main",
+              this.commentTextarea = el("textarea", {
+                placeholder: "What's on your mind?",
+              }),
+            ),
+            el(
+              "footer",
+              this.uploadInput = el("input.upload", {
+                type: "file",
+                accept: "image/*",
+                change: (event) => {
+                  const file = event.target.files?.[0];
+                  if (file) this.upload(file);
+                },
+              }),
+              this.uploadButton = el(
+                "button.icon-button",
+                new MaterialIcon("image"),
+                { click: () => this.uploadInput.domElement.click() },
+              ),
+              this.commentButton = new Button({
+                tag: ".post-button",
+                click: () => this.postComment(),
+                title: "Post",
+              }),
+            ),
+          ),
+        ),
+        this.commentContainer = el(".comment-container"),
+      ),
+    );
     this.renderPost(parseInt(params.postId!));
 
     this.checkSigned();
@@ -48,6 +92,7 @@ export default class PostView extends View {
   }
 
   private checkSigned() {
+    if (SignedUserManager.signed) this.container.addClass("signed");
     if (this.post?.author === SignedUserManager.userId) {
       this.container.addClass("owned");
     }
@@ -98,7 +143,7 @@ export default class PostView extends View {
   }
 
   private render() {
-    this.container.empty().append(
+    this.postContainer.empty().append(
       el(
         "header",
         el("button", new MaterialIcon("arrow_back"), {
@@ -107,13 +152,14 @@ export default class PostView extends View {
         el("h1", "Post"),
       ),
     );
+    this.commentContainer.empty();
 
     if (!this.post) {
-      this.container.append(
+      this.postContainer.append(
         el("main", el("p.empty-message", "Post not found")),
       );
     } else {
-      this.container.append(
+      this.postContainer.append(
         el(
           "main",
           el(
@@ -233,42 +279,8 @@ export default class PostView extends View {
             ),
           ),
         ),
-        el(
-          ".form-wrapper",
-          el(".signed-user", {
-            style: { backgroundImage: `url(${SignedUserManager.avatarUrl})` },
-          }),
-          el(
-            ".form",
-            el(
-              "main",
-              this.commentTextarea = el("textarea", {
-                placeholder: "What's on your mind?",
-              }),
-            ),
-            el(
-              "footer",
-              this.uploadInput = el("input.upload", {
-                type: "file",
-                accept: "image/*",
-                change: (event) => {
-                  const file = event.target.files?.[0];
-                  if (file) this.upload(file);
-                },
-              }),
-              this.uploadButton = el(
-                "button.icon-button",
-                new MaterialIcon("image"),
-                { click: () => this.uploadInput.domElement.click() },
-              ),
-              this.commentButton = new Button({
-                tag: ".post-button",
-                click: () => this.postComment(),
-                title: "Post",
-              }),
-            ),
-          ),
-        ),
+      );
+      this.commentContainer.append(
         new PostCommentList(this.post.id).show(),
       );
     }
