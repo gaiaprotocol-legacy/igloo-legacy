@@ -1,7 +1,9 @@
 import { Supabase } from "common-app-module";
+import { SubjectDetailsSelectQuery } from "../database-interface/SubjectDetails.js";
 import UserDetails, {
   UserDetailsSelectQuery,
 } from "../database-interface/UserDetails.js";
+import SubjectDetailsCacher from "../subject/SubjectDetailsCacher.js";
 
 class UserService {
   private static readonly LIMIT = 50;
@@ -152,30 +154,59 @@ class UserService {
     const { data: subjectData, error: subjectError } = await Supabase.client
       .from(
         "subject_details",
-      ).select().order(
+      ).select(SubjectDetailsSelectQuery).order(
         "last_fetched_key_price",
         { ascending: false },
       ).limit(
         UserService.LIMIT,
-      );
+      ) as any;
     if (subjectError) throw subjectError;
-    const walletAddresses = subjectData.map((subject) => subject.subject);
-    return await this.fetchByWalletAddresses(walletAddresses);
+
+    SubjectDetailsCacher.cacheMultiple(subjectData);
+
+    const walletAddresses = subjectData.map((subject: any) => subject.subject);
+    const users = await this.fetchByWalletAddresses(walletAddresses);
+
+    users.sort((a, b) => {
+      const aPrice = subjectData.find((subject: any) =>
+        subject.subject === a.wallet_address
+      )?.last_fetched_key_price ?? 0;
+      const bPrice = subjectData.find((subject: any) =>
+        subject.subject === b.wallet_address
+      )?.last_fetched_key_price ?? 0;
+      return bPrice - aPrice;
+    });
+    return users;
   }
 
   public async fetchTrendingUsers(): Promise<UserDetails[]> {
     const { data: subjectData, error: subjectError } = await Supabase.client
       .from(
         "subject_details",
-      ).select().order(
+      ).select(SubjectDetailsSelectQuery).order(
         "last_key_purchased_at",
         { ascending: false },
       ).limit(
         UserService.LIMIT,
-      );
+      ) as any;
     if (subjectError) throw subjectError;
-    const walletAddresses = subjectData.map((subject) => subject.subject);
-    return await this.fetchByWalletAddresses(walletAddresses);
+
+    SubjectDetailsCacher.cacheMultiple(subjectData);
+
+    const walletAddresses = subjectData.map((subject: any) => subject.subject);
+    const users = await this.fetchByWalletAddresses(walletAddresses);
+
+    users.sort((a, b) => {
+      const aPrice = subjectData.find((subject: any) =>
+        subject.subject === a.wallet_address
+      )?.last_key_purchased_at ?? 0;
+      const bPrice = subjectData.find((subject: any) =>
+        subject.subject === b.wallet_address
+      )?.last_key_purchased_at ?? 0;
+      return bPrice - aPrice;
+    });
+
+    return users;
   }
 }
 

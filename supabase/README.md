@@ -20,7 +20,7 @@ select
     '*/10 * * * *',
     $$
     select net.http_get(
-        'https://diffcrvgnspbzzbqwtvt.supabase.co/functions/v1/track-subject-events',
+        'https://gslqborrkoraysvsopjv.supabase.co/functions/v1/track-subject-events',
         headers := '{"Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdzbHFib3Jya29yYXlzdnNvcGp2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTgwMzM0MjksImV4cCI6MjAxMzYwOTQyOX0.A1pCWncoOjXlpT73mH5tFJjpbBEuPMVGBXmVIig_jhQ"}'::JSONB
     ) AS request_id;
     $$
