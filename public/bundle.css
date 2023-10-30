@@ -1,3 +1,6 @@
+/*!**********************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[1].use[1]!./public/style/lib/reset.css ***!
+  \**********************************************************************************************************/
 /***
     The new CSS reset - version 1.8.4 (last updated 14.2.2023)
     GitHub page: https://github.com/elad2412/the-new-css-reset
@@ -98,6 +101,9 @@ meter {
 :where(dialog:modal) {
     all: revert;
 }
+/*!*********************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[1].use[1]!./node_modules/less-loader/dist/cjs.js!./public/style/main.less ***!
+  \*********************************************************************************************************************************************/
 @font-face {
   font-family: 'Quicksand';
   font-style: normal;
@@ -408,6 +414,9 @@ button.component.text:active {
 .layout > .trend-section,
 .layout > .top-user-section {
   width: 360px;
+  padding-left: 12px;
+  height: 100%;
+  overflow-y: auto;
   flex-shrink: 0;
 }
 @media only screen and (max-width: 859px) {
@@ -678,7 +687,7 @@ button.component.text:active {
 }
 .home-view > main {
   height: 100%;
-  padding: 31px 30px;
+  padding: 31px 18px 31px 30px;
   overflow-y: auto;
 }
 @media only screen and (max-width: 859px) {
@@ -737,7 +746,7 @@ button.component.text:active {
   background-color: #3770ff;
 }
 .post-view {
-  padding: 21px 30px 31px 30px;
+  padding: 21px 18px 31px 30px;
 }
 @media only screen and (max-width: 859px) {
   .post-view {
@@ -1860,7 +1869,7 @@ button.component.text:active {
   cursor: pointer;
 }
 .explore-view {
-  padding: 31px 30px;
+  padding: 31px 18px 31px 30px;
 }
 @media only screen and (max-width: 859px) {
   .explore-view {
@@ -2007,7 +2016,7 @@ button.component.text:active {
   }
 }
 .search-view {
-  padding: 31px 30px;
+  padding: 31px 18px 31px 30px;
 }
 @media only screen and (max-width: 859px) {
   .search-view {
@@ -2063,7 +2072,7 @@ button.component.text:active {
   color: #2A2A2A;
 }
 .notifications-view {
-  padding: 31px 30px;
+  padding: 31px 18px 31px 30px;
 }
 @media only screen and (max-width: 859px) {
   .notifications-view {
@@ -2141,7 +2150,7 @@ button.component.text:active {
   }
 }
 .settings-view {
-  padding: 31px 30px;
+  padding: 31px 18px 31px 30px;
 }
 @media only screen and (max-width: 859px) {
   .settings-view {
@@ -2251,7 +2260,7 @@ button.component.text:active {
   box-shadow: 4px 4px 8px 0px rgba(255, 255, 255, 0.75), 2px 2px 8px 0px rgba(31, 94, 255, 0.75) inset;
 }
 .user-view {
-  padding: 21px 30px 31px 30px;
+  padding: 21px 18px 31px 30px;
 }
 @media only screen and (max-width: 859px) {
   .user-view {
@@ -2749,7 +2758,7 @@ button.component.text:active {
   margin-top: 18px;
 }
 .holders-view {
-  padding: 21px 30px 31px 30px;
+  padding: 21px 18px 31px 30px;
 }
 @media only screen and (max-width: 859px) {
   .holders-view {
@@ -2794,7 +2803,7 @@ button.component.text:active {
   line-height: normal;
 }
 .following-view {
-  padding: 21px 30px 31px 30px;
+  padding: 21px 18px 31px 30px;
 }
 @media only screen and (max-width: 859px) {
   .following-view {
@@ -2839,7 +2848,7 @@ button.component.text:active {
   line-height: normal;
 }
 .followers-view {
-  padding: 21px 30px 31px 30px;
+  padding: 21px 18px 31px 30px;
 }
 @media only screen and (max-width: 859px) {
   .followers-view {

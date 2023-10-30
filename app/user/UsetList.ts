@@ -34,6 +34,7 @@ export default abstract class UserList extends DomNode {
       this.fetchContent();
       this.contentFetched = true;
     }
+    return this;
   }
 
   public hide() {

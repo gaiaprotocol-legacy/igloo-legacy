@@ -6,7 +6,7 @@ export default class TopUserSection extends DomNode {
     super(".top-user-section");
     this.append(
       el("h2", "Top Users"),
-      new TopUserList(),
+      new TopUserList().show(),
     );
   }
 
