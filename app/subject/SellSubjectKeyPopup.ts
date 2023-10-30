@@ -26,7 +26,7 @@ export default class SellSubjectKeyPopup extends Popup {
     this.append(
       this.content = new Component(
         ".popup.sell-subject-key-popup",
-        el("header", el("h1", `Sell 1 ${userDetails.display_name}'s Key`)),
+        el("header", el("h1", `Sell 1 ${userDetails.display_name}'s Ice`)),
         el(
           "main",
           el(
@@ -73,7 +73,7 @@ export default class SellSubjectKeyPopup extends Popup {
             type: ButtonType.Contained,
             tag: ".sell-token-button",
             click: () => this.sellKey(),
-            title: `Sell 1 ${userDetails.display_name}'s Key`,
+            title: `Sell 1 ${userDetails.display_name}'s Ice`,
           }),
         ),
       ),
@@ -128,7 +128,7 @@ export default class SellSubjectKeyPopup extends Popup {
       if (keysBalance < 1n) {
         new ErrorAlert({
           title: "Insufficient balance",
-          message: `You need at least 1 key to sell.`,
+          message: `You need at least 1 ice to sell.`,
         });
         throw new Error("Insufficient balance");
       } else {
@@ -138,7 +138,7 @@ export default class SellSubjectKeyPopup extends Popup {
     } catch (e) {
       console.error(e);
       this.sellButton.enable().title =
-        `Sell 1 ${this.userDetails.display_name}'s Key`;
+        `Sell 1 ${this.userDetails.display_name}'s Ice`;
     }
   }
 }

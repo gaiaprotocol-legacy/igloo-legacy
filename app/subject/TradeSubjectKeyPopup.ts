@@ -22,7 +22,7 @@ export default class TradeSubjectKeyPopup extends Popup {
     this.append(
       this.content = new Component(
         ".popup.trade-subject-key-popup",
-        el("header", el("h1", `Buy 1 ${userDetails.display_name}'s Key`)),
+        el("header", el("h1", `Buy 1 ${userDetails.display_name}'s Ice`)),
         el(
           "main",
           el(
@@ -54,7 +54,7 @@ export default class TradeSubjectKeyPopup extends Popup {
               new BuySubjectKeyPopup(userDetails);
               this.delete();
             },
-            title: `Buy 1 ${userDetails.display_name}'s Key`,
+            title: `Buy 1 ${userDetails.display_name}'s Ice`,
           }),
           new Button({
             type: ButtonType.Contained,
@@ -63,7 +63,7 @@ export default class TradeSubjectKeyPopup extends Popup {
               new SellSubjectKeyPopup(userDetails);
               this.delete();
             },
-            title: `Sell 1 ${userDetails.display_name}'s Key`,
+            title: `Sell 1 ${userDetails.display_name}'s Ice`,
           }),
         ),
         el(

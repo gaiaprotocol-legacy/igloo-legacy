@@ -26,7 +26,7 @@ export default class BuySubjectKeyPopup extends Popup {
     this.append(
       this.content = new Component(
         ".popup.buy-subject-key-popup",
-        el("header", el("h1", `Buy 1 ${userDetails.display_name}'s Key`)),
+        el("header", el("h1", `Buy 1 ${userDetails.display_name}'s Ice`)),
         el(
           "main",
           el(
@@ -73,7 +73,7 @@ export default class BuySubjectKeyPopup extends Popup {
             type: ButtonType.Contained,
             tag: ".buy-token-button",
             click: () => this.buyKey(),
-            title: `Buy 1 ${userDetails.display_name}'s Key`,
+            title: `Buy 1 ${userDetails.display_name}'s Ice`,
           }),
         ),
       ),
@@ -127,7 +127,7 @@ export default class BuySubjectKeyPopup extends Popup {
           title: "Insufficient balance",
           message: `You need at least ${
             ethers.formatEther(totalPrice)
-          } AVAX to buy this key.`,
+          } AVAX to buy this ice.`,
         });
         throw new Error("Insufficient balance");
       } else {
@@ -137,7 +137,7 @@ export default class BuySubjectKeyPopup extends Popup {
     } catch (e) {
       console.error(e);
       this.buyButton.enable().title =
-        `Buy 1 ${this.userDetails.display_name}'s Key`;
+        `Buy 1 ${this.userDetails.display_name}'s Ice`;
     }
   }
 }

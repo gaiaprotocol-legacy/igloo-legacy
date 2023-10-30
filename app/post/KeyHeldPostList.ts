@@ -12,7 +12,7 @@ export default class KeyHeldPostList extends PostList {
   private channel: RealtimeChannel | undefined;
 
   constructor(private walletAddress: string) {
-    super(".key-held-post-list", "No posts from users you hold keys for yet");
+    super(".key-held-post-list", "No posts from users you hold ices for yet");
 
     const cachedPosts = this.store.get<Post[]>("cached-posts");
     const cachedRepostedPostIds =

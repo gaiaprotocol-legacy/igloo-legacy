@@ -129,19 +129,19 @@ export default class UserProfileDisplay extends DomNode {
         }),
         el(
           "button.buy-key" + (!userDetails.wallet_address ? ".disabled" : ""),
-          "Buy Key",
+          "Buy Ice",
           {
             click: () => {
               if (!SignedUserManager.userId) {
                 new Confirm({
                   title: "Login Required",
-                  message: "You must be logged in to buy keys.",
+                  message: "You must be logged in to buy ices.",
                   confirmTitle: "Login",
                 }, () => SignedUserManager.signIn());
               } else if (!SignedUserManager.walletLinked) {
                 new Confirm({
                   title: "Wallet Required",
-                  message: "You must link a wallet to buy keys.",
+                  message: "You must link a wallet to buy ices.",
                   confirmTitle: "Link Wallet",
                 }, () => SignedUserManager.linkWallet());
               } else if (!userDetails.wallet_address) {
@@ -157,19 +157,19 @@ export default class UserProfileDisplay extends DomNode {
         ),
         el(
           "button.trade-key" + (!userDetails.wallet_address ? ".disabled" : ""),
-          "Trade Key",
+          "Trade Ice",
           {
             click: () => {
               if (!SignedUserManager.userId) {
                 new Confirm({
                   title: "Login Required",
-                  message: "You must be logged in to buy keys.",
+                  message: "You must be logged in to buy ices.",
                   confirmTitle: "Login",
                 }, () => SignedUserManager.signIn());
               } else if (!SignedUserManager.walletLinked) {
                 new Confirm({
                   title: "Wallet Required",
-                  message: "You must link a wallet to buy keys.",
+                  message: "You must link a wallet to buy ices.",
                   confirmTitle: "Link Wallet",
                 }, () => SignedUserManager.linkWallet());
               } else if (!userDetails.wallet_address) {
