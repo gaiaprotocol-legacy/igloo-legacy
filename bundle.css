@@ -1392,6 +1392,7 @@ button.component.text:active {
   font-size: 14px;
   font-style: normal;
   font-weight: 500;
+  word-break: break-all;
 }
 @media only screen and (max-width: 859px) {
   .post-list-item > main > p {
@@ -1734,6 +1735,7 @@ button.component.text:active {
   font-size: 14px;
   font-style: normal;
   font-weight: 500;
+  word-break: break-all;
 }
 @media only screen and (max-width: 859px) {
   .chat-message-list-item > main > p.message {
