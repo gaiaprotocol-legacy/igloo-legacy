@@ -27,7 +27,7 @@ class SubjectService {
       .eq(
         "wallet_address",
         walletAddress,
-      );
+      ).gt("last_fetched_balance", 0);
     if (holderError) throw holderError;
     const subjects = holderData.map((holder) => holder.subject);
     const { data: subjectData, error: subjectError } = await Supabase.client

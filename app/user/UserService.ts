@@ -121,7 +121,10 @@ class UserService {
   public async fetchHoldings(walletAddress: string): Promise<UserDetails[]> {
     const { data: holderData, error: holderError } = await Supabase.client.from(
       "subject_key_holders",
-    ).select().eq("wallet_address", walletAddress);
+    ).select().eq("wallet_address", walletAddress).gt(
+      "last_fetched_balance",
+      0,
+    );
     if (holderError) throw holderError;
     const walletAddresses = holderData.map((holder) => holder.subject);
     return await this.fetchByWalletAddresses(walletAddresses);
@@ -130,7 +133,7 @@ class UserService {
   public async fetchHolders(walletAddress: string): Promise<UserDetails[]> {
     const { data: holderData, error: holderError } = await Supabase.client.from(
       "subject_key_holders",
-    ).select().eq("subject", walletAddress);
+    ).select().eq("subject", walletAddress).gt("last_fetched_balance", 0);
     if (holderError) throw holderError;
     const walletAddresses = holderData.map((holder) => holder.wallet_address);
     return await this.fetchByWalletAddresses(walletAddresses);
