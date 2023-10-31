@@ -42,9 +42,6 @@ serveWithOptions(async (req) => {
 
   // deno-lint-ignore no-explicit-any
   const metadata: any = {};
-  if (user.app_metadata.provider === "twitter") {
-    metadata.xUsername = user.user_metadata.user_name;
-  }
 
   const { error: setWalletAddressError } = await supabase
     .from("user_details")
@@ -53,6 +50,9 @@ serveWithOptions(async (req) => {
       wallet_address: walletAddress,
       display_name: user.user_metadata.full_name,
       profile_image: user.user_metadata.avatar_url,
+      x_username: user.app_metadata.provider === "twitter"
+        ? user.user_metadata.user_name
+        : undefined,
       metadata,
     }).eq("user_id", user.id);
   if (setWalletAddressError) throw setWalletAddressError;
