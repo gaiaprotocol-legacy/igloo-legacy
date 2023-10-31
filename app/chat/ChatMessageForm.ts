@@ -46,7 +46,13 @@ export default abstract class ChatMessageForm extends DomNode {
   private async _upload(file: File) {
     this.uploadButton.domElement.disabled = true;
     this.uploadButton.empty().addClass("loading");
-    await this.upload(file);
+
+    try {
+      await this.upload(file);
+    } catch (error) {
+      console.error(error);
+    }
+
     this.uploadInput.domElement.value = "";
     this.uploadButton.domElement.disabled = false;
     this.uploadButton.deleteClass("loading");

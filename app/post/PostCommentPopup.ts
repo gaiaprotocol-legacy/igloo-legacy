@@ -77,7 +77,7 @@ export default class PostCommentPopup extends Popup {
                 },
               }),
               this.uploadButton = el(
-                "button.icon-button",
+                "button.upload",
                 new MaterialIcon("image"),
                 { click: () => this.uploadInput.domElement.click() },
               ),
@@ -96,16 +96,21 @@ export default class PostCommentPopup extends Popup {
 
   private async upload(file: File) {
     this.uploadButton.domElement.disabled = true;
-    this.uploadButton.addClass("loading");
+    this.uploadButton.empty().addClass("loading");
 
-    this.uploadedFile = await PostService.upload(file);
-    this.uploadButton.empty().append(el("img", {
-      src: this.uploadedFile.thumbnailUrl ?? this.uploadedFile.url,
-    }));
+    try {
+      this.uploadedFile = await PostService.upload(file);
+      this.uploadButton.empty().append(el("img", {
+        src: this.uploadedFile.thumbnailUrl ?? this.uploadedFile.url,
+      }));
+    } catch (error) {
+      console.error(error);
+    }
 
     this.uploadInput.domElement.value = "";
     this.uploadButton.domElement.disabled = false;
     this.uploadButton.deleteClass("loading");
+    this.uploadButton.empty().append(new MaterialIcon("image"));
   }
 
   private async postComment() {

@@ -1,3 +1,6 @@
+/*!**********************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[1].use[1]!./public/style/lib/reset.css ***!
+  \**********************************************************************************************************/
 /***
     The new CSS reset - version 1.8.4 (last updated 14.2.2023)
     GitHub page: https://github.com/elad2412/the-new-css-reset
@@ -98,6 +101,9 @@ meter {
 :where(dialog:modal) {
     all: revert;
 }
+/*!*********************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[1].use[1]!./node_modules/less-loader/dist/cjs.js!./public/style/main.less ***!
+  \*********************************************************************************************************************************************/
 @font-face {
   font-family: 'Quicksand';
   font-style: normal;
@@ -127,6 +133,14 @@ p {
   }
   100% {
     opacity: 1;
+  }
+}
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
   }
 }
 :root {
@@ -1035,7 +1049,7 @@ button.component.text:active {
 .post-view > .form-wrapper > .form > footer > input.upload {
   display: none;
 }
-.post-view > .form-wrapper > .form > footer > .icon-button {
+.post-view > .form-wrapper > .form > footer > button.upload {
   width: 48px;
   height: 48px;
   flex-shrink: 0;
@@ -1048,14 +1062,20 @@ button.component.text:active {
   justify-content: center;
   align-items: center;
 }
-.post-view > .form-wrapper > .form > footer > .icon-button:active {
+.post-view > .form-wrapper > .form > footer > button.upload:active {
   outline: 1px solid #F4F7F9;
   box-shadow: 4px 4px 8px 0px rgba(255, 255, 255, 0.75), 2px 2px 8px 0px rgba(189, 194, 199, 0.75) inset;
 }
-.post-view > .form-wrapper > .form > footer > .icon-button > img {
+.post-view > .form-wrapper > .form > footer > button.upload > img {
   max-width: 32px;
   max-height: 32px;
   border-radius: 4px;
+}
+.post-view > .form-wrapper > .form > footer > button.upload.loading {
+  border: 6px solid #F4F7F9;
+  border-top: 6px solid #5585FF;
+  border-radius: 50%;
+  animation: spin 2s linear infinite;
 }
 .post-view > .form-wrapper > .form > footer > .post-button {
   margin-left: auto;
@@ -1164,7 +1184,7 @@ button.component.text:active {
 .post-popup > .form > footer > input.upload {
   display: none;
 }
-.post-popup > .form > footer > .icon-button {
+.post-popup > .form > footer > button.upload {
   width: 48px;
   height: 48px;
   flex-shrink: 0;
@@ -1177,14 +1197,20 @@ button.component.text:active {
   justify-content: center;
   align-items: center;
 }
-.post-popup > .form > footer > .icon-button:active {
+.post-popup > .form > footer > button.upload:active {
   outline: 1px solid #F4F7F9;
   box-shadow: 4px 4px 8px 0px rgba(255, 255, 255, 0.75), 2px 2px 8px 0px rgba(189, 194, 199, 0.75) inset;
 }
-.post-popup > .form > footer > .icon-button > img {
+.post-popup > .form > footer > button.upload > img {
   max-width: 32px;
   max-height: 32px;
   border-radius: 4px;
+}
+.post-popup > .form > footer > button.upload.loading {
+  border: 6px solid #F4F7F9;
+  border-top: 6px solid #5585FF;
+  border-radius: 50%;
+  animation: spin 2s linear infinite;
 }
 .post-popup > .form > footer > .post-button {
   margin-left: auto;
@@ -1329,7 +1355,7 @@ button.component.text:active {
 .post-comment-popup > .form-wrapper > .form > footer > input.upload {
   display: none;
 }
-.post-comment-popup > .form-wrapper > .form > footer > .icon-button {
+.post-comment-popup > .form-wrapper > .form > footer > button.upload {
   width: 48px;
   height: 48px;
   flex-shrink: 0;
@@ -1342,14 +1368,20 @@ button.component.text:active {
   justify-content: center;
   align-items: center;
 }
-.post-comment-popup > .form-wrapper > .form > footer > .icon-button:active {
+.post-comment-popup > .form-wrapper > .form > footer > button.upload:active {
   outline: 1px solid #F4F7F9;
   box-shadow: 4px 4px 8px 0px rgba(255, 255, 255, 0.75), 2px 2px 8px 0px rgba(189, 194, 199, 0.75) inset;
 }
-.post-comment-popup > .form-wrapper > .form > footer > .icon-button > img {
+.post-comment-popup > .form-wrapper > .form > footer > button.upload > img {
   max-width: 32px;
   max-height: 32px;
   border-radius: 4px;
+}
+.post-comment-popup > .form-wrapper > .form > footer > button.upload.loading {
+  border: 6px solid #F4F7F9;
+  border-top: 6px solid #5585FF;
+  border-radius: 50%;
+  animation: spin 2s linear infinite;
 }
 .post-comment-popup > .form-wrapper > .form > footer > .post-button {
   margin-left: auto;
@@ -1713,6 +1745,12 @@ button.component.text:active {
 .chat-message-form > button.active {
   outline: 1px solid #F4F7F9;
   box-shadow: 4px 4px 8px 0px rgba(255, 255, 255, 0.75), 2px 2px 8px 0px rgba(189, 194, 199, 0.75) inset;
+}
+.chat-message-form > button.upload.loading {
+  border: 6px solid #F4F7F9;
+  border-top: 6px solid #5585FF;
+  border-radius: 50%;
+  animation: spin 2s linear infinite;
 }
 .chat-message-form > form {
   flex-grow: 1;
