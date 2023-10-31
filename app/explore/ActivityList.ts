@@ -71,7 +71,7 @@ export default class ActivityList extends DomNode {
       ).order(
         "log_index",
         { ascending: false },
-      );
+      ).limit(100);
     if (error) throw error;
 
     if (this.isContentFromCache) {

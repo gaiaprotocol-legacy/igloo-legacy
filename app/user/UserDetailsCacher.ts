@@ -1,12 +1,18 @@
 import { EventContainer, Store, Supabase } from "common-app-module";
 import UserDetails, {
   DefaultUserDetails,
-  UserDetailsSelectQuery,
   isEqualUserDetails,
+  UserDetailsSelectQuery,
 } from "../database-interface/UserDetails.js";
 
 class UserDetailsCacher extends EventContainer {
   private store: Store = new Store("cached-user-details");
+  private storeXUsernameToUserId: Store = new Store(
+    "cached-x-username-to-user-id",
+  );
+  private storeWalletAddressToUserId: Store = new Store(
+    "cached-wallet-address-to-user-id",
+  );
 
   constructor() {
     super();
@@ -28,6 +34,20 @@ class UserDetailsCacher extends EventContainer {
   public cache(userId: string, userDetails: UserDetails) {
     if (!isEqualUserDetails(userDetails, this.get(userId))) {
       this.store.set(userId, userDetails, true);
+      if (userDetails.x_username) {
+        this.storeXUsernameToUserId.set(
+          userDetails.x_username,
+          userId,
+          true,
+        );
+      }
+      if (userDetails.wallet_address) {
+        this.storeWalletAddressToUserId.set(
+          userDetails.wallet_address,
+          userId,
+          true,
+        );
+      }
       this.fireEvent("update", userDetails);
     }
   }
@@ -57,12 +77,8 @@ class UserDetailsCacher extends EventContainer {
   }
 
   public getByXUsername(xUsername: string) {
-    const cached = Object.values(this.store.getAll<UserDetails>()).sort((
-      a,
-      b,
-    ) => (a?.updated_at ?? 0) > (b?.updated_at ?? 0) ? -1 : 1).find(
-      (userDetails) => userDetails.x_username === xUsername,
-    );
+    const userId = this.storeXUsernameToUserId.get<string>(xUsername);
+    const cached = userId ? this.get(userId) : undefined;
     return cached ? cached : { ...DefaultUserDetails, x_username: xUsername };
   }
 
@@ -88,12 +104,8 @@ class UserDetailsCacher extends EventContainer {
   }
 
   public getByWalletAddress(walletAddress: string) {
-    const cached = Object.values(this.store.getAll<UserDetails>()).sort((
-      a,
-      b,
-    ) => (a?.updated_at ?? 0) > (b?.updated_at ?? 0) ? -1 : 1).find(
-      (userDetails) => userDetails.wallet_address === walletAddress,
-    );
+    const userId = this.storeWalletAddressToUserId.get<string>(walletAddress);
+    const cached = userId ? this.get(userId) : undefined;
     return cached
       ? cached
       : { ...DefaultUserDetails, wallet_address: walletAddress };
