@@ -131,7 +131,7 @@ export default class BuySubjectKeyPopup extends Popup {
         });
         throw new Error("Insufficient balance");
       } else {
-        await SubjectKeyService.buyKey(subject, totalPrice);
+        await SubjectKeyService.buyKey(subject);
         this.delete();
       }
     } catch (e) {

@@ -200,13 +200,15 @@ class UserService {
     const users = await this.fetchByWalletAddresses(walletAddresses);
 
     users.sort((a, b) => {
-      const aPrice = subjectData.find((subject: any) =>
-        subject.subject === a.wallet_address
-      )?.last_key_purchased_at ?? 0;
-      const bPrice = subjectData.find((subject: any) =>
-        subject.subject === b.wallet_address
-      )?.last_key_purchased_at ?? 0;
-      return bPrice - aPrice;
+      const aDate = new Date(
+        subjectData.find((subject: any) => subject.subject === a.wallet_address)
+          ?.last_key_purchased_at ?? 0,
+      ).getTime();
+      const bDate = new Date(
+        subjectData.find((subject: any) => subject.subject === b.wallet_address)
+          ?.last_key_purchased_at ?? 0,
+      ).getTime();
+      return bDate - aDate;
     });
 
     return users;
