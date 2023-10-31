@@ -1,6 +1,3 @@
-/*!**********************************************************************************************************!*\
-  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[1].use[1]!./public/style/lib/reset.css ***!
-  \**********************************************************************************************************/
 /***
     The new CSS reset - version 1.8.4 (last updated 14.2.2023)
     GitHub page: https://github.com/elad2412/the-new-css-reset
@@ -101,9 +98,6 @@ meter {
 :where(dialog:modal) {
     all: revert;
 }
-/*!*********************************************************************************************************************************************!*\
-  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[1].use[1]!./node_modules/less-loader/dist/cjs.js!./public/style/main.less ***!
-  \*********************************************************************************************************************************************/
 @font-face {
   font-family: 'Quicksand';
   font-style: normal;
@@ -1882,11 +1876,30 @@ button.component.text:active {
   color: #2A2A2A;
   font-feature-settings: 'clig' off, 'liga' off;
   font-family: Quicksand;
-  font-size: 18px;
+  font-size: 16px;
   font-style: normal;
   font-weight: 700;
   line-height: normal;
   text-transform: capitalize;
+}
+.topic-list-item > .last-message-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.topic-list-item > .last-message-info > .message {
+  color: #a1a2ac;
+  font-size: 12px;
+  text-transform: capitalize;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  width: 0;
+  flex-grow: 1;
+}
+.topic-list-item > .last-message-info > .sent-at {
+  color: #a1a2ac;
+  font-size: 12px;
 }
 .topic-chat-room-header > header > h1 {
   color: #2A2A2A;
@@ -1912,12 +1925,18 @@ button.component.text:active {
   border: 1px solid #FFF;
   background: lightgray 50% / cover no-repeat;
 }
-.subject-list-item > .subject-owner-info {
+.subject-list-item > .info {
+  flex-grow: 1;
   display: flex;
   flex-direction: column;
   gap: 4px;
 }
-.subject-list-item > .subject-owner-info > .name {
+.subject-list-item > .info > .subject-owner-info {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.subject-list-item > .info > .subject-owner-info > .name {
   color: #2A2A2A;
   font-feature-settings: 'clig' off, 'liga' off;
   font-family: Quicksand;
@@ -1926,13 +1945,32 @@ button.component.text:active {
   font-weight: 700;
   line-height: normal;
 }
-.subject-list-item > .subject-owner-info > .x-username {
+.subject-list-item > .info > .subject-owner-info > .x-username {
   font-feature-settings: 'clig' off, 'liga' off;
   font-family: Quicksand;
   font-size: 12px;
   font-style: normal;
   font-weight: 500;
   color: #a1a2ac;
+}
+.subject-list-item > .info > .last-message-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.subject-list-item > .info > .last-message-info > .message {
+  color: #a1a2ac;
+  font-size: 12px;
+  text-transform: capitalize;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  width: 0;
+  flex-grow: 1;
+}
+.subject-list-item > .info > .last-message-info > .sent-at {
+  color: #a1a2ac;
+  font-size: 12px;
 }
 .subject-chat-room-header > header {
   display: flex;
