@@ -2548,9 +2548,6 @@ button.component.text:active {
   gap: 12px;
   align-items: center;
 }
-.user-profile-display > .trading-metrics > section.price {
-  grid-column: auto / span 2;
-}
 .user-profile-display > .trading-metrics > section > .icon-container {
   border-radius: 16px;
   background: #EBEFF3;
