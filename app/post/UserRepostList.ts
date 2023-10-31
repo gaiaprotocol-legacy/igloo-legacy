@@ -5,14 +5,14 @@ import PostCacher from "./PostCacher.js";
 import PostList from "./PostList.js";
 import PostService from "./PostService.js";
 
-export default class UserLikedPostList extends PostList {
+export default class UserRepostList extends PostList {
   private store: Store;
   private isContentFromCache: boolean = true;
-  private lastLikedAt: string = "-infinity";
+  private lastRepostedAt: string = "-infinity";
 
   constructor(private userId: string) {
-    super(".user-post-list", "No likes from this user yet");
-    this.store = new Store(`user-${userId}-liked-post-list`);
+    super(".user-repost-list", "No reposts yet.");
+    this.store = new Store(`user-${userId}-repost-list`);
 
     const cachedPosts = this.store.get<Post[]>("cached-posts");
     const cachedRepostedPostIds =
@@ -32,14 +32,14 @@ export default class UserLikedPostList extends PostList {
   }
 
   protected async fetchContent() {
-    const result = (await PostService.fetchLikedPosts(
+    const result = (await PostService.fetchReposts(
       this.userId,
-      this.lastLikedAt,
+      this.lastRepostedAt,
     )).reverse();
     const posts = result.map((item) => item.post);
 
     PostCacher.cachePosts(posts);
-    this.lastLikedAt = result[result.length - 1]?.likedAt ?? "-infinity";
+    this.lastRepostedAt = result[result.length - 1]?.repostedAt ?? "-infinity";
 
     const postIds = posts.map((post) => post.id);
 

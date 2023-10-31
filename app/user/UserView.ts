@@ -13,6 +13,7 @@ import Layout from "../layout/Layout.js";
 import UserCommentPostList from "../post/UserCommentPostList.js";
 import UserLikedPostList from "../post/UserLikedPostList.js";
 import UserPostList from "../post/UserPostList.js";
+import UserRepostList from "../post/UserRepostList.js";
 import SubjectDetailsCacher from "../subject/SubjectDetailsCacher.js";
 import TotalSubjectKeyBalanceCacher from "../subject/TotalSubjectKeyBalanceCacher.js";
 import FollowerList from "./FollowerList.js";
@@ -39,6 +40,7 @@ export default class UserView extends View {
   private postTabs!: Tabs;
   private userPostList!: UserPostList;
   private userCommentPostList!: UserCommentPostList;
+  private userRepostList!: UserRepostList;
   private userLikedPostList!: UserLikedPostList;
 
   constructor(params: ViewParams) {
@@ -171,12 +173,14 @@ export default class UserView extends View {
       this.postTabs = new Tabs("user-posts", [
         { id: "user-posts", label: "Posts" },
         { id: "user-replies", label: "Replies" },
+        { id: "user-reposts", label: "Reposts" },
         { id: "user-likes", label: "Likes" },
       ]),
       this.userPostList = new UserPostList(this.userDetails.user_id),
       this.userCommentPostList = new UserCommentPostList(
         this.userDetails.user_id,
       ),
+      this.userRepostList = new UserRepostList(this.userDetails.user_id),
       this.userLikedPostList = new UserLikedPostList(this.userDetails.user_id),
     );
 
@@ -198,11 +202,13 @@ export default class UserView extends View {
       [
         this.userPostList,
         this.userCommentPostList,
+        this.userRepostList,
         this.userLikedPostList,
       ]
         .forEach((list) => list.hide());
       if (id === "user-posts") this.userPostList.show();
       else if (id === "user-replies") this.userCommentPostList.show();
+      else if (id === "user-reposts") this.userRepostList.show();
       else if (id === "user-likes") this.userLikedPostList.show();
     }).init();
   }

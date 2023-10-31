@@ -197,7 +197,7 @@ class PostService {
     return data;
   }
 
-  public async fetchUserLikedPosts(
+  public async fetchLikedPosts(
     userId: string,
     lastLikedAt?: string,
   ): Promise<{ post: Post; likedAt: string }[]> {
@@ -223,6 +223,36 @@ class PostService {
     return data.map((post) => ({
       post,
       likedAt: likedData.find((liked) => liked.post_id === post.id)
+        ?.created_at!,
+    }));
+  }
+
+  public async fetchReposts(
+    userId: string,
+    lastLikedAt?: string,
+  ): Promise<{ post: Post; repostedAt: string }[]> {
+    const { data: repostData, error: repostError } = await Supabase.client.from(
+      "reposts",
+    ).select().eq(
+      "user_id",
+      userId,
+    ).gt(
+      "created_at",
+      lastLikedAt ?? "1970-01-01T00:00:00.000Z",
+    );
+    if (repostError) throw repostError;
+    const repostedPostIds = repostData.map((liked) => liked.post_id);
+    const { data, error } = await Supabase.client.from("posts").select().in(
+      "id",
+      repostedPostIds,
+    ).order(
+      "created_at",
+      { ascending: false },
+    );
+    if (error) throw error;
+    return data.map((post) => ({
+      post,
+      repostedAt: repostData.find((liked) => liked.post_id === post.id)
         ?.created_at!,
     }));
   }
