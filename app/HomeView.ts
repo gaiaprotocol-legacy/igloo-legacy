@@ -18,8 +18,8 @@ export default class HomeView extends View {
 
   private tabs: Tabs | undefined;
   private globalPostList!: GlobalPostList;
-  private followingPostList!: FollowingPostList;
-  private keyHeldPostList!: KeyHeldPostList;
+  private followingPostList: FollowingPostList | undefined;
+  private keyHeldPostList: KeyHeldPostList | undefined;
 
   constructor(params: ViewParams) {
     super();
@@ -79,10 +79,10 @@ export default class HomeView extends View {
     } else {
       this.tabs.on("select", (id: string) => {
         [this.globalPostList, this.followingPostList, this.keyHeldPostList]
-          .forEach((list) => list.hide());
+          .forEach((list) => list?.hide());
         if (id === "global") this.globalPostList.show();
-        else if (id === "following") this.followingPostList.show();
-        else if (id === "held") this.keyHeldPostList.show();
+        else if (id === "following") this.followingPostList?.show();
+        else if (id === "held") this.keyHeldPostList?.show();
       }).init();
     }
   }
