@@ -40,6 +40,7 @@ export default class GlobalPostList extends PostList {
           table: "posts",
         },
         (payload: any) => {
+          if (payload.new.post_ref) return;
           const cachedPosts = this.store.get<Post[]>("cached-posts") ?? [];
           cachedPosts.push(payload.new);
           this.store.set("cached-posts", cachedPosts, true);
