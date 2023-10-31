@@ -43,10 +43,9 @@ export default class PostCommentList extends PostList {
           filter: "post_req=eq." + postId,
         },
         (payload: any) => {
-          const cachedPosts =
-            this.store.get<Post[]>(`post-${postId}-cached-posts`) ?? [];
+          const cachedPosts = this.store.get<Post[]>("cached-posts") ?? [];
           cachedPosts.push(payload.new);
-          this.store.set(`post-${postId}-cached-posts`, cachedPosts, true);
+          this.store.set("cached-posts", cachedPosts, true);
           this.addPost(payload.new, false, false, true);
         },
       )
@@ -54,9 +53,8 @@ export default class PostCommentList extends PostList {
   }
 
   protected async fetchContent() {
-    const cachedPosts =
-      this.store.get<Post[]>(`post-${this.postId}-cached-posts`) ??
-        [];
+    const cachedPosts = this.store.get<Post[]>("cached-posts") ??
+      [];
 
     const posts = (await PostService.fetchComments(
       this.postId,

@@ -53,4 +53,19 @@ module.exports = {
   mocha: {
     timeout: 600000,
   },
+  etherscan: {
+    apiKey: {
+      avax: "PW9EN84Z41F3R6IB2W1853HKDTFP4YQ2FH",
+    },
+    customChains: [
+      {
+        network: "avax",
+        chainId: 43114,
+        urls: {
+          apiURL: "https://api.snowtrace.io/api",
+          browserURL: "https://snowtrace.io",
+        },
+      },
+    ],
+  },
 };

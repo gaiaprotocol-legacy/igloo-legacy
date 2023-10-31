@@ -18,7 +18,7 @@ export default class SubjectChatMessageList extends ChatMessageList {
     );
     if (cachedMessages) {
       for (const message of cachedMessages) {
-        this.addMessage(message, false);
+        this.addMessage(message, false, true);
       }
     }
     this.fetchMessages();
@@ -42,7 +42,7 @@ export default class SubjectChatMessageList extends ChatMessageList {
           cachedMessages.push(payload.new);
           this.store.set("cached-messages", cachedMessages, true);
 
-          this.addMessage(payload.new, true);
+          this.addMessage(payload.new, true, this.scrolledToBottom);
         },
       )
       .subscribe();
@@ -71,6 +71,7 @@ export default class SubjectChatMessageList extends ChatMessageList {
           this.addMessage(
             message,
             cachedMessages.find((m) => m.id === message.id) === undefined,
+            true,
           );
         }
       }
