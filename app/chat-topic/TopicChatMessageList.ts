@@ -18,7 +18,7 @@ export default class TopicChatMessageList extends ChatMessageList {
     );
     if (cachedMessages) {
       for (const message of cachedMessages) {
-        this.addMessage(message);
+        this.addMessage(message, false);
       }
     }
     this.fetchMessages();
@@ -42,13 +42,17 @@ export default class TopicChatMessageList extends ChatMessageList {
           cachedMessages.push(payload.new);
           this.store.set("cached-messages", cachedMessages, true);
 
-          this.addMessage(payload.new);
+          this.addMessage(payload.new, true);
         },
       )
       .subscribe();
   }
 
   private async fetchMessages() {
+    const cachedMessages = this.store.get<TopicChatMessage[]>(
+      "cached-messages",
+    ) ?? [];
+
     const messages = (await TopicChatService.fetchLatestMessages(this.topic))
       .reverse();
 
@@ -63,7 +67,10 @@ export default class TopicChatMessageList extends ChatMessageList {
         this.showEmptyMessage();
       } else {
         for (const message of messages) {
-          this.addMessage(message);
+          this.addMessage(
+            message,
+            cachedMessages.find((m) => m.id === message.id) === undefined,
+          );
         }
       }
     }

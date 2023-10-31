@@ -18,7 +18,7 @@ export default class SubjectChatMessageList extends ChatMessageList {
     );
     if (cachedMessages) {
       for (const message of cachedMessages) {
-        this.addMessage(message);
+        this.addMessage(message, false);
       }
     }
     this.fetchMessages();
@@ -42,13 +42,17 @@ export default class SubjectChatMessageList extends ChatMessageList {
           cachedMessages.push(payload.new);
           this.store.set("cached-messages", cachedMessages, true);
 
-          this.addMessage(payload.new);
+          this.addMessage(payload.new, true);
         },
       )
       .subscribe();
   }
 
   private async fetchMessages() {
+    const cachedMessages = this.store.get<SubjectChatMessage[]>(
+      "cached-messages",
+    ) ?? [];
+
     const messages =
       (await SubjectChatService.fetchLatestMessages(this.subject))
         .reverse();
@@ -64,7 +68,10 @@ export default class SubjectChatMessageList extends ChatMessageList {
         this.showEmptyMessage();
       } else {
         for (const message of messages) {
-          this.addMessage(message);
+          this.addMessage(
+            message,
+            cachedMessages.find((m) => m.id === message.id) === undefined,
+          );
         }
       }
     }

@@ -26,12 +26,15 @@ export default class UserRepostList extends PostList {
           post,
           cachedRepostedPostIds.includes(post.id),
           cachedLikedPostIds.includes(post.id),
+          false,
         );
       }
     }
   }
 
   protected async fetchContent() {
+    const cachedPosts = this.store.get<Post[]>("cached-posts") ?? [];
+
     const result = (await PostService.fetchReposts(
       this.userId,
       this.lastRepostedAt,
@@ -68,6 +71,7 @@ export default class UserRepostList extends PostList {
             post,
             repostedPostIds.includes(post.id),
             likedPostIds.includes(post.id),
+            cachedPosts.find((p) => p.id === post.id) === undefined,
           );
         }
       }

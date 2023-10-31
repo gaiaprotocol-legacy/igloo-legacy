@@ -26,12 +26,15 @@ export default class FollowingPostList extends PostList {
           post,
           cachedRepostedPostIds.includes(post.id),
           cachedLikedPostIds.includes(post.id),
+          false,
         );
       }
     }
   }
 
   protected async fetchContent() {
+    const cachedPosts = this.store.get<Post[]>("cached-posts") ?? [];
+
     const result = await PostService.fetchFollowingPosts(
       this.userId,
       this.lastFetchedPostId,
@@ -67,6 +70,7 @@ export default class FollowingPostList extends PostList {
             post,
             repostedPostIds.includes(post.id),
             likedPostIds.includes(post.id),
+            cachedPosts.find((p) => p.id === post.id) === undefined,
           );
         }
       }
@@ -87,7 +91,7 @@ export default class FollowingPostList extends PostList {
           const cachedPosts = this.store.get<Post[]>("cached-posts") ?? [];
           cachedPosts.push(payload.new);
           this.store.set("cached-posts", cachedPosts, true);
-          this.addPost(payload.new, false, false);
+          this.addPost(payload.new, false, false, true);
         },
       )
       .subscribe();

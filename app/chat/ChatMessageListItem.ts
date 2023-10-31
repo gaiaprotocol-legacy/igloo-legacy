@@ -5,8 +5,8 @@ import { UploadedFile } from "../database-interface/Rich.js";
 import SignedUserManager from "../user/SignedUserManager.js";
 
 export default class ChatMessageListItem extends DomNode {
-  constructor(public message: ChatMessage) {
-    super(".chat-message-list-item");
+  constructor(public message: ChatMessage, isNew: boolean) {
+    super(".chat-message-list-item" + (isNew ? ".new" : ""));
     this.addAllowedEvents("imageLoaded");
     this.render();
     this.onDelegate(SignedUserManager, "userFetched", () => this.render());

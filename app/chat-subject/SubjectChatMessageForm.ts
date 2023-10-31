@@ -15,7 +15,7 @@ export default class SubjectChatMessageForm extends ChatMessageForm {
       ...this.getOptimisticData(MessageType.MESSAGE, message),
     };
 
-    const item = this.messageList.addMessage(optimistic).wait();
+    const item = this.messageList.addMessage(optimistic, true).wait();
     const messageId = await SubjectChatService.sendMessage(
       this.messageList.subject,
       message,

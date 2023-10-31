@@ -26,9 +26,9 @@ export default abstract class ChatMessageList extends DomNode {
     this.append(this.emptyMessageDisplay);
   }
 
-  public addMessage(message: ChatMessage) {
+  public addMessage(message: ChatMessage, isNew: boolean) {
     this.emptyMessageDisplay?.delete();
-    const item = new ChatMessageListItem(message);
+    const item = new ChatMessageListItem(message, isNew);
     item.on("imageLoaded", () => this.scrollToBottom());
     this.append(item);
     this.scrollToBottom();

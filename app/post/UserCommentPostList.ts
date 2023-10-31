@@ -27,6 +27,7 @@ export default class UserCommentPostList extends PostList {
           post,
           cachedRepostedPostIds.includes(post.id),
           cachedLikedPostIds.includes(post.id),
+          false,
         );
       }
     }
@@ -46,13 +47,15 @@ export default class UserCommentPostList extends PostList {
           const cachedPosts = this.store.get<Post[]>("cached-posts") ?? [];
           cachedPosts.push(payload.new);
           this.store.set("cached-posts", cachedPosts, true);
-          this.addPost(payload.new, false, false);
+          this.addPost(payload.new, false, false, true);
         },
       )
       .subscribe();
   }
 
   protected async fetchContent() {
+    const cachedPosts = this.store.get<Post[]>("cached-posts") ?? [];
+
     const posts = (await PostService.fetchUserCommentPosts(
       this.userId,
       this.lastFetchedPostId,
@@ -87,6 +90,7 @@ export default class UserCommentPostList extends PostList {
             post,
             repostedPostIds.includes(post.id),
             likedPostIds.includes(post.id),
+            cachedPosts.find((p) => p.id === post.id) === undefined,
           );
         }
       }

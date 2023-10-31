@@ -22,8 +22,9 @@ export default class PostListItem extends DomNode {
     private post: Post,
     private reposted: boolean,
     private liked: boolean,
+    isNew: boolean,
   ) {
-    super(".post-list-item");
+    super(".post-list-item" + (isNew ? ".new" : ""));
     this.onDom("click", () => Router.go(`/post/${post.id}`));
     if (reposted) this.addClass("reposted");
     if (liked) this.addClass("liked");
