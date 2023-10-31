@@ -121,6 +121,14 @@ meter {
 p {
   line-height: 1.6;
 }
+@keyframes fadeInAnimation {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
 :root {
   --bg-color: #EBEFF3;
   --text-color: #2A2A2A;
@@ -1500,6 +1508,11 @@ button.component.text:active {
 .post-list-item.liked > main > footer > button.like {
   color: #FC5132;
 }
+.post-list-item.new {
+  animation: fadeInAnimation ease 0.5s;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+}
 .chats-view {
   padding: 31px 20px 31px 30px;
   width: 410px;
@@ -1821,6 +1834,11 @@ button.component.text:active {
 }
 .chat-message-list-item.waiting > main > p.message {
   opacity: 0.5;
+}
+.chat-message-list-item.new {
+  animation: fadeInAnimation ease 0.5s;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
 }
 .topic-list-item > h3 {
   color: #2A2A2A;
