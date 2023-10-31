@@ -1,4 +1,4 @@
-import { el, msg, Router, SplashScreen, Supabase } from "common-app-module";
+import { el, ErrorAlert, msg, Router, SplashScreen, Supabase } from "common-app-module";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime.js";
 import BlockTimeManager from "./BlockTimeManager.js";
@@ -89,4 +89,19 @@ export default async function initialize(config: Config) {
   Router.route("{xUsername}/holders", HoldersView, ["post/{postId}"]);
   Router.route("{xUsername}/following", FollowingView, ["post/{postId}"]);
   Router.route("{xUsername}/followers", FollowersView, ["post/{postId}"]);
+
+  const params = new URLSearchParams(location.search);
+  let errorDiscription = params.get("error_description")!;
+  if (errorDiscription) {
+    if (
+      errorDiscription === "Error getting user email from external provider"
+    ) {
+      errorDiscription +=
+        ".\nPlease add an email in your X account settings and allow email access.";
+    }
+    new ErrorAlert({
+      title: "Error",
+      message: errorDiscription,
+    });
+  }
 }
