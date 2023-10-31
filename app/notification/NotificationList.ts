@@ -103,7 +103,7 @@ export default class NotificationList extends DomNode {
             this.store.set("cached-posts", cachedPosts, true);
           }
 
-          this.addNotification(payload.new, triggerer!, post);
+          this.addNotification(payload.new, triggerer, post);
         },
       )
       .subscribe();
@@ -121,7 +121,7 @@ export default class NotificationList extends DomNode {
 
   private addNotification(
     notification: Notification,
-    triggerer: UserDetails,
+    triggerer: UserDetails | undefined,
     post?: Post,
   ) {
     this.emptyMessageDisplay?.delete();
@@ -136,7 +136,7 @@ export default class NotificationList extends DomNode {
       .order(
         "created_at",
         { ascending: false },
-      );
+      ).limit(100);
     if (notiError) throw notiError;
 
     const userIds = notiData.map((noti) => noti.triggered_by);

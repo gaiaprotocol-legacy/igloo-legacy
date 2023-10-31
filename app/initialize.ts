@@ -1,6 +1,7 @@
-import { el, ErrorAlert, msg, Router, SplashScreen, Supabase } from "common-app-module";
+import { el, msg, Router, SplashScreen, Supabase } from "common-app-module";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime.js";
+import { AuthUtil } from "social-module";
 import BlockTimeManager from "./BlockTimeManager.js";
 import SubjectChatRoomView from "./chat-subject/SubjectChatRoomView.js";
 import TopicChatRoomView from "./chat-topic/TopicChatRoomView.js";
@@ -26,6 +27,7 @@ import UserDetailsCacher from "./user/UserDetailsCacher.js";
 import UserView from "./user/UserView.js";
 import UserWalletLinker from "./user/UserWalletLinker.js";
 import WalletManager from "./user/WalletManager.js";
+import ThemeManager from "./ThemeManager.js";
 
 dayjs.extend(relativeTime);
 
@@ -90,18 +92,6 @@ export default async function initialize(config: Config) {
   Router.route("{xUsername}/following", FollowingView, ["post/{postId}"]);
   Router.route("{xUsername}/followers", FollowersView, ["post/{postId}"]);
 
-  const params = new URLSearchParams(location.search);
-  let errorDiscription = params.get("error_description")!;
-  if (errorDiscription) {
-    if (
-      errorDiscription === "Error getting user email from external provider"
-    ) {
-      errorDiscription +=
-        ".\nPlease add an email in your X account settings and allow email access.";
-    }
-    new ErrorAlert({
-      title: "Error",
-      message: errorDiscription,
-    });
-  }
+  AuthUtil.checkEmailAccess();
+  console.log(ThemeManager.darkMode);
 }

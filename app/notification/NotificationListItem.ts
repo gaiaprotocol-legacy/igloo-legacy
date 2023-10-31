@@ -7,16 +7,22 @@ import Post from "../database-interface/Post.js";
 import UserDetails from "../database-interface/UserDetails.js";
 
 export default class NotificationListItem extends DomNode {
-  constructor(notification: Notification, triggerer: UserDetails, post?: Post) {
+  constructor(
+    notification: Notification,
+    triggerer: UserDetails | undefined,
+    post?: Post,
+  ) {
     super(".notification-list-item");
 
-    this.append(el(".triggerer-profile-image", {
-      style: { backgroundImage: `url(${triggerer.profile_image})` },
-      click: (event) => {
-        event.stopPropagation();
-        Router.go(`/${triggerer.x_username}`);
-      },
-    }));
+    if (triggerer) {
+      this.append(el(".triggerer-profile-image", {
+        style: { backgroundImage: `url(${triggerer.profile_image})` },
+        click: (event) => {
+          event.stopPropagation();
+          Router.go(`/${triggerer.x_username}`);
+        },
+      }));
+    }
 
     if (notification.type === NotificationType.BUY_KEY) {
       this.addClass("buy-key").append(
@@ -24,7 +30,7 @@ export default class NotificationListItem extends DomNode {
           "main",
           el(
             "header",
-            el("b", triggerer.display_name),
+            el("b", triggerer?.display_name),
             " purchased " + notification.amount + " ice(s)",
           ),
           el(
@@ -39,7 +45,7 @@ export default class NotificationListItem extends DomNode {
           "main",
           el(
             "header",
-            el("b", triggerer.display_name),
+            el("b", triggerer?.display_name),
             " sold " + notification.amount + " ice(s)",
           ),
           el(
@@ -54,7 +60,7 @@ export default class NotificationListItem extends DomNode {
           "main",
           el(
             "header",
-            el("b", triggerer.display_name),
+            el("b", triggerer?.display_name),
             " started following you",
           ),
           el(
@@ -69,7 +75,7 @@ export default class NotificationListItem extends DomNode {
           "main",
           el(
             "header",
-            el("b", triggerer.display_name),
+            el("b", triggerer?.display_name),
             " liked your post",
           ),
           el("p", post?.message),
@@ -85,7 +91,7 @@ export default class NotificationListItem extends DomNode {
           "main",
           el(
             "header",
-            el("b", triggerer.display_name),
+            el("b", triggerer?.display_name),
             " reposted your post",
           ),
           el("p", post?.message),
@@ -101,7 +107,7 @@ export default class NotificationListItem extends DomNode {
           "main",
           el(
             "header",
-            el("b", triggerer.display_name),
+            el("b", triggerer?.display_name),
             " commented on your post",
           ),
           el("p", post?.message),
@@ -117,7 +123,7 @@ export default class NotificationListItem extends DomNode {
           "main",
           el(
             "header",
-            el("b", triggerer.display_name),
+            el("b", triggerer?.display_name),
             " tagged you in a post",
           ),
           el("p", post?.message),
