@@ -2214,6 +2214,9 @@ button.component.text:active {
 .search-view > .search-bar:focus-within > .material-icon {
   color: #2A2A2A;
 }
+.search-view > .search-result-user-list {
+  margin-top: 20px;
+}
 .notifications-view {
   padding: 31px 18px 31px 30px;
 }
