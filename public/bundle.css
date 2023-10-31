@@ -2191,6 +2191,7 @@ button.component.text:active {
 .notification-list-item > main > p {
   margin-top: 8px;
   color: #a1a2ac;
+  word-break: break-all;
 }
 .notification-list-item > main > .date {
   position: absolute;
