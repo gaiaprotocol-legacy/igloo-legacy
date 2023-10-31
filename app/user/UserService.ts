@@ -213,6 +213,17 @@ class UserService {
 
     return users;
   }
+
+  public async searchUsers(query: string): Promise<UserDetails[]> {
+    const { data, error } = await Supabase.client.from("user_details").select(
+      UserDetailsSelectQuery,
+    )
+      .or(`display_name.ilike.%${query}%,x_username.ilike.%${query}%`).limit(
+        UserService.LIMIT,
+      );
+    if (error) throw error;
+    return data as any;
+  }
 }
 
 export default new UserService();

@@ -1,16 +1,18 @@
 import {
-    DomNode,
-    el,
-    MaterialIcon,
-    Router,
-    View,
-    ViewParams,
+  DomNode,
+  el,
+  MaterialIcon,
+  Router,
+  View,
+  ViewParams,
 } from "common-app-module";
 import Layout from "../layout/Layout.js";
+import SearchResultUserList from "./SearchResultUserList.js";
 
 export default class SearchView extends View {
   private container: DomNode;
   private searchInput: DomNode<HTMLInputElement>;
+  private searchResultUserList: SearchResultUserList;
 
   constructor(params: ViewParams) {
     super();
@@ -32,6 +34,7 @@ export default class SearchView extends View {
             },
           },
         ),
+        this.searchResultUserList = new SearchResultUserList(),
       ),
     );
     this.fetchSearchResults();
@@ -42,7 +45,9 @@ export default class SearchView extends View {
   }
 
   private async fetchSearchResults(): Promise<void> {
-    console.log(new URLSearchParams(location.search).get("q"));
+    this.searchResultUserList.searchUsers(
+      new URLSearchParams(location.search).get("q")!,
+    );
   }
 
   public close(): void {
