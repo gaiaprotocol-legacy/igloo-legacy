@@ -687,11 +687,13 @@ button.component.text:active {
 .home-view > main {
   height: 100%;
   padding: 31px 18px 31px 30px;
+  overflow-y: auto;
 }
 @media only screen and (max-width: 859px) {
   .home-view > main {
     height: auto;
     padding: 20px;
+    overflow-y: visible;
   }
 }
 .home-view > main > h1 {
