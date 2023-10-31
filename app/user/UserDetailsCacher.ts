@@ -6,7 +6,7 @@ import UserDetails, {
 } from "../database-interface/UserDetails.js";
 
 class UserDetailsCacher extends EventContainer {
-  private store: Store = new Store("cached-user-details");
+  private store: Store = new Store("cached-user-details-v2");
   private storeXUsernameToUserId: Store = new Store(
     "cached-x-username-to-user-id",
   );

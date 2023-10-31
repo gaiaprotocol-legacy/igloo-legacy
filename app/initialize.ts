@@ -76,6 +76,7 @@ export default async function initialize(config: Config) {
 
   Router.route("{xUsername}", UserView, [
     "chats",
+    "chats/{topic}",
     "explore",
     "search",
     "notifications",
@@ -87,10 +88,22 @@ export default async function initialize(config: Config) {
     "{xUsername}/followers",
   ]);
 
-  Router.route("{xUsername}/holdings", HoldingsView, ["post/{postId}"]);
-  Router.route("{xUsername}/holders", HoldersView, ["post/{postId}"]);
-  Router.route("{xUsername}/following", FollowingView, ["post/{postId}"]);
-  Router.route("{xUsername}/followers", FollowersView, ["post/{postId}"]);
+  Router.route("{xUsername}/holdings", HoldingsView, [
+    "chats/{topic}",
+    "post/{postId}",
+  ]);
+  Router.route("{xUsername}/holders", HoldersView, [
+    "chats/{topic}",
+    "post/{postId}",
+  ]);
+  Router.route("{xUsername}/following", FollowingView, [
+    "chats/{topic}",
+    "post/{postId}",
+  ]);
+  Router.route("{xUsername}/followers", FollowersView, [
+    "chats/{topic}",
+    "post/{postId}",
+  ]);
 
   AuthUtil.checkEmailAccess();
   console.log(ThemeManager.darkMode);
