@@ -323,12 +323,12 @@ export default class PostView extends View {
       }));
     } catch (error) {
       console.error(error);
+      this.uploadButton.empty().append(new MaterialIcon("image"));
     }
 
     this.uploadInput.domElement.value = "";
     this.uploadButton.domElement.disabled = false;
     this.uploadButton.deleteClass("loading");
-    this.uploadButton.empty().append(new MaterialIcon("image"));
   }
 
   private async postComment() {
