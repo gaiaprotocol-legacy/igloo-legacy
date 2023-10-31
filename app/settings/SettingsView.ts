@@ -1,9 +1,11 @@
-import { DomNode, el, View, ViewParams } from "common-app-module";
+import { DomNode, el, Switch, View, ViewParams } from "common-app-module";
 import Layout from "../layout/Layout.js";
 import SignedUserManager from "../user/SignedUserManager.js";
+import ThemeManager from "../ThemeManager.js";
 
 export default class SettingsView extends View {
   private container: DomNode;
+  private darkModeSwitch!: Switch;
 
   constructor(params: ViewParams) {
     super();
@@ -58,6 +60,12 @@ export default class SettingsView extends View {
         ),
         el(
           "section.actions",
+          el(
+            "section.dark-mode",
+            el("h2", "Dark Mode (Coming Soon)"),
+            el("p", "You can toggle dark mode."),
+            this.darkModeSwitch = new Switch(ThemeManager.darkMode),
+          ),
           SignedUserManager.signed
             ? el(
               "section.link-wallet",
@@ -98,6 +106,10 @@ export default class SettingsView extends View {
         ),
       ),
     );
+
+    this.darkModeSwitch.on("change", (checked: boolean) => {
+      ThemeManager.darkMode = checked;
+    });
   }
 
   public close(): void {
