@@ -11,6 +11,7 @@ import SubjectDetails from "../database-interface/SubjectDetails.js";
 import UserDetails from "../database-interface/UserDetails.js";
 import BuySubjectKeyPopup from "../subject/BuySubjectKeyPopup.js";
 import SubjectKeyBalanceCacher from "../subject/SubjectKeyBalanceCacher.js";
+import SubjectKeyService from "../subject/SubjectKeyService.js";
 import TradeSubjectKeyPopup from "../subject/TradeSubjectKeyPopup.js";
 import FollowManager from "./FollowManager.js";
 import SignedUserManager from "./SignedUserManager.js";
@@ -18,6 +19,7 @@ import SignedUserManager from "./SignedUserManager.js";
 export default class UserProfileDisplay extends DomNode {
   private settingsButton: DomNode;
   private followButton: DomNode;
+  private portfolioValue: DomNode;
 
   constructor(
     private userDetails: UserDetails,
@@ -90,6 +92,19 @@ export default class UserProfileDisplay extends DomNode {
               userDetails
                 ? ethers.formatEther(userDetails.total_earned_trading_fees)
                 : "0",
+              el("img.avax-symbol", { src: "/images/avax-symbol.svg" }),
+            ),
+          ),
+        ),
+        el(
+          "section.portfolio-value",
+          el(".icon-container", new MaterialIcon("account_balance")),
+          el(
+            ".metric",
+            el("h3", "Portfolio Value"),
+            el(
+              ".value",
+              this.portfolioValue = el("span", "..."),
               el("img.avax-symbol", { src: "/images/avax-symbol.svg" }),
             ),
           ),
@@ -259,6 +274,8 @@ export default class UserProfileDisplay extends DomNode {
         this.checkHolder();
       }
     });
+
+    this.fetchPortfolioValue();
   }
 
   private checkSignedUser() {
@@ -280,6 +297,18 @@ export default class UserProfileDisplay extends DomNode {
         SignedUserManager.walletAddress,
       );
       balance > 0 ? this.addClass("holder") : this.deleteClass("holder");
+    }
+  }
+
+  private async fetchPortfolioValue() {
+    let portfolioValue = 0n;
+    if (this.userDetails.wallet_address) {
+      portfolioValue = await SubjectKeyService.fetchPortfolioValue(
+        this.userDetails.wallet_address,
+      );
+    }
+    if (!this.deleted) {
+      this.portfolioValue.text = ethers.formatEther(portfolioValue);
     }
   }
 }
