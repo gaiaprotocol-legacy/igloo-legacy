@@ -7,6 +7,7 @@ import {
   MaterialIcon,
   Router,
   Snackbar,
+  Supabase,
   View,
   ViewParams,
 } from "common-app-module";
@@ -89,6 +90,16 @@ export default class PostView extends View {
       "userFetched",
       () => this.checkSigned(),
     );
+
+    //this.test();
+  }
+
+  private async test() {
+    const { data, error } = await Supabase.client.rpc("get_post_and_comments", {
+      p_post_id: 15408,
+    });
+    if (error) throw error;
+    console.log(data);
   }
 
   private checkSigned() {
