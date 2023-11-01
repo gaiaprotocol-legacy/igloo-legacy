@@ -93,6 +93,9 @@ class UserDetailsCacher extends EventContainer {
         this.cache(userDetails.user_id, userDetails);
       }
     }
+    return userDetails
+      ? userDetails
+      : { ...DefaultUserDetails, x_username: xUsername };
   }
 
   public getAndRefreshByXUsername(xUsername: string) {

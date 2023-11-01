@@ -56,6 +56,11 @@ class SubjectDetailsCacher extends EventContainer {
     ) {
       this.cache(subjectDetails);
     }
+    if (subjectDetails) {
+      return subjectDetails;
+    } else {
+      return { ...DefaultSubjectDetails, subject };
+    }
   }
 
   public getAndRefresh(subject: string): SubjectDetails {

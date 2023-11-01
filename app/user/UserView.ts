@@ -53,7 +53,7 @@ export default class UserView extends View {
 
     this.xUsername = params.xUsername!;
     this.render();
-    this.container.onDelegate(
+    /*this.container.onDelegate(
       UserDetailsCacher,
       "update",
       (updatedDetails: UserDetails) => {
@@ -82,25 +82,23 @@ export default class UserView extends View {
           this.render();
         }
       },
-    );
+    );*/
 
-    this.trackPriceAndBalance();
+    //this.trackPriceAndBalance();
   }
 
-  private render() {
-    this.userDetails = UserDetailsCacher.getAndRefreshByXUsername(
-      this.xUsername,
-    );
-    this.subjectDetails = this.userDetails.wallet_address
-      ? SubjectDetailsCacher.getAndRefresh(
-        this.userDetails.wallet_address,
-      )
-      : undefined;
-    this.holdingCount = this.userDetails.wallet_address
-      ? TotalSubjectKeyBalanceCacher.getAndRefresh(
-        this.userDetails.wallet_address,
-      )
-      : 0;
+  private async render() {
+    this.userDetails = await UserDetailsCacher.refreshByXUsername(this.xUsername);
+  
+    if (this.userDetails.wallet_address) {
+      [this.subjectDetails, this.holdingCount] = await Promise.all([
+        SubjectDetailsCacher.refresh(this.userDetails.wallet_address),
+        TotalSubjectKeyBalanceCacher.refresh(this.userDetails.wallet_address)
+      ]);
+    } else {
+      this.subjectDetails = undefined;
+      this.holdingCount = 0;
+    }
 
     this.container.empty().append(
       el(
@@ -211,12 +209,14 @@ export default class UserView extends View {
       else if (id === "user-reposts") this.userRepostList.show();
       else if (id === "user-likes") this.userLikedPostList.show();
     }).init();
+
+    this.trackPriceAndBalance();
   }
 
   public changeParams(params: ViewParams, uri: string): void {
     this.xUsername = params.xUsername!;
     this.render();
-    this.trackPriceAndBalance();
+    //this.trackPriceAndBalance();
   }
 
   private trackPriceAndBalance(): void {

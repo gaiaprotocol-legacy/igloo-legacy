@@ -55,6 +55,11 @@ class TotalSubjectKeyBalanceCacher extends EventContainer {
     ) {
       this.cache(walletAddress, balanceData.total_key_balance);
     }
+    if (balanceData?.total_key_balance) {
+      return balanceData.total_key_balance;
+    } else {
+      return 0;
+    }
   }
 
   public getAndRefresh(walletAddress: string): number {
