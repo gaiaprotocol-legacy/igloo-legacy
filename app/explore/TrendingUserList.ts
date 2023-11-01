@@ -1,5 +1,7 @@
 import { Store } from "common-app-module";
 import UserDetails from "../database-interface/UserDetails.js";
+import SubjectDetailsCacher from "../subject/SubjectDetailsCacher.js";
+import SubjectService from "../subject/SubjectService.js";
 import UserDetailsCacher from "../user/UserDetailsCacher.js";
 import UserService from "../user/UserService.js";
 import UserList from "../user/UsetList.js";
@@ -22,6 +24,15 @@ export default class TrendingUserList extends UserList {
   protected async fetchContent() {
     const userDetailsSet = await UserService.fetchTrendingUsers();
     UserDetailsCacher.cacheMultiple(userDetailsSet);
+
+    const subjects: string[] = [];
+    for (const userDetails of userDetailsSet) {
+      if (userDetails.wallet_address) {
+        subjects.push(userDetails.wallet_address);
+      }
+    }
+    const subjectDetailsSet = await SubjectService.fetchSubjects(subjects);
+    SubjectDetailsCacher.cacheMultiple(subjectDetailsSet);
 
     if (this.isContentFromCache) {
       this.isContentFromCache = false;

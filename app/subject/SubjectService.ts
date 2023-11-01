@@ -17,6 +17,19 @@ class SubjectService {
     return data?.[0] as any;
   }
 
+  public async fetchSubjects(
+    subjects: string[],
+  ): Promise<SubjectDetails[]> {
+    const { data, error } = await Supabase.client.from("subject_details")
+      .select(SubjectDetailsSelectQuery)
+      .in(
+        "subject",
+        subjects,
+      );
+    if (error) throw error;
+    return data as any;
+  }
+
   public async fetchHoldingSubjects(
     walletAddress: string,
   ): Promise<SubjectDetails[]> {
