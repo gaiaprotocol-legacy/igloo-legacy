@@ -294,6 +294,9 @@ button.component.text:active {
   overflow-y: scroll;
   padding: 20px 0;
 }
+.dark-mode .popup-background {
+  background-color: rgba(66, 66, 66, 0.9);
+}
 .popup.component {
   border-radius: 16px;
   background: var(--bg-color);
