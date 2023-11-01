@@ -165,7 +165,10 @@ export default class UserProfileDisplay extends DomNode {
                   message: "This user has not linked a wallet.",
                 });
               } else {
-                new BuySubjectKeyPopup(userDetails);
+                new BuySubjectKeyPopup(
+                  userDetails,
+                  () => this.fireEvent("trade-key"),
+                );
               }
             },
           },
@@ -193,7 +196,10 @@ export default class UserProfileDisplay extends DomNode {
                   message: "This user has not linked a wallet.",
                 });
               } else {
-                new TradeSubjectKeyPopup(userDetails);
+                new TradeSubjectKeyPopup(
+                  userDetails,
+                  () => this.fireEvent("trade-key"),
+                );
               }
             },
           },

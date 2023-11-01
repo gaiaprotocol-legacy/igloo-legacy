@@ -113,6 +113,7 @@ export default class UserView extends View {
       this.holdingCount = 0;
     }
 
+    let userProfileDisplay;
     this.container.empty().append(
       el(
         "header",
@@ -123,7 +124,7 @@ export default class UserView extends View {
       ),
       el(
         "section.profile",
-        new UserProfileDisplay(
+        userProfileDisplay = new UserProfileDisplay(
           this.userDetails,
           this.subjectDetails,
           this.holdingCount,
@@ -194,6 +195,8 @@ export default class UserView extends View {
       this.userRepostList = new UserRepostList(this.userDetails.user_id),
       this.userLikedPostList = new UserLikedPostList(this.userDetails.user_id),
     );
+
+    userProfileDisplay.on("trade-key", () => this.load());
 
     this.userConnectionTabs.on("select", (id: string) => {
       [

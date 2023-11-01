@@ -16,7 +16,7 @@ export default class TradeSubjectKeyPopup extends Popup {
   public content: DomNode;
   private priceDisplay: DomNode;
 
-  constructor(private userDetails: UserDetails) {
+  constructor(private userDetails: UserDetails, callback: () => void) {
     super({ barrierDismissible: true });
 
     this.append(
@@ -51,7 +51,7 @@ export default class TradeSubjectKeyPopup extends Popup {
             type: ButtonType.Contained,
             tag: ".buy-key",
             click: () => {
-              new BuySubjectKeyPopup(userDetails);
+              new BuySubjectKeyPopup(userDetails, callback);
               this.delete();
             },
             title: `Buy 1 ${userDetails.display_name}'s Ice`,
@@ -60,7 +60,7 @@ export default class TradeSubjectKeyPopup extends Popup {
             type: ButtonType.Contained,
             tag: ".sell-key",
             click: () => {
-              new SellSubjectKeyPopup(userDetails);
+              new SellSubjectKeyPopup(userDetails, callback);
               this.delete();
             },
             title: `Sell 1 ${userDetails.display_name}'s Ice`,

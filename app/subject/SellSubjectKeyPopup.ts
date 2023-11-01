@@ -20,7 +20,7 @@ export default class SellSubjectKeyPopup extends Popup {
   private totalPriceDisplay: DomNode;
   private sellButton: Button;
 
-  constructor(private userDetails: UserDetails) {
+  constructor(private userDetails: UserDetails, private callback: () => void) {
     super({ barrierDismissible: true });
 
     this.append(
@@ -133,6 +133,7 @@ export default class SellSubjectKeyPopup extends Popup {
         throw new Error("Insufficient balance");
       } else {
         await SubjectKeyService.sellKey(subject);
+        this.callback();
         this.delete();
       }
     } catch (e) {
