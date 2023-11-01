@@ -7,6 +7,7 @@ import {
   View,
   ViewParams,
 } from "common-app-module";
+import { TempUserDetailsCacher } from "social-module";
 import SubjectDetails from "../database-interface/SubjectDetails.js";
 import UserDetails from "../database-interface/UserDetails.js";
 import Layout from "../layout/Layout.js";
@@ -52,7 +53,7 @@ export default class UserView extends View {
     );
 
     this.xUsername = params.xUsername!;
-    this.render();
+    this.load();
     /*this.container.onDelegate(
       UserDetailsCacher,
       "update",
@@ -87,13 +88,25 @@ export default class UserView extends View {
     //this.trackPriceAndBalance();
   }
 
+  private async load() {
+    const cached = TempUserDetailsCacher.getByXUsername(this.xUsername);
+    console.log(cached);
+    if (cached) {
+      this.userDetails = cached;
+      this.render();
+    }
+    this.userDetails = await UserDetailsCacher.refreshByXUsername(
+      this.xUsername,
+    );
+    this.render();
+    this.trackPriceAndBalance();
+  }
+
   private async render() {
-    this.userDetails = await UserDetailsCacher.refreshByXUsername(this.xUsername);
-  
     if (this.userDetails.wallet_address) {
       [this.subjectDetails, this.holdingCount] = await Promise.all([
         SubjectDetailsCacher.refresh(this.userDetails.wallet_address),
-        TotalSubjectKeyBalanceCacher.refresh(this.userDetails.wallet_address)
+        TotalSubjectKeyBalanceCacher.refresh(this.userDetails.wallet_address),
       ]);
     } else {
       this.subjectDetails = undefined;
@@ -209,13 +222,11 @@ export default class UserView extends View {
       else if (id === "user-reposts") this.userRepostList.show();
       else if (id === "user-likes") this.userLikedPostList.show();
     }).init();
-
-    this.trackPriceAndBalance();
   }
 
   public changeParams(params: ViewParams, uri: string): void {
     this.xUsername = params.xUsername!;
-    this.render();
+    this.load();
     //this.trackPriceAndBalance();
   }
 
