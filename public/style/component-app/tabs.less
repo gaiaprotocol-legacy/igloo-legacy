@@ -1,10 +1,8 @@
 .tabs.component {
-    border-radius: 16px;
-    background   : #EBEFF3;
-    box-shadow   : 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
-    padding      : 12px;
-    display      : flex;
-    gap          : 20px;
+    .embossed-box();
+    padding: 12px;
+    display: flex;
+    gap    : 20px;
 
     @media @phone {
         gap: 4px;
@@ -28,15 +26,11 @@
         text-transform       : capitalize;
 
         &:hover {
-            color: #2A2A2A;
+            color: var(--text-color);
         }
 
         &.active {
-            border-radius: 16px;
-            outline      : 1px solid #F4F7F9;
-            background   : #EBEFF3;
-            box-shadow   : 4px 4px 8px 0px rgba(255, 255, 255, 0.75), 2px 2px 8px 0px rgba(189, 194, 199, 0.75) inset;
-            color        : #2A2A2A;
+            .debossed-box();
         }
     }
 }

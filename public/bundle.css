@@ -150,14 +150,18 @@ p {
   --embossed-box-shadow: 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
   --debossed-box-shadow: 4px 4px 8px 0px rgba(255, 255, 255, 0.75), 2px 2px 8px 0px rgba(189, 194, 199, 0.75) inset;
   --debossed-box-border: 1px solid #F4F7F9;
+  --special-button-shadow: 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25), 4px 4px 8px 0px rgba(255, 255, 255, 0.75) inset, 8px 8px 12px 0px rgba(255, 255, 255, 0.25) inset, -4px -4px 8px 0px rgba(31, 94, 255, 0.75) inset, -8px -8px 12px 0px rgba(31, 94, 255, 0.25) inset;
+  --spacial-button-active-shadow: 4px 4px 8px 0px rgba(255, 255, 255, 0.75), 2px 2px 8px 0px rgba(31, 94, 255, 0.75) inset;
 }
-/*.dark-mode {
-    --bg-color  : #333;
-    --text-color: #F4F7F9;
-    --embossed-box-shadow: 12px 12px 24px 0px #1E1E1E, -12px -12px 24px 0px #3E3E3E;
-    --debossed-box-shadow: 12px 12px 24px 0px #1E1E1E, -12px -12px 24px 0px #3E3E3E inset;
-    --debossed-box-border: 1px solid #222;
-}*/
+.dark-mode {
+  --bg-color: #333;
+  --text-color: #F4F7F9;
+  --embossed-box-shadow: 12px 12px 24px 0px #1E1E1E, -12px -12px 24px 0px #3E3E3E;
+  --debossed-box-shadow: 12px 12px 24px 0px #1E1E1E inset, -12px -12px 24px 0px #3E3E3E inset;
+  --debossed-box-border: none;
+  --special-button-shadow: 4px 4px 8px 0px rgba(0, 0, 0, 0.8), -4px -4px 8px 0px rgba(50, 50, 50, 0.5);
+  --spacial-button-active-shadow: inset 2px 2px 4px rgba(0, 0, 0, 0.9), inset -2px -2px 4px rgba(50, 50, 50, 0.7);
+}
 html,
 body {
   height: 100%;
@@ -171,9 +175,20 @@ body {
 }
 .debossed-box {
   border-radius: 16px;
-  border: var(--debossed-box-border);
+  outline: var(--debossed-box-border);
   background: var(--bg-color);
   box-shadow: var(--debossed-box-shadow);
+}
+.special-button {
+  border-radius: 16px;
+  color: #fff;
+  background: #5585FF;
+  box-shadow: var(--special-button-shadow);
+}
+.special-button:active {
+  background: #5585FF;
+  outline: 1px solid #5585FF;
+  box-shadow: var(--spacial-button-active-shadow);
 }
 .splash-screen.component {
   position: fixed;
@@ -193,8 +208,8 @@ body {
 }
 .tabs.component {
   border-radius: 16px;
-  background: #EBEFF3;
-  box-shadow: 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
+  background: var(--bg-color);
+  box-shadow: var(--embossed-box-shadow);
   padding: 12px;
   display: flex;
   gap: 20px;
@@ -222,14 +237,13 @@ body {
   text-transform: capitalize;
 }
 .tabs.component > .tab:hover {
-  color: #2A2A2A;
+  color: var(--text-color);
 }
 .tabs.component > .tab.active {
   border-radius: 16px;
-  outline: 1px solid #F4F7F9;
-  background: #EBEFF3;
-  box-shadow: 4px 4px 8px 0px rgba(255, 255, 255, 0.75), 2px 2px 8px 0px rgba(189, 194, 199, 0.75) inset;
-  color: #2A2A2A;
+  outline: var(--debossed-box-border);
+  background: var(--bg-color);
+  box-shadow: var(--debossed-box-shadow);
 }
 button.component {
   height: 48px;
@@ -239,7 +253,6 @@ button.component {
   justify-content: center;
   align-items: center;
   padding: 0 20px;
-  color: #2B2B2B;
   font-feature-settings: 'clig' off, 'liga' off;
   font-family: Quicksand;
   font-style: normal;
@@ -252,16 +265,21 @@ button.component.disabled {
   color: #a1a2ac;
 }
 button.component.contained {
-  background: #EBEFF3;
-  box-shadow: 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
+  border-radius: 16px;
+  background: var(--bg-color);
+  box-shadow: var(--embossed-box-shadow);
 }
 button.component.contained:active {
-  outline: 1px solid #F4F7F9;
-  box-shadow: 4px 4px 8px 0px rgba(255, 255, 255, 0.75), 2px 2px 8px 0px rgba(189, 194, 199, 0.75) inset;
+  border-radius: 16px;
+  outline: var(--debossed-box-border);
+  background: var(--bg-color);
+  box-shadow: var(--debossed-box-shadow);
 }
 button.component.text:active {
-  outline: 1px solid #F4F7F9;
-  box-shadow: 4px 4px 8px 0px rgba(255, 255, 255, 0.75), 2px 2px 8px 0px rgba(189, 194, 199, 0.75) inset;
+  border-radius: 16px;
+  outline: var(--debossed-box-border);
+  background: var(--bg-color);
+  box-shadow: var(--debossed-box-shadow);
 }
 .popup-background {
   position: fixed;
@@ -278,8 +296,8 @@ button.component.text:active {
 }
 .popup.component {
   border-radius: 16px;
-  background: #EBEFF3;
-  box-shadow: 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
+  background: var(--bg-color);
+  box-shadow: var(--embossed-box-shadow);
   padding: 20px 30px;
   max-width: 532px;
   width: 90%;
@@ -291,7 +309,6 @@ button.component.text:active {
   }
 }
 .popup.component > header > h1 {
-  color: #2A2A2A;
   font-feature-settings: 'clig' off, 'liga' off;
   font-family: Quicksand;
   font-size: 18px;
@@ -321,7 +338,6 @@ button.component.text:active {
   }
 }
 .popup.component > main > p {
-  color: #2A2A2A;
   font-feature-settings: 'clig' off, 'liga' off;
   font-family: Quicksand;
   font-size: 14px;
@@ -348,13 +364,15 @@ button.component.text:active {
   }
 }
 .popup.component > footer > button.contained {
+  border-radius: 16px;
   color: #fff;
   background: #5585FF;
-  box-shadow: 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25), 4px 4px 8px 0px rgba(255, 255, 255, 0.75) inset, 8px 8px 12px 0px rgba(255, 255, 255, 0.25) inset, -4px -4px 8px 0px rgba(31, 94, 255, 0.75) inset, -8px -8px 12px 0px rgba(31, 94, 255, 0.25) inset;
+  box-shadow: var(--special-button-shadow);
 }
 .popup.component > footer > button.contained:active {
+  background: #5585FF;
   outline: 1px solid #5585FF;
-  box-shadow: 4px 4px 8px 0px rgba(255, 255, 255, 0.75), 2px 2px 8px 0px rgba(31, 94, 255, 0.75) inset;
+  box-shadow: var(--spacial-button-active-shadow);
 }
 .popup.component > footer > button.contained.disabled {
   opacity: 0.5;
@@ -407,16 +425,15 @@ button.component.text:active {
   opacity: 0.8;
 }
 .dropdown-menu.component {
+  border-radius: 16px;
+  background: var(--bg-color);
+  box-shadow: var(--embossed-box-shadow);
   position: fixed;
   z-index: 999998;
   width: 160px;
-  border-radius: 16px;
-  background: #EBEFF3;
-  box-shadow: 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
 }
 .dropdown-menu.component > li > button {
   cursor: pointer;
-  color: #2A2A2A;
   font-feature-settings: 'clig' off, 'liga' off;
   font-family: Quicksand;
   font-size: 14px;
@@ -440,12 +457,16 @@ button.component.text:active {
 }
 .switch.component > input:checked + .slider:before {
   background-color: #5585FF;
-  box-shadow: 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25), 4px 4px 8px 0px rgba(51, 88, 184, 0.75) inset, 8px 8px 12px 0px rgba(51, 88, 184, 0.25) inset, -4px -4px 8px 0px rgba(51, 88, 184, 0.75) inset, -8px -8px 12px 0px rgba(51, 88, 184, 0.25) inset;
+  box-shadow: var(--special-button-shadow);
   -webkit-transform: translateX(26px);
   -ms-transform: translateX(26px);
   transform: translateX(26px);
 }
 .switch.component > .slider {
+  border-radius: 16px;
+  outline: var(--debossed-box-border);
+  background: var(--bg-color);
+  box-shadow: var(--debossed-box-shadow);
   position: absolute;
   cursor: pointer;
   top: 0;
@@ -455,9 +476,6 @@ button.component.text:active {
   -webkit-transition: 0.4s;
   transition: 0.4s;
   border-radius: 34px;
-  outline: 1px solid #F4F7F9;
-  background: #EBEFF3;
-  box-shadow: 4px 4px 8px 0px rgba(255, 255, 255, 0.75), 2px 2px 8px 0px rgba(189, 194, 199, 0.75) inset;
 }
 .switch.component > .slider:before {
   position: absolute;
@@ -518,9 +536,11 @@ button.component.text:active {
   display: none;
 }
 .nav-bar {
+  border-radius: 16px;
+  background: var(--bg-color);
+  box-shadow: var(--embossed-box-shadow);
+  border-radius: 0;
   width: 90px;
-  background: #EBEFF3;
-  box-shadow: 4px 0px 8px 0px rgba(189, 194, 199, 0.75), 8px 0px 12px 0px rgba(189, 194, 199, 0.25);
   padding: 21px;
   display: flex;
   flex-direction: column;
@@ -549,12 +569,13 @@ button.component.text:active {
 }
 .nav-bar > h1,
 .nav-bar > .login-button {
+  border-radius: 16px;
+  background: var(--bg-color);
+  box-shadow: var(--embossed-box-shadow);
   width: 48px;
   height: 48px;
   flex-shrink: 0;
   border-radius: 50px;
-  background: #EBEFF3;
-  box-shadow: 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
   cursor: pointer;
   display: flex;
   justify-content: center;
@@ -573,17 +594,19 @@ button.component.text:active {
 }
 .nav-bar > h1:active,
 .nav-bar > .login-button:active {
-  outline: 1px solid #F4F7F9;
-  box-shadow: 4px 4px 8px 0px rgba(255, 255, 255, 0.75), 2px 2px 8px 0px rgba(189, 194, 199, 0.75) inset;
+  border-radius: 16px;
+  outline: var(--debossed-box-border);
+  background: var(--bg-color);
+  box-shadow: var(--debossed-box-shadow);
+  border-radius: 50px;
 }
 .nav-bar > button {
+  border-radius: 16px;
+  background: var(--bg-color);
+  box-shadow: var(--embossed-box-shadow);
   width: 48px;
   height: 48px;
   flex-shrink: 0;
-  border-radius: 16px;
-  background: #EBEFF3;
-  color: #2B2B2B;
-  box-shadow: 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
   cursor: pointer;
   display: flex;
   justify-content: center;
@@ -591,8 +614,10 @@ button.component.text:active {
 }
 .nav-bar > button:active,
 .nav-bar > button.active {
-  outline: 1px solid #F4F7F9;
-  box-shadow: 4px 4px 8px 0px rgba(255, 255, 255, 0.75), 2px 2px 8px 0px rgba(189, 194, 199, 0.75) inset;
+  border-radius: 16px;
+  outline: var(--debossed-box-border);
+  background: var(--bg-color);
+  box-shadow: var(--debossed-box-shadow);
 }
 .nav-bar > .login-button {
   margin-top: auto;
@@ -646,12 +671,13 @@ button.component.text:active {
 .mobile-title-bar > button.back,
 .mobile-title-bar > button.login,
 .mobile-title-bar > button.settings {
+  border-radius: 16px;
+  background: var(--bg-color);
+  box-shadow: var(--embossed-box-shadow);
   width: 48px;
   height: 48px;
   flex-shrink: 0;
   border-radius: 50px;
-  background: #EBEFF3;
-  box-shadow: 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
   cursor: pointer;
   display: flex;
   justify-content: center;
@@ -667,8 +693,11 @@ button.component.text:active {
 .mobile-title-bar > button.back:active,
 .mobile-title-bar > button.login:active,
 .mobile-title-bar > button.settings:active {
-  outline: 1px solid #F4F7F9;
-  box-shadow: 4px 4px 8px 0px rgba(255, 255, 255, 0.75), 2px 2px 8px 0px rgba(189, 194, 199, 0.75) inset;
+  border-radius: 16px;
+  outline: var(--debossed-box-border);
+  background: var(--bg-color);
+  box-shadow: var(--debossed-box-shadow);
+  border-radius: 50px;
 }
 .mobile-title-bar > h1.hidden,
 .mobile-title-bar > button.back.hidden,
@@ -677,7 +706,6 @@ button.component.text:active {
   display: none;
 }
 .mobile-title-bar > p {
-  color: #2A2A2A;
   font-feature-settings: 'clig' off, 'liga' off;
   font-family: Quicksand;
   font-size: 16px;
@@ -711,12 +739,12 @@ button.component.text:active {
   padding-right: 21px;
 }
 .trend-section > .search-bar {
+  border-radius: 16px;
+  outline: var(--debossed-box-border);
+  background: var(--bg-color);
+  box-shadow: var(--debossed-box-shadow);
   height: 48px;
   flex-shrink: 0;
-  border-radius: 16px;
-  border: 1px solid #F4F7F9;
-  background: #EBEFF3;
-  box-shadow: 4px 4px 8px 0px rgba(255, 255, 255, 0.75), 2px 2px 8px 0px rgba(189, 194, 199, 0.75) inset;
   display: flex;
   align-items: center;
   padding: 14px 20px;
@@ -727,7 +755,6 @@ button.component.text:active {
 }
 .trend-section > .search-bar > input {
   flex-grow: 1;
-  color: #2A2A2A;
   font-feature-settings: 'clig' off, 'liga' off;
   font-family: Quicksand;
   font-size: 16px;
@@ -740,7 +767,7 @@ button.component.text:active {
   color: #a1a2ac;
 }
 .trend-section > .search-bar:focus-within > .material-icon {
-  color: #2A2A2A;
+  color: var(--text-color);
 }
 .trend-section > .trending-user-list {
   margin-top: 30px;
@@ -750,7 +777,6 @@ button.component.text:active {
   padding-right: 21px;
 }
 .top-user-section > h2 {
-  color: #2A2A2A;
   font-feature-settings: 'clig' off, 'liga' off;
   font-family: Quicksand;
   font-size: 22px;
@@ -785,7 +811,6 @@ button.component.text:active {
   }
 }
 .home-view > main > h1 {
-  color: #2A2A2A;
   font-feature-settings: 'clig' off, 'liga' off;
   font-family: Quicksand;
   font-size: 22px;
@@ -852,24 +877,24 @@ button.component.text:active {
   }
 }
 .post-view > .post-container > header > button {
+  border-radius: 16px;
+  background: var(--bg-color);
+  box-shadow: var(--embossed-box-shadow);
   width: 48px;
   height: 48px;
   flex-shrink: 0;
-  border-radius: 16px;
-  background: #EBEFF3;
-  color: #2B2B2B;
-  box-shadow: 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
   cursor: pointer;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 .post-view > .post-container > header > button:active {
-  outline: 1px solid #F4F7F9;
-  box-shadow: 4px 4px 8px 0px rgba(255, 255, 255, 0.75), 2px 2px 8px 0px rgba(189, 194, 199, 0.75) inset;
+  border-radius: 16px;
+  outline: var(--debossed-box-border);
+  background: var(--bg-color);
+  box-shadow: var(--debossed-box-shadow);
 }
 .post-view > .post-container > header > h1 {
-  color: #2A2A2A;
   font-feature-settings: 'clig' off, 'liga' off;
   font-family: Quicksand;
   font-size: 22px;
@@ -880,8 +905,8 @@ button.component.text:active {
 }
 .post-view > .post-container > main {
   border-radius: 16px;
-  background: #EBEFF3;
-  box-shadow: 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
+  background: var(--bg-color);
+  box-shadow: var(--embossed-box-shadow);
   padding: 20px;
 }
 .post-view > .post-container > main > .empty-message {
@@ -915,7 +940,6 @@ button.component.text:active {
   gap: 4px;
 }
 .post-view > .post-container > main > header > .author > .name {
-  color: #2A2A2A;
   font-feature-settings: 'clig' off, 'liga' off;
   font-family: Quicksand;
   font-size: 16px;
@@ -941,20 +965,19 @@ button.component.text:active {
   height: 43.5px;
   flex-shrink: 0;
   border-radius: 16px;
-  color: #2B2B2B;
   cursor: pointer;
   display: none;
   justify-content: center;
   align-items: center;
 }
 .post-view > .post-container > main > header > button.owner-menu:active {
-  outline: 1px solid #F4F7F9;
-  background: #EBEFF3;
-  box-shadow: 4px 4px 8px 0px rgba(255, 255, 255, 0.75), 2px 2px 8px 0px rgba(189, 194, 199, 0.75) inset;
+  border-radius: 16px;
+  outline: var(--debossed-box-border);
+  background: var(--bg-color);
+  box-shadow: var(--debossed-box-shadow);
 }
 .post-view > .post-container > main > p {
   margin-top: 20px;
-  color: #2A2A2A;
   font-feature-settings: 'clig' off, 'liga' off;
   font-family: Quicksand;
   font-size: 16px;
@@ -971,7 +994,8 @@ button.component.text:active {
 }
 .post-view > .post-container > main > .files > .file > .image-container > a > img {
   border-radius: 16px;
-  box-shadow: 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
+  background: var(--bg-color);
+  box-shadow: var(--embossed-box-shadow);
   width: 100%;
   max-width: 256px;
   max-height: 256px;
@@ -984,9 +1008,9 @@ button.component.text:active {
 }
 .post-view > .post-container > main > .actions > button {
   border-radius: 16px;
-  border: 1px solid #F4F7F9;
-  background: #EBEFF3;
-  box-shadow: 4px 4px 8px 0px rgba(255, 255, 255, 0.75), 2px 2px 8px 0px rgba(189, 194, 199, 0.75) inset;
+  outline: var(--debossed-box-border);
+  background: var(--bg-color);
+  box-shadow: var(--debossed-box-shadow);
   padding: 6px 12px;
   display: flex;
   align-items: center;
@@ -1015,10 +1039,10 @@ button.component.text:active {
   color: #FC5132;
 }
 .post-view > .form-wrapper {
-  display: none;
   border-radius: 16px;
-  background: #EBEFF3;
-  box-shadow: 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
+  background: var(--bg-color);
+  box-shadow: var(--embossed-box-shadow);
+  display: none;
   padding: 20px;
   margin-top: 20px;
   gap: 20px;
@@ -1045,15 +1069,14 @@ button.component.text:active {
   gap: 12px;
 }
 .post-view > .form-wrapper > .form > main > textarea {
+  border-radius: 16px;
+  outline: var(--debossed-box-border);
+  background: var(--bg-color);
+  box-shadow: var(--debossed-box-shadow);
   width: 100%;
   height: 100px;
   resize: none;
-  border-radius: 16px;
-  border: 1px solid #F4F7F9;
-  background: #EBEFF3;
-  box-shadow: 4px 4px 8px 0px rgba(255, 255, 255, 0.75), 2px 2px 8px 0px rgba(189, 194, 199, 0.75) inset;
   padding: 12px 20px;
-  color: #2A2A2A;
   font-feature-settings: 'clig' off, 'liga' off;
   font-family: Quicksand;
   font-size: 14px;
@@ -1071,21 +1094,22 @@ button.component.text:active {
   display: none;
 }
 .post-view > .form-wrapper > .form > footer > button.upload {
+  border-radius: 16px;
+  background: var(--bg-color);
+  box-shadow: var(--embossed-box-shadow);
   width: 48px;
   height: 48px;
   flex-shrink: 0;
-  border-radius: 16px;
-  background: #EBEFF3;
-  color: #2B2B2B;
-  box-shadow: 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
   cursor: pointer;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 .post-view > .form-wrapper > .form > footer > button.upload:active {
-  outline: 1px solid #F4F7F9;
-  box-shadow: 4px 4px 8px 0px rgba(255, 255, 255, 0.75), 2px 2px 8px 0px rgba(189, 194, 199, 0.75) inset;
+  border-radius: 16px;
+  outline: var(--debossed-box-border);
+  background: var(--bg-color);
+  box-shadow: var(--debossed-box-shadow);
 }
 .post-view > .form-wrapper > .form > footer > button.upload > img {
   max-width: 32px;
@@ -1138,13 +1162,12 @@ button.component.text:active {
   justify-content: space-between;
 }
 .post-popup > .form > header > select {
+  outline: var(--debossed-box-border);
+  background: var(--bg-color);
+  box-shadow: var(--debossed-box-shadow);
   border-radius: 16px;
-  border: 1px solid #F4F7F9;
-  background: #EBEFF3;
-  box-shadow: 4px 4px 8px 0px rgba(255, 255, 255, 0.75), 2px 2px 8px 0px rgba(189, 194, 199, 0.75) inset;
   padding: 12px 20px;
   padding-right: 52px;
-  color: #2A2A2A;
   font-feature-settings: 'clig' off, 'liga' off;
   font-family: Quicksand;
   font-size: 14px;
@@ -1168,27 +1191,26 @@ button.component.text:active {
   height: 43.5px;
   flex-shrink: 0;
   border-radius: 16px;
-  color: #2B2B2B;
   cursor: pointer;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 .post-popup > .form > header > button:active {
-  outline: 1px solid #F4F7F9;
-  background: #EBEFF3;
-  box-shadow: 4px 4px 8px 0px rgba(255, 255, 255, 0.75), 2px 2px 8px 0px rgba(189, 194, 199, 0.75) inset;
+  border-radius: 16px;
+  outline: var(--debossed-box-border);
+  background: var(--bg-color);
+  box-shadow: var(--debossed-box-shadow);
 }
 .post-popup > .form > main > textarea {
+  border-radius: 16px;
+  outline: var(--debossed-box-border);
+  background: var(--bg-color);
+  box-shadow: var(--debossed-box-shadow);
   width: 100%;
   height: 100px;
   resize: none;
-  border-radius: 16px;
-  border: 1px solid #F4F7F9;
-  background: #EBEFF3;
-  box-shadow: 4px 4px 8px 0px rgba(255, 255, 255, 0.75), 2px 2px 8px 0px rgba(189, 194, 199, 0.75) inset;
   padding: 12px 20px;
-  color: #2A2A2A;
   font-feature-settings: 'clig' off, 'liga' off;
   font-family: Quicksand;
   font-size: 14px;
@@ -1206,21 +1228,22 @@ button.component.text:active {
   display: none;
 }
 .post-popup > .form > footer > button.upload {
+  border-radius: 16px;
+  background: var(--bg-color);
+  box-shadow: var(--embossed-box-shadow);
   width: 48px;
   height: 48px;
   flex-shrink: 0;
-  border-radius: 16px;
-  background: #EBEFF3;
-  color: #2B2B2B;
-  box-shadow: 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
   cursor: pointer;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 .post-popup > .form > footer > button.upload:active {
-  outline: 1px solid #F4F7F9;
-  box-shadow: 4px 4px 8px 0px rgba(255, 255, 255, 0.75), 2px 2px 8px 0px rgba(189, 194, 199, 0.75) inset;
+  border-radius: 16px;
+  outline: var(--debossed-box-border);
+  background: var(--bg-color);
+  box-shadow: var(--debossed-box-shadow);
 }
 .post-popup > .form > footer > button.upload > img {
   max-width: 32px;
@@ -1279,7 +1302,6 @@ button.component.text:active {
   gap: 4px;
 }
 .post-comment-popup > .source > main > header > .author > .name {
-  color: #2A2A2A;
   font-feature-settings: 'clig' off, 'liga' off;
   font-family: Quicksand;
   font-size: 16px;
@@ -1300,19 +1322,18 @@ button.component.text:active {
   height: 43.5px;
   flex-shrink: 0;
   border-radius: 16px;
-  color: #2B2B2B;
   cursor: pointer;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 .post-comment-popup > .source > main > header > button:active {
-  outline: 1px solid #F4F7F9;
-  background: #EBEFF3;
-  box-shadow: 4px 4px 8px 0px rgba(255, 255, 255, 0.75), 2px 2px 8px 0px rgba(189, 194, 199, 0.75) inset;
+  border-radius: 16px;
+  outline: var(--debossed-box-border);
+  background: var(--bg-color);
+  box-shadow: var(--debossed-box-shadow);
 }
 .post-comment-popup > .source > main > p {
-  color: #2A2A2A;
   font-feature-settings: 'clig' off, 'liga' off;
   font-family: Quicksand;
   font-size: 14px;
@@ -1351,15 +1372,14 @@ button.component.text:active {
   gap: 12px;
 }
 .post-comment-popup > .form-wrapper > .form > main > textarea {
+  border-radius: 16px;
+  outline: var(--debossed-box-border);
+  background: var(--bg-color);
+  box-shadow: var(--debossed-box-shadow);
   width: 100%;
   height: 100px;
   resize: none;
-  border-radius: 16px;
-  border: 1px solid #F4F7F9;
-  background: #EBEFF3;
-  box-shadow: 4px 4px 8px 0px rgba(255, 255, 255, 0.75), 2px 2px 8px 0px rgba(189, 194, 199, 0.75) inset;
   padding: 12px 20px;
-  color: #2A2A2A;
   font-feature-settings: 'clig' off, 'liga' off;
   font-family: Quicksand;
   font-size: 14px;
@@ -1377,21 +1397,22 @@ button.component.text:active {
   display: none;
 }
 .post-comment-popup > .form-wrapper > .form > footer > button.upload {
+  border-radius: 16px;
+  background: var(--bg-color);
+  box-shadow: var(--embossed-box-shadow);
   width: 48px;
   height: 48px;
   flex-shrink: 0;
-  border-radius: 16px;
-  background: #EBEFF3;
-  color: #2B2B2B;
-  box-shadow: 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
   cursor: pointer;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 .post-comment-popup > .form-wrapper > .form > footer > button.upload:active {
-  outline: 1px solid #F4F7F9;
-  box-shadow: 4px 4px 8px 0px rgba(255, 255, 255, 0.75), 2px 2px 8px 0px rgba(189, 194, 199, 0.75) inset;
+  border-radius: 16px;
+  outline: var(--debossed-box-border);
+  background: var(--bg-color);
+  box-shadow: var(--debossed-box-shadow);
 }
 .post-comment-popup > .form-wrapper > .form > footer > button.upload > img {
   max-width: 32px;
@@ -1422,8 +1443,8 @@ button.component.text:active {
 }
 .post-list-item {
   border-radius: 16px;
-  background: #EBEFF3;
-  box-shadow: 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
+  background: var(--bg-color);
+  box-shadow: var(--embossed-box-shadow);
   padding: 20px;
   display: flex;
   gap: 20px;
@@ -1464,7 +1485,6 @@ button.component.text:active {
   gap: 4px;
 }
 .post-list-item > main > header > .author > .name {
-  color: #2A2A2A;
   font-feature-settings: 'clig' off, 'liga' off;
   font-family: Quicksand;
   font-size: 16px;
@@ -1488,19 +1508,18 @@ button.component.text:active {
   height: 43.5px;
   flex-shrink: 0;
   border-radius: 16px;
-  color: #2B2B2B;
   cursor: pointer;
   display: none;
   justify-content: center;
   align-items: center;
 }
 .post-list-item > main > header > button.owner-menu:active {
-  outline: 1px solid #F4F7F9;
-  background: #EBEFF3;
-  box-shadow: 4px 4px 8px 0px rgba(255, 255, 255, 0.75), 2px 2px 8px 0px rgba(189, 194, 199, 0.75) inset;
+  border-radius: 16px;
+  outline: var(--debossed-box-border);
+  background: var(--bg-color);
+  box-shadow: var(--debossed-box-shadow);
 }
 .post-list-item > main > p {
-  color: #2A2A2A;
   font-feature-settings: 'clig' off, 'liga' off;
   font-family: Quicksand;
   font-size: 14px;
@@ -1515,7 +1534,8 @@ button.component.text:active {
 }
 .post-list-item > main > .files > .file > .image-container > a > img {
   border-radius: 16px;
-  box-shadow: 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
+  background: var(--bg-color);
+  box-shadow: var(--embossed-box-shadow);
   width: 100%;
   max-width: 256px;
   max-height: 256px;
@@ -1531,9 +1551,9 @@ button.component.text:active {
 }
 .post-list-item > main > footer > button {
   border-radius: 16px;
-  border: 1px solid #F4F7F9;
-  background: #EBEFF3;
-  box-shadow: 4px 4px 8px 0px rgba(255, 255, 255, 0.75), 2px 2px 8px 0px rgba(189, 194, 199, 0.75) inset;
+  outline: var(--debossed-box-border);
+  background: var(--bg-color);
+  box-shadow: var(--debossed-box-shadow);
   padding: 6px 12px;
   display: flex;
   align-items: center;
@@ -1581,7 +1601,6 @@ button.component.text:active {
   }
 }
 .chats-view > h1 {
-  color: #2A2A2A;
   font-feature-settings: 'clig' off, 'liga' off;
   font-family: Quicksand;
   font-size: 22px;
@@ -1602,16 +1621,15 @@ button.component.text:active {
   gap: 20px;
 }
 .chats-view > main > section.chat {
+  border-radius: 16px;
+  background: var(--bg-color);
+  box-shadow: var(--embossed-box-shadow);
   display: flex;
   flex-direction: column;
-  border-radius: 16px;
-  background: #EBEFF3;
-  box-shadow: 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
   padding: 20px;
   gap: 20px;
 }
 .chats-view > main > section.chat > h2 {
-  color: #2A2A2A;
   font-feature-settings: 'clig' off, 'liga' off;
   font-family: Quicksand;
   font-size: 18px;
@@ -1627,15 +1645,15 @@ button.component.text:active {
 }
 .chat-room-list-item {
   border-radius: 16px;
-  background: #EBEFF3;
-  box-shadow: 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
+  background: var(--bg-color);
+  box-shadow: var(--embossed-box-shadow);
   padding: 20px;
   cursor: pointer;
 }
 .chat-room-view {
   border-radius: 16px;
-  background: #EBEFF3;
-  box-shadow: 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
+  background: var(--bg-color);
+  box-shadow: var(--embossed-box-shadow);
   position: absolute;
   left: 510px;
   top: 20px;
@@ -1665,9 +1683,11 @@ button.component.text:active {
   overflow-y: scroll;
 }
 .chat-room-header {
+  border-radius: 16px;
+  background: var(--bg-color);
+  box-shadow: var(--embossed-box-shadow);
   border-radius: 16px 16px 0 0;
   padding: 20px;
-  box-shadow: 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
   display: flex;
   align-items: center;
 }
@@ -1689,13 +1709,12 @@ button.component.text:active {
   }
 }
 .chat-room-header > header > button {
+  border-radius: 16px;
+  background: var(--bg-color);
+  box-shadow: var(--embossed-box-shadow);
   width: 48px;
   height: 48px;
   flex-shrink: 0;
-  border-radius: 16px;
-  background: #EBEFF3;
-  color: #2B2B2B;
-  box-shadow: 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
   cursor: pointer;
   display: flex;
   justify-content: center;
@@ -1703,8 +1722,10 @@ button.component.text:active {
 }
 .chat-room-header > header > button:active,
 .chat-room-header > header > button.active {
-  outline: 1px solid #F4F7F9;
-  box-shadow: 4px 4px 8px 0px rgba(255, 255, 255, 0.75), 2px 2px 8px 0px rgba(189, 194, 199, 0.75) inset;
+  border-radius: 16px;
+  outline: var(--debossed-box-border);
+  background: var(--bg-color);
+  box-shadow: var(--debossed-box-shadow);
 }
 .chat-room-header > header > button.back {
   display: none;
@@ -1715,13 +1736,12 @@ button.component.text:active {
   }
 }
 .chat-room-header > footer > button {
+  border-radius: 16px;
+  background: var(--bg-color);
+  box-shadow: var(--embossed-box-shadow);
   width: 48px;
   height: 48px;
   flex-shrink: 0;
-  border-radius: 16px;
-  background: #EBEFF3;
-  color: #2B2B2B;
-  box-shadow: 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
   cursor: pointer;
   display: flex;
   justify-content: center;
@@ -1729,8 +1749,10 @@ button.component.text:active {
 }
 .chat-room-header > footer > button:active,
 .chat-room-header > footer > button.active {
-  outline: 1px solid #F4F7F9;
-  box-shadow: 4px 4px 8px 0px rgba(255, 255, 255, 0.75), 2px 2px 8px 0px rgba(189, 194, 199, 0.75) inset;
+  border-radius: 16px;
+  outline: var(--debossed-box-border);
+  background: var(--bg-color);
+  box-shadow: var(--debossed-box-shadow);
 }
 .chat-message-form {
   border-radius: 16px;
@@ -1765,8 +1787,10 @@ button.component.text:active {
 }
 .chat-message-form > button:active,
 .chat-message-form > button.active {
-  outline: 1px solid #F4F7F9;
-  box-shadow: 4px 4px 8px 0px rgba(255, 255, 255, 0.75), 2px 2px 8px 0px rgba(189, 194, 199, 0.75) inset;
+  border-radius: 16px;
+  outline: var(--debossed-box-border);
+  background: var(--bg-color);
+  box-shadow: var(--debossed-box-shadow);
 }
 .chat-message-form > button.upload.loading {
   border: 6px solid #F4F7F9;
@@ -1785,14 +1809,13 @@ button.component.text:active {
   }
 }
 .chat-message-form > form > input {
+  border-radius: 16px;
+  outline: var(--debossed-box-border);
+  background: var(--bg-color);
+  box-shadow: var(--debossed-box-shadow);
   width: 0;
   flex-grow: 1;
-  border-radius: 16px;
-  border: 1px solid #F4F7F9;
-  background: #EBEFF3;
-  box-shadow: 4px 4px 8px 0px rgba(255, 255, 255, 0.75), 2px 2px 8px 0px rgba(189, 194, 199, 0.75) inset;
   padding: 10px 20px;
-  color: #2A2A2A;
   font-feature-settings: 'clig' off, 'liga' off;
   font-family: Quicksand;
   font-style: normal;
@@ -1800,13 +1823,15 @@ button.component.text:active {
   line-height: normal;
 }
 .chat-message-form > form > button.send {
+  border-radius: 16px;
   color: #fff;
   background: #5585FF;
-  box-shadow: 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25), 4px 4px 8px 0px rgba(255, 255, 255, 0.75) inset, 8px 8px 12px 0px rgba(255, 255, 255, 0.25) inset, -4px -4px 8px 0px rgba(31, 94, 255, 0.75) inset, -8px -8px 12px 0px rgba(31, 94, 255, 0.25) inset;
+  box-shadow: var(--special-button-shadow);
 }
 .chat-message-form > form > button.send:active {
+  background: #5585FF;
   outline: 1px solid #5585FF;
-  box-shadow: 4px 4px 8px 0px rgba(255, 255, 255, 0.75), 2px 2px 8px 0px rgba(31, 94, 255, 0.75) inset;
+  box-shadow: var(--spacial-button-active-shadow);
 }
 .chat-message-form > form > button.send.disabled {
   opacity: 0.5;
@@ -1841,7 +1866,6 @@ button.component.text:active {
   display: flex;
 }
 .chat-message-list-item > main > header > .author > .name {
-  color: #2A2A2A;
   font-feature-settings: 'clig' off, 'liga' off;
   font-family: Quicksand;
   font-size: 16px;
@@ -1852,10 +1876,9 @@ button.component.text:active {
 }
 .chat-message-list-item > main > p.message {
   border-radius: 16px;
-  background: #EBEFF3;
-  box-shadow: 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
+  background: var(--bg-color);
+  box-shadow: var(--embossed-box-shadow);
   padding: 8px 20px;
-  color: #2A2A2A;
   font-feature-settings: 'clig' off, 'liga' off;
   font-family: Quicksand;
   font-size: 14px;
@@ -1870,7 +1893,8 @@ button.component.text:active {
 }
 .chat-message-list-item > main > .files > .file > .image-container > a > img {
   border-radius: 16px;
-  box-shadow: 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
+  background: var(--bg-color);
+  box-shadow: var(--embossed-box-shadow);
   width: 100%;
   max-width: 200px;
   max-height: 200px;
@@ -1901,7 +1925,6 @@ button.component.text:active {
   animation-fill-mode: forwards;
 }
 .topic-list-item > h3 {
-  color: #2A2A2A;
   font-feature-settings: 'clig' off, 'liga' off;
   font-family: Quicksand;
   font-size: 16px;
@@ -1930,7 +1953,6 @@ button.component.text:active {
   font-size: 12px;
 }
 .topic-chat-room-header > header > h1 {
-  color: #2A2A2A;
   font-feature-settings: 'clig' off, 'liga' off;
   font-family: Quicksand;
   font-size: 18px;
@@ -1965,7 +1987,6 @@ button.component.text:active {
   gap: 4px;
 }
 .subject-list-item > .info > .subject-owner-info > .name {
-  color: #2A2A2A;
   font-feature-settings: 'clig' off, 'liga' off;
   font-family: Quicksand;
   font-size: 16px;
@@ -2021,7 +2042,6 @@ button.component.text:active {
   gap: 4px;
 }
 .subject-chat-room-header > header > .subject-owner-info > .name {
-  color: #2A2A2A;
   font-feature-settings: 'clig' off, 'liga' off;
   font-family: Quicksand;
   font-size: 16px;
@@ -2048,7 +2068,6 @@ button.component.text:active {
   }
 }
 .explore-view > h1 {
-  color: #2A2A2A;
   font-feature-settings: 'clig' off, 'liga' off;
   font-family: Quicksand;
   font-size: 22px;
@@ -2064,12 +2083,12 @@ button.component.text:active {
   }
 }
 .explore-view > .search-bar {
+  border-radius: 16px;
+  outline: var(--debossed-box-border);
+  background: var(--bg-color);
+  box-shadow: var(--debossed-box-shadow);
   height: 48px;
   flex-shrink: 0;
-  border-radius: 16px;
-  border: 1px solid #F4F7F9;
-  background: #EBEFF3;
-  box-shadow: 4px 4px 8px 0px rgba(255, 255, 255, 0.75), 2px 2px 8px 0px rgba(189, 194, 199, 0.75) inset;
   display: flex;
   align-items: center;
   padding: 14px 20px;
@@ -2080,7 +2099,6 @@ button.component.text:active {
 }
 .explore-view > .search-bar > input {
   flex-grow: 1;
-  color: #2A2A2A;
   font-feature-settings: 'clig' off, 'liga' off;
   font-family: Quicksand;
   font-size: 16px;
@@ -2093,7 +2111,7 @@ button.component.text:active {
   color: #a1a2ac;
 }
 .explore-view > .search-bar:focus-within > .material-icon {
-  color: #2A2A2A;
+  color: var(--text-color);
 }
 .explore-view > .tabs {
   margin-top: 20px;
@@ -2122,10 +2140,10 @@ button.component.text:active {
   display: none;
 }
 .activity-list-item {
-  position: relative;
   border-radius: 16px;
-  background: #EBEFF3;
-  box-shadow: 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
+  background: var(--bg-color);
+  box-shadow: var(--embossed-box-shadow);
+  position: relative;
   padding: 20px;
   display: flex;
   gap: 12px;
@@ -2157,7 +2175,6 @@ button.component.text:active {
 .activity-list-item > .description {
   width: 0;
   flex-grow: 1;
-  color: #2A2A2A;
   font-feature-settings: 'clig' off, 'liga' off;
   font-family: Quicksand;
   font-size: 14px;
@@ -2195,7 +2212,6 @@ button.component.text:active {
   }
 }
 .search-view > h1 {
-  color: #2A2A2A;
   font-feature-settings: 'clig' off, 'liga' off;
   font-family: Quicksand;
   font-size: 22px;
@@ -2211,12 +2227,12 @@ button.component.text:active {
   }
 }
 .search-view > .search-bar {
+  border-radius: 16px;
+  outline: var(--debossed-box-border);
+  background: var(--bg-color);
+  box-shadow: var(--debossed-box-shadow);
   height: 48px;
   flex-shrink: 0;
-  border-radius: 16px;
-  border: 1px solid #F4F7F9;
-  background: #EBEFF3;
-  box-shadow: 4px 4px 8px 0px rgba(255, 255, 255, 0.75), 2px 2px 8px 0px rgba(189, 194, 199, 0.75) inset;
   display: flex;
   align-items: center;
   padding: 14px 20px;
@@ -2227,7 +2243,6 @@ button.component.text:active {
 }
 .search-view > .search-bar > input {
   flex-grow: 1;
-  color: #2A2A2A;
   font-feature-settings: 'clig' off, 'liga' off;
   font-family: Quicksand;
   font-size: 16px;
@@ -2240,7 +2255,7 @@ button.component.text:active {
   color: #a1a2ac;
 }
 .search-view > .search-bar:focus-within > .material-icon {
-  color: #2A2A2A;
+  color: var(--text-color);
 }
 .search-view > .search-result-user-list {
   margin-top: 20px;
@@ -2254,7 +2269,6 @@ button.component.text:active {
   }
 }
 .notifications-view > h1 {
-  color: #2A2A2A;
   font-feature-settings: 'clig' off, 'liga' off;
   font-family: Quicksand;
   font-size: 22px;
@@ -2281,8 +2295,8 @@ button.component.text:active {
 }
 .notification-list-item {
   border-radius: 16px;
-  background: #EBEFF3;
-  box-shadow: 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
+  background: var(--bg-color);
+  box-shadow: var(--embossed-box-shadow);
   padding: 20px;
   display: flex;
   gap: 20px;
@@ -2333,7 +2347,6 @@ button.component.text:active {
   }
 }
 .settings-view > h1 {
-  color: #2A2A2A;
   font-feature-settings: 'clig' off, 'liga' off;
   font-family: Quicksand;
   font-size: 22px;
@@ -2361,10 +2374,10 @@ button.component.text:active {
   }
 }
 .settings-view > main > section.x {
-  flex: 0 50%;
   border-radius: 16px;
-  background: #EBEFF3;
-  box-shadow: 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
+  background: var(--bg-color);
+  box-shadow: var(--embossed-box-shadow);
+  flex: 0 50%;
   padding: 20px;
   display: flex;
   flex-direction: column;
@@ -2372,12 +2385,14 @@ button.component.text:active {
   gap: 14px;
 }
 .settings-view > main > section.x > .profile-image-wrapper {
+  border-radius: 16px;
+  background: var(--bg-color);
+  box-shadow: var(--embossed-box-shadow);
   display: flex;
   flex-shrink: 0;
   width: 140px;
   height: 140px;
   border-radius: 50%;
-  box-shadow: 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
   align-items: center;
   justify-content: center;
 }
@@ -2391,7 +2406,6 @@ button.component.text:active {
   background: lightgray 50% / cover no-repeat;
 }
 .settings-view > main > section.x > h2 {
-  color: #2A2A2A;
   font-feature-settings: 'clig' off, 'liga' off;
   font-family: Quicksand;
   font-size: 18px;
@@ -2400,7 +2414,6 @@ button.component.text:active {
   line-height: normal;
 }
 .settings-view > main > section.x > h3 > a {
-  color: #2A2A2A;
   font-feature-settings: 'clig' off, 'liga' off;
   font-family: Quicksand;
   font-size: 14px;
@@ -2411,8 +2424,10 @@ button.component.text:active {
   padding: 4px 8px;
 }
 .settings-view > main > section.x > h3 > a:active {
-  outline: 1px solid #F4F7F9;
-  box-shadow: 4px 4px 8px 0px rgba(255, 255, 255, 0.75), 2px 2px 8px 0px rgba(189, 194, 199, 0.75) inset;
+  border-radius: 16px;
+  outline: var(--debossed-box-border);
+  background: var(--bg-color);
+  box-shadow: var(--debossed-box-shadow);
 }
 .settings-view > main > section.x > .socials {
   margin-top: 4px;
@@ -2421,12 +2436,14 @@ button.component.text:active {
   gap: 8px;
 }
 .settings-view > main > section.x > .socials > a {
+  border-radius: 16px;
+  background: var(--bg-color);
+  box-shadow: var(--embossed-box-shadow);
   display: flex;
   flex-shrink: 0;
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  box-shadow: 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
   align-items: center;
   justify-content: center;
 }
@@ -2434,8 +2451,11 @@ button.component.text:active {
   height: 14px;
 }
 .settings-view > main > section.x > .socials > a:active {
-  outline: 1px solid #F4F7F9;
-  box-shadow: 4px 4px 8px 0px rgba(255, 255, 255, 0.75), 2px 2px 8px 0px rgba(189, 194, 199, 0.75) inset;
+  border-radius: 16px;
+  outline: var(--debossed-box-border);
+  background: var(--bg-color);
+  box-shadow: var(--debossed-box-shadow);
+  border-radius: 50%;
 }
 .settings-view > main > section.actions {
   width: 50%;
@@ -2451,12 +2471,11 @@ button.component.text:active {
 }
 .settings-view > main > section.actions > section {
   border-radius: 16px;
-  background: #EBEFF3;
-  box-shadow: 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
+  background: var(--bg-color);
+  box-shadow: var(--embossed-box-shadow);
   padding: 20px 30px;
 }
 .settings-view > main > section.actions > section > h2 {
-  color: #2A2A2A;
   font-feature-settings: 'clig' off, 'liga' off;
   font-family: Quicksand;
   font-size: 18px;
@@ -2467,7 +2486,6 @@ button.component.text:active {
 }
 .settings-view > main > section.actions > section > p {
   margin-top: 4px;
-  color: #2A2A2A;
   font-feature-settings: 'clig' off, 'liga' off;
   font-family: Quicksand;
   font-size: 14px;
@@ -2486,15 +2504,15 @@ button.component.text:active {
   margin-top: 12px;
 }
 .settings-view > main > section.actions > section > button {
-  margin-top: 12px;
   border-radius: 16px;
+  color: #fff;
   background: #5585FF;
-  box-shadow: 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25), 4px 4px 8px 0px rgba(255, 255, 255, 0.75) inset, 8px 8px 12px 0px rgba(255, 255, 255, 0.25) inset, -4px -4px 8px 0px rgba(31, 94, 255, 0.75) inset, -8px -8px 12px 0px rgba(31, 94, 255, 0.25) inset;
+  box-shadow: var(--special-button-shadow);
+  margin-top: 12px;
   display: flex;
   justify-content: center;
   padding: 5px 20px;
   cursor: pointer;
-  color: #FFF;
   font-feature-settings: 'clig' off, 'liga' off;
   font-family: Quicksand;
   font-size: 14px;
@@ -2504,8 +2522,9 @@ button.component.text:active {
   text-transform: capitalize;
 }
 .settings-view > main > section.actions > section > button:active {
+  background: #5585FF;
   outline: 1px solid #5585FF;
-  box-shadow: 4px 4px 8px 0px rgba(255, 255, 255, 0.75), 2px 2px 8px 0px rgba(31, 94, 255, 0.75) inset;
+  box-shadow: var(--spacial-button-active-shadow);
 }
 .user-view {
   padding: 21px 18px 31px 30px;
@@ -2527,24 +2546,24 @@ button.component.text:active {
   }
 }
 .user-view > header > button {
+  border-radius: 16px;
+  background: var(--bg-color);
+  box-shadow: var(--embossed-box-shadow);
   width: 48px;
   height: 48px;
   flex-shrink: 0;
-  border-radius: 16px;
-  background: #EBEFF3;
-  color: #2B2B2B;
-  box-shadow: 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
   cursor: pointer;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 .user-view > header > button:active {
-  outline: 1px solid #F4F7F9;
-  box-shadow: 4px 4px 8px 0px rgba(255, 255, 255, 0.75), 2px 2px 8px 0px rgba(189, 194, 199, 0.75) inset;
+  border-radius: 16px;
+  outline: var(--debossed-box-border);
+  background: var(--bg-color);
+  box-shadow: var(--debossed-box-shadow);
 }
 .user-view > header > h1 {
-  color: #2A2A2A;
   font-feature-settings: 'clig' off, 'liga' off;
   font-family: Quicksand;
   font-size: 22px;
@@ -2600,12 +2619,12 @@ button.component.text:active {
   font-size: 18px;
 }
 .user-view > section.profile > .user-connections > .user-list {
+  border-radius: 16px;
+  background: var(--bg-color);
+  box-shadow: var(--embossed-box-shadow);
   flex-grow: 1;
   height: 423.5px;
   overflow-y: auto;
-  border-radius: 16px;
-  background: #EBEFF3;
-  box-shadow: 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
   padding: 20px;
   gap: 20px;
 }
@@ -2626,8 +2645,8 @@ button.component.text:active {
 }
 .user-profile-display {
   border-radius: 16px;
-  background: #EBEFF3;
-  box-shadow: 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
+  background: var(--bg-color);
+  box-shadow: var(--embossed-box-shadow);
   padding: 20px;
 }
 @media only screen and (max-width: 859px) {
@@ -2642,12 +2661,14 @@ button.component.text:active {
   gap: 14px;
 }
 .user-profile-display > .profile > .profile-image-wrapper {
+  border-radius: 16px;
+  background: var(--bg-color);
+  box-shadow: var(--embossed-box-shadow);
   display: flex;
   flex-shrink: 0;
   width: 140px;
   height: 140px;
   border-radius: 50%;
-  box-shadow: 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
   align-items: center;
   justify-content: center;
 }
@@ -2661,7 +2682,6 @@ button.component.text:active {
   background: lightgray 50% / cover no-repeat;
 }
 .user-profile-display > .profile > h2 {
-  color: #2A2A2A;
   font-feature-settings: 'clig' off, 'liga' off;
   font-family: Quicksand;
   font-size: 18px;
@@ -2670,7 +2690,6 @@ button.component.text:active {
   line-height: normal;
 }
 .user-profile-display > .profile > h3 > a {
-  color: #2A2A2A;
   font-feature-settings: 'clig' off, 'liga' off;
   font-family: Quicksand;
   font-size: 14px;
@@ -2681,8 +2700,10 @@ button.component.text:active {
   padding: 4px 8px;
 }
 .user-profile-display > .profile > h3 > a:active {
-  outline: 1px solid #F4F7F9;
-  box-shadow: 4px 4px 8px 0px rgba(255, 255, 255, 0.75), 2px 2px 8px 0px rgba(189, 194, 199, 0.75) inset;
+  border-radius: 16px;
+  outline: var(--debossed-box-border);
+  background: var(--bg-color);
+  box-shadow: var(--debossed-box-shadow);
 }
 .user-profile-display > .profile > .socials {
   margin-top: 4px;
@@ -2691,12 +2712,14 @@ button.component.text:active {
   gap: 8px;
 }
 .user-profile-display > .profile > .socials > a {
+  border-radius: 16px;
+  background: var(--bg-color);
+  box-shadow: var(--embossed-box-shadow);
   display: flex;
   flex-shrink: 0;
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  box-shadow: 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
   align-items: center;
   justify-content: center;
 }
@@ -2704,8 +2727,10 @@ button.component.text:active {
   height: 14px;
 }
 .user-profile-display > .profile > .socials > a:active {
-  outline: 1px solid #F4F7F9;
-  box-shadow: 4px 4px 8px 0px rgba(255, 255, 255, 0.75), 2px 2px 8px 0px rgba(189, 194, 199, 0.75) inset;
+  border-radius: 16px;
+  outline: var(--debossed-box-border);
+  background: var(--bg-color);
+  box-shadow: var(--debossed-box-shadow);
 }
 .user-profile-display > .trading-metrics {
   margin-top: 20px;
@@ -2715,8 +2740,8 @@ button.component.text:active {
 }
 .user-profile-display > .trading-metrics > section {
   border-radius: 16px;
-  background: #EBEFF3;
-  box-shadow: 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
+  background: var(--bg-color);
+  box-shadow: var(--embossed-box-shadow);
   display: flex;
   padding: 8px;
   gap: 12px;
@@ -2724,8 +2749,8 @@ button.component.text:active {
 }
 .user-profile-display > .trading-metrics > section > .icon-container {
   border-radius: 16px;
-  background: #EBEFF3;
-  box-shadow: 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
+  background: var(--bg-color);
+  box-shadow: var(--embossed-box-shadow);
   padding: 8px;
   display: flex;
 }
@@ -2734,7 +2759,6 @@ button.component.text:active {
   flex-direction: column;
 }
 .user-profile-display > .trading-metrics > section > .metric > h3 {
-  color: #2A2A2A;
   font-feature-settings: 'clig' off, 'liga' off;
   font-family: Quicksand;
   font-size: 12px;
@@ -2744,7 +2768,6 @@ button.component.text:active {
   text-transform: capitalize;
 }
 .user-profile-display > .trading-metrics > section > .metric > .value {
-  color: #2A2A2A;
   font-feature-settings: 'clig' off, 'liga' off;
   font-family: Quicksand;
   font-size: 16px;
@@ -2769,13 +2792,12 @@ button.component.text:active {
 }
 .user-profile-display > .action-buttons > button {
   border-radius: 16px;
-  background: #EBEFF3;
-  box-shadow: 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
+  background: var(--bg-color);
+  box-shadow: var(--embossed-box-shadow);
   display: flex;
   justify-content: center;
   padding: 20px 0;
   cursor: pointer;
-  color: #2A2A2A;
   font-feature-settings: 'clig' off, 'liga' off;
   font-family: Quicksand;
   font-size: 18px;
@@ -2785,20 +2807,23 @@ button.component.text:active {
   text-transform: capitalize;
 }
 .user-profile-display > .action-buttons > button:active {
-  outline: 1px solid #F4F7F9;
-  background: #EBEFF3;
-  box-shadow: 4px 4px 8px 0px rgba(255, 255, 255, 0.75), 2px 2px 8px 0px rgba(189, 194, 199, 0.75) inset;
+  border-radius: 16px;
+  outline: var(--debossed-box-border);
+  background: var(--bg-color);
+  box-shadow: var(--debossed-box-shadow);
 }
 .user-profile-display > .action-buttons > button.buy-key,
 .user-profile-display > .action-buttons > button.trade-key {
+  border-radius: 16px;
   color: #fff;
   background: #5585FF;
-  box-shadow: 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25), 4px 4px 8px 0px rgba(255, 255, 255, 0.75) inset, 8px 8px 12px 0px rgba(255, 255, 255, 0.25) inset, -4px -4px 8px 0px rgba(31, 94, 255, 0.75) inset, -8px -8px 12px 0px rgba(31, 94, 255, 0.25) inset;
+  box-shadow: var(--special-button-shadow);
 }
 .user-profile-display > .action-buttons > button.buy-key:active,
 .user-profile-display > .action-buttons > button.trade-key:active {
+  background: #5585FF;
   outline: 1px solid #5585FF;
-  box-shadow: 4px 4px 8px 0px rgba(255, 255, 255, 0.75), 2px 2px 8px 0px rgba(31, 94, 255, 0.75) inset;
+  box-shadow: var(--spacial-button-active-shadow);
 }
 .user-profile-display > .action-buttons > button.buy-key.disabled,
 .user-profile-display > .action-buttons > button.trade-key.disabled {
@@ -2823,12 +2848,10 @@ button.component.text:active {
   }
 }
 .user-profile-display > .social-metrics > section {
-  background: #EBEFF3;
   display: flex;
   justify-content: center;
 }
 .user-profile-display > .social-metrics > section > a {
-  color: #2A2A2A;
   font-feature-settings: 'clig' off, 'liga' off;
   font-family: Quicksand;
   font-size: 12px;
@@ -2846,8 +2869,10 @@ button.component.text:active {
   font-weight: bold;
 }
 .user-profile-display > .social-metrics > section > a:active {
-  outline: 1px solid #F4F7F9;
-  box-shadow: 4px 4px 8px 0px rgba(255, 255, 255, 0.75), 2px 2px 8px 0px rgba(189, 194, 199, 0.75) inset;
+  border-radius: 16px;
+  outline: var(--debossed-box-border);
+  background: var(--bg-color);
+  box-shadow: var(--debossed-box-shadow);
 }
 .user-profile-display.holder > .action-buttons > button.buy-key {
   display: none;
@@ -2871,8 +2896,8 @@ button.component.text:active {
 }
 .user-list-item {
   border-radius: 16px;
-  background: #EBEFF3;
-  box-shadow: 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
+  background: var(--bg-color);
+  box-shadow: var(--embossed-box-shadow);
   padding: 20px;
   cursor: pointer;
   display: flex;
@@ -2905,7 +2930,6 @@ button.component.text:active {
   gap: 4px;
 }
 .user-list-item > .info-container > .info > .name {
-  color: #2A2A2A;
   font-feature-settings: 'clig' off, 'liga' off;
   font-family: Quicksand;
   font-size: 16px;
@@ -2928,8 +2952,8 @@ button.component.text:active {
 }
 .user-list-item > .metric-container > section {
   border-radius: 16px;
-  background: #EBEFF3;
-  box-shadow: 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
+  background: var(--bg-color);
+  box-shadow: var(--embossed-box-shadow);
   display: flex;
   padding: 8px;
   gap: 12px;
@@ -2947,8 +2971,8 @@ button.component.text:active {
 }
 .user-list-item > .metric-container > section > .icon-container {
   border-radius: 16px;
-  background: #EBEFF3;
-  box-shadow: 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
+  background: var(--bg-color);
+  box-shadow: var(--embossed-box-shadow);
   padding: 8px;
   display: flex;
 }
@@ -2957,7 +2981,6 @@ button.component.text:active {
   flex-direction: column;
 }
 .user-list-item > .metric-container > section > .metric > h3 {
-  color: #2A2A2A;
   font-feature-settings: 'clig' off, 'liga' off;
   font-family: Quicksand;
   font-size: 12px;
@@ -2967,7 +2990,6 @@ button.component.text:active {
   text-transform: capitalize;
 }
 .user-list-item > .metric-container > section > .metric > .value {
-  color: #2A2A2A;
   font-feature-settings: 'clig' off, 'liga' off;
   font-family: Quicksand;
   font-size: 16px;
@@ -2985,13 +3007,12 @@ button.component.text:active {
   display: flex;
 }
 .link-wallet-popup > main > ol {
+  outline: var(--debossed-box-border);
+  background: var(--bg-color);
+  box-shadow: var(--debossed-box-shadow);
   margin-top: 18px;
   border-radius: 16px;
-  border: 1px solid #F4F7F9;
-  background: #EBEFF3;
-  box-shadow: 4px 4px 8px 0px rgba(255, 255, 255, 0.75), 2px 2px 8px 0px rgba(189, 194, 199, 0.75) inset;
   padding: 18px;
-  color: #2A2A2A;
   font-feature-settings: 'clig' off, 'liga' off;
   font-family: Quicksand;
   font-size: 14px;
@@ -3031,24 +3052,24 @@ button.component.text:active {
   }
 }
 .holdings-view > header > button {
+  border-radius: 16px;
+  background: var(--bg-color);
+  box-shadow: var(--embossed-box-shadow);
   width: 48px;
   height: 48px;
   flex-shrink: 0;
-  border-radius: 16px;
-  background: #EBEFF3;
-  color: #2B2B2B;
-  box-shadow: 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
   cursor: pointer;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 .holdings-view > header > button:active {
-  outline: 1px solid #F4F7F9;
-  box-shadow: 4px 4px 8px 0px rgba(255, 255, 255, 0.75), 2px 2px 8px 0px rgba(189, 194, 199, 0.75) inset;
+  border-radius: 16px;
+  outline: var(--debossed-box-border);
+  background: var(--bg-color);
+  box-shadow: var(--debossed-box-shadow);
 }
 .holdings-view > header > h1 {
-  color: #2A2A2A;
   font-feature-settings: 'clig' off, 'liga' off;
   font-family: Quicksand;
   font-size: 22px;
@@ -3076,24 +3097,24 @@ button.component.text:active {
   }
 }
 .holders-view > header > button {
+  border-radius: 16px;
+  background: var(--bg-color);
+  box-shadow: var(--embossed-box-shadow);
   width: 48px;
   height: 48px;
   flex-shrink: 0;
-  border-radius: 16px;
-  background: #EBEFF3;
-  color: #2B2B2B;
-  box-shadow: 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
   cursor: pointer;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 .holders-view > header > button:active {
-  outline: 1px solid #F4F7F9;
-  box-shadow: 4px 4px 8px 0px rgba(255, 255, 255, 0.75), 2px 2px 8px 0px rgba(189, 194, 199, 0.75) inset;
+  border-radius: 16px;
+  outline: var(--debossed-box-border);
+  background: var(--bg-color);
+  box-shadow: var(--debossed-box-shadow);
 }
 .holders-view > header > h1 {
-  color: #2A2A2A;
   font-feature-settings: 'clig' off, 'liga' off;
   font-family: Quicksand;
   font-size: 22px;
@@ -3121,24 +3142,24 @@ button.component.text:active {
   }
 }
 .following-view > header > button {
+  border-radius: 16px;
+  background: var(--bg-color);
+  box-shadow: var(--embossed-box-shadow);
   width: 48px;
   height: 48px;
   flex-shrink: 0;
-  border-radius: 16px;
-  background: #EBEFF3;
-  color: #2B2B2B;
-  box-shadow: 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
   cursor: pointer;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 .following-view > header > button:active {
-  outline: 1px solid #F4F7F9;
-  box-shadow: 4px 4px 8px 0px rgba(255, 255, 255, 0.75), 2px 2px 8px 0px rgba(189, 194, 199, 0.75) inset;
+  border-radius: 16px;
+  outline: var(--debossed-box-border);
+  background: var(--bg-color);
+  box-shadow: var(--debossed-box-shadow);
 }
 .following-view > header > h1 {
-  color: #2A2A2A;
   font-feature-settings: 'clig' off, 'liga' off;
   font-family: Quicksand;
   font-size: 22px;
@@ -3166,24 +3187,24 @@ button.component.text:active {
   }
 }
 .followers-view > header > button {
+  border-radius: 16px;
+  background: var(--bg-color);
+  box-shadow: var(--embossed-box-shadow);
   width: 48px;
   height: 48px;
   flex-shrink: 0;
-  border-radius: 16px;
-  background: #EBEFF3;
-  color: #2B2B2B;
-  box-shadow: 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
   cursor: pointer;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 .followers-view > header > button:active {
-  outline: 1px solid #F4F7F9;
-  box-shadow: 4px 4px 8px 0px rgba(255, 255, 255, 0.75), 2px 2px 8px 0px rgba(189, 194, 199, 0.75) inset;
+  border-radius: 16px;
+  outline: var(--debossed-box-border);
+  background: var(--bg-color);
+  box-shadow: var(--debossed-box-shadow);
 }
 .followers-view > header > h1 {
-  color: #2A2A2A;
   font-feature-settings: 'clig' off, 'liga' off;
   font-family: Quicksand;
   font-size: 22px;
@@ -3213,17 +3234,17 @@ button.component.text:active {
 }
 .switch-to-avax-popup > main > .banner {
   border-radius: 16px;
-  box-shadow: 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
+  background: var(--bg-color);
+  box-shadow: var(--embossed-box-shadow);
 }
 .login-required {
   border-radius: 16px;
-  background: #EBEFF3;
-  box-shadow: 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
+  background: var(--bg-color);
+  box-shadow: var(--embossed-box-shadow);
   padding: 20px 30px;
 }
 .login-required > p {
   margin-top: 4px;
-  color: #2A2A2A;
   font-feature-settings: 'clig' off, 'liga' off;
   font-family: Quicksand;
   font-size: 14px;
@@ -3239,15 +3260,15 @@ button.component.text:active {
   overflow: hidden;
 }
 .login-required > button {
-  margin-top: 12px;
   border-radius: 16px;
+  color: #fff;
   background: #5585FF;
-  box-shadow: 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25), 4px 4px 8px 0px rgba(255, 255, 255, 0.75) inset, 8px 8px 12px 0px rgba(255, 255, 255, 0.25) inset, -4px -4px 8px 0px rgba(31, 94, 255, 0.75) inset, -8px -8px 12px 0px rgba(31, 94, 255, 0.25) inset;
+  box-shadow: var(--special-button-shadow);
+  margin-top: 12px;
   display: flex;
   justify-content: center;
   padding: 5px 20px;
   cursor: pointer;
-  color: #FFF;
   font-feature-settings: 'clig' off, 'liga' off;
   font-family: Quicksand;
   font-size: 14px;
@@ -3257,8 +3278,9 @@ button.component.text:active {
   text-transform: capitalize;
 }
 .login-required > button:active {
+  background: #5585FF;
   outline: 1px solid #5585FF;
-  box-shadow: 4px 4px 8px 0px rgba(255, 255, 255, 0.75), 2px 2px 8px 0px rgba(31, 94, 255, 0.75) inset;
+  box-shadow: var(--spacial-button-active-shadow);
 }
 .subject-list > .empty-message {
   color: #a1a2ac;
@@ -3270,13 +3292,15 @@ button.component.text:active {
   justify-content: center;
 }
 .buy-subject-key-popup > main > .owner-profile-image-wrapper {
+  border-radius: 16px;
+  background: var(--bg-color);
+  box-shadow: var(--embossed-box-shadow);
   margin: auto;
   display: flex;
   flex-shrink: 0;
   width: 140px;
   height: 140px;
   border-radius: 50%;
-  box-shadow: 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
   align-items: center;
   justify-content: center;
 }
@@ -3290,10 +3314,10 @@ button.component.text:active {
   background: lightgray 50% / cover no-repeat;
 }
 .buy-subject-key-popup > main > .price-info > .price {
+  background: var(--bg-color);
+  box-shadow: var(--embossed-box-shadow);
   margin-top: 20px;
   border-radius: 16px;
-  background: #EBEFF3;
-  box-shadow: 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
   display: flex;
   align-items: center;
   padding: 20px;
@@ -3305,7 +3329,6 @@ button.component.text:active {
   }
 }
 .buy-subject-key-popup > main > .price-info > .price > label {
-  color: #2A2A2A;
   font-feature-settings: 'clig' off, 'liga' off;
   font-family: Quicksand;
   font-size: 16px;
@@ -3317,10 +3340,9 @@ button.component.text:active {
 }
 .buy-subject-key-popup > main > .price-info > .price > .value {
   border-radius: 16px;
-  border: 1px solid #F4F7F9;
-  background: #EBEFF3;
-  box-shadow: 4px 4px 8px 0px rgba(255, 255, 255, 0.75), 2px 2px 8px 0px rgba(189, 194, 199, 0.75) inset;
-  color: #2A2A2A;
+  outline: var(--debossed-box-border);
+  background: var(--bg-color);
+  box-shadow: var(--debossed-box-shadow);
   font-feature-settings: 'clig' off, 'liga' off;
   font-family: Quicksand;
   font-size: 18px;
@@ -3351,13 +3373,15 @@ button.component.text:active {
   justify-content: center;
 }
 .sell-subject-key-popup > main > .owner-profile-image-wrapper {
+  border-radius: 16px;
+  background: var(--bg-color);
+  box-shadow: var(--embossed-box-shadow);
   margin: auto;
   display: flex;
   flex-shrink: 0;
   width: 140px;
   height: 140px;
   border-radius: 50%;
-  box-shadow: 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
   align-items: center;
   justify-content: center;
 }
@@ -3371,10 +3395,10 @@ button.component.text:active {
   background: lightgray 50% / cover no-repeat;
 }
 .sell-subject-key-popup > main > .price-info > .price {
-  margin-top: 20px;
   border-radius: 16px;
-  background: #EBEFF3;
-  box-shadow: 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
+  background: var(--bg-color);
+  box-shadow: var(--embossed-box-shadow);
+  margin-top: 20px;
   display: flex;
   align-items: center;
   padding: 20px;
@@ -3386,7 +3410,6 @@ button.component.text:active {
   }
 }
 .sell-subject-key-popup > main > .price-info > .price > label {
-  color: #2A2A2A;
   font-feature-settings: 'clig' off, 'liga' off;
   font-family: Quicksand;
   font-size: 16px;
@@ -3398,10 +3421,9 @@ button.component.text:active {
 }
 .sell-subject-key-popup > main > .price-info > .price > .value {
   border-radius: 16px;
-  border: 1px solid #F4F7F9;
-  background: #EBEFF3;
-  box-shadow: 4px 4px 8px 0px rgba(255, 255, 255, 0.75), 2px 2px 8px 0px rgba(189, 194, 199, 0.75) inset;
-  color: #2A2A2A;
+  outline: var(--debossed-box-border);
+  background: var(--bg-color);
+  box-shadow: var(--debossed-box-shadow);
   font-feature-settings: 'clig' off, 'liga' off;
   font-family: Quicksand;
   font-size: 18px;
@@ -3432,13 +3454,15 @@ button.component.text:active {
   justify-content: center;
 }
 .trade-subject-key-popup > main > .owner-profile-image-wrapper {
+  border-radius: 16px;
+  background: var(--bg-color);
+  box-shadow: var(--embossed-box-shadow);
   margin: auto;
   display: flex;
   flex-shrink: 0;
   width: 140px;
   height: 140px;
   border-radius: 50%;
-  box-shadow: 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
   align-items: center;
   justify-content: center;
 }
@@ -3452,10 +3476,10 @@ button.component.text:active {
   background: lightgray 50% / cover no-repeat;
 }
 .trade-subject-key-popup > main > .price-info > .price {
-  margin-top: 20px;
   border-radius: 16px;
-  background: #EBEFF3;
-  box-shadow: 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
+  background: var(--bg-color);
+  box-shadow: var(--embossed-box-shadow);
+  margin-top: 20px;
   display: flex;
   align-items: center;
   padding: 20px;
@@ -3467,7 +3491,6 @@ button.component.text:active {
   }
 }
 .trade-subject-key-popup > main > .price-info > .price > label {
-  color: #2A2A2A;
   font-feature-settings: 'clig' off, 'liga' off;
   font-family: Quicksand;
   font-size: 16px;
@@ -3479,10 +3502,9 @@ button.component.text:active {
 }
 .trade-subject-key-popup > main > .price-info > .price > .value {
   border-radius: 16px;
-  border: 1px solid #F4F7F9;
-  background: #EBEFF3;
-  box-shadow: 4px 4px 8px 0px rgba(255, 255, 255, 0.75), 2px 2px 8px 0px rgba(189, 194, 199, 0.75) inset;
-  color: #2A2A2A;
+  outline: var(--debossed-box-border);
+  background: var(--bg-color);
+  box-shadow: var(--debossed-box-shadow);
   font-feature-settings: 'clig' off, 'liga' off;
   font-family: Quicksand;
   font-size: 18px;
@@ -3511,13 +3533,15 @@ button.component.text:active {
   width: 100%;
 }
 .trade-subject-key-popup > main > button.buy-key {
+  border-radius: 16px;
   color: #fff;
   background: #5585FF;
-  box-shadow: 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25), 4px 4px 8px 0px rgba(255, 255, 255, 0.75) inset, 8px 8px 12px 0px rgba(255, 255, 255, 0.25) inset, -4px -4px 8px 0px rgba(31, 94, 255, 0.75) inset, -8px -8px 12px 0px rgba(31, 94, 255, 0.25) inset;
+  box-shadow: var(--special-button-shadow);
 }
 .trade-subject-key-popup > main > button.buy-key:active {
+  background: #5585FF;
   outline: 1px solid #5585FF;
-  box-shadow: 4px 4px 8px 0px rgba(255, 255, 255, 0.75), 2px 2px 8px 0px rgba(31, 94, 255, 0.75) inset;
+  box-shadow: var(--spacial-button-active-shadow);
 }
 .trade-subject-key-popup > main > button.buy-key.disabled {
   opacity: 0.5;

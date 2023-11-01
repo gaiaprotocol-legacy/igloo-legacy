@@ -9,13 +9,13 @@
 
     >main {
         >.owner-profile-image-wrapper {
+            .embossed-box();
             margin         : auto;
             display        : flex;
             flex-shrink    : 0;
             width          : 140px;
             height         : 140px;
             border-radius  : 50%;
-            box-shadow     : 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
             align-items    : center;
             justify-content: center;
 
@@ -32,13 +32,11 @@
 
         >.price-info {
             >.price {
-                margin-top   : 20px;
-                border-radius: 16px;
-                background   : #EBEFF3;
-                box-shadow   : 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
-                display      : flex;
-                align-items  : center;
-                padding      : 20px;
+                .embossed-box();
+                margin-top : 20px;
+                display    : flex;
+                align-items: center;
+                padding    : 20px;
 
                 @media @phone {
                     align-items   : normal;
@@ -46,7 +44,6 @@
                 }
 
                 >label {
-                    color                : #2A2A2A;
                     font-feature-settings: 'clig'off, 'liga'off;
                     font-family          : Quicksand;
                     font-size            : 16px;
@@ -58,12 +55,7 @@
                 }
 
                 >.value {
-                    border-radius: 16px;
-                    border       : 1px solid #F4F7F9;
-                    background   : #EBEFF3;
-                    box-shadow   : 4px 4px 8px 0px rgba(255, 255, 255, 0.75),
-                        2px 2px 8px 0px rgba(189, 194, 199, 0.75) inset;
-                    color                : #2A2A2A;
+                    .debossed-box();
                     font-feature-settings: 'clig'off, 'liga'off;
                     font-family          : Quicksand;
                     font-size            : 18px;
@@ -97,14 +89,7 @@
         }
 
         >button.buy-key {
-            color     : #fff;
-            background: #5585FF;
-            box-shadow: 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25), 4px 4px 8px 0px rgba(255, 255, 255, 0.75) inset, 8px 8px 12px 0px rgba(255, 255, 255, 0.25) inset, -4px -4px 8px 0px rgba(31, 94, 255, 0.75) inset, -8px -8px 12px 0px rgba(31, 94, 255, 0.25) inset;
-
-            &:active {
-                outline   : 1px solid #5585FF;
-                box-shadow: 4px 4px 8px 0px rgba(255, 255, 255, 0.75), 2px 2px 8px 0px rgba(31, 94, 255, 0.75) inset;
-            }
+            .special-button();
 
             &.disabled {
                 opacity: 0.5;

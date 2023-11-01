@@ -1,11 +1,9 @@
 .post-list-item {
-    border-radius: 16px;
-    background   : #EBEFF3;
-    box-shadow   : 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
-    padding      : 20px;
-    display      : flex;
-    gap          : 20px;
-    cursor       : pointer;
+    .embossed-box();
+    padding: 20px;
+    display: flex;
+    gap    : 20px;
+    cursor : pointer;
 
     @media @phone {
         gap: 12px;
@@ -41,7 +39,6 @@
                 gap           : 4px;
 
                 >.name {
-                    color                : #2A2A2A;
                     font-feature-settings: 'clig'off, 'liga'off;
                     font-family          : Quicksand;
                     font-size            : 16px;
@@ -69,22 +66,18 @@
                 height         : 43.5px;
                 flex-shrink    : 0;
                 border-radius  : 16px;
-                color          : #2B2B2B;
                 cursor         : pointer;
                 display        : none;
                 justify-content: center;
                 align-items    : center;
 
                 &:active {
-                    outline   : 1px solid #F4F7F9;
-                    background: #EBEFF3;
-                    box-shadow: 4px 4px 8px 0px rgba(255, 255, 255, 0.75), 2px 2px 8px 0px rgba(189, 194, 199, 0.75) inset;
+                    .debossed-box();
                 }
             }
         }
 
         >p {
-            color                : #2A2A2A;
             font-feature-settings: 'clig'off, 'liga'off;
             font-family          : Quicksand;
             font-size            : 14px;
@@ -102,11 +95,10 @@
                 >.image-container {
                     >a {
                         >img {
-                            border-radius: 16px;
-                            box-shadow   : 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
-                            width        : 100%;
-                            max-width    : 256px;
-                            max-height   : 256px;
+                            .embossed-box();
+                            width     : 100%;
+                            max-width : 256px;
+                            max-height: 256px;
                         }
                     }
                 }
@@ -124,10 +116,7 @@
             gap        : 8px;
 
             >button {
-                border-radius: 16px;
-                border       : 1px solid #F4F7F9;
-                background   : #EBEFF3;
-                box-shadow   : 4px 4px 8px 0px rgba(255, 255, 255, 0.75), 2px 2px 8px 0px rgba(189, 194, 199, 0.75) inset;
+                .debossed-box();
                 padding      : 6px 12px;
                 display      : flex;
                 align-items  : center;

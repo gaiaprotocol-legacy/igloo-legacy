@@ -103,7 +103,7 @@ export default class PostView extends View {
 
   private checkSigned() {
     if (SignedUserManager.signed) this.container.addClass("signed");
-    if (this.post?.author === SignedUserManager.userId) {
+    if (this.post?.author.user_id === SignedUserManager.userId) {
       this.container.addClass("owned");
     }
   }

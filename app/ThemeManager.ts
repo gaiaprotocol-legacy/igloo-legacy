@@ -13,7 +13,9 @@ class ThemeManager {
 
   public set darkMode(value: boolean) {
     this.store.set("dark", value);
-    value ? BodyNode.addClass("dark-mode") : BodyNode.deleteClass("dark-mode");
+    value
+      ? document.documentElement.classList.add("dark-mode")
+      : document.documentElement.classList.remove("dark-mode");
   }
 }
 

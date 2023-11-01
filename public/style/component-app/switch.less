@@ -11,7 +11,7 @@
 
         &:checked+.slider:before {
             background-color : #5585FF;
-            box-shadow       : 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25), 4px 4px 8px 0px rgba(51, 88, 184, 0.75) inset, 8px 8px 12px 0px rgba(51, 88, 184, 0.25) inset, -4px -4px 8px 0px rgba(51, 88, 184, 0.75) inset, -8px -8px 12px 0px rgba(51, 88, 184, 0.25) inset;
+            box-shadow       : var(--special-button-shadow);
             -webkit-transform: translateX(26px);
             -ms-transform    : translateX(26px);
             transform        : translateX(26px);
@@ -19,6 +19,7 @@
     }
 
     >.slider {
+        .debossed-box();
         position          : absolute;
         cursor            : pointer;
         top               : 0;
@@ -28,9 +29,6 @@
         -webkit-transition: .4s;
         transition        : .4s;
         border-radius     : 34px;
-        outline           : 1px solid #F4F7F9;
-        background        : #EBEFF3;
-        box-shadow        : 4px 4px 8px 0px rgba(255, 255, 255, 0.75), 2px 2px 8px 0px rgba(189, 194, 199, 0.75) inset;
 
         &:before {
             position          : absolute;

@@ -191,7 +191,7 @@ export default class PostListItem extends DomNode {
   }
 
   private checkSigned() {
-    if (this.post.author === SignedUserManager.userId) {
+    if (this.post.author.user_id === SignedUserManager.userId) {
       this.addClass("owned");
     }
   }
