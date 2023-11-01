@@ -1,11 +1,9 @@
 .user-list-item {
-    border-radius: 16px;
-    background   : #EBEFF3;
-    box-shadow   : 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
-    padding      : 20px;
-    cursor       : pointer;
-    display      : flex;
-    gap          : 20px;
+    .embossed-box();
+    padding: 20px;
+    cursor : pointer;
+    display: flex;
+    gap    : 20px;
 
     @container (width < 360px) {
         flex-direction: column;
@@ -34,7 +32,6 @@
             gap           : 4px;
 
             >.name {
-                color                : #2A2A2A;
                 font-feature-settings: 'clig'off, 'liga'off;
                 font-family          : Quicksand;
                 font-size            : 16px;
@@ -60,14 +57,12 @@
         align-items: center;
 
         >section {
-            border-radius: 16px;
-            background   : #EBEFF3;
-            box-shadow   : 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
-            display      : flex;
-            padding      : 8px;
-            gap          : 12px;
-            align-items  : center;
-            min-width    : 150px;
+            .embossed-box();
+            display    : flex;
+            padding    : 8px;
+            gap        : 12px;
+            align-items: center;
+            min-width  : 150px;
 
             @container (width < 360px) {
                 width    : 50%;
@@ -79,11 +74,9 @@
             }
 
             >.icon-container {
-                border-radius: 16px;
-                background   : #EBEFF3;
-                box-shadow   : 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
-                padding      : 8px;
-                display      : flex;
+                .embossed-box();
+                padding: 8px;
+                display: flex;
             }
 
             >.metric {
@@ -91,7 +84,6 @@
                 flex-direction: column;
 
                 >h3 {
-                    color                : #2A2A2A;
                     font-feature-settings: 'clig'off, 'liga'off;
                     font-family          : Quicksand;
                     font-size            : 12px;
@@ -102,7 +94,6 @@
                 }
 
                 >.value {
-                    color                : #2A2A2A;
                     font-feature-settings: 'clig'off, 'liga'off;
                     font-family          : Quicksand;
                     font-size            : 16px;

@@ -1,7 +1,7 @@
 .nav-bar {
+    .embossed-box();
+    border-radius : 0;
     width         : 90px;
-    background    : #EBEFF3;
-    box-shadow    : 4px 0px 8px 0px rgba(189, 194, 199, 0.75), 8px 0px 12px 0px rgba(189, 194, 199, 0.25);
     padding       : 21px;
     display       : flex;
     flex-direction: column;
@@ -29,12 +29,11 @@
 
     >h1,
     >.login-button {
+        .embossed-box();
         width          : 48px;
         height         : 48px;
         flex-shrink    : 0;
         border-radius  : 50px;
-        background     : #EBEFF3;
-        box-shadow     : 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
         cursor         : pointer;
         display        : flex;
         justify-content: center;
@@ -50,19 +49,16 @@
         }
 
         &:active {
-            outline   : 1px solid #F4F7F9;
-            box-shadow: 4px 4px 8px 0px rgba(255, 255, 255, 0.75), 2px 2px 8px 0px rgba(189, 194, 199, 0.75) inset;
+            .debossed-box();
+            border-radius: 50px;
         }
     }
 
     >button {
+        .embossed-box();
         width          : 48px;
         height         : 48px;
         flex-shrink    : 0;
-        border-radius  : 16px;
-        background     : #EBEFF3;
-        color          : #2B2B2B;
-        box-shadow     : 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
         cursor         : pointer;
         display        : flex;
         justify-content: center;
@@ -70,8 +66,7 @@
 
         &:active,
         &.active {
-            outline   : 1px solid #F4F7F9;
-            box-shadow: 4px 4px 8px 0px rgba(255, 255, 255, 0.75), 2px 2px 8px 0px rgba(189, 194, 199, 0.75) inset;
+            .debossed-box();
         }
     }
 
