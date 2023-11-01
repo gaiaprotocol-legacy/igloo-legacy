@@ -1,5 +1,5 @@
 import { I18NText } from "common-app-module";
-import { UploadedFile } from "./Rich.js";
+import { Rich } from "social-module";
 
 export enum MessageType {
   MESSAGE,
@@ -16,9 +16,7 @@ export default interface ChatMessage {
   message_type: MessageType;
   message?: string;
   translated?: I18NText;
-  rich?: {
-    files?: UploadedFile[];
-  };
+  rich?: Rich;
   created_at: string;
   updated_at?: string;
 }

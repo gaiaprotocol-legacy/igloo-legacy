@@ -11,8 +11,7 @@ import {
   View,
   ViewParams,
 } from "common-app-module";
-import Post from "../database-interface/Post.js";
-import { UploadedFile } from "../database-interface/Rich.js";
+import { Post, UploadedFile } from "social-module";
 import Layout from "../layout/Layout.js";
 import SignedUserManager from "../user/SignedUserManager.js";
 import PostCacher from "./PostCacher.js";
@@ -207,8 +206,11 @@ export default class PostView extends View {
                         message: "Are you sure you want to delete this post?",
                         confirmTitle: "Delete",
                         loadingTitle: "Deleting...",
-                      }, () => {
-                        if (this.post) PostService.deletePost(this.post.id);
+                      }, async () => {
+                        if (this.post) {
+                          await PostService.deletePost(this.post.id);
+                          history.back();
+                        }
                       });
                     },
                   }],

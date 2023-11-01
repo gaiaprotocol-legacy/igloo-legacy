@@ -7,8 +7,7 @@ import {
   Router,
 } from "common-app-module";
 import dayjs from "dayjs";
-import Post from "../database-interface/Post.js";
-import { UploadedFile } from "../database-interface/Rich.js";
+import { Post, Rich } from "social-module";
 import SignedUserManager from "../user/SignedUserManager.js";
 import PostCacher from "./PostCacher.js";
 import PostCommentPopup from "./PostCommentPopup.js";
@@ -165,7 +164,7 @@ export default class PostListItem extends DomNode {
     );
   }
 
-  private getRich(rich: { files?: UploadedFile[] }) {
+  private getRich(rich: Rich) {
     if (rich.files) {
       return el(
         ".files",

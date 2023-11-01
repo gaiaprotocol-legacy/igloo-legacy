@@ -1,7 +1,7 @@
 import { DomNode, el, Router } from "common-app-module";
 import dayjs from "dayjs";
+import { Rich } from "social-module";
 import ChatMessage from "../database-interface/ChatMessage.js";
-import { UploadedFile } from "../database-interface/Rich.js";
 import SignedUserManager from "../user/SignedUserManager.js";
 
 export default class ChatMessageListItem extends DomNode {
@@ -74,7 +74,7 @@ export default class ChatMessageListItem extends DomNode {
     }
   }
 
-  private getRich(rich: { files?: UploadedFile[] }) {
+  private getRich(rich: Rich) {
     if (rich.files) {
       return el(
         ".files",

@@ -1,6 +1,6 @@
 import { Button, DomNode, el, MaterialIcon } from "common-app-module";
+import { Rich } from "social-module";
 import ChatMessage, { MessageType } from "../database-interface/ChatMessage.js";
-import { UploadedFile } from "../database-interface/Rich.js";
 import SignedUserManager from "../user/SignedUserManager.js";
 
 export default abstract class ChatMessageForm extends DomNode {
@@ -65,9 +65,7 @@ export default abstract class ChatMessageForm extends DomNode {
   protected getOptimisticData(
     messageType: MessageType,
     message?: string,
-    rich?: {
-      files?: UploadedFile[];
-    },
+    rich?: Rich,
   ): ChatMessage {
     if (!SignedUserManager.signed) {
       throw new Error("User is not signed");

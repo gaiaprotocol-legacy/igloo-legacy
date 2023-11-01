@@ -1,9 +1,9 @@
 import { RealtimeChannel } from "@supabase/supabase-js";
 import { DomNode, el, Store, Supabase } from "common-app-module";
+import { Post } from "social-module";
 import Notification, {
   NotificationType,
 } from "../database-interface/Notification.js";
-import Post from "../database-interface/Post.js";
 import UserDetails from "../database-interface/UserDetails.js";
 import PostService from "../post/PostService.js";
 import UserDetailsCacher from "../user/UserDetailsCacher.js";

@@ -1,5 +1,5 @@
 import { EventContainer, Store, Supabase } from "common-app-module";
-import Post, { isEqualPost } from "../database-interface/Post.js";
+import { Post, isEqualPost } from "social-module";
 
 class PostCacher extends EventContainer {
   private store: Store = new Store("cached-posts");

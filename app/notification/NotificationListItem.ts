@@ -1,9 +1,9 @@
 import { DomNode, el, Router } from "common-app-module";
 import dayjs from "dayjs";
+import { Post } from "social-module";
 import Notification, {
   NotificationType,
 } from "../database-interface/Notification.js";
-import Post from "../database-interface/Post.js";
 import UserDetails from "../database-interface/UserDetails.js";
 
 export default class NotificationListItem extends DomNode {

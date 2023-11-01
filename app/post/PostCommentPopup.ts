@@ -8,8 +8,7 @@ import {
   Router,
   Snackbar,
 } from "common-app-module";
-import Post from "../database-interface/Post.js";
-import { UploadedFile } from "../database-interface/Rich.js";
+import { Post, UploadedFile } from "social-module";
 import SignedUserManager from "../user/SignedUserManager.js";
 import PostService from "./PostService.js";
 

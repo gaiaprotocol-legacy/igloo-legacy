@@ -1,7 +1,6 @@
 import { Supabase } from "common-app-module";
+import { Post, PostTarget, UploadedFile } from "social-module";
 import UploadManager from "../UploadManager.js";
-import Post, { PostTarget } from "../database-interface/Post.js";
-import { UploadedFile } from "../database-interface/Rich.js";
 import SignedUserManager from "../user/SignedUserManager.js";
 
 class PostService {
