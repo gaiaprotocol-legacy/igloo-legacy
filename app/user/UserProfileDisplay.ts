@@ -27,6 +27,7 @@ export default class UserProfileDisplay extends DomNode {
     holdingCount: number,
   ) {
     super(".user-profile-display");
+    this.addAllowedEvents("trade-key");
     this.append(
       el(
         ".profile",
