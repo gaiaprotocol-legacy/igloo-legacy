@@ -31,7 +31,7 @@ export default class PostCommentPopup extends Popup {
           ".source",
           el(".author-profile-image", {
             style: {
-              backgroundImage: `url(${this.sourcePost.author_avatar_url})`,
+              backgroundImage: `url(${this.sourcePost.author.profile_image})`,
             },
           }),
           el(
@@ -40,9 +40,9 @@ export default class PostCommentPopup extends Popup {
               "header",
               el(
                 ".author",
-                el(".name", this.sourcePost.author_name),
-                this.sourcePost.author_x_username
-                  ? el(".x-username", `@${this.sourcePost.author_x_username}`)
+                el(".name", this.sourcePost.author.display_name),
+                this.sourcePost.author.x_username
+                  ? el(".x-username", `@${this.sourcePost.author.x_username}`)
                   : undefined,
               ),
               el("button", new MaterialIcon("close"), {

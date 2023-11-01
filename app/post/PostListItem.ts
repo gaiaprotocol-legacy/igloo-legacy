@@ -48,7 +48,7 @@ export default class PostListItem extends DomNode {
   private render() {
     this.empty().append(
       el(".author-profile-image", {
-        style: { backgroundImage: `url(${this.post.author_avatar_url})` },
+        style: { backgroundImage: `url(${this.post.author.profile_image})` },
         click: (event) => this.goAuthorProfile(event),
       }),
       el(
@@ -57,11 +57,11 @@ export default class PostListItem extends DomNode {
           "header",
           el(
             ".author",
-            el(".name", this.post.author_name, {
+            el(".name", this.post.author.display_name, {
               click: (event) => this.goAuthorProfile(event),
             }),
-            this.post.author_x_username
-              ? el(".x-username", `@${this.post.author_x_username}`, {
+            this.post.author.x_username
+              ? el(".x-username", `@${this.post.author.x_username}`, {
                 click: (event) => this.goAuthorProfile(event),
               })
               : undefined,
@@ -198,6 +198,6 @@ export default class PostListItem extends DomNode {
 
   private goAuthorProfile(event: MouseEvent) {
     event.stopPropagation();
-    Router.go(`/${this.post.author_x_username}`);
+    Router.go(`/${this.post.author.x_username}`);
   }
 }

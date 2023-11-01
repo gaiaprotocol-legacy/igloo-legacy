@@ -1,5 +1,6 @@
 import { Supabase } from "common-app-module";
 import { Post, PostTarget, UploadedFile } from "social-module";
+import { PostSelectQuery } from "social-module/lib/database-interface/Post.js";
 import UploadManager from "../UploadManager.js";
 import SignedUserManager from "../user/SignedUserManager.js";
 
@@ -128,7 +129,9 @@ class PostService {
   }
 
   public async fetchPost(id: number) {
-    const { data, error } = await Supabase.client.from("posts").select().eq(
+    const { data, error } = await Supabase.client.from("posts").select(
+      PostSelectQuery,
+    ).eq(
       "id",
       id,
     );
@@ -137,7 +140,9 @@ class PostService {
   }
 
   public async fetchGlobalPosts(lastFetchedPostId?: number): Promise<Post[]> {
-    const { data, error } = await Supabase.client.from("posts").select().lt(
+    const { data, error } = await Supabase.client.from("posts").select(
+      PostSelectQuery,
+    ).lt(
       "id",
       lastFetchedPostId ?? Number.MAX_SAFE_INTEGER,
     ).is(
@@ -157,7 +162,9 @@ class PostService {
     userId: string,
     lastFetchedPostId?: number,
   ): Promise<Post[]> {
-    const { data, error } = await Supabase.client.from("posts").select().eq(
+    const { data, error } = await Supabase.client.from("posts").select(
+      PostSelectQuery,
+    ).eq(
       "author",
       userId,
     ).is(
@@ -178,7 +185,9 @@ class PostService {
     userId: string,
     lastFetchedPostId?: number,
   ): Promise<Post[]> {
-    const { data, error } = await Supabase.client.from("posts").select().eq(
+    const { data, error } = await Supabase.client.from("posts").select(
+      PostSelectQuery,
+    ).eq(
       "author",
       userId,
     ).not(
@@ -211,7 +220,9 @@ class PostService {
     );
     if (likedError) throw likedError;
     const likedPostIds = likedData.map((liked) => liked.post_id);
-    const { data, error } = await Supabase.client.from("posts").select().in(
+    const { data, error } = await Supabase.client.from("posts").select(
+      PostSelectQuery,
+    ).in(
       "id",
       likedPostIds,
     ).order(
@@ -241,7 +252,9 @@ class PostService {
     );
     if (repostError) throw repostError;
     const repostedPostIds = repostData.map((liked) => liked.post_id);
-    const { data, error } = await Supabase.client.from("posts").select().in(
+    const { data, error } = await Supabase.client.from("posts").select(
+      PostSelectQuery,
+    ).in(
       "id",
       repostedPostIds,
     ).order(
@@ -270,7 +283,9 @@ class PostService {
       );
     if (followsError) throw followsError;
     const followeeIds = followsData.map((follow) => follow.followee_id);
-    const { data, error } = await Supabase.client.from("posts").select().in(
+    const { data, error } = await Supabase.client.from("posts").select(
+      PostSelectQuery,
+    ).in(
       "author",
       followeeIds,
     ).lt(
@@ -306,7 +321,9 @@ class PostService {
     );
     if (userError) throw userError;
     const keyOwnerIds = userData.map((u) => u.user_id);
-    const { data, error } = await Supabase.client.from("posts").select().in(
+    const { data, error } = await Supabase.client.from("posts").select(
+      PostSelectQuery,
+    ).in(
       "author",
       keyOwnerIds,
     ).lt(
@@ -326,7 +343,9 @@ class PostService {
     postId: number,
     lastFetchedPostId?: number,
   ): Promise<Post[]> {
-    const { data, error } = await Supabase.client.from("posts").select().eq(
+    const { data, error } = await Supabase.client.from("posts").select(
+      PostSelectQuery,
+    ).eq(
       "post_ref",
       postId,
     ).lt(

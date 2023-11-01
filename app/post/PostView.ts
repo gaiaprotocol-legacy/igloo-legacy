@@ -176,18 +176,18 @@ export default class PostView extends View {
             "header",
             el(".author-profile-image", {
               style: {
-                backgroundImage: `url(${this.post.author_avatar_url})`,
+                backgroundImage: `url(${this.post.author.profile_image})`,
               },
-              click: () => Router.go(`/${this.post?.author_x_username}`),
+              click: () => Router.go(`/${this.post?.author.x_username}`),
             }),
             el(
               ".author",
-              el(".name", this.post.author_name, {
-                click: () => Router.go(`/${this.post?.author_x_username}`),
+              el(".name", this.post.author.display_name, {
+                click: () => Router.go(`/${this.post?.author.x_username}`),
               }),
-              this.post.author_x_username
-                ? el(".x-username", `@${this.post.author_x_username}`, {
-                  click: () => Router.go(`/${this.post?.author_x_username}`),
+              this.post.author.x_username
+                ? el(".x-username", `@${this.post.author.x_username}`, {
+                  click: () => Router.go(`/${this.post?.author.x_username}`),
                 })
                 : undefined,
             ),

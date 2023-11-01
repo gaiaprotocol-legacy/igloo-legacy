@@ -144,9 +144,36 @@ p {
 .material-symbols-outlined {
   font-variation-settings: 'FILL' 1, 'wght' 700, 'GRAD' 0, 'opsz' 24;
 }
+:root {
+  --bg-color: #EBEFF3;
+  --text-color: #2A2A2A;
+  --embossed-box-shadow: 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
+  --debossed-box-shadow: 4px 4px 8px 0px rgba(255, 255, 255, 0.75), 2px 2px 8px 0px rgba(189, 194, 199, 0.75) inset;
+  --debossed-box-border: 1px solid #F4F7F9;
+}
+/*.dark-mode {
+    --bg-color  : #333;
+    --text-color: #F4F7F9;
+    --embossed-box-shadow: 12px 12px 24px 0px #1E1E1E, -12px -12px 24px 0px #3E3E3E;
+    --debossed-box-shadow: 12px 12px 24px 0px #1E1E1E, -12px -12px 24px 0px #3E3E3E inset;
+    --debossed-box-border: 1px solid #222;
+}*/
 html,
 body {
   height: 100%;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+}
+.embossed-box {
+  border-radius: 16px;
+  background: var(--bg-color);
+  box-shadow: var(--embossed-box-shadow);
+}
+.debossed-box {
+  border-radius: 16px;
+  border: var(--debossed-box-border);
+  background: var(--bg-color);
+  box-shadow: var(--debossed-box-shadow);
 }
 .splash-screen.component {
   position: fixed;
@@ -1706,9 +1733,11 @@ button.component.text:active {
   box-shadow: 4px 4px 8px 0px rgba(255, 255, 255, 0.75), 2px 2px 8px 0px rgba(189, 194, 199, 0.75) inset;
 }
 .chat-message-form {
+  border-radius: 16px;
+  background: var(--bg-color);
+  box-shadow: var(--embossed-box-shadow);
   border-radius: 0 0 16px 16px;
   padding: 20px;
-  box-shadow: 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
   display: flex;
   gap: 20px;
 }
@@ -1723,13 +1752,12 @@ button.component.text:active {
   display: none;
 }
 .chat-message-form > button {
+  border-radius: 16px;
+  background: var(--bg-color);
+  box-shadow: var(--embossed-box-shadow);
   width: 48px;
   height: 48px;
   flex-shrink: 0;
-  border-radius: 16px;
-  background: #EBEFF3;
-  color: #2B2B2B;
-  box-shadow: 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
   cursor: pointer;
   display: flex;
   justify-content: center;

@@ -1,4 +1,6 @@
-import { n2u } from "common-app-module";
+function n2u(value: any) {
+  return value === null ? undefined : value;
+}
 
 export default interface SubjectDetails {
   subject: string;

@@ -1,5 +1,6 @@
 import { EventContainer, Store, Supabase } from "common-app-module";
-import { Post, isEqualPost } from "social-module";
+import { isEqualPost, Post } from "social-module";
+import { PostSelectQuery } from "social-module/lib/database-interface/Post.js";
 
 class PostCacher extends EventContainer {
   private store: Store = new Store("cached-posts");
@@ -43,12 +44,15 @@ class PostCacher extends EventContainer {
   }
 
   public async refresh(id: number) {
-    const { data, error } = await Supabase.client.from("posts").select().eq(
+    const { data, error } = await Supabase.client.from("posts").select(
+      PostSelectQuery,
+    ).eq(
       "id",
       id,
     );
     if (error) throw error;
     const post: Post | undefined = data?.[0] as any;
+    console.log(post);
     this.cache(id, post);
   }
 

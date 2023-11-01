@@ -13,18 +13,49 @@
         'opsz'24
 }
 
-html,
-body {
-    height: 100%;
+:root {
+    --bg-color           : #EBEFF3;
+    --text-color         : #2A2A2A;
+    --embossed-box-shadow: 4px 4px 8px 0px rgba(189, 194, 199, 0.75), 8px 8px 12px 0px rgba(189, 194, 199, 0.25), -4px -4px 8px 0px rgba(255, 255, 255, 0.75), -8px -8px 12px 0px rgba(255, 255, 255, 0.25);
+    --debossed-box-shadow: 4px 4px 8px 0px rgba(255, 255, 255, 0.75), 2px 2px 8px 0px rgba(189, 194, 199, 0.75) inset;
+    --debossed-box-border: 1px solid #F4F7F9;
 }
 
-@import "component/splash-screen.less";
-@import "component/tabs.less";
-@import "component/button.less";
-@import "component/popup.less";
-@import "component/snackbar.less";
-@import "component/dropdown-menu.less";
-@import "component/switch.less";
+/*.dark-mode {
+    --bg-color  : #333;
+    --text-color: #F4F7F9;
+    --embossed-box-shadow: 12px 12px 24px 0px #1E1E1E, -12px -12px 24px 0px #3E3E3E;
+    --debossed-box-shadow: 12px 12px 24px 0px #1E1E1E, -12px -12px 24px 0px #3E3E3E inset;
+    --debossed-box-border: 1px solid #222;
+}*/
+
+html,
+body {
+    height          : 100%;
+    background-color: var(--bg-color);
+    color           : var(--text-color);
+}
+
+.embossed-box {
+    border-radius: 16px;
+    background   : var(--bg-color);
+    box-shadow   : var(--embossed-box-shadow);
+}
+
+.debossed-box {
+    border-radius: 16px;
+    border       : var(--debossed-box-border);
+    background   : var(--bg-color);
+    box-shadow   : var(--debossed-box-shadow);
+}
+
+@import "component-app/splash-screen.less";
+@import "component-app/tabs.less";
+@import "component-app/button.less";
+@import "component-app/popup.less";
+@import "component-app/snackbar.less";
+@import "component-app/dropdown-menu.less";
+@import "component-app/switch.less";
 
 @import "layout/layout.less";
 @import "layout/nav-bar.less";
