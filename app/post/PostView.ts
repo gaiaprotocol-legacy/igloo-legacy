@@ -91,12 +91,12 @@ export default class PostView extends View {
       () => this.checkSigned(),
     );
 
-    //this.test();
+    this.test();
   }
 
   private async test() {
     const { data, error } = await Supabase.client.rpc("get_post_and_comments", {
-      p_post_id: 15408,
+      p_post_id: 15506,
     });
     if (error) throw error;
     console.log(data);

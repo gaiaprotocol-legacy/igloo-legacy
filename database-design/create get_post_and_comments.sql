@@ -19,16 +19,30 @@ RETURNS TABLE (
     depth int4
 )
 LANGUAGE SQL AS $$
-WITH RECURSIVE comment_tree AS (
-    SELECT *, 1 AS depth
+WITH RECURSIVE ancestors AS (
+    SELECT *, 0 AS depth
     FROM posts 
     WHERE id = p_post_id
 
-    UNION ALL
+    UNION
 
-    SELECT p.*, ct.depth + 1 AS depth
+    SELECT p.*, a.depth - 1 AS depth
     FROM posts p
-    JOIN comment_tree ct ON p.post_ref = ct.id
+    JOIN ancestors a ON p.id = a.post_ref
+),
+descendants AS (
+    SELECT *, 1 AS depth
+    FROM posts
+    WHERE post_ref = p_post_id
+
+    UNION
+
+    SELECT p.*, d.depth + 1 AS depth
+    FROM posts p
+    JOIN descendants d ON p.post_ref = d.id
 )
-SELECT * FROM comment_tree ORDER BY depth, created_at;
+SELECT * FROM ancestors
+UNION ALL
+SELECT * FROM descendants
+ORDER BY depth, created_at;
 $$;
