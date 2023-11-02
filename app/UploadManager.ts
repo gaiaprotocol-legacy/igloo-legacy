@@ -33,15 +33,15 @@ class UploadManager {
     file: File,
     expiresIn: number,
     thumnailSize: { width: number; height: number },
-  ): Promise<{ url: string; thumbnailUrl: string }> {
+  ): Promise<{ url: string; /*thumbnailUrl: string*/ }> {
     const uploadPath = await this.uploadFile(bucketId, folderPath, file);
     const url = await this.createSignedUrl(bucketId, uploadPath, expiresIn);
-    const { data, error } = await Supabase.client
+    /*const { data, error } = await Supabase.client
       .storage.from(bucketId).createSignedUrl(uploadPath, expiresIn, {
         transform: thumnailSize,
       });
-    if (error) throw error;
-    return { url, thumbnailUrl: data.signedUrl };
+    if (error) throw error;*/
+    return { url };//, thumbnailUrl: data.signedUrl };
   }
 }
 

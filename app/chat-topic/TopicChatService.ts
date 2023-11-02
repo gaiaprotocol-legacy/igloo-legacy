@@ -29,7 +29,7 @@ class TopicChatService {
 
     const uploadedFile: UploadedFile = {
       url: result.url,
-      thumbnailUrl: result.thumbnailUrl,
+      //thumbnailUrl: result.thumbnailUrl,
       fileName: file.name,
       fileType: file.type,
       fileSize: file.size,
