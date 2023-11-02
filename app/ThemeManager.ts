@@ -1,4 +1,4 @@
-import { BodyNode, Store } from "common-app-module";
+import { Store } from "common-app-module";
 
 class ThemeManager {
   private store = new Store("__THEME_MANAGER_STORE");
@@ -12,7 +12,7 @@ class ThemeManager {
   }
 
   public set darkMode(value: boolean) {
-    this.store.set("dark", value);
+    this.store.set("dark", value, true);
     value
       ? document.documentElement.classList.add("dark-mode")
       : document.documentElement.classList.remove("dark-mode");
