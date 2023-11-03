@@ -2,6 +2,7 @@ import { Store } from "common-app-module";
 
 class ThemeManager {
   private store = new Store("__THEME_MANAGER_STORE");
+  private themeColor = document.querySelector('meta[name="theme-color"]');
 
   constructor() {
     this.darkMode = this.darkMode;
@@ -11,11 +12,12 @@ class ThemeManager {
     return this.store.get<boolean>("dark") || false;
   }
 
-  public set darkMode(value: boolean) {
-    this.store.set("dark", value, true);
-    value
+  public set darkMode(darkMode: boolean) {
+    this.store.set("dark", darkMode, true);
+    darkMode
       ? document.documentElement.classList.add("dark-mode")
       : document.documentElement.classList.remove("dark-mode");
+    this.themeColor?.setAttribute("content", darkMode ? "#333" : "#EBEFF3");
   }
 }
 

@@ -62,7 +62,7 @@ export default class SettingsView extends View {
           "section.actions",
           el(
             "section.dark-mode-setting",
-            el("h2", "Dark Mode (Coming Soon)"),
+            el("h2", "Dark Mode"),
             el("p", "You can toggle dark mode."),
             this.darkModeSwitch = new Switch(ThemeManager.darkMode),
           ),
