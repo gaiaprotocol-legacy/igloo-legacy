@@ -1,4 +1,4 @@
-import { Post } from "social-module";
+import { Post } from "sofi-module";
 
 export default interface UserPost extends Post {
 }

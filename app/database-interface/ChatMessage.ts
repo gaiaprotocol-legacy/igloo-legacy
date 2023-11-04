@@ -1,5 +1,5 @@
 import { I18NText } from "common-app-module";
-import { Rich } from "social-module";
+import { Rich } from "sofi-module";
 
 export enum MessageType {
   MESSAGE,

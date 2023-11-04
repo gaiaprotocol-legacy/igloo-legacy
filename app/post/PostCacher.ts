@@ -1,6 +1,5 @@
 import { EventContainer, Store, Supabase } from "common-app-module";
-import { isEqualPost, Post } from "social-module";
-import { PostSelectQuery } from "social-module/lib/database-interface/Post.js";
+import { Post, PostSelectQuery, isEqualPost } from "sofi-module";
 
 class PostCacher extends EventContainer {
   private store: Store = new Store("cached-posts");

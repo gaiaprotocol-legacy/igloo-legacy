@@ -1,5 +1,5 @@
 import { Store } from "common-app-module";
-import { Post } from "social-module";
+import { Post } from "sofi-module";
 import SignedUserManager from "../user/SignedUserManager.js";
 import PostCacher from "./PostCacher.js";
 import PostList from "./PostList.js";

@@ -1,6 +1,6 @@
 import { RealtimeChannel } from "@supabase/supabase-js";
 import { DomNode, el, Store, Supabase } from "common-app-module";
-import { Post } from "social-module";
+import { Post } from "sofi-module";
 import Notification, {
   NotificationType,
 } from "../database-interface/Notification.js";

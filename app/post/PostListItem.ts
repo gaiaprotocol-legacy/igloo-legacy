@@ -7,7 +7,7 @@ import {
   Router,
 } from "common-app-module";
 import dayjs from "dayjs";
-import { Post, Rich } from "social-module";
+import { Post, Rich } from "sofi-module";
 import SignedUserManager from "../user/SignedUserManager.js";
 import PostCacher from "./PostCacher.js";
 import PostCommentPopup from "./PostCommentPopup.js";
