@@ -306,11 +306,11 @@ export default class PostView extends View {
         ...rich.files.map((file) =>
           el(
             ".file",
-            !file.thumbnailUrl ? undefined : el(
+            !file.url ? undefined : el(
               ".image-container",
               el(
                 "a",
-                el("img", { src: file.thumbnailUrl }),
+                el("img", { src: file.url }),
                 {
                   href: file.url,
                   target: "_blank",
@@ -332,7 +332,7 @@ export default class PostView extends View {
     try {
       this.uploadedFile = await PostService.upload(file);
       this.uploadButton.empty().append(el("img", {
-        src: this.uploadedFile.thumbnailUrl ?? this.uploadedFile.url,
+        src: this.uploadedFile.url,
       }));
     } catch (error) {
       console.error(error);

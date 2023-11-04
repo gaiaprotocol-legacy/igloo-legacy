@@ -83,9 +83,9 @@ export default class PostPopup extends Popup {
 
     try {
       this.uploadedFile = await PostService.upload(file);
-      this.uploadButton.empty().append(el("img", {
-        src: this.uploadedFile.thumbnailUrl ?? this.uploadedFile.url,
-      }));
+      this.uploadButton.empty().append(
+        el("img", { src: this.uploadedFile.url }),
+      );
     } catch (error) {
       console.error(error);
       this.uploadButton.empty().append(new MaterialIcon("image"));

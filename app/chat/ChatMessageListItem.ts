@@ -81,12 +81,12 @@ export default class ChatMessageListItem extends DomNode {
         ...rich.files.map((file) =>
           el(
             ".file",
-            !file.thumbnailUrl ? undefined : el(
+            !file.url ? undefined : el(
               ".image-container",
               el(
                 "a",
                 el("img", {
-                  src: file.thumbnailUrl,
+                  src: file.url,
                   load: () => {
                     if (!this.deleted) this.fireEvent("imageLoaded");
                   },

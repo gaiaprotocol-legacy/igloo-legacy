@@ -100,7 +100,7 @@ export default class PostCommentPopup extends Popup {
     try {
       this.uploadedFile = await PostService.upload(file);
       this.uploadButton.empty().append(el("img", {
-        src: this.uploadedFile.thumbnailUrl ?? this.uploadedFile.url,
+        src: this.uploadedFile.url,
       }));
     } catch (error) {
       console.error(error);
