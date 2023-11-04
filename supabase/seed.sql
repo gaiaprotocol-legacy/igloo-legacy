@@ -125,23 +125,71 @@ end;$$;
 
 ALTER FUNCTION "public"."decrease_total_subject_key_balance"() OWNER TO "postgres";
 
-CREATE OR REPLACE FUNCTION "public"."handle_new_user"() RETURNS "trigger"
+CREATE OR REPLACE FUNCTION "public"."get_portfolio_value"("param_wallet_address" "text") RETURNS "text"
     LANGUAGE "plpgsql" SECURITY DEFINER
-    SET "search_path" TO 'public'
-    AS $$
+    AS $$DECLARE
+    portfolio_value numeric := 0;
+    holder_record record;
+    subject_detail record;
 begin
-  insert into public.user_details (user_id, display_name, profile_image, x_username)
-  values (
-    new.id,
-    new.raw_user_meta_data ->> 'full_name',
-    new.raw_user_meta_data ->> 'avatar_url',
-    new.raw_user_meta_data ->> 'user_name'
-  );
-  return new;
-end;
+    FOR holder_record IN (
+        SELECT 
+            subject, 
+            last_fetched_balance
+        FROM 
+            subject_key_holders 
+        WHERE 
+            wallet_address = param_wallet_address
+    ) LOOP
+        FOR subject_detail IN (
+            SELECT 
+                subject, 
+                last_fetched_key_price 
+            FROM 
+                subject_details 
+            WHERE 
+                subject = holder_record.subject
+        ) LOOP
+            portfolio_value := portfolio_value + (holder_record.last_fetched_balance::numeric * subject_detail.last_fetched_key_price);
+        END LOOP;
+    END LOOP;
+    RETURN portfolio_value;
+end;$$;
+
+ALTER FUNCTION "public"."get_portfolio_value"("param_wallet_address" "text") OWNER TO "postgres";
+
+CREATE OR REPLACE FUNCTION "public"."get_post_and_comments"("p_post_id" bigint) RETURNS TABLE("id" bigint, "group_id" bigint, "target" smallint, "author" "uuid", "author_name" "text", "author_avatar_url" "text", "author_x_username" "text", "message" "text", "translated" "jsonb", "rich" "jsonb", "post_ref" bigint, "comment_count" integer, "repost_count" integer, "like_count" integer, "created_at" timestamp with time zone, "updated_at" timestamp with time zone, "depth" integer)
+    LANGUAGE "sql"
+    AS $$
+WITH RECURSIVE ancestors AS (
+    SELECT *, 0 AS depth
+    FROM posts 
+    WHERE id = p_post_id
+
+    UNION
+
+    SELECT p.*, a.depth - 1 AS depth
+    FROM posts p
+    JOIN ancestors a ON p.id = a.post_ref
+),
+descendants AS (
+    SELECT *, 1 AS depth
+    FROM posts
+    WHERE post_ref = p_post_id
+
+    UNION
+
+    SELECT p.*, d.depth + 1 AS depth
+    FROM posts p
+    JOIN descendants d ON p.post_ref = d.id
+)
+SELECT * FROM ancestors
+UNION ALL
+SELECT * FROM descendants
+ORDER BY depth, created_at;
 $$;
 
-ALTER FUNCTION "public"."handle_new_user"() OWNER TO "postgres";
+ALTER FUNCTION "public"."get_post_and_comments"("p_post_id" bigint) OWNER TO "postgres";
 
 CREATE OR REPLACE FUNCTION "public"."increase_follow_count"() RETURNS "trigger"
     LANGUAGE "plpgsql" SECURITY DEFINER
@@ -403,6 +451,28 @@ END;$$;
 
 ALTER FUNCTION "public"."set_updated_at"() OWNER TO "postgres";
 
+CREATE OR REPLACE FUNCTION "public"."set_user_metadata_to_details"() RETURNS "trigger"
+    LANGUAGE "plpgsql" SECURITY DEFINER
+    SET "search_path" TO 'public'
+    AS $$
+begin
+  insert into public.user_details (user_id, display_name, profile_image, x_username)
+  values (
+    new.id,
+    new.raw_user_meta_data ->> 'full_name',
+    new.raw_user_meta_data ->> 'avatar_url',
+    new.raw_user_meta_data ->> 'user_name'
+  ) on conflict (user_id) do update
+  set
+    display_name = new.raw_user_meta_data ->> 'full_name',
+    profile_image = new.raw_user_meta_data ->> 'avatar_url',
+    x_username = new.raw_user_meta_data ->> 'user_name';
+  return new;
+end;
+$$;
+
+ALTER FUNCTION "public"."set_user_metadata_to_details"() OWNER TO "postgres";
+
 CREATE OR REPLACE FUNCTION "public"."update_subject_key_holder_count"() RETURNS "trigger"
     LANGUAGE "plpgsql" SECURITY DEFINER
     AS $$begin
@@ -428,6 +498,25 @@ CREATE OR REPLACE FUNCTION "public"."update_subject_key_holder_count"() RETURNS 
 end;$$;
 
 ALTER FUNCTION "public"."update_subject_key_holder_count"() OWNER TO "postgres";
+
+CREATE OR REPLACE FUNCTION "public"."update_subject_last_message"() RETURNS "trigger"
+    LANGUAGE "plpgsql" SECURITY DEFINER
+    AS $$begin
+  insert into subject_details (
+    subject
+  ) values (
+    new.subject
+  ) on conflict (subject) do nothing;
+  update subject_details
+    set
+        last_message = new.author_name || ': ' || new.message,
+        last_message_sent_at = now()
+    where
+        subject = new.subject;
+  return null;
+end;$$;
+
+ALTER FUNCTION "public"."update_subject_last_message"() OWNER TO "postgres";
 
 CREATE OR REPLACE FUNCTION "public"."update_total_subject_key_balance"() RETURNS "trigger"
     LANGUAGE "plpgsql" SECURITY DEFINER
@@ -769,6 +858,8 @@ CREATE TRIGGER "set_user_details_updated_at" BEFORE UPDATE ON "public"."user_det
 
 CREATE TRIGGER "update_subject_key_holder_count" AFTER UPDATE ON "public"."subject_key_holders" FOR EACH ROW EXECUTE FUNCTION "public"."update_subject_key_holder_count"();
 
+CREATE TRIGGER "update_subject_last_message" AFTER INSERT ON "public"."subject_chat_messages" FOR EACH ROW EXECUTE FUNCTION "public"."update_subject_last_message"();
+
 CREATE TRIGGER "update_total_subject_key_balance" AFTER UPDATE ON "public"."subject_key_holders" FOR EACH ROW EXECUTE FUNCTION "public"."update_total_subject_key_balance"();
 
 ALTER TABLE ONLY "public"."follows"
@@ -787,7 +878,7 @@ ALTER TABLE ONLY "public"."post_likes"
     ADD CONSTRAINT "post_likes_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "auth"."users"("id");
 
 ALTER TABLE ONLY "public"."posts"
-    ADD CONSTRAINT "posts_author_fkey" FOREIGN KEY ("author") REFERENCES "auth"."users"("id");
+    ADD CONSTRAINT "posts_author_fkey" FOREIGN KEY ("author") REFERENCES "public"."user_details"("user_id");
 
 ALTER TABLE ONLY "public"."reposts"
     ADD CONSTRAINT "reposts_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "auth"."users"("id");
@@ -818,9 +909,9 @@ CREATE POLICY "can unlike only authed" ON "public"."post_likes" FOR DELETE TO "a
 
 CREATE POLICY "can unrepost only authed" ON "public"."reposts" FOR DELETE TO "authenticated" USING (("user_id" = "auth"."uid"()));
 
-CREATE POLICY "can view only holder or owner" ON "public"."subject_chat_messages" FOR SELECT TO "authenticated" USING ((("subject" = ( SELECT "user_details"."wallet_address"
+CREATE POLICY "can view only holder or owner" ON "public"."subject_chat_messages" FOR SELECT TO "authenticated" USING (((((("message" <> ''::"text") AND ("length"("message") <= 1000)) OR ("rich" IS NOT NULL)) AND ("subject" = ( SELECT "user_details"."wallet_address"
    FROM "public"."user_details"
-  WHERE ("user_details"."user_id" = "auth"."uid"()))) OR (1 <= ( SELECT "subject_key_holders"."last_fetched_balance"
+  WHERE ("user_details"."user_id" = "auth"."uid"())))) OR (1 <= ( SELECT "subject_key_holders"."last_fetched_balance"
    FROM "public"."subject_key_holders"
   WHERE (("subject_key_holders"."subject" = "subject_chat_messages"."subject") AND ("subject_key_holders"."wallet_address" = ( SELECT "user_details"."wallet_address"
            FROM "public"."user_details"
@@ -828,9 +919,9 @@ CREATE POLICY "can view only holder or owner" ON "public"."subject_chat_messages
 
 CREATE POLICY "can view only user" ON "public"."notifications" FOR SELECT TO "authenticated" USING (("user_id" = "auth"."uid"()));
 
-CREATE POLICY "can write only authed" ON "public"."posts" FOR INSERT TO "authenticated" WITH CHECK ((("message" <> ''::"text") AND ("length"("message") < 1000) AND ("author" = "auth"."uid"())));
+CREATE POLICY "can write only authed" ON "public"."posts" FOR INSERT TO "authenticated" WITH CHECK ((("message" <> ''::"text") AND ("length"("message") <= 2000) AND ("author" = "auth"."uid"())));
 
-CREATE POLICY "can write only authed" ON "public"."topic_chat_messages" FOR INSERT TO "authenticated" WITH CHECK ((((("message" <> ''::"text") AND ("length"("message") < 1000)) OR ("rich" IS NOT NULL)) AND ("author" = "auth"."uid"())));
+CREATE POLICY "can write only authed" ON "public"."topic_chat_messages" FOR INSERT TO "authenticated" WITH CHECK ((((("message" <> ''::"text") AND ("length"("message") <= 1000)) OR ("rich" IS NOT NULL)) AND ("author" = "auth"."uid"())));
 
 CREATE POLICY "can write only holder or owner" ON "public"."subject_chat_messages" FOR INSERT TO "authenticated" WITH CHECK ((((("message" <> ''::"text") AND ("length"("message") < 1000)) OR ("rich" IS NOT NULL)) AND ("author" = "auth"."uid"()) AND (("subject" = ( SELECT "user_details"."wallet_address"
    FROM "public"."user_details"
@@ -923,9 +1014,13 @@ GRANT ALL ON FUNCTION "public"."decrease_total_subject_key_balance"() TO "anon";
 GRANT ALL ON FUNCTION "public"."decrease_total_subject_key_balance"() TO "authenticated";
 GRANT ALL ON FUNCTION "public"."decrease_total_subject_key_balance"() TO "service_role";
 
-GRANT ALL ON FUNCTION "public"."handle_new_user"() TO "anon";
-GRANT ALL ON FUNCTION "public"."handle_new_user"() TO "authenticated";
-GRANT ALL ON FUNCTION "public"."handle_new_user"() TO "service_role";
+GRANT ALL ON FUNCTION "public"."get_portfolio_value"("param_wallet_address" "text") TO "anon";
+GRANT ALL ON FUNCTION "public"."get_portfolio_value"("param_wallet_address" "text") TO "authenticated";
+GRANT ALL ON FUNCTION "public"."get_portfolio_value"("param_wallet_address" "text") TO "service_role";
+
+GRANT ALL ON FUNCTION "public"."get_post_and_comments"("p_post_id" bigint) TO "anon";
+GRANT ALL ON FUNCTION "public"."get_post_and_comments"("p_post_id" bigint) TO "authenticated";
+GRANT ALL ON FUNCTION "public"."get_post_and_comments"("p_post_id" bigint) TO "service_role";
 
 GRANT ALL ON FUNCTION "public"."increase_follow_count"() TO "anon";
 GRANT ALL ON FUNCTION "public"."increase_follow_count"() TO "authenticated";
@@ -987,9 +1082,17 @@ GRANT ALL ON FUNCTION "public"."set_updated_at"() TO "anon";
 GRANT ALL ON FUNCTION "public"."set_updated_at"() TO "authenticated";
 GRANT ALL ON FUNCTION "public"."set_updated_at"() TO "service_role";
 
+GRANT ALL ON FUNCTION "public"."set_user_metadata_to_details"() TO "anon";
+GRANT ALL ON FUNCTION "public"."set_user_metadata_to_details"() TO "authenticated";
+GRANT ALL ON FUNCTION "public"."set_user_metadata_to_details"() TO "service_role";
+
 GRANT ALL ON FUNCTION "public"."update_subject_key_holder_count"() TO "anon";
 GRANT ALL ON FUNCTION "public"."update_subject_key_holder_count"() TO "authenticated";
 GRANT ALL ON FUNCTION "public"."update_subject_key_holder_count"() TO "service_role";
+
+GRANT ALL ON FUNCTION "public"."update_subject_last_message"() TO "anon";
+GRANT ALL ON FUNCTION "public"."update_subject_last_message"() TO "authenticated";
+GRANT ALL ON FUNCTION "public"."update_subject_last_message"() TO "service_role";
 
 GRANT ALL ON FUNCTION "public"."update_total_subject_key_balance"() TO "anon";
 GRANT ALL ON FUNCTION "public"."update_total_subject_key_balance"() TO "authenticated";
