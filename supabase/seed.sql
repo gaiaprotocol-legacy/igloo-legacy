@@ -791,7 +791,7 @@ ALTER TABLE ONLY "public"."tracked_event_blocks"
     ADD CONSTRAINT "tracked_event_blocks_pkey" PRIMARY KEY ("contract_type");
 
 ALTER TABLE ONLY "public"."users_public"
-    ADD CONSTRAINT "users_public_pkey" PRIMARY KEY ("user_id");
+    ADD CONSTRAINT "user_details_pkey" PRIMARY KEY ("user_id");
 
 ALTER TABLE ONLY "public"."wallet_linking_nonces"
     ADD CONSTRAINT "wallet_linking_nonces_pkey" PRIMARY KEY ("user_id");
