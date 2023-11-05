@@ -31,12 +31,12 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp" WITH SCHEMA "extensions";
 CREATE OR REPLACE FUNCTION "public"."decrease_follow_count"() RETURNS "trigger"
     LANGUAGE "plpgsql" SECURITY DEFINER
     AS $$begin
-  update user_details
+  update users_public
   set
     follower_count = follower_count - 1
   where
     user_id = old.followee_id;
-  update user_details
+  update users_public
   set
     following_count = following_count - 1
   where
@@ -194,12 +194,12 @@ ALTER FUNCTION "public"."get_post_and_comments"("p_post_id" bigint) OWNER TO "po
 CREATE OR REPLACE FUNCTION "public"."increase_follow_count"() RETURNS "trigger"
     LANGUAGE "plpgsql" SECURITY DEFINER
     AS $$begin
-  update user_details
+  update users_public
   set
     follower_count = follower_count + 1
   where
     user_id = new.followee_id;
-  update user_details
+  update users_public
   set
     following_count = following_count + 1
   where
@@ -273,7 +273,7 @@ ALTER FUNCTION "public"."increase_subject_key_holder_count"() OWNER TO "postgres
 CREATE OR REPLACE FUNCTION "public"."increase_subject_total_trading_volume_and_fees_earned"() RETURNS "trigger"
     LANGUAGE "plpgsql" SECURITY DEFINER
     AS $$begin
-    update user_details
+    update users_public
     set
         total_earned_trading_fees = total_earned_trading_fees + new.args[7]::numeric
     where
@@ -394,8 +394,8 @@ CREATE OR REPLACE FUNCTION "public"."notify_trade_key_event"() RETURNS "trigger"
     v_sender UUID;
     v_receiver UUID;
 BEGIN
-    SELECT user_id INTO v_sender FROM user_details WHERE wallet_address = new.args[1];
-    SELECT user_id INTO v_receiver FROM user_details WHERE wallet_address = new.args[2];
+    SELECT user_id INTO v_sender FROM users_public WHERE wallet_address = new.args[1];
+    SELECT user_id INTO v_receiver FROM users_public WHERE wallet_address = new.args[2];
     
     IF v_sender IS NOT NULL AND v_receiver IS NOT NULL AND v_sender <> v_receiver THEN
         IF new.args[3] = 'true' THEN
@@ -456,7 +456,7 @@ CREATE OR REPLACE FUNCTION "public"."set_user_metadata_to_details"() RETURNS "tr
     SET "search_path" TO 'public'
     AS $$
 begin
-  insert into public.user_details (user_id, display_name, profile_image, x_username)
+  insert into public.users_public (user_id, display_name, profile_image, x_username)
   values (
     new.id,
     new.raw_user_meta_data ->> 'full_name',
@@ -725,7 +725,7 @@ CREATE TABLE IF NOT EXISTS "public"."tracked_event_blocks" (
 
 ALTER TABLE "public"."tracked_event_blocks" OWNER TO "postgres";
 
-CREATE TABLE IF NOT EXISTS "public"."user_details" (
+CREATE TABLE IF NOT EXISTS "public"."users_public" (
     "user_id" "uuid" DEFAULT "auth"."uid"() NOT NULL,
     "wallet_address" "text",
     "total_earned_trading_fees" numeric DEFAULT '0'::numeric NOT NULL,
@@ -740,7 +740,7 @@ CREATE TABLE IF NOT EXISTS "public"."user_details" (
     "updated_at" timestamp with time zone
 );
 
-ALTER TABLE "public"."user_details" OWNER TO "postgres";
+ALTER TABLE "public"."users_public" OWNER TO "postgres";
 
 CREATE TABLE IF NOT EXISTS "public"."wallet_linking_nonces" (
     "user_id" "uuid" DEFAULT "auth"."uid"() NOT NULL,
@@ -790,8 +790,8 @@ ALTER TABLE ONLY "public"."tracked_event_blocks"
 ALTER TABLE ONLY "public"."tracked_event_blocks"
     ADD CONSTRAINT "tracked_event_blocks_pkey" PRIMARY KEY ("contract_type");
 
-ALTER TABLE ONLY "public"."user_details"
-    ADD CONSTRAINT "user_details_pkey" PRIMARY KEY ("user_id");
+ALTER TABLE ONLY "public"."users_public"
+    ADD CONSTRAINT "users_public_pkey" PRIMARY KEY ("user_id");
 
 ALTER TABLE ONLY "public"."wallet_linking_nonces"
     ADD CONSTRAINT "wallet_linking_nonces_pkey" PRIMARY KEY ("user_id");
@@ -854,7 +854,7 @@ CREATE TRIGGER "set_total_subject_key_balances_updated_at" BEFORE UPDATE ON "pub
 
 CREATE TRIGGER "set_tracked_event_blocks_updated_at" BEFORE UPDATE ON "public"."tracked_event_blocks" FOR EACH ROW EXECUTE FUNCTION "public"."set_updated_at"();
 
-CREATE TRIGGER "set_user_details_updated_at" BEFORE UPDATE ON "public"."user_details" FOR EACH ROW EXECUTE FUNCTION "public"."set_updated_at"();
+CREATE TRIGGER "set_users_public_updated_at" BEFORE UPDATE ON "public"."users_public" FOR EACH ROW EXECUTE FUNCTION "public"."set_updated_at"();
 
 CREATE TRIGGER "update_subject_key_holder_count" AFTER UPDATE ON "public"."subject_key_holders" FOR EACH ROW EXECUTE FUNCTION "public"."update_subject_key_holder_count"();
 
@@ -878,7 +878,7 @@ ALTER TABLE ONLY "public"."post_likes"
     ADD CONSTRAINT "post_likes_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "auth"."users"("id");
 
 ALTER TABLE ONLY "public"."posts"
-    ADD CONSTRAINT "posts_author_fkey" FOREIGN KEY ("author") REFERENCES "public"."user_details"("user_id");
+    ADD CONSTRAINT "posts_author_fkey" FOREIGN KEY ("author") REFERENCES "public"."users_public"("user_id");
 
 ALTER TABLE ONLY "public"."reposts"
     ADD CONSTRAINT "reposts_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "auth"."users"("id");
@@ -889,8 +889,8 @@ ALTER TABLE ONLY "public"."subject_chat_messages"
 ALTER TABLE ONLY "public"."topic_chat_messages"
     ADD CONSTRAINT "topic_chat_messages_author_fkey" FOREIGN KEY ("author") REFERENCES "auth"."users"("id");
 
-ALTER TABLE ONLY "public"."user_details"
-    ADD CONSTRAINT "user_details_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "auth"."users"("id");
+ALTER TABLE ONLY "public"."users_public"
+    ADD CONSTRAINT "users_public_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "auth"."users"("id");
 
 ALTER TABLE ONLY "public"."wallet_linking_nonces"
     ADD CONSTRAINT "wallet_linking_nonces_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "auth"."users"("id");
@@ -909,13 +909,13 @@ CREATE POLICY "can unlike only authed" ON "public"."post_likes" FOR DELETE TO "a
 
 CREATE POLICY "can unrepost only authed" ON "public"."reposts" FOR DELETE TO "authenticated" USING (("user_id" = "auth"."uid"()));
 
-CREATE POLICY "can view only holder or owner" ON "public"."subject_chat_messages" FOR SELECT TO "authenticated" USING (((((("message" <> ''::"text") AND ("length"("message") <= 1000)) OR ("rich" IS NOT NULL)) AND ("subject" = ( SELECT "user_details"."wallet_address"
-   FROM "public"."user_details"
-  WHERE ("user_details"."user_id" = "auth"."uid"())))) OR (1 <= ( SELECT "subject_key_holders"."last_fetched_balance"
+CREATE POLICY "can view only holder or owner" ON "public"."subject_chat_messages" FOR SELECT TO "authenticated" USING (((((("message" <> ''::"text") AND ("length"("message") <= 1000)) OR ("rich" IS NOT NULL)) AND ("subject" = ( SELECT "users_public"."wallet_address"
+   FROM "public"."users_public"
+  WHERE ("users_public"."user_id" = "auth"."uid"())))) OR (1 <= ( SELECT "subject_key_holders"."last_fetched_balance"
    FROM "public"."subject_key_holders"
-  WHERE (("subject_key_holders"."subject" = "subject_chat_messages"."subject") AND ("subject_key_holders"."wallet_address" = ( SELECT "user_details"."wallet_address"
-           FROM "public"."user_details"
-          WHERE ("user_details"."user_id" = "auth"."uid"()))))))));
+  WHERE (("subject_key_holders"."subject" = "subject_chat_messages"."subject") AND ("subject_key_holders"."wallet_address" = ( SELECT "users_public"."wallet_address"
+           FROM "public"."users_public"
+          WHERE ("users_public"."user_id" = "auth"."uid"()))))))));
 
 CREATE POLICY "can view only user" ON "public"."notifications" FOR SELECT TO "authenticated" USING (("user_id" = "auth"."uid"()));
 
@@ -923,13 +923,13 @@ CREATE POLICY "can write only authed" ON "public"."posts" FOR INSERT TO "authent
 
 CREATE POLICY "can write only authed" ON "public"."topic_chat_messages" FOR INSERT TO "authenticated" WITH CHECK ((((("message" <> ''::"text") AND ("length"("message") <= 1000)) OR ("rich" IS NOT NULL)) AND ("author" = "auth"."uid"())));
 
-CREATE POLICY "can write only holder or owner" ON "public"."subject_chat_messages" FOR INSERT TO "authenticated" WITH CHECK ((((("message" <> ''::"text") AND ("length"("message") < 1000)) OR ("rich" IS NOT NULL)) AND ("author" = "auth"."uid"()) AND (("subject" = ( SELECT "user_details"."wallet_address"
-   FROM "public"."user_details"
-  WHERE ("user_details"."user_id" = "auth"."uid"()))) OR (1 <= ( SELECT "subject_key_holders"."last_fetched_balance"
+CREATE POLICY "can write only holder or owner" ON "public"."subject_chat_messages" FOR INSERT TO "authenticated" WITH CHECK ((((("message" <> ''::"text") AND ("length"("message") < 1000)) OR ("rich" IS NOT NULL)) AND ("author" = "auth"."uid"()) AND (("subject" = ( SELECT "users_public"."wallet_address"
+   FROM "public"."users_public"
+  WHERE ("users_public"."user_id" = "auth"."uid"()))) OR (1 <= ( SELECT "subject_key_holders"."last_fetched_balance"
    FROM "public"."subject_key_holders"
-  WHERE (("subject_key_holders"."subject" = "subject_chat_messages"."subject") AND ("subject_key_holders"."wallet_address" = ( SELECT "user_details"."wallet_address"
-           FROM "public"."user_details"
-          WHERE ("user_details"."user_id" = "auth"."uid"())))))))));
+  WHERE (("subject_key_holders"."subject" = "subject_chat_messages"."subject") AND ("subject_key_holders"."wallet_address" = ( SELECT "users_public"."wallet_address"
+           FROM "public"."users_public"
+          WHERE ("users_public"."user_id" = "auth"."uid"())))))))));
 
 ALTER TABLE "public"."follows" ENABLE ROW LEVEL SECURITY;
 
@@ -955,7 +955,7 @@ ALTER TABLE "public"."total_subject_key_balances" ENABLE ROW LEVEL SECURITY;
 
 ALTER TABLE "public"."tracked_event_blocks" ENABLE ROW LEVEL SECURITY;
 
-ALTER TABLE "public"."user_details" ENABLE ROW LEVEL SECURITY;
+ALTER TABLE "public"."users_public" ENABLE ROW LEVEL SECURITY;
 
 CREATE POLICY "view everyone" ON "public"."follows" FOR SELECT USING (true);
 
@@ -973,15 +973,15 @@ CREATE POLICY "view everyone" ON "public"."topic_chat_messages" FOR SELECT USING
 
 CREATE POLICY "view everyone" ON "public"."total_subject_key_balances" FOR SELECT USING (true);
 
-CREATE POLICY "view everyone" ON "public"."user_details" FOR SELECT USING (true);
+CREATE POLICY "view everyone" ON "public"."users_public" FOR SELECT USING (true);
 
 CREATE POLICY "view everyone or only keyholders" ON "public"."posts" FOR SELECT USING ((("target" IS NULL) OR ("target" = 0) OR ("author" = "auth"."uid"()) OR (("target" = 1) AND (( SELECT "subject_key_holders"."last_fetched_balance"
    FROM "public"."subject_key_holders"
-  WHERE (("subject_key_holders"."subject" = ( SELECT "user_details"."wallet_address"
-           FROM "public"."user_details"
-          WHERE ("user_details"."user_id" = "posts"."author"))) AND ("subject_key_holders"."wallet_address" = ( SELECT "user_details"."wallet_address"
-           FROM "public"."user_details"
-          WHERE ("user_details"."user_id" = "auth"."uid"()))))) >= 1))));
+  WHERE (("subject_key_holders"."subject" = ( SELECT "users_public"."wallet_address"
+           FROM "public"."users_public"
+          WHERE ("users_public"."user_id" = "posts"."author"))) AND ("subject_key_holders"."wallet_address" = ( SELECT "users_public"."wallet_address"
+           FROM "public"."users_public"
+          WHERE ("users_public"."user_id" = "auth"."uid"()))))) >= 1))));
 
 ALTER TABLE "public"."wallet_linking_nonces" ENABLE ROW LEVEL SECURITY;
 
@@ -1162,9 +1162,9 @@ GRANT ALL ON TABLE "public"."tracked_event_blocks" TO "anon";
 GRANT ALL ON TABLE "public"."tracked_event_blocks" TO "authenticated";
 GRANT ALL ON TABLE "public"."tracked_event_blocks" TO "service_role";
 
-GRANT ALL ON TABLE "public"."user_details" TO "anon";
-GRANT ALL ON TABLE "public"."user_details" TO "authenticated";
-GRANT ALL ON TABLE "public"."user_details" TO "service_role";
+GRANT ALL ON TABLE "public"."users_public" TO "anon";
+GRANT ALL ON TABLE "public"."users_public" TO "authenticated";
+GRANT ALL ON TABLE "public"."users_public" TO "service_role";
 
 GRANT ALL ON TABLE "public"."wallet_linking_nonces" TO "anon";
 GRANT ALL ON TABLE "public"."wallet_linking_nonces" TO "authenticated";

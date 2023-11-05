@@ -1,5 +1,5 @@
 begin
-    update user_details
+    update users_public
     set
         total_earned_trading_fees = total_earned_trading_fees + new.args[7]::numeric
     where

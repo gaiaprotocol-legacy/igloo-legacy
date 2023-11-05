@@ -24,7 +24,7 @@ class UserDetailsCacher extends EventContainer {
     Supabase.client.channel("user-details-changes").on("postgres_changes", {
       event: "*",
       schema: "public",
-      table: "user_details",
+      table: "users_public",
     }, (payload) => {
       if (payload.eventType === "INSERT" || payload.eventType === "UPDATE") {
         this.refresh(payload.new.user_id);
@@ -60,7 +60,7 @@ class UserDetailsCacher extends EventContainer {
   }
 
   public async refresh(userId: string) {
-    const { data, error } = await Supabase.client.from("user_details").select(
+    const { data, error } = await Supabase.client.from("users_public").select(
       UserDetailsSelectQuery,
     ).eq("user_id", userId);
     if (error) throw error;
@@ -86,7 +86,7 @@ class UserDetailsCacher extends EventContainer {
   }
 
   public async refreshByXUsername(xUsername: string) {
-    const { data, error } = await Supabase.client.from("user_details").select(
+    const { data, error } = await Supabase.client.from("users_public").select(
       UserDetailsSelectQuery,
     ).eq("x_username", xUsername);
     if (error) throw error;
@@ -119,7 +119,7 @@ class UserDetailsCacher extends EventContainer {
   }
 
   public async refreshByWalletAddress(walletAddress: string) {
-    const { data, error } = await Supabase.client.from("user_details").select(
+    const { data, error } = await Supabase.client.from("users_public").select(
       UserDetailsSelectQuery,
     ).eq("wallet_address", walletAddress);
     if (error) throw error;

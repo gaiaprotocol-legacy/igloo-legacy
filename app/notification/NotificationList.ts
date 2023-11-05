@@ -141,7 +141,7 @@ export default class NotificationList extends DomNode {
 
     const userIds = notiData.map((noti) => noti.triggered_by);
     const { data: userDetailsData, error: userDetailsError } = await Supabase
-      .client.from("user_details").select().in("user_id", userIds);
+      .client.from("users_public").select().in("user_id", userIds);
     if (userDetailsError) throw userDetailsError;
 
     const postIds = notiData.filter((noti) => this.checkNotiIsPost(noti)).map(

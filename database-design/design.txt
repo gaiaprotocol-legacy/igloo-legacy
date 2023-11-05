@@ -1,5 +1,5 @@
 
-user_details
+users_public
 	user_id - uuid - auth.uid() - pk
 	wallet_address - text - nullable
 	total_earned_trading_fees - numeric - 0
@@ -108,7 +108,7 @@ posts
 	id - int8 - pk
 	group_id - int8 - nullable
 	target - int2 - nullbale
-	author - uuid - auth.uid() - fk user_details.user_id
+	author - uuid - auth.uid() - fk users_public.user_id
 	author_name - text - not null
 	author_avatar_url - text - nullable
 	author_x_username - text - nullable

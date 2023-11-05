@@ -68,7 +68,7 @@ class SubjectService {
     if (followsError) throw followsError;
     const followeeIds = followsData.map((follow) => follow.followee_id);
     const { data: userData, error: userError } = await Supabase.client.from(
-      "user_details",
+      "users_public",
     ).select()
       .in(
         "user_id",

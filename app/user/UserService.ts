@@ -9,7 +9,7 @@ class UserService {
   private static readonly LIMIT = 50;
 
   public async fetchById(userId: string): Promise<UserDetails> {
-    const { data, error } = await Supabase.client.from("user_details").select(
+    const { data, error } = await Supabase.client.from("users_public").select(
       UserDetailsSelectQuery,
     )
       .eq(
@@ -21,7 +21,7 @@ class UserService {
   }
 
   public async fetchByIds(userIds: string[]): Promise<UserDetails[]> {
-    const { data, error } = await Supabase.client.from("user_details").select(
+    const { data, error } = await Supabase.client.from("users_public").select(
       UserDetailsSelectQuery,
     )
       .in(
@@ -35,7 +35,7 @@ class UserService {
   public async fetchByWalletAddresses(
     walletAddresses: string[],
   ): Promise<UserDetails[]> {
-    const { data, error } = await Supabase.client.from("user_details").select(
+    const { data, error } = await Supabase.client.from("users_public").select(
       UserDetailsSelectQuery,
     )
       .in(
@@ -70,7 +70,7 @@ class UserService {
 
     const { data: userDetails, error: userDetailsError } = await Supabase
       .client
-      .from("user_details").select(UserDetailsSelectQuery).in(
+      .from("users_public").select(UserDetailsSelectQuery).in(
         "user_id",
         followsData.map((follow) => follow.follower_id),
       );
@@ -106,7 +106,7 @@ class UserService {
 
     const { data: userDetails, error: userDetailsError } = await Supabase
       .client
-      .from("user_details").select(UserDetailsSelectQuery).in(
+      .from("users_public").select(UserDetailsSelectQuery).in(
         "user_id",
         followsData.map((follow) => follow.followee_id),
       );
@@ -140,7 +140,7 @@ class UserService {
   }
 
   public async fetchNewUsers(): Promise<UserDetails[]> {
-    const { data, error } = await Supabase.client.from("user_details").select(
+    const { data, error } = await Supabase.client.from("users_public").select(
       UserDetailsSelectQuery,
     )
       .order(
@@ -215,7 +215,7 @@ class UserService {
   }
 
   public async searchUsers(query: string): Promise<UserDetails[]> {
-    const { data, error } = await Supabase.client.from("user_details").select(
+    const { data, error } = await Supabase.client.from("users_public").select(
       UserDetailsSelectQuery,
     )
       .or(`display_name.ilike.%${query}%,x_username.ilike.%${query}%`).limit(

@@ -313,7 +313,7 @@ class PostService {
     if (holderError) throw holderError;
     const subjects = holderData.map((h) => h.subject);
     const { data: userData, error: userError } = await Supabase.client.from(
-      "user_details",
+      "users_public",
     ).select().in(
       "wallet_address",
       subjects,

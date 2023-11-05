@@ -34,7 +34,7 @@ serveWithOptions(async (req) => {
   await supabase.from("wallet_linking_nonces").delete().eq("user_id", user.id);
 
   const { error: deleteWalletAddressError } = await supabase.from(
-    "user_details",
+    "users_public",
   ).update(
     { wallet_address: null },
   ).eq("wallet_address", walletAddress);
@@ -44,7 +44,7 @@ serveWithOptions(async (req) => {
   const metadata: any = {};
 
   const { error: setWalletAddressError } = await supabase
-    .from("user_details")
+    .from("users_public")
     .upsert({
       user_id: user.id,
       wallet_address: walletAddress,
