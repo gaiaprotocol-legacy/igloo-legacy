@@ -7,7 +7,7 @@ import {
   View,
   ViewParams,
 } from "common-app-module";
-import { TempUserDetailsCacher } from "sofi-module";
+import { TempUserDetailsCacher } from "social-module";
 import SubjectDetails from "../database-interface/SubjectDetails.js";
 import UserDetails from "../database-interface/UserDetails.js";
 import Layout from "../layout/Layout.js";

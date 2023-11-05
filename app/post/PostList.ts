@@ -1,5 +1,5 @@
 import { DomNode, el } from "common-app-module";
-import { Post } from "sofi-module";
+import { Post } from "social-module";
 import PostListItem from "./PostListItem.js";
 
 export default abstract class PostList extends DomNode {

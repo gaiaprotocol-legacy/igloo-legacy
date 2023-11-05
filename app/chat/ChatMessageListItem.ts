@@ -1,6 +1,6 @@
 import { DomNode, el, Router } from "common-app-module";
 import dayjs from "dayjs";
-import { Rich } from "sofi-module";
+import { Rich } from "social-module";
 import ChatMessage from "../database-interface/ChatMessage.js";
 import SignedUserManager from "../user/SignedUserManager.js";
 

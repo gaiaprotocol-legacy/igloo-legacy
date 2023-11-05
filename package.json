@@ -25,7 +25,7 @@
     "@web3modal/html": "^2.7.1",
     "ethers": "^6.7.1",
     "firebase": "^10.4.0",
-    "sofi-module": "^0.0.2",
+    "social-module": "^0.0.3",
     "uuid": "^9.0.1",
     "viem": "^1.5.3"
   },

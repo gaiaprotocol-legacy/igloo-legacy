@@ -1,7 +1,7 @@
 import { el, msg, Router, SplashScreen, Supabase } from "common-app-module";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime.js";
-import { AuthUtil } from "sofi-module";
+import { AuthUtil } from "social-module";
 import BlockTimeManager from "./BlockTimeManager.js";
 import SubjectChatRoomView from "./chat-subject/SubjectChatRoomView.js";
 import TopicChatRoomView from "./chat-topic/TopicChatRoomView.js";

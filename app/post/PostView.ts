@@ -11,7 +11,7 @@ import {
   View,
   ViewParams,
 } from "common-app-module";
-import { Post, UploadedFile } from "sofi-module";
+import { Post, UploadedFile } from "social-module";
 import Layout from "../layout/Layout.js";
 import SignedUserManager from "../user/SignedUserManager.js";
 import PostCacher from "./PostCacher.js";

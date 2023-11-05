@@ -1,5 +1,5 @@
 import { Button, DomNode, el, MaterialIcon } from "common-app-module";
-import { Rich } from "sofi-module";
+import { Rich } from "social-module";
 import ChatMessage, { MessageType } from "../database-interface/ChatMessage.js";
 import SignedUserManager from "../user/SignedUserManager.js";
 
