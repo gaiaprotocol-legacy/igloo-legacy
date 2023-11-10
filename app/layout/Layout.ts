@@ -33,28 +33,31 @@ export default class Layout extends View {
       ),
     );
 
-    this.activeNavBarButton(uri);
+    this.changeUri(uri);
   }
 
   public changeParams(params: ViewParams, uri: string): void {
-    this.activeNavBarButton(uri);
+    this.changeUri(uri);
   }
 
-  private activeNavBarButton(uri: string): void {
+  private changeUri(uri: string): void {
     this.navBar.activeButton(
       uri === "" ? "home" : uri.substring(
         0,
         uri.indexOf("/") === -1 ? uri.length : uri.indexOf("/"),
       ),
     );
+
     uri === "explore" || uri === "search" || uri === "chats" ||
       uri.startsWith("chats/")
       ? this.trendSection.hide()
       : this.trendSection.show();
+
     uri === "explore" || uri === "search"
       ? this.topUserSection.show()
       : this.topUserSection.hide();
-    this.mobileTitleBar.uri = uri;
+
+    this.mobileTitleBar.changeTitle(uri);
   }
 
   public close(): void {
