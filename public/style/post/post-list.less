@@ -1,0 +1,16 @@
+.post-list {
+    display       : flex;
+    flex-direction: column;
+    gap           : 20px;
+
+    &.hidden {
+        display: none;
+    }
+
+    &:empty::before {
+        content   : attr(data-empty-message);
+        text-align: center;
+        color     : #a1a2ac;
+        padding   : 20px 0;
+    }
+}

@@ -303,6 +303,20 @@ p {
   background: lightgray 50% / cover no-repeat;
   cursor: pointer;
 }
+.post-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.post-list.hidden {
+  display: none;
+}
+.post-list:empty::before {
+  content: attr(data-empty-message);
+  text-align: center;
+  color: #a1a2ac;
+  padding: 20px 0;
+}
 .settings-view {
   padding: 31px 18px 31px 30px;
 }
