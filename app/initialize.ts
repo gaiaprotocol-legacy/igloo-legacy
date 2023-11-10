@@ -13,6 +13,7 @@ import messages_zh_HK from "../locales/zh_HK.yml";
 import messages_zh_TW from "../locales/zh_TW.yml";
 import Config from "./Config.js";
 import Layout from "./layout/Layout.js";
+import SignedUserManager from "./user/SignedUserManager.js";
 
 msg.setMessages({
   en: messages_en,
@@ -31,10 +32,9 @@ export default async function initialize(config: Config) {
     config.dev,
   );
 
-  await SplashLoader.load(
-    el("img", { src: "/images/igloo-character.png" }),
-    [],
-  );
+  await SplashLoader.load(el("img", { src: "/images/igloo-character.png" }), [
+    SignedUserManager.fetchUserOnInit(),
+  ]);
 
   Router.route("**", Layout);
 }
