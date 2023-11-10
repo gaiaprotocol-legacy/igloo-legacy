@@ -1,5 +1,5 @@
 import { EventContainer, Store, Supabase } from "common-app-module";
-import { Post, PostSelectQuery, isEqualPost } from "sofi-module";
+import { isEqualPost, Post, PostSelectQuery } from "sofi-module";
 
 class PostCacher extends EventContainer {
   private store: Store = new Store("cached-posts");
@@ -31,9 +31,12 @@ class PostCacher extends EventContainer {
   private cache(id: number, post: Post | undefined) {
     if (!post) {
       this.deleteCache(id);
-    } else if (!isEqualPost(post, this.get(id))) {
-      this.store.set(String(id), post, true);
-      this.fireEvent("update", post);
+    } else {
+      const _post = this.get(id);
+      if (!_post || !isEqualPost(post, _post)) {
+        this.store.set(String(id), post, true);
+        this.fireEvent("update", post);
+      }
     }
   }
 

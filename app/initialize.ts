@@ -1,4 +1,10 @@
-import { el, msg, Router, SplashScreen, Supabase } from "common-app-module";
+import {
+  AppInitializer,
+  el,
+  msg,
+  Router,
+  SplashScreen,
+} from "common-app-module";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime.js";
 import { AuthUtil } from "sofi-module";
@@ -32,16 +38,16 @@ import WalletManager from "./user/WalletManager.js";
 dayjs.extend(relativeTime);
 
 export default async function initialize(config: Config) {
+  AppInitializer.initialize(
+    config.supabaseUrl,
+    config.supabaseAnonKey,
+    config.dev,
+  );
+
   EnvironmentManager.dev = config.dev;
   EnvironmentManager.avaxRpc = config.avaxRpc;
   EnvironmentManager.avaxChainId = config.avaxChainId;
 
-  if (sessionStorage.__spa_path) {
-    Router.goNoHistory(sessionStorage.__spa_path);
-    sessionStorage.removeItem("__spa_path");
-  }
-
-  Supabase.connect(config.supabaseUrl, config.supabaseAnonKey, config.dev);
   [UserDetailsCacher, SubjectDetailsCacher, PostCacher].forEach((cacher) =>
     cacher.init()
   );

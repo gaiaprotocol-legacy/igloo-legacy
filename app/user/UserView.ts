@@ -6,7 +6,7 @@ import {
   View,
   ViewParams,
 } from "common-app-module";
-import { SocialUserPublic, TempUserDetailsCacher } from "sofi-module";
+import { SocialUserPublic, TempUserPublicCacher } from "sofi-module";
 import SubjectDetails from "../database-interface/SubjectDetails.js";
 import Layout from "../layout/Layout.js";
 import MaterialIcon from "../MaterialIcon.js";
@@ -88,7 +88,7 @@ export default class UserView extends View {
   }
 
   private async load() {
-    const cached = TempUserDetailsCacher.getByXUsername(this.xUsername);
+    const cached = TempUserPublicCacher.getByXUsername(this.xUsername);
     console.log(cached);
     if (cached) {
       this.userDetails = cached;

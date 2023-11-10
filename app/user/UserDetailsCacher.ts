@@ -1,5 +1,5 @@
 import { EventContainer, Store, Supabase } from "common-app-module";
-import { TempUserDetailsCacher } from "sofi-module";
+import { TempUserPublicCacher } from "sofi-module";
 import UserDetails, {
   DefaultUserDetails,
   UserDetailsSelectQuery,
@@ -33,7 +33,7 @@ class UserDetailsCacher extends EventContainer {
   }
 
   public cache(userId: string, userDetails: UserDetails) {
-    TempUserDetailsCacher.cache(userDetails);
+    TempUserPublicCacher.cache(userDetails);
     if (!isEqualUserDetails(userDetails, this.get(userId))) {
       this.store.set(userId, userDetails, true);
       if (userDetails.x_username) {
@@ -65,7 +65,7 @@ class UserDetailsCacher extends EventContainer {
     ).eq("user_id", userId);
     if (error) throw error;
     const userDetails: UserDetails | undefined = data?.[0] as any;
-    if (userDetails) TempUserDetailsCacher.cache(userDetails);
+    if (userDetails) TempUserPublicCacher.cache(userDetails);
     if (userDetails && !isEqualUserDetails(userDetails, this.get(userId))) {
       this.cache(userId, userDetails);
     }
@@ -92,7 +92,7 @@ class UserDetailsCacher extends EventContainer {
     if (error) throw error;
     const userDetails: UserDetails | undefined = data?.[0] as any;
     if (userDetails) {
-      TempUserDetailsCacher.cache(userDetails);
+      TempUserPublicCacher.cache(userDetails);
       if (!isEqualUserDetails(userDetails, this.getByXUsername(xUsername))) {
         this.cache(userDetails.user_id, userDetails);
       }
@@ -125,7 +125,7 @@ class UserDetailsCacher extends EventContainer {
     if (error) throw error;
     const userDetails: UserDetails | undefined = data?.[0] as any;
     if (userDetails) {
-      TempUserDetailsCacher.cache(userDetails);
+      TempUserPublicCacher.cache(userDetails);
       if (
         !isEqualUserDetails(userDetails, this.getByWalletAddress(walletAddress))
       ) {
@@ -144,7 +144,7 @@ class UserDetailsCacher extends EventContainer {
 
   public cacheMultiple(userDetailsSet: UserDetails[]) {
     for (const userDetails of userDetailsSet) {
-      TempUserDetailsCacher.cache(userDetails);
+      TempUserPublicCacher.cache(userDetails);
       this.cache(userDetails.user_id, userDetails);
     }
   }

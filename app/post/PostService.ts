@@ -1,5 +1,5 @@
 import { Supabase, UploadedFile } from "common-app-module";
-import { Post, PostSelectQuery, PostTarget } from "sofi-module";
+import { Post, PostSelectQuery } from "sofi-module";
 import UploadManager from "../UploadManager.js";
 import SignedUserManager from "../user/SignedUserManager.js";
 
@@ -7,7 +7,7 @@ class PostService {
   private static readonly LIMIT = 50;
 
   public async post(
-    target: PostTarget,
+    target: number,
     message: string,
     uploadedFile: UploadedFile | undefined,
   ) {
