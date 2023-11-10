@@ -41,3 +41,40 @@ body {
 p {
     line-height: 1.6;
 }
+
+.embossed-box {
+    border-radius: 16px;
+    background   : var(--bg-color);
+    box-shadow   : var(--embossed-box-shadow);
+}
+
+.debossed-box {
+    border-radius: 16px;
+    outline      : var(--debossed-box-border);
+    background   : var(--bg-color);
+    box-shadow   : var(--debossed-box-shadow);
+}
+
+.embossed-button {
+    .embossed-box();
+    cursor: pointer;
+
+    &:active,
+    &.active {
+        .debossed-box();
+    }
+}
+
+.special-button {
+    border-radius: 16px;
+    color        : #fff;
+    background   : #5585FF;
+    box-shadow   : var(--special-button-shadow);
+
+    &:active,
+    &.active {
+        background: #5585FF;
+        outline   : 1px solid #5585FF;
+        box-shadow: var(--spacial-button-active-shadow);
+    }
+}

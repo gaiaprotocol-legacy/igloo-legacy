@@ -13,6 +13,7 @@ import messages_zh_HK from "../locales/zh_HK.yml";
 import messages_zh_TW from "../locales/zh_TW.yml";
 import Config from "./Config.js";
 import Layout from "./layout/Layout.js";
+import SettingsView from "./settings/SettingsView.js";
 import SignedUserManager from "./user/SignedUserManager.js";
 
 msg.setMessages({
@@ -37,4 +38,5 @@ export default async function initialize(config: Config) {
   ]);
 
   Router.route("**", Layout);
+  Router.route("settings", SettingsView);
 }

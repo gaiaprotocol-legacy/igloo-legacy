@@ -1,0 +1,55 @@
+.nav-bar {
+    .embossed-box();
+    border-radius : 0;
+    width         : 90px;
+    padding       : 21px;
+    display       : flex;
+    flex-direction: column;
+    align-items   : center;
+    gap           : 50px;
+    overflow-y    : auto;
+    position      : sticky;
+    top           : 0;
+    z-index       : 1;
+
+    @media @phone {
+        position       : fixed;
+        top            : auto;
+        bottom         : 0;
+        z-index        : 999990;
+        flex-direction : row;
+        width          : 100%;
+        height         : calc(90px + env(safe-area-inset-bottom));
+        padding        : 0 21px;
+        padding-bottom : env(safe-area-inset-bottom);
+        overflow       : hidden;
+        justify-content: space-between;
+        gap            : 0;
+    }
+
+    >button {
+        .embossed-button();
+        width          : 48px;
+        height         : 48px;
+        flex-shrink    : 0;
+        display        : flex;
+        justify-content: center;
+        align-items    : center;
+    }
+
+    >button.login,
+    >.signed-user {
+        margin-top: auto;
+    }
+
+    >.signed-user {
+        display      : flex;
+        width        : 42px;
+        height       : 42px;
+        flex-shrink  : 0;
+        border-radius: 42px;
+        border       : 1px solid #FFF;
+        background   : lightgray 50% / cover no-repeat;
+        cursor       : pointer;
+    }
+}

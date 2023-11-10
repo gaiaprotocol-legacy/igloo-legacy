@@ -17,6 +17,8 @@ serveWithOptions(async (req) => {
     if (url?.includes("_normal")) {
       thumbnailUrl = url;
       url = url.replace("_normal", "");
+    } else {
+      thumbnailUrl = url;
     }
 
     if (url) {
@@ -68,14 +70,13 @@ serveWithOptions(async (req) => {
           "http://localhost:54321/",
         )
         : url,
-      profile_image_thumbnail: thumbnailUrl
-        ? (thumbnailUrl.startsWith("http://supabase_kong_sofia:8000/")
+      profile_image_thumbnail:
+        thumbnailUrl?.startsWith("http://supabase_kong_sofia:8000/")
           ? thumbnailUrl.replace(
             "http://supabase_kong_sofia:8000/",
             "http://localhost:54321/",
           )
-          : thumbnailUrl)
-        : null,
+          : thumbnailUrl,
       profile_image_stored: true,
     })
       .eq("user_id", user.id);

@@ -150,6 +150,42 @@ body {
 p {
   line-height: 1.6;
 }
+.embossed-box {
+  border-radius: 16px;
+  background: var(--bg-color);
+  box-shadow: var(--embossed-box-shadow);
+}
+.debossed-box {
+  border-radius: 16px;
+  outline: var(--debossed-box-border);
+  background: var(--bg-color);
+  box-shadow: var(--debossed-box-shadow);
+}
+.embossed-button {
+  border-radius: 16px;
+  background: var(--bg-color);
+  box-shadow: var(--embossed-box-shadow);
+  cursor: pointer;
+}
+.embossed-button:active,
+.embossed-button.active {
+  border-radius: 16px;
+  outline: var(--debossed-box-border);
+  background: var(--bg-color);
+  box-shadow: var(--debossed-box-shadow);
+}
+.special-button {
+  border-radius: 16px;
+  color: #fff;
+  background: #5585FF;
+  box-shadow: var(--special-button-shadow);
+}
+.special-button:active,
+.special-button.active {
+  background: #5585FF;
+  outline: 1px solid #5585FF;
+  box-shadow: var(--spacial-button-active-shadow);
+}
 .igloo-lottie-animation {
   display: flex;
   justify-content: center;
@@ -174,5 +210,284 @@ p {
 .splash-screen.component > img {
   width: 120px;
   height: 120px;
+}
+.layout {
+  position: relative;
+  height: 100%;
+  max-width: 1280px;
+  margin: auto;
+  overflow-x: hidden;
+  display: flex;
+}
+@media only screen and (max-width: 859px) {
+  .layout {
+    height: auto;
+    display: block;
+    padding-bottom: calc(90px + env(safe-area-inset-bottom));
+  }
+}
+.layout > .nav-bar {
+  flex-shrink: 0;
+}
+.layout > main {
+  flex-grow: 1;
+  overflow-y: auto;
+}
+@media only screen and (max-width: 859px) {
+  .layout > main {
+    overflow-y: visible;
+  }
+}
+.nav-bar {
+  border-radius: 16px;
+  background: var(--bg-color);
+  box-shadow: var(--embossed-box-shadow);
+  border-radius: 0;
+  width: 90px;
+  padding: 21px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 50px;
+  overflow-y: auto;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+@media only screen and (max-width: 859px) {
+  .nav-bar {
+    position: fixed;
+    top: auto;
+    bottom: 0;
+    z-index: 999990;
+    flex-direction: row;
+    width: 100%;
+    height: calc(90px + env(safe-area-inset-bottom));
+    padding: 0 21px;
+    padding-bottom: env(safe-area-inset-bottom);
+    overflow: hidden;
+    justify-content: space-between;
+    gap: 0;
+  }
+}
+.nav-bar > button {
+  border-radius: 16px;
+  background: var(--bg-color);
+  box-shadow: var(--embossed-box-shadow);
+  cursor: pointer;
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.nav-bar > button:active,
+.nav-bar > button.active {
+  border-radius: 16px;
+  outline: var(--debossed-box-border);
+  background: var(--bg-color);
+  box-shadow: var(--debossed-box-shadow);
+}
+.nav-bar > button.login,
+.nav-bar > .signed-user {
+  margin-top: auto;
+}
+.nav-bar > .signed-user {
+  display: flex;
+  width: 42px;
+  height: 42px;
+  flex-shrink: 0;
+  border-radius: 42px;
+  border: 1px solid #FFF;
+  background: lightgray 50% / cover no-repeat;
+  cursor: pointer;
+}
+.settings-view {
+  padding: 31px 18px 31px 30px;
+}
+@media only screen and (max-width: 859px) {
+  .settings-view {
+    padding: 20px;
+  }
+}
+.settings-view > h1 {
+  font-feature-settings: 'clig' off, 'liga' off;
+  font-family: Quicksand;
+  font-size: 22px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  text-transform: capitalize;
+  margin-bottom: 40px;
+}
+@media only screen and (max-width: 859px) {
+  .settings-view > h1 {
+    display: none;
+  }
+}
+.settings-view > main {
+  display: flex;
+  gap: 30px;
+  align-items: flex-start;
+}
+@media only screen and (max-width: 859px) {
+  .settings-view > main {
+    flex-direction: column;
+    gap: 20px;
+    align-items: stretch;
+  }
+}
+.settings-view > main > section.x {
+  border-radius: 16px;
+  background: var(--bg-color);
+  box-shadow: var(--embossed-box-shadow);
+  flex: 0 50%;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+.settings-view > main > section.x > .profile-image-wrapper {
+  border-radius: 16px;
+  background: var(--bg-color);
+  box-shadow: var(--embossed-box-shadow);
+  display: flex;
+  flex-shrink: 0;
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  align-items: center;
+  justify-content: center;
+}
+.settings-view > main > section.x > .profile-image-wrapper > .profile-image {
+  width: 120px;
+  height: 120px;
+  display: flex;
+  flex-shrink: 0;
+  border-radius: 50%;
+  border: 1px solid #FFF;
+  background: lightgray 50% / cover no-repeat;
+}
+.settings-view > main > section.x > h2 {
+  font-feature-settings: 'clig' off, 'liga' off;
+  font-family: Quicksand;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+.settings-view > main > section.x > h3 > a {
+  font-feature-settings: 'clig' off, 'liga' off;
+  font-family: Quicksand;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  border-radius: 4px;
+  padding: 4px 8px;
+}
+.settings-view > main > section.x > h3 > a:active {
+  border-radius: 16px;
+  outline: var(--debossed-box-border);
+  background: var(--bg-color);
+  box-shadow: var(--debossed-box-shadow);
+}
+.settings-view > main > section.x > .socials {
+  margin-top: 4px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.settings-view > main > section.x > .socials > a {
+  border-radius: 16px;
+  background: var(--bg-color);
+  box-shadow: var(--embossed-box-shadow);
+  display: flex;
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  align-items: center;
+  justify-content: center;
+}
+.settings-view > main > section.x > .socials > a > img {
+  height: 14px;
+}
+.settings-view > main > section.x > .socials > a:active {
+  border-radius: 16px;
+  outline: var(--debossed-box-border);
+  background: var(--bg-color);
+  box-shadow: var(--debossed-box-shadow);
+  border-radius: 50%;
+}
+.settings-view > main > section.actions {
+  width: 50%;
+  flex: 0 50%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+@media only screen and (max-width: 859px) {
+  .settings-view > main > section.actions {
+    width: 100%;
+  }
+}
+.settings-view > main > section.actions > section {
+  border-radius: 16px;
+  background: var(--bg-color);
+  box-shadow: var(--embossed-box-shadow);
+  padding: 20px 30px;
+}
+.settings-view > main > section.actions > section > h2 {
+  font-feature-settings: 'clig' off, 'liga' off;
+  font-family: Quicksand;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  text-transform: capitalize;
+}
+.settings-view > main > section.actions > section > p {
+  margin-top: 4px;
+  font-feature-settings: 'clig' off, 'liga' off;
+  font-family: Quicksand;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+.settings-view > main > section.actions > section > p.linked {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+.settings-view > main > section.actions > section > .switch {
+  margin-top: 12px;
+}
+.settings-view > main > section.actions > section > button {
+  border-radius: 16px;
+  color: #fff;
+  background: #5585FF;
+  box-shadow: var(--special-button-shadow);
+  margin-top: 12px;
+  display: flex;
+  justify-content: center;
+  padding: 5px 20px;
+  cursor: pointer;
+  font-feature-settings: 'clig' off, 'liga' off;
+  font-family: Quicksand;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 22px;
+  text-transform: capitalize;
+}
+.settings-view > main > section.actions > section > button:active,
+.settings-view > main > section.actions > section > button.active {
+  background: #5585FF;
+  outline: 1px solid #5585FF;
+  box-shadow: var(--spacial-button-active-shadow);
 }
 

@@ -1,1 +1,7 @@
-test: test
+settings-view-title: Settings
+settings-view-login-section-title: Login
+settings-view-login-section-description: You can login to this device.
+settings-view-login-button: Login with 𝕏
+settings-view-logout-section-title: Logout
+settings-view-logout-section-description: You can log out from this device.
+settings-view-logout-button: Logout
