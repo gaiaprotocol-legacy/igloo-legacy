@@ -1,13 +1,13 @@
 import {
   DomNode,
   el,
-  MaterialIcon,
   Router,
   Tabs,
   View,
   ViewParams,
 } from "common-app-module";
 import Layout from "../layout/Layout.js";
+import MaterialIcon from "../MaterialIcon.js";
 import ActivityList from "./ActivityList.js";
 import NewUserList from "./NewUserList.js";
 import TopUserList from "./TopUserList.js";

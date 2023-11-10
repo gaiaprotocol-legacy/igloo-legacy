@@ -1,7 +1,8 @@
-import { DomNode, el, MaterialIcon, View, ViewParams } from "common-app-module";
-import Layout from "../layout/Layout.js";
-import FollowingList from "./FollowingList.js";
+import { DomNode, el, View, ViewParams } from "common-app-module";
 import UserDetails from "../database-interface/UserDetails.js";
+import Layout from "../layout/Layout.js";
+import MaterialIcon from "../MaterialIcon.js";
+import FollowingList from "./FollowingList.js";
 import UserDetailsCacher from "./UserDetailsCacher.js";
 
 export default class FollowingView extends View {

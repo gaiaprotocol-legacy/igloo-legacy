@@ -3,12 +3,12 @@ import {
   Component,
   DomNode,
   el,
-  MaterialIcon,
   Popup,
   Router,
   Snackbar,
+  UploadedFile,
 } from "common-app-module";
-import { UploadedFile } from "social-module";
+import MaterialIcon from "../MaterialIcon.js";
 import SignedUserManager from "../user/SignedUserManager.js";
 import PostService from "./PostService.js";
 
@@ -84,7 +84,7 @@ export default class PostPopup extends Popup {
     try {
       this.uploadedFile = await PostService.upload(file);
       this.uploadButton.empty().append(
-        el("img", { src: this.uploadedFile.url }),
+        el("img", { src: this.uploadedFile?.url }),
       );
     } catch (error) {
       console.error(error);

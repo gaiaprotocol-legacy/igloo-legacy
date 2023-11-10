@@ -1,7 +1,6 @@
 import {
   DomNode,
   el,
-  MaterialIcon,
   Tabs,
   View,
   ViewParams,
@@ -12,6 +11,7 @@ import GlobalPostList from "./post/GlobalPostList.js";
 import KeyHeldPostList from "./post/KeyHeldPostList.js";
 import PostPopup from "./post/PostPopup.js";
 import SignedUserManager from "./user/SignedUserManager.js";
+import MaterialIcon from "./MaterialIcon.js";
 
 export default class HomeView extends View {
   private container: DomNode;

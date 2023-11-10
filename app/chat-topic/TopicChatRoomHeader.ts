@@ -1,4 +1,5 @@
-import { el, MaterialIcon } from "common-app-module";
+import { el } from "common-app-module";
+import MaterialIcon from "../MaterialIcon.js";
 import ChatRoomHeader from "../chat/ChatRoomHeader.js";
 
 export default class TopicChatRoomHeader extends ChatRoomHeader {

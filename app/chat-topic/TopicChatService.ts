@@ -1,5 +1,4 @@
-import { Supabase } from "common-app-module";
-import { UploadedFile } from "social-module";
+import { Supabase, UploadedFile } from "common-app-module";
 import UploadManager from "../UploadManager.js";
 import { MessageType } from "../database-interface/ChatMessage.js";
 import TopicChatMessage from "../database-interface/TopicChatMessage.js";

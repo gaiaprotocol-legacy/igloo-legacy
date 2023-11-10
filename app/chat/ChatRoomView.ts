@@ -1,7 +1,7 @@
 import { DomNode, el, View, ViewParams } from "common-app-module";
 import Layout from "../layout/Layout.js";
 
-export default class ChatRoomView extends View {
+export default abstract class ChatRoomView extends View {
   protected container: DomNode;
 
   constructor(params: ViewParams, tag: string) {

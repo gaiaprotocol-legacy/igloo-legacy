@@ -1,5 +1,5 @@
-import { Supabase } from "common-app-module";
-import { Post, PostSelectQuery, PostTarget, UploadedFile } from "social-module";
+import { Supabase, UploadedFile } from "common-app-module";
+import { Post, PostSelectQuery, PostTarget } from "sofi-module";
 import UploadManager from "../UploadManager.js";
 import SignedUserManager from "../user/SignedUserManager.js";
 

@@ -1,11 +1,10 @@
 import { DomNode, el, View, ViewParams } from "common-app-module";
-import FollowingSubjectList from "../chat-subject/FollowingSubjectList.js";
 import HoldingSubjectList from "../chat-subject/HoldingSubjectList.js";
 import MySubjectList from "../chat-subject/MySubjectList.js";
 import GeneralTopicList from "../chat-topic/GeneralTopicList.js";
 import Layout from "../layout/Layout.js";
-import SignedUserManager from "../user/SignedUserManager.js";
 import LoginRequired from "../user/LoginRequired.js";
+import SignedUserManager from "../user/SignedUserManager.js";
 
 export default class ChatsView extends View {
   private container: DomNode;

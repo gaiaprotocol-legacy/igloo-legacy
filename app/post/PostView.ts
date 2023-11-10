@@ -4,15 +4,16 @@ import {
   DomNode,
   DropdownMenu,
   el,
-  MaterialIcon,
   Router,
   Snackbar,
   Supabase,
+  UploadedFile,
   View,
   ViewParams,
 } from "common-app-module";
-import { Post, UploadedFile } from "social-module";
+import { Post } from "sofi-module";
 import Layout from "../layout/Layout.js";
+import MaterialIcon from "../MaterialIcon.js";
 import SignedUserManager from "../user/SignedUserManager.js";
 import PostCacher from "./PostCacher.js";
 import PostCommentList from "./PostCommentList.js";
@@ -332,7 +333,7 @@ export default class PostView extends View {
     try {
       this.uploadedFile = await PostService.upload(file);
       this.uploadButton.empty().append(el("img", {
-        src: this.uploadedFile.url,
+        src: this.uploadedFile?.url,
       }));
     } catch (error) {
       console.error(error);

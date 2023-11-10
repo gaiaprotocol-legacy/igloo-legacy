@@ -3,12 +3,12 @@ import {
   DomNode,
   el,
   ErrorAlert,
-  MaterialIcon,
   Router,
 } from "common-app-module";
 import { ethers } from "ethers";
+import { SocialUserPublic } from "sofi-module";
 import SubjectDetails from "../database-interface/SubjectDetails.js";
-import UserDetails from "../database-interface/UserDetails.js";
+import MaterialIcon from "../MaterialIcon.js";
 import BuySubjectKeyPopup from "../subject/BuySubjectKeyPopup.js";
 import SubjectKeyBalanceCacher from "../subject/SubjectKeyBalanceCacher.js";
 import SubjectKeyService from "../subject/SubjectKeyService.js";
@@ -22,7 +22,7 @@ export default class UserProfileDisplay extends DomNode {
   private portfolioValue: DomNode;
 
   constructor(
-    private userDetails: UserDetails,
+    private userDetails: SocialUserPublic,
     subjectDetails: SubjectDetails | undefined,
     holdingCount: number,
   ) {

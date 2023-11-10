@@ -1,7 +1,8 @@
-import { el, MaterialIcon, Router } from "common-app-module";
+import { el, Router } from "common-app-module";
 import ChatRoomHeader from "../chat/ChatRoomHeader.js";
 import SubjectDetails from "../database-interface/SubjectDetails.js";
 import UserDetails from "../database-interface/UserDetails.js";
+import MaterialIcon from "../MaterialIcon.js";
 import SubjectDetailsCacher from "../subject/SubjectDetailsCacher.js";
 import UserDetailsCacher from "../user/UserDetailsCacher.js";
 

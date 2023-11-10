@@ -1,6 +1,6 @@
 import { DomNode, el, Router } from "common-app-module";
 import dayjs from "dayjs";
-import { Post } from "social-module";
+import { Post } from "sofi-module";
 import Notification, {
   NotificationType,
 } from "../database-interface/Notification.js";

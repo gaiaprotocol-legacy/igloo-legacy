@@ -3,11 +3,12 @@ import {
   DomNode,
   DropdownMenu,
   el,
-  MaterialIcon,
+  Rich,
   Router,
 } from "common-app-module";
 import dayjs from "dayjs";
-import { Post, Rich } from "social-module";
+import { Post } from "sofi-module";
+import MaterialIcon from "../MaterialIcon.js";
 import SignedUserManager from "../user/SignedUserManager.js";
 import PostCacher from "./PostCacher.js";
 import PostCommentPopup from "./PostCommentPopup.js";

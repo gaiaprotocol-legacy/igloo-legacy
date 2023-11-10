@@ -1,5 +1,6 @@
-import { DomNode, el, MaterialIcon, Router } from "common-app-module";
+import { DomNode, el, Router } from "common-app-module";
 import TrendingUserList from "../explore/TrendingUserList.js";
+import MaterialIcon from "../MaterialIcon.js";
 
 export default class TrendSection extends DomNode {
   private searchInput: DomNode<HTMLInputElement>;

@@ -1,7 +1,7 @@
 import { el, msg, Router, SplashScreen, Supabase } from "common-app-module";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime.js";
-import { AuthUtil } from "social-module";
+import { AuthUtil } from "sofi-module";
 import BlockTimeManager from "./BlockTimeManager.js";
 import SubjectChatRoomView from "./chat-subject/SubjectChatRoomView.js";
 import TopicChatRoomView from "./chat-topic/TopicChatRoomView.js";
@@ -18,6 +18,7 @@ import PostCacher from "./post/PostCacher.js";
 import PostView from "./post/PostView.js";
 import SettingsView from "./settings/SettingsView.js";
 import SubjectDetailsCacher from "./subject/SubjectDetailsCacher.js";
+import ThemeManager from "./ThemeManager.js";
 import FollowersView from "./user/FollowersView.js";
 import FollowingView from "./user/FollowingView.js";
 import HoldersView from "./user/HoldersView.js";
@@ -27,7 +28,6 @@ import UserDetailsCacher from "./user/UserDetailsCacher.js";
 import UserView from "./user/UserView.js";
 import UserWalletLinker from "./user/UserWalletLinker.js";
 import WalletManager from "./user/WalletManager.js";
-import ThemeManager from "./ThemeManager.js";
 
 dayjs.extend(relativeTime);
 
@@ -41,7 +41,7 @@ export default async function initialize(config: Config) {
     sessionStorage.removeItem("__spa_path");
   }
 
-  Supabase.connect(config.supabaseUrl, config.supabaseAnonKey);
+  Supabase.connect(config.supabaseUrl, config.supabaseAnonKey, config.dev);
   [UserDetailsCacher, SubjectDetailsCacher, PostCacher].forEach((cacher) =>
     cacher.init()
   );

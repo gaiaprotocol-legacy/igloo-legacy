@@ -1,10 +1,10 @@
 import {
   DomNode,
   el,
-  MaterialIcon,
   Router,
   StringUtil,
 } from "common-app-module";
+import MaterialIcon from "../MaterialIcon.js";
 import SignedUserManager from "../user/SignedUserManager.js";
 
 export default class MobileTitleBar extends DomNode {

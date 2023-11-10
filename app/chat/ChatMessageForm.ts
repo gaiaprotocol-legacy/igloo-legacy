@@ -1,5 +1,5 @@
-import { Button, DomNode, el, MaterialIcon } from "common-app-module";
-import { Rich } from "social-module";
+import { Button, DomNode, Rich, el } from "common-app-module";
+import MaterialIcon from "../MaterialIcon.js";
 import ChatMessage, { MessageType } from "../database-interface/ChatMessage.js";
 import SignedUserManager from "../user/SignedUserManager.js";
 

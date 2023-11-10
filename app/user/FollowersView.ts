@@ -1,6 +1,7 @@
-import { DomNode, el, MaterialIcon, View, ViewParams } from "common-app-module";
+import { DomNode, el, View, ViewParams } from "common-app-module";
 import UserDetails from "../database-interface/UserDetails.js";
 import Layout from "../layout/Layout.js";
+import MaterialIcon from "../MaterialIcon.js";
 import FollowerList from "./FollowerList.js";
 import UserDetailsCacher from "./UserDetailsCacher.js";
 
