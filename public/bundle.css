@@ -159,6 +159,34 @@ meter {
   background: var(--bg-color);
   box-shadow: var(--debossed-box-shadow);
 }
+.post-display {
+  display: flex;
+  gap: 20px;
+  cursor: pointer;
+}
+@media only screen and (max-width: 859px) {
+  .post-display {
+    gap: 12px;
+  }
+}
+.post-display > main {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+@media only screen and (max-width: 859px) {
+  .post-display > main {
+    gap: 8px;
+  }
+}
+.post-display > main > header {
+  display: flex;
+}
+.post-display.in-view {
+  display: block;
+  cursor: default;
+}
 .post-display .author-profile-image {
   display: flex;
   width: 42px;
