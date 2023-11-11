@@ -5,3 +5,11 @@ settings-view-login-button: Login with 𝕏
 settings-view-logout-section-title: Logout
 settings-view-logout-section-description: You can log out from this device.
 settings-view-logout-button: Logout
+settings-view-x-section-title: Igloo's 𝕏
+settings-view-dark-mode-section-title: Dark Mode
+settings-view-dark-mode-section-description: You can toggle dark mode.
+settings-view-link-wallet-section-title: Link Wallet
+settings-view-link-wallet-section-linked: >
+  Linked:
+settings-view-link-wallet-section-description: You can link your wallet to use Igloo.
+settings-view-link-wallet-button: Link Wallet

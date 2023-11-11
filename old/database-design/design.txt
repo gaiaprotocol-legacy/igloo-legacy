@@ -40,6 +40,13 @@ tracked_event_blocks
 	block_number - int8 - not null
 	updated_at - timestampz - now()
 
+topics
+	topic - text - pk
+	last_message - text - nullable
+	last_message_sent_at - timestampz - -infinity
+	created_at - timestampz - now()
+	updated_at - timestampz
+
 topic_chat_messages
 	id - int8 - pk
 	topic - text - not null
@@ -54,7 +61,7 @@ topic_chat_messages
 	created_at - timestampz - now()
 	updated_at - timestampz - nullable
 
-subject_details
+subjects
 	subject - text - pk
 	last_fetched_key_price - numeric - 10000000000000000
 	total_trading_key_volume - numeric - 0

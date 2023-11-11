@@ -1,8 +1,13 @@
-import { el, msg, View, ViewParams } from "common-app-module";
+import { DomNode, el, msg, Switch, View, ViewParams } from "common-app-module";
 import Layout from "../layout/Layout.js";
+import ThemeManager from "../ThemeManager.js";
 import SignedUserManager from "../user/SignedUserManager.js";
+import LinkWalletPopup from "../wallet/LinkWalletPopup.js";
 
 export default class SettingsView extends View {
+  private darkModeSwitch: Switch;
+  private linkWalletSection: DomNode | undefined;
+
   constructor(params: ViewParams) {
     super();
     Layout.append(
@@ -11,9 +16,49 @@ export default class SettingsView extends View {
         el("h1", msg("settings-view-title")),
         el(
           "main",
-          el("section.x"),
+          el(
+            "section.x",
+            el("h2", msg("settings-view-x-section-title")),
+            el(
+              ".profile-image-wrapper",
+              el(".profile-image", {
+                style: { backgroundImage: "url(/images/icon-512x512.png)" },
+              }),
+            ),
+            el(
+              "h3",
+              el(
+                "a",
+                "@iglooax",
+                {
+                  href: "https://x.com/iglooax",
+                  target: "_blank",
+                },
+              ),
+            ),
+            el(
+              ".socials",
+              el(
+                "a",
+                el("img.x-symbol", { src: "/images/x-symbol.svg" }),
+                {
+                  href: "https://x.com/iglooax",
+                  target: "_blank",
+                },
+              ),
+            ),
+          ),
           el(
             "section.actions",
+            el(
+              "section.dark-mode",
+              el("h2", msg("settings-view-dark-mode-section-title")),
+              el("p", msg("settings-view-dark-mode-section-description")),
+              this.darkModeSwitch = new Switch(ThemeManager.darkMode),
+            ),
+            !SignedUserManager.signed
+              ? undefined
+              : this.linkWalletSection = el("section.link-wallet"),
             !SignedUserManager.signed
               ? el(
                 "section.login",
@@ -34,6 +79,38 @@ export default class SettingsView extends View {
           ),
         ),
       ),
+    );
+
+    this.darkModeSwitch.on(
+      "change",
+      (checked: boolean) => ThemeManager.darkMode = checked,
+    );
+
+    this.renderLinkWalletSection();
+    this.container.onDelegate(
+      SignedUserManager,
+      "walletLinked",
+      () => this.renderLinkWalletSection(),
+    );
+  }
+
+  private renderLinkWalletSection() {
+    this.linkWalletSection?.empty().append(
+      el("h2", msg("settings-view-link-wallet-section-title")),
+      SignedUserManager.walletLinked
+        ? el(
+          "p.linked",
+          msg("settings-view-link-wallet-section-linked") + " ",
+          el("a", SignedUserManager.user?.wallet_address, {
+            href:
+              `https://snowtrace.io/address/${SignedUserManager.user?.wallet_address}`,
+            target: "_blank",
+          }),
+        )
+        : el("p", msg("settings-view-link-wallet-section-description")),
+      el("button", msg("settings-view-link-wallet-button"), {
+        click: () => new LinkWalletPopup(),
+      }),
     );
   }
 }

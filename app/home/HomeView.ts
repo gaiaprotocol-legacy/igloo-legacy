@@ -1,12 +1,12 @@
 import { el, Tabs, View, ViewParams } from "common-app-module";
 import { GlobalPostList } from "sofi-module";
-import IglooPost from "./database-interface/IglooPost.js";
-import IglooLottieAnimation from "./IglooLottieAnimation.js";
-import Layout from "./layout/Layout.js";
-import MaterialIcon from "./MaterialIcon.js";
-import IglooPostInteractions from "./post/IglooPostInteractions.js";
-import IglooPostService from "./post/IglooPostService.js";
-import SignedUserManager from "./user/SignedUserManager.js";
+import IglooPost from "../database-interface/IglooPost.js";
+import IglooLottieAnimation from "../IglooLottieAnimation.js";
+import Layout from "../layout/Layout.js";
+import MaterialIcon from "../MaterialIcon.js";
+import IglooPostInteractions from "../post/IglooPostInteractions.js";
+import IglooPostService from "../post/IglooPostService.js";
+import SignedUserManager from "../user/SignedUserManager.js";
 
 export default class HomeView extends View {
   private tabs: Tabs | undefined;

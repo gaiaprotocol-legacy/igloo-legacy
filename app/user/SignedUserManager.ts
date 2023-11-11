@@ -14,6 +14,11 @@ class SignedUserManager extends EventContainer {
     return this.user?.wallet_address !== undefined;
   }
 
+  constructor() {
+    super();
+    this.addAllowedEvents("walletLinked");
+  }
+
   public async fetchUserOnInit() {
     const { data, error } = await Supabase.client.auth.getSession();
     if (error) throw error;
