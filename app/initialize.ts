@@ -17,6 +17,7 @@ import HomeView from "./home/HomeView.js";
 import Layout from "./layout/Layout.js";
 import SettingsView from "./settings/SettingsView.js";
 import SignedUserManager from "./user/SignedUserManager.js";
+import WalletManager from "./wallet/WalletManager.js";
 
 msg.setMessages({
   en: messages_en,
@@ -35,6 +36,8 @@ export default async function initialize(config: Config) {
     config.supabaseAnonKey,
     config.dev,
   );
+
+  WalletManager.init(config.walletConnectProjectId);
 
   await SplashLoader.load(el("img", { src: "/images/igloo-character.png" }), [
     SignedUserManager.fetchUserOnInit(),
