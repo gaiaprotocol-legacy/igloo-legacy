@@ -3,9 +3,29 @@ import MaterialIcon from "../MaterialIcon.js";
 import SignedUserManager from "../user/SignedUserManager.js";
 
 export default class NavBar extends DomNode {
+  private activatedButton: DomNode | undefined;
+
   constructor() {
     super(".nav-bar");
     this.append(
+      el("h1", el("img", { src: "/images/logo.png" }), {
+        click: () => Router.go("/"),
+      }),
+      el("button.home", new MaterialIcon("home"), {
+        click: () => Router.go("/"),
+      }),
+      el("button.chats", new MaterialIcon("chat"), {
+        click: () => Router.go("/chats"),
+      }),
+      el("button.explore", new MaterialIcon("search"), {
+        click: () => Router.go("/explore"),
+      }),
+      el("button.notifications", new MaterialIcon("notifications"), {
+        click: () => Router.go("/notifications"),
+      }),
+      el("button.settings", new MaterialIcon("settings"), {
+        click: () => Router.go("/settings"),
+      }),
       !SignedUserManager.signed
         ? el("button.login", new MaterialIcon("login"), {
           click: () => SignedUserManager.signIn(),
@@ -21,6 +41,9 @@ export default class NavBar extends DomNode {
   }
 
   public activeButton(buttonName: string) {
-    //TODO:
+    this.activatedButton?.deleteClass("active");
+    this.activatedButton = this.children.find((child) =>
+      child.hasClass(buttonName)
+    )?.addClass("active");
   }
 }
