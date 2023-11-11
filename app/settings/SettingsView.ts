@@ -1,10 +1,8 @@
-import { DomNode, el, msg, View, ViewParams } from "common-app-module";
+import { el, msg, View, ViewParams } from "common-app-module";
 import Layout from "../layout/Layout.js";
 import SignedUserManager from "../user/SignedUserManager.js";
 
 export default class SettingsView extends View {
-  private container: DomNode;
-
   constructor(params: ViewParams) {
     super();
     Layout.append(
@@ -37,10 +35,5 @@ export default class SettingsView extends View {
         ),
       ),
     );
-  }
-
-  public close(): void {
-    this.container.delete();
-    super.close();
   }
 }

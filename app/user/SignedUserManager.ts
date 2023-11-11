@@ -10,6 +10,10 @@ class SignedUserManager extends EventContainer {
     return this.user !== undefined;
   }
 
+  public get walletLinked() {
+    return this.user?.wallet_address !== undefined;
+  }
+
   public async fetchUserOnInit() {
     const { data, error } = await Supabase.client.auth.getSession();
     if (error) throw error;

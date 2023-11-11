@@ -1,0 +1,70 @@
+.home-view {
+    position: relative;
+    height  : 100%;
+
+    @media @phone {
+        height: auto;
+    }
+
+    >main {
+        height    : 100%;
+        padding   : 31px 18px 31px 30px;
+        overflow-y: auto;
+
+        @media @phone {
+            height    : auto;
+            padding   : 20px;
+            overflow-y: visible;
+        }
+
+        >h1 {
+            font-feature-settings: 'clig'off, 'liga'off;
+            font-family          : Quicksand;
+            font-size            : 22px;
+            font-style           : normal;
+            font-weight          : 700;
+            line-height          : normal;
+            text-transform       : capitalize;
+            margin-bottom        : 40px;
+
+            @media @phone {
+                display: none;
+            }
+        }
+
+        >.tabs {
+            margin-bottom: 20px;
+        }
+    }
+
+    >button.post {
+        position        : absolute;
+        bottom          : 30px;
+        right           : 31px;
+        z-index         : 999997;
+        width           : 56px;
+        height          : 56px;
+        border-radius   : 50%;
+        box-shadow      : 0px 3px 5px -1px rgba(0, 0, 0, 0.2), 0px 6px 10px 0px rgba(0, 0, 0, 0.14), 0px 1px 18px 0px rgba(0, 0, 0, 0.12);
+        display         : flex;
+        align-items     : center;
+        justify-content : center;
+        cursor          : pointer;
+        background-color: #5585FF;
+        color           : #ffffff;
+
+        @media @phone {
+            position: fixed;
+            bottom  : calc(110px + env(safe-area-inset-bottom));
+            right   : 20px;
+        }
+
+        &:hover {
+            background-color: #457aff;
+        }
+
+        &:active {
+            background-color: #3770ff;
+        }
+    }
+}

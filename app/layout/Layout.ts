@@ -11,7 +11,6 @@ export default class Layout extends View {
     Layout.current.content.append(node);
   }
 
-  private container: DomNode;
   private mobileTitleBar: MobileTitleBar;
   private navBar: NavBar;
   private content: DomNode;
@@ -58,10 +57,5 @@ export default class Layout extends View {
       : this.topUserSection.hide();
 
     this.mobileTitleBar.changeTitle(uri);
-  }
-
-  public close(): void {
-    this.container.delete();
-    super.close();
   }
 }
