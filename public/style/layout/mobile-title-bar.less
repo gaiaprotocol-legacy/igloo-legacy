@@ -10,13 +10,12 @@
 
     >h1,
     >button.back,
-    >button.login,
-    >button.settings {
+    >button.login {
         .embossed-box();
         width          : 48px;
         height         : 48px;
         flex-shrink    : 0;
-        border-radius  : 50px;
+        border-radius  : 50%;
         cursor         : pointer;
         display        : flex;
         justify-content: center;
@@ -48,8 +47,7 @@
         overflow             : hidden;
     }
 
-    >button.login,
-    >button.settings {
+    >button.login {
         margin-left: auto;
     }
 
@@ -63,9 +61,5 @@
         border       : 1px solid #FFF;
         background   : lightgray 50% / cover no-repeat;
         cursor       : pointer;
-
-        &.hidden {
-            display: none;
-        }
     }
 }

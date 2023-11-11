@@ -657,6 +657,76 @@ p {
     display: none;
   }
 }
+.mobile-title-bar {
+  display: none;
+}
+@media only screen and (max-width: 859px) {
+  .mobile-title-bar {
+    display: flex;
+    align-items: center;
+    padding: 20px 16px 10px;
+    gap: 20px;
+  }
+}
+.mobile-title-bar > h1,
+.mobile-title-bar > button.back,
+.mobile-title-bar > button.login {
+  border-radius: 16px;
+  background: var(--bg-color);
+  box-shadow: var(--embossed-box-shadow);
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.mobile-title-bar > h1 > img,
+.mobile-title-bar > button.back > img,
+.mobile-title-bar > button.login > img {
+  width: 26px;
+}
+.mobile-title-bar > h1:active,
+.mobile-title-bar > button.back:active,
+.mobile-title-bar > button.login:active {
+  border-radius: 16px;
+  outline: var(--debossed-box-border);
+  background: var(--bg-color);
+  box-shadow: var(--debossed-box-shadow);
+  border-radius: 50px;
+}
+.mobile-title-bar > h1.hidden,
+.mobile-title-bar > button.back.hidden,
+.mobile-title-bar > button.login.hidden {
+  display: none;
+}
+.mobile-title-bar > p {
+  font-feature-settings: 'clig' off, 'liga' off;
+  font-family: Quicksand;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+.mobile-title-bar > button.login {
+  margin-left: auto;
+}
+.mobile-title-bar > .signed-user {
+  display: flex;
+  margin-left: auto;
+  width: 42px;
+  height: 42px;
+  flex-shrink: 0;
+  border-radius: 42px;
+  border: 1px solid #FFF;
+  background: lightgray 50% / cover no-repeat;
+  cursor: pointer;
+}
 .settings-view {
   padding: 31px 18px 31px 30px;
 }
