@@ -37,13 +37,17 @@
         align-items    : center;
     }
 
-    >button.login,
-    >.signed-user {
-        margin-top: auto;
-    }
-
     >.signed-user {
         .profile-image();
         cursor: pointer;
+    }
+
+    >button.login,
+    >.signed-user {
+        margin-top: auto;
+
+        @media @phone {
+            display: none;
+        }
     }
 }
