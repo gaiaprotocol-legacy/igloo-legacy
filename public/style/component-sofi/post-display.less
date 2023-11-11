@@ -1,0 +1,118 @@
+.post-display {
+
+    .author-profile-image {
+        .profile-image();
+        margin-top: 1px;
+        cursor    : pointer;
+    }
+
+    .author {
+        display       : flex;
+        flex-direction: column;
+        gap           : 4px;
+
+        >.name {
+            font-feature-settings: 'clig'off, 'liga'off;
+            font-family          : Quicksand;
+            font-size            : 16px;
+            font-style           : normal;
+            font-weight          : 700;
+            line-height          : normal;
+            cursor               : pointer;
+        }
+
+        >.x-username {
+            font-feature-settings: 'clig'off, 'liga'off;
+            font-family          : Quicksand;
+            font-size            : 12px;
+            font-style           : normal;
+            font-weight          : 500;
+            color                : #a1a2ac;
+            cursor               : pointer;
+        }
+    }
+
+    button.owner-menu {
+        margin-top     : -4px;
+        margin-right   : -4px;
+        margin-left    : auto;
+        display        : none;
+        width          : 43.5px;
+        height         : 43.5px;
+        flex-shrink    : 0;
+        border-radius  : 16px;
+        cursor         : pointer;
+        display        : none;
+        justify-content: center;
+        align-items    : center;
+
+        &:active {
+            .debossed-box();
+        }
+    }
+
+    .message {
+        font-feature-settings: 'clig'off, 'liga'off;
+        font-family          : Quicksand;
+        font-size            : 14px;
+        font-style           : normal;
+        font-weight          : 500;
+        word-break           : break-all;
+
+        @media @phone {
+            font-size: 12px;
+        }
+    }
+
+    .date {
+        color    : #a1a2ac;
+        font-size: 12px;
+    }
+
+    .actions {
+        display    : flex;
+        align-items: center;
+        gap        : 8px;
+
+        >button {
+            .debossed-box();
+            padding    : 6px 12px;
+            display    : flex;
+            align-items: center;
+            gap        : 8px;
+            cursor     : pointer;
+
+            >.material-icon {
+                font-size: 16px;
+            }
+
+            &:hover {
+                &.comment {
+                    color: #5585FF;
+                }
+
+                &.repost {
+                    color: #4da787;
+                }
+
+                &.like {
+                    color: #FC5132;
+                }
+            }
+        }
+    }
+
+    &.in-view {
+        .message {
+            font-size: 16px;
+
+            @media @phone {
+                font-size: 14px;
+            }
+        }
+
+        .actions {
+            margin-top: 20px;
+        }
+    }
+}

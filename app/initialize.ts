@@ -1,6 +1,7 @@
 import {
   AppInitializer,
   el,
+  MaterialIconSystem,
   msg,
   Router,
   SplashLoader,
@@ -26,6 +27,7 @@ msg.setMessages({
 });
 
 SocialComponent.loadMessages();
+MaterialIconSystem.launch();
 
 export default async function initialize(config: Config) {
   AppInitializer.initialize(

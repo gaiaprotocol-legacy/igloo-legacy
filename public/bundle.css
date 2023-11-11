@@ -159,6 +159,135 @@ meter {
   background: var(--bg-color);
   box-shadow: var(--debossed-box-shadow);
 }
+.post-display .author-profile-image {
+  display: flex;
+  width: 42px;
+  height: 42px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  border: 1px solid #FFF;
+  background: lightgray 50% / cover no-repeat;
+  margin-top: 1px;
+  cursor: pointer;
+}
+.post-display .author {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.post-display .author > .name {
+  font-feature-settings: 'clig' off, 'liga' off;
+  font-family: Quicksand;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  cursor: pointer;
+}
+.post-display .author > .x-username {
+  font-feature-settings: 'clig' off, 'liga' off;
+  font-family: Quicksand;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  color: #a1a2ac;
+  cursor: pointer;
+}
+.post-display button.owner-menu {
+  margin-top: -4px;
+  margin-right: -4px;
+  margin-left: auto;
+  width: 43.5px;
+  height: 43.5px;
+  flex-shrink: 0;
+  border-radius: 16px;
+  cursor: pointer;
+  display: none;
+  justify-content: center;
+  align-items: center;
+}
+.post-display button.owner-menu:active {
+  border-radius: 16px;
+  outline: var(--debossed-box-border);
+  background: var(--bg-color);
+  box-shadow: var(--debossed-box-shadow);
+}
+.post-display .message {
+  font-feature-settings: 'clig' off, 'liga' off;
+  font-family: Quicksand;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  word-break: break-all;
+}
+@media only screen and (max-width: 859px) {
+  .post-display .message {
+    font-size: 12px;
+  }
+}
+.post-display .date {
+  color: #a1a2ac;
+  font-size: 12px;
+}
+.post-display .actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.post-display .actions > button {
+  border-radius: 16px;
+  outline: var(--debossed-box-border);
+  background: var(--bg-color);
+  box-shadow: var(--debossed-box-shadow);
+  padding: 6px 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+.post-display .actions > button > .material-icon {
+  font-size: 16px;
+}
+.post-display .actions > button:hover.comment {
+  color: #5585FF;
+}
+.post-display .actions > button:hover.repost {
+  color: #4da787;
+}
+.post-display .actions > button:hover.like {
+  color: #FC5132;
+}
+.post-display.in-view .message {
+  font-size: 16px;
+}
+@media only screen and (max-width: 859px) {
+  .post-display.in-view .message {
+    font-size: 14px;
+  }
+}
+.post-display.in-view .actions {
+  margin-top: 20px;
+}
+.post-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.post-list.hidden {
+  display: none;
+}
+.post-list:empty::before {
+  content: attr(data-empty-message);
+  text-align: center;
+  color: #a1a2ac;
+  padding: 20px 0;
+}
+.post-list-item {
+  border-radius: 16px;
+  background: var(--bg-color);
+  box-shadow: var(--embossed-box-shadow);
+  padding: 20px;
+}
 .material-symbols-outlined {
   font-variation-settings: 'FILL' 1, 'wght' 700, 'GRAD' 0, 'opsz' 24;
 }
@@ -240,6 +369,15 @@ p {
   background: #5585FF;
   outline: 1px solid #5585FF;
   box-shadow: var(--spacial-button-active-shadow);
+}
+.profile-image {
+  display: flex;
+  width: 42px;
+  height: 42px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  border: 1px solid #FFF;
+  background: lightgray 50% / cover no-repeat;
 }
 .igloo-lottie-animation {
   display: flex;
@@ -405,24 +543,10 @@ p {
   width: 42px;
   height: 42px;
   flex-shrink: 0;
-  border-radius: 42px;
+  border-radius: 50%;
   border: 1px solid #FFF;
   background: lightgray 50% / cover no-repeat;
   cursor: pointer;
-}
-.post-list {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-.post-list.hidden {
-  display: none;
-}
-.post-list:empty::before {
-  content: attr(data-empty-message);
-  text-align: center;
-  color: #a1a2ac;
-  padding: 20px 0;
 }
 .settings-view {
   padding: 31px 18px 31px 30px;
@@ -483,13 +607,15 @@ p {
   justify-content: center;
 }
 .settings-view > main > section.x > .profile-image-wrapper > .profile-image {
-  width: 120px;
-  height: 120px;
   display: flex;
+  width: 42px;
+  height: 42px;
   flex-shrink: 0;
   border-radius: 50%;
   border: 1px solid #FFF;
   background: lightgray 50% / cover no-repeat;
+  width: 120px;
+  height: 120px;
 }
 .settings-view > main > section.x > h2 {
   font-feature-settings: 'clig' off, 'liga' off;
