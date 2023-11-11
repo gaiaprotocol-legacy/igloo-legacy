@@ -27,6 +27,32 @@
         gap            : 0;
     }
 
+    >h1 {
+        .embossed-box();
+        width          : 48px;
+        height         : 48px;
+        flex-shrink    : 0;
+        border-radius  : 50%;
+        cursor         : pointer;
+        display        : flex;
+        justify-content: center;
+        align-items    : center;
+        margin-bottom  : 30px;
+
+        @media @phone {
+            display: none;
+        }
+
+        >img {
+            width: 26px;
+        }
+
+        &:active {
+            .debossed-box();
+            border-radius: 50px;
+        }
+    }
+
     >button {
         .embossed-button();
         width          : 48px;

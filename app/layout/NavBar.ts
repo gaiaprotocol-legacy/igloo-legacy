@@ -23,9 +23,6 @@ export default class NavBar extends DomNode {
       el("button.notifications", new MaterialIcon("notifications"), {
         click: () => Router.go("/notifications"),
       }),
-      el("button.settings", new MaterialIcon("settings"), {
-        click: () => Router.go("/settings"),
-      }),
       !SignedUserManager.signed
         ? el("button.login", new MaterialIcon("login"), {
           click: () => SignedUserManager.signIn(),
@@ -35,7 +32,7 @@ export default class NavBar extends DomNode {
             backgroundImage:
               `url(${SignedUserManager.user?.profile_image_thumbnail})`,
           },
-          click: () => Router.go(`/${SignedUserManager.user?.x_username}`),
+          click: () => Router.go("/profile"),
         }),
     );
   }
