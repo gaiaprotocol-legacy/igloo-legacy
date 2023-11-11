@@ -19,6 +19,7 @@ import Layout from "./layout/Layout.js";
 import SettingsView from "./settings/SettingsView.js";
 import SignedUserManager from "./user/SignedUserManager.js";
 import WalletManager from "./wallet/WalletManager.js";
+import ProfileView from "./settings/ProfileView.js";
 
 msg.setMessages({
   en: messages_en,
@@ -48,5 +49,6 @@ export default async function initialize(config: Config) {
 
   Router.route("**", Layout);
   Router.route("", HomeView);
+  Router.route("profile", ProfileView);
   Router.route("settings", SettingsView);
 }

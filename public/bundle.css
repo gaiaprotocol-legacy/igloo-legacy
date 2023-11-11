@@ -889,6 +889,32 @@ p {
   display: block;
   margin-top: 18px;
 }
+.profile-view {
+  padding: 31px 18px 31px 30px;
+}
+@media only screen and (max-width: 859px) {
+  .profile-view {
+    padding: 20px;
+  }
+}
+.profile-view > h1 {
+  font-feature-settings: 'clig' off, 'liga' off;
+  font-family: Quicksand;
+  font-size: 22px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  text-transform: capitalize;
+  margin-bottom: 40px;
+}
+@media only screen and (max-width: 859px) {
+  .profile-view > h1 {
+    display: none;
+  }
+}
+.profile-view > .tabs {
+  margin-bottom: 20px;
+}
 .settings-view {
   padding: 31px 18px 31px 30px;
 }
@@ -911,6 +937,9 @@ p {
   .settings-view > h1 {
     display: none;
   }
+}
+.settings-view > .tabs {
+  margin-bottom: 20px;
 }
 .settings-view > main {
   display: flex;

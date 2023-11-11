@@ -1,4 +1,4 @@
-import { DomNode, el, msg, Switch, View, ViewParams } from "common-app-module";
+import { DomNode, el, msg, Router, Switch, View, ViewParams } from "common-app-module";
 import Layout from "../layout/Layout.js";
 import ThemeManager from "../ThemeManager.js";
 import SignedUserManager from "../user/SignedUserManager.js";
@@ -14,6 +14,13 @@ export default class SettingsView extends View {
       this.container = el(
         ".settings-view",
         el("h1", msg("settings-view-title")),
+        el(
+          ".tabs.component",
+          el("a.tab", "Profile", {
+            click: () => Router.go("/profile"),
+          }),
+          el("a.tab.active", "Settings"),
+        ),
         el(
           "main",
           el(

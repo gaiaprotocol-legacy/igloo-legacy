@@ -10,6 +10,8 @@ link-wallet-popup-cancel-button: Cancel
 link-wallet-popup-link-button: Link Wallet
 link-wallet-popup-linking-button: Linking...
 
+profile-view-title: Profile
+
 settings-view-title: Settings
 settings-view-login-section-title: Login
 settings-view-login-section-description: You can login to this device.
