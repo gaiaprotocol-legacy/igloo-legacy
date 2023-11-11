@@ -54,7 +54,7 @@ export default class MobileTitleBar extends DomNode {
     if (
       uri === "" || uri === "chats" || uri.startsWith("chats/") ||
       uri === "explore" || uri === "search" || uri === "notifications" ||
-      uri === "settings"
+      uri === "profile" || uri === "settings"
     ) {
       this.titleDisplay.text = uri === ""
         ? this.welcomeMessage
