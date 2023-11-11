@@ -3,4 +3,5 @@ export default interface Config {
   supabaseUrl: string;
   supabaseAnonKey: string;
   walletConnectProjectId: string;
+  messageForWalletLinking: string;
 }

@@ -1,5 +1,15 @@
 mobile-title-bar-welcome-message-signed-in: Hello, {name}!
 mobile-title-bar-welcome-message-not-signed-in: Welcome to Igloo!
+
+link-wallet-popup-title: Link Wallet
+link-wallet-popup-instructions: >
+  To link your wallet to account, please follow the steps below:
+link-wallet-popup-step-1: Ensure your crypto wallet is connected.
+link-wallet-popup-step-2: Click the "Link Wallet" button below.
+link-wallet-popup-cancel-button: Cancel
+link-wallet-popup-link-button: Link Wallet
+link-wallet-popup-linking-button: Linking...
+
 settings-view-title: Settings
 settings-view-login-section-title: Login
 settings-view-login-section-description: You can login to this device.

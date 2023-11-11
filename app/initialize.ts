@@ -13,6 +13,7 @@ import messages_zh from "../locales/zh.yml";
 import messages_zh_HK from "../locales/zh_HK.yml";
 import messages_zh_TW from "../locales/zh_TW.yml";
 import Config from "./Config.js";
+import EnvironmentManager from "./EnvironmentManager.js";
 import HomeView from "./home/HomeView.js";
 import Layout from "./layout/Layout.js";
 import SettingsView from "./settings/SettingsView.js";
@@ -37,6 +38,8 @@ export default async function initialize(config: Config) {
     config.dev,
   );
 
+  EnvironmentManager.messageForWalletLinking = config.messageForWalletLinking;
+  
   WalletManager.init(config.walletConnectProjectId);
 
   await SplashLoader.load(el("img", { src: "/images/igloo-character.png" }), [
