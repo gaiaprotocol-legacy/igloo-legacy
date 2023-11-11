@@ -1,5 +1,6 @@
 import { el, Tabs, View, ViewParams } from "common-app-module";
 import { GlobalPostList } from "sofi-module";
+import IglooPost from "./database-interface/IglooPost.js";
 import IglooLottieAnimation from "./IglooLottieAnimation.js";
 import Layout from "./layout/Layout.js";
 import MaterialIcon from "./MaterialIcon.js";
@@ -9,7 +10,7 @@ import SignedUserManager from "./user/SignedUserManager.js";
 
 export default class HomeView extends View {
   private tabs: Tabs | undefined;
-  private globalPostList: GlobalPostList;
+  private globalPostList: GlobalPostList<IglooPost>;
   //private followingPostList: FollowingPostList | undefined;
   //private keyHeldPostList: KeyHeldPostList | undefined;
 
@@ -35,7 +36,7 @@ export default class HomeView extends View {
                 ],
             )
             : undefined,
-          this.globalPostList = new GlobalPostList(
+          this.globalPostList = new GlobalPostList<IglooPost>(
             IglooPostService,
             {
               signedUserId: SignedUserManager.user?.user_id,

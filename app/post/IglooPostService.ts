@@ -1,6 +1,7 @@
-import { Post, PostSelectQuery, PostService } from "sofi-module";
+import { PostSelectQuery, PostService } from "sofi-module";
+import IglooPost from "../database-interface/IglooPost.js";
 
-class IglooPostService extends PostService<Post> {
+class IglooPostService extends PostService<IglooPost> {
   constructor() {
     super("posts", "reposts", "post_likes", PostSelectQuery, 50);
   }
