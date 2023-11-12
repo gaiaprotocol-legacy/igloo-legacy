@@ -11,13 +11,12 @@ import SignedUserManager from "../user/SignedUserManager.js";
 import WalletManager from "./WalletManager.js";
 
 export default class LinkWalletPopup extends Popup {
-  public content: DomNode;
   private linkButton: Button;
 
   constructor() {
     super({ barrierDismissible: true });
     this.append(
-      this.content = new Component(
+      new Component(
         ".popup.link-wallet-popup",
         el("header", el("h1", msg("link-wallet-popup-title"))),
         el(
