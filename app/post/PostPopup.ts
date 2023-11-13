@@ -32,7 +32,7 @@ export default class PostPopup extends Popup {
             click: () => this.delete(),
           }),
         ),
-        this.form = new IglooPostForm(true),
+        this.form = new IglooPostForm(true, () => this.delete()),
       ),
     );
   }

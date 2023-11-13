@@ -32,8 +32,9 @@ class IglooPostService extends PostService<IglooPost> {
   public async post(target: number, message: string, files: File[]) {
     const rich = files.length ? await this.upload(files) : undefined;
     const data = await this.safeFetch((b) =>
-      b.insert({ target, message, rich }).select().single()
+      b.insert({ target, message, rich }).select(PostSelectQuery).single()
     );
+    this.notifyNewGlobalPost(data);
     return data.id;
   }
 }

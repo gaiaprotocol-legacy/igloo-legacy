@@ -7,7 +7,7 @@ import IglooPostService from "./IglooPostService.js";
 export default class IglooPostForm extends PostForm {
   public target: number = PostTarget.EVERYONE;
 
-  constructor(focus: boolean = false) {
+  constructor(focus: boolean = false, private callback?: () => void) {
     super(SignedUserManager.user?.profile_image_thumbnail ?? "", focus);
   }
 
@@ -20,5 +20,6 @@ export default class IglooPostForm extends PostForm {
         click: () => Router.go(`/post/${postId}`),
       },
     });
+    if (this.callback) this.callback();
   }
 }
