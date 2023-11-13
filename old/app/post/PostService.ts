@@ -236,38 +236,6 @@ class PostService {
     }));
   }
 
-  public async fetchFollowingPosts(
-    userId: string,
-    lastFetchedPostId?: number,
-  ): Promise<{ followeeIds: string[]; posts: Post[] }> {
-    const { data: followsData, error: followsError } = await Supabase.client
-      .from("follows").select().eq(
-        "follower_id",
-        userId,
-      ).order(
-        "followed_at",
-        { ascending: false },
-      );
-    if (followsError) throw followsError;
-    const followeeIds = followsData.map((follow) => follow.followee_id);
-    const { data, error } = await Supabase.client.from("posts").select(
-      PostSelectQuery,
-    ).in(
-      "author",
-      followeeIds,
-    ).lt(
-      "id",
-      lastFetchedPostId ?? Number.MAX_SAFE_INTEGER,
-    ).order(
-      "created_at",
-      { ascending: false },
-    ).limit(
-      PostService.LIMIT,
-    );
-    if (error) throw error;
-    return { followeeIds, posts: data };
-  }
-
   public async fetchKeyHeldPosts(
     walletAddress: string,
     lastFetchedPostId?: number,

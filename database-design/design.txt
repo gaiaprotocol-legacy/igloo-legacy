@@ -11,3 +11,30 @@ posts
 	like_count - int4 - 0
 	created_at - timestampz - now()
 	updated_at - timestampz - nullable
+
+subjects
+	subject - text - pk
+	last_fetched_key_price - numeric - 10000000000000000
+	total_trading_key_volume - numeric - 0
+	total_earned_trading_fees - numeric - 0
+	is_key_price_up - bool - nullable
+	last_message - text - nullable
+	last_message_sent_at - timestampz - -infinity
+	key_holder_count - int4 - 0
+	last_key_purchased_at - timestampz - -infinity
+	owned_key_count - int4 - 0
+	created_at - timestampz - now()
+	updated_at - timestampz - nullable
+
+subject_key_holders
+	subject - text - pk
+	wallet_address - text - pk
+	last_fetched_balance - int8 - 0
+	created_at - timestampz - now()
+	updated_at - timestampz - nullable
+
+total_subject_key_balances
+	wallet_address - text - pk
+	total_key_balance - int8 - 0
+	created_at - timestampz - now()
+	updated_at - timestampz - nullable

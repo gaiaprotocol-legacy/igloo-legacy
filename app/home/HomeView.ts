@@ -51,7 +51,7 @@ export default class HomeView extends View {
             ? this.followingPostList = new FollowingPostList(
               IglooPostService,
               {
-                signedUserId: SignedUserManager.user?.user_id,
+                signedUserId: SignedUserManager.user?.user_id!,
                 wait: true,
               },
               IglooPostInteractions,

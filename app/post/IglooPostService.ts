@@ -1,4 +1,4 @@
-import { Rich, UploadManager } from "common-app-module";
+import { Rich, Supabase, UploadManager } from "common-app-module";
 import { PostSelectQuery, PostService } from "sofi-module";
 import IglooPost from "../database-interface/IglooPost.js";
 import SignedUserManager from "../user/SignedUserManager.js";
@@ -36,6 +36,29 @@ class IglooPostService extends PostService<IglooPost> {
     );
     this.notifyNewGlobalPost(data);
     return data.id;
+  }
+
+  public async fetchKeyHeldPosts(
+    userId: string,
+    lastPostId?: number,
+  ): Promise<IglooPost[]> {
+    const { data, error } = await Supabase.client.rpc("get_key_held_posts", {
+      p_user_id: userId,
+      last_post_id: lastPostId,
+      max_count: this.fetchLimit,
+    });
+    if (error) throw error;
+    const posts = Supabase.safeResult(data) ?? [];
+    for (const post of posts) {
+      post.author = {
+        user_id: post.author,
+        display_name: post.author_display_name,
+        profile_image: post.author_profile_image,
+        profile_image_thumbnail: post.author_profile_image_thumbnail,
+        x_username: post.author_x_username,
+      };
+    }
+    return posts;
   }
 }
 

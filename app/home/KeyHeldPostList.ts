@@ -22,9 +22,16 @@ export default class KeyHeldPostList extends PostList<IglooPost> {
     );
   }
 
-  protected fetchPosts(): Promise<
+  protected async fetchPosts(): Promise<
     { posts: IglooPost[]; mainPostId: number }[]
   > {
-    throw new Error("Method not implemented.");
+    const posts = await IglooPostService.fetchKeyHeldPosts(
+      this.options.signedUserId!,
+      this.lastPostId,
+    );
+    return posts.map((p) => ({
+      posts: [p],
+      mainPostId: p.id,
+    }));
   }
 }
