@@ -6,19 +6,6 @@ import SignedUserManager from "../user/SignedUserManager.js";
 class PostService {
   private static readonly LIMIT = 50;
 
-  public async post(
-    target: number,
-    message: string,
-    uploadedFile: UploadedFile | undefined,
-  ) {
-    const { data, error } = await Supabase.client.from("posts").insert({
-      target,
-      message,
-      rich: uploadedFile ? { files: [uploadedFile] } : undefined,
-    }).select().single();
-    if (error) throw error;
-    return data.id;
-  }
 
   public async comment(
     ref: number,
@@ -136,25 +123,6 @@ class PostService {
     );
     if (error) throw error;
     return data?.[0];
-  }
-
-  public async fetchGlobalPosts(lastFetchedPostId?: number): Promise<Post[]> {
-    const { data, error } = await Supabase.client.from("posts").select(
-      PostSelectQuery,
-    ).lt(
-      "id",
-      lastFetchedPostId ?? Number.MAX_SAFE_INTEGER,
-    ).is(
-      "post_ref",
-      null,
-    ).order(
-      "created_at",
-      { ascending: false },
-    ).limit(
-      PostService.LIMIT,
-    );
-    if (error) throw error;
-    return data;
   }
 
   public async fetchUserPosts(
