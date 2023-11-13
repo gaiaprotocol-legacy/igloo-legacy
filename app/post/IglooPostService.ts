@@ -39,11 +39,11 @@ class IglooPostService extends PostService<IglooPost> {
   }
 
   public async fetchKeyHeldPosts(
-    userId: string,
+    walletAddress: string,
     lastPostId?: number,
   ): Promise<IglooPost[]> {
     const { data, error } = await Supabase.client.rpc("get_key_held_posts", {
-      p_user_id: userId,
+      p_wallet_address: walletAddress,
       last_post_id: lastPostId,
       max_count: this.fetchLimit,
     });

@@ -25,8 +25,11 @@ export default class KeyHeldPostList extends PostList<IglooPost> {
   protected async fetchPosts(): Promise<
     { posts: IglooPost[]; mainPostId: number }[]
   > {
+    const walletAddress = SignedUserManager.user?.wallet_address;
+    if (!walletAddress) throw new Error("Wallet address not found");
+
     const posts = await IglooPostService.fetchKeyHeldPosts(
-      this.options.signedUserId!,
+      walletAddress,
       this.lastPostId,
     );
     return posts.map((p) => ({

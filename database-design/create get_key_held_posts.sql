@@ -1,5 +1,5 @@
 CREATE OR REPLACE FUNCTION get_key_held_posts(
-    p_user_id uuid,
+    p_wallet_address text,
     last_post_id int8 DEFAULT NULL,
     max_count int DEFAULT 50
 )
@@ -14,7 +14,7 @@ RETURNS TABLE (
     message text,
     translated jsonb,
     rich jsonb,
-    post_ref int8,
+    parent int8,
     comment_count int4,
     repost_count int4,
     like_count int4,
@@ -34,7 +34,7 @@ BEGIN
         p.message,
         p.translated,
         p.rich,
-        p.post_ref,
+        p.parent,
         p.comment_count,
         p.repost_count,
         p.like_count,
