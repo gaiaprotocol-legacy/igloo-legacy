@@ -1,5 +1,6 @@
 import {
   AppInitializer,
+  BodyNode,
   el,
   MaterialIconSystem,
   msg,
@@ -16,10 +17,11 @@ import Config from "./Config.js";
 import EnvironmentManager from "./EnvironmentManager.js";
 import HomeView from "./home/HomeView.js";
 import Layout from "./layout/Layout.js";
+import ListLoadingBar from "./ListLoadingBar.js";
+import ProfileView from "./settings/ProfileView.js";
 import SettingsView from "./settings/SettingsView.js";
 import SignedUserManager from "./user/SignedUserManager.js";
 import WalletManager from "./wallet/WalletManager.js";
-import ProfileView from "./settings/ProfileView.js";
 
 msg.setMessages({
   en: messages_en,
@@ -40,7 +42,7 @@ export default async function initialize(config: Config) {
   );
 
   EnvironmentManager.messageForWalletLinking = config.messageForWalletLinking;
-  
+
   WalletManager.init(config.walletConnectProjectId);
 
   await SplashLoader.load(el("img", { src: "/images/igloo-character.png" }), [
@@ -51,4 +53,6 @@ export default async function initialize(config: Config) {
   Router.route("", HomeView);
   Router.route("profile", ProfileView);
   Router.route("settings", SettingsView);
+
+  new ListLoadingBar().appendTo(BodyNode);
 }
