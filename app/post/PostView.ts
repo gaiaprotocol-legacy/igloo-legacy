@@ -1,7 +1,14 @@
-import { el, ListLoadingBar, View, ViewParams } from "common-app-module";
+import {
+  DomNode,
+  el,
+  ListLoadingBar,
+  View,
+  ViewParams,
+} from "common-app-module";
 import { PostThread } from "sofi-module";
 import IglooPost from "../database-interface/IglooPost.js";
 import Layout from "../layout/Layout.js";
+import MaterialIcon from "../MaterialIcon.js";
 import SignedUserManager from "../user/SignedUserManager.js";
 import IglooPostForm from "./IglooPostForm.js";
 import IglooPostInteractions from "./IglooPostInteractions.js";
@@ -9,11 +16,24 @@ import IglooPostService from "./IglooPostService.js";
 import IglooTempPostCacher from "./IglooTempPostCacher.js";
 
 export default class PostView extends View {
+  private postContainer: DomNode;
   private lastCommentId: number | undefined;
 
   constructor(params: ViewParams) {
     super();
-    Layout.append(this.container = el(".post-view"));
+    Layout.append(
+      this.container = el(
+        ".post-view",
+        el(
+          "header",
+          el("button", new MaterialIcon("arrow_back"), {
+            click: () => history.back(),
+          }),
+          el("h1", "Post"),
+        ),
+        this.postContainer = el(".post-container"),
+      ),
+    );
     this.load(parseInt(params.postId!));
   }
 
@@ -35,7 +55,7 @@ export default class PostView extends View {
       cached.likedPostIds,
       [],
     );
-    this.container.append(new ListLoadingBar());
+    this.postContainer.append(new ListLoadingBar());
 
     const result = await IglooPostService.fetchPost(
       mainPostId,
@@ -47,7 +67,7 @@ export default class PostView extends View {
       !cached.posts.some((existingPost) => existingPost.id === post.id)
     ).map((newPost) => newPost.id);
 
-    this.container.empty();
+    this.postContainer.empty();
     this.render(
       mainPostId,
       result.posts,
@@ -72,7 +92,7 @@ export default class PostView extends View {
     cached.posts.push(newPost);
     IglooTempPostCacher.cache(mainPostId, cached);
 
-    this.container.empty();
+    this.postContainer.empty();
     this.render(
       mainPostId,
       cached.posts,
@@ -89,7 +109,7 @@ export default class PostView extends View {
     likedPostIds: number[],
     newPostIds: number[],
   ) {
-    this.container.append(
+    this.postContainer.append(
       new PostThread(
         posts,
         {

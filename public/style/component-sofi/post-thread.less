@@ -1,3 +1,23 @@
 .post-thread {
-    
+    position      : relative;
+    display       : flex;
+    flex-direction: column;
+    gap           : 20px;
+
+    >.post-display,
+    >.post-form {
+        .embossed-box();
+        position: relative;
+        padding : 20px;
+
+        &.parent::before {
+            position        : absolute;
+            content         : '';
+            top             : 64px;
+            left            : 40px;
+            width           : 2px;
+            height          : calc(100% - 64px);
+            background-color: rgba(0, 0, 0, 0.2);
+        }
+    }
 }
