@@ -7,35 +7,6 @@ class PostService {
   private static readonly LIMIT = 50;
 
 
-  public async comment(
-    ref: number,
-    message: string,
-    uploadedFile: UploadedFile | undefined,
-  ) {
-    const { data, error } = await Supabase.client.from("posts").insert({
-      message,
-      post_ref: ref,
-      rich: uploadedFile ? { files: [uploadedFile] } : undefined,
-    }).select().single();
-    if (error) throw error;
-    return data.id;
-  }
-
-  public async repost(postId: number) {
-    const { error } = await Supabase.client.from("reposts").insert({
-      post_id: postId,
-    });
-    if (error) throw error;
-  }
-
-  public async unrepost(postId: number) {
-    const { error } = await Supabase.client.from("reposts").delete().eq(
-      "post_id",
-      postId,
-    );
-    if (error) throw error;
-  }
-
   public async checkRepost(postId: number, userId: string) {
     const { data, error } = await Supabase.client.from("reposts").select(
       "post_id",
@@ -66,21 +37,6 @@ class PostService {
     return data ? (data as any).map((d: any) => d.post_id) : [];
   }
 
-  public async like(postId: number) {
-    const { error } = await Supabase.client.from("post_likes").insert({
-      post_id: postId,
-    });
-    if (error) throw error;
-  }
-
-  public async unlike(postId: number) {
-    const { error } = await Supabase.client.from("post_likes").delete().eq(
-      "post_id",
-      postId,
-    );
-    if (error) throw error;
-  }
-
   public async checkLike(postId: number, userId: string) {
     const { data, error } = await Supabase.client.from("post_likes").select(
       "post_id",
@@ -107,11 +63,6 @@ class PostService {
     );
     if (error) throw error;
     return data ? (data as any).map((d: any) => d.post_id) : [];
-  }
-
-  public async deletePost(id: number) {
-    const { error } = await Supabase.client.from("posts").delete().eq("id", id);
-    if (error) throw error;
   }
 
   public async fetchPost(id: number) {

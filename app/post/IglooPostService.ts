@@ -38,6 +38,14 @@ class IglooPostService extends PostService<IglooPost> {
     return data.id;
   }
 
+  public async comment(parent: number, message: string, files: File[]) {
+    const rich = files.length ? await this.upload(files) : undefined;
+    const data = await this.safeFetch((b) =>
+      b.insert({ parent, message, rich }).select(PostSelectQuery).single()
+    );
+    return data.id;
+  }
+
   public async fetchKeyHeldPosts(
     walletAddress: string,
     lastPostId?: number,
