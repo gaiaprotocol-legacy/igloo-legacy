@@ -1,0 +1,70 @@
+.post-popup {
+    max-width     : 600px !important;
+    display       : flex;
+    flex-direction: column;
+    gap           : 20px;
+
+    >header {
+        display        : flex;
+        justify-content: space-between;
+
+        >select {
+            .debossed-box();
+            border-radius        : 16px;
+            padding              : 12px 20px;
+            padding-right        : 52px;
+            font-feature-settings: 'clig'off, 'liga'off;
+            font-family          : Quicksand;
+            font-size            : 14px;
+            font-style           : normal;
+            font-weight          : 700;
+            line-height          : normal;
+            text-transform       : capitalize;
+
+            background-image:
+                linear-gradient(45deg, transparent 50%, gray 50%),
+                linear-gradient(135deg, gray 50%, transparent 50%),
+                linear-gradient(to right, #ccc, #ccc);
+            background-position:
+                calc(100% - 20px) calc(1em + 6px),
+                calc(100% - 15px) calc(1em + 6px),
+                calc(100% - 2.5em) calc(0.5em + 4px);
+            background-size:
+                5px 5px,
+                5px 5px,
+                1px 1.5em;
+            background-repeat: no-repeat;
+
+            &:focus {
+                background-image:
+                    linear-gradient(45deg, gray 50%, transparent 50%),
+                    linear-gradient(135deg, transparent 50%, gray 50%),
+                    linear-gradient(to right, #ccc, #ccc);
+                background-position:
+                    calc(100% - 15px) calc(1em + 4px),
+                    calc(100% - 20px) calc(1em + 4px),
+                    calc(100% - 2.5em) calc(0.5em + 4px);
+                background-size:
+                    5px 5px,
+                    5px 5px,
+                    1px 1.5em;
+                background-repeat: no-repeat;
+            }
+        }
+
+        >button {
+            width          : 43.5px;
+            height         : 43.5px;
+            flex-shrink    : 0;
+            border-radius  : 16px;
+            cursor         : pointer;
+            display        : flex;
+            justify-content: center;
+            align-items    : center;
+
+            &:active {
+                .debossed-box();
+            }
+        }
+    }
+}
