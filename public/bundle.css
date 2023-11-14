@@ -388,6 +388,53 @@ button.component.text:active {
   padding: 20px;
   width: 100%;
 }
+.snackbar.component {
+  position: fixed;
+  left: 0;
+  bottom: 20px;
+  z-index: 999998;
+  width: 100%;
+}
+@media only screen and (max-width: 859px) {
+  .snackbar.component {
+    bottom: calc(110px + env(safe-area-inset-bottom));
+  }
+}
+.snackbar.component > main {
+  max-width: 532px;
+  width: 90%;
+  margin: auto;
+  background-color: #5585FF;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  border-radius: 16px;
+  padding: 4px 20px;
+  gap: 4px;
+}
+.snackbar.component > main > p {
+  flex-grow: 1;
+}
+.snackbar.component > main > button.action {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  color: #ffffff;
+  font-weight: bold;
+}
+.snackbar.component > main > button.action:hover {
+  opacity: 0.8;
+}
+.snackbar.component > main > button.close {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  cursor: pointer;
+  font-weight: bold;
+}
+.snackbar.component > main > button.close:hover {
+  opacity: 0.8;
+}
 .post-display {
   display: flex;
   gap: 20px;
@@ -1086,7 +1133,7 @@ p {
   box-shadow: var(--debossed-box-shadow);
 }
 .post-view {
-  padding: 21px 18px 31px 30px;
+  padding: 21px 18px 331px 30px;
 }
 @media only screen and (max-width: 859px) {
   .post-view {

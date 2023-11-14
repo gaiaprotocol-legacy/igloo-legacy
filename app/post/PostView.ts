@@ -54,6 +54,7 @@ export default class PostView extends View {
       cached.repostedPostIds,
       cached.likedPostIds,
       [],
+      mainPostId,
     );
     this.postContainer.append(new ListLoadingBar());
 
@@ -74,6 +75,7 @@ export default class PostView extends View {
       result.repostedPostIds,
       result.likedPostIds,
       newPostIds,
+      mainPostId,
     );
 
     this.lastCommentId = result.posts[result.posts.length - 1]?.id;
@@ -99,6 +101,7 @@ export default class PostView extends View {
       cached.repostedPostIds,
       cached.likedPostIds,
       [newPost.id],
+      newPost.id,
     );
   }
 
@@ -108,25 +111,27 @@ export default class PostView extends View {
     repostedPostIds: number[],
     likedPostIds: number[],
     newPostIds: number[],
+    scrollToPostId: number,
   ) {
-    this.postContainer.append(
-      new PostThread(
-        posts,
-        {
-          inView: true,
-          mainPostId,
-          repostedPostIds,
-          likedPostIds,
-          newPostIds,
-          signedUserId: SignedUserManager.user?.user_id,
-        },
-        IglooPostInteractions,
-        new IglooPostForm(
-          mainPostId,
-          false,
-          (newPost) => this.addNewPost(mainPostId, newPost),
-        ),
+    const thread = new PostThread(
+      posts,
+      {
+        inView: true,
+        mainPostId,
+        repostedPostIds,
+        likedPostIds,
+        newPostIds,
+        signedUserId: SignedUserManager.user?.user_id,
+      },
+      IglooPostInteractions,
+      new IglooPostForm(
+        mainPostId,
+        false,
+        (newPost) => this.addNewPost(mainPostId, newPost),
       ),
-    );
+    ).appendTo(this.postContainer);
+
+    const scrollToPost = thread.findPostDisplay(scrollToPostId);
+    scrollToPost?.domElement.scrollIntoView();
   }
 }
