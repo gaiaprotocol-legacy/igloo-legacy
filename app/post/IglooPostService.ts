@@ -60,6 +60,14 @@ class IglooPostService extends PostService<IglooPost> {
     }
     return posts;
   }
+
+  public async repost(postId: number) {}
+
+  public async unrepost(postId: number) {}
+
+  public async like(postId: number) {}
+
+  public async unlike(postId: number) {}
 }
 
 export default new IglooPostService();
