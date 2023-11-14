@@ -1,5 +1,6 @@
 CREATE OR REPLACE FUNCTION get_post_and_comments(
     p_post_id int8, 
+    max_comment_count int DEFAULT 50, 
     signed_user_id uuid DEFAULT NULL
 )
 RETURNS TABLE (
@@ -132,9 +133,11 @@ comments AS (
         users_public u ON p.author = u.user_id
     WHERE 
         p.parent = p_post_id
+    ORDER BY p.id
+    LIMIT max_comment_count
 )
 SELECT * FROM ancestors
 UNION ALL
 SELECT * FROM comments
-ORDER BY depth, created_at;
+ORDER BY depth, id;
 $$;

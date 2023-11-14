@@ -9,6 +9,8 @@ import IglooPostService from "./IglooPostService.js";
 import IglooTempPostCacher from "./IglooTempPostCacher.js";
 
 export default class PostView extends View {
+  private lastCommentId: number | undefined;
+
   constructor(params: ViewParams) {
     super();
     Layout.append(this.container = el(".post-view"));
@@ -53,6 +55,12 @@ export default class PostView extends View {
       result.likedPostIds,
       newPostIds,
     );
+
+    this.lastCommentId = result.posts[result.posts.length - 1]?.id;
+  }
+
+  private async loadMore() {
+    //TODO: implement
   }
 
   private addNewPost(mainPostId: number, newPost: IglooPost) {
