@@ -17,7 +17,7 @@ export default class PostOwnerMenu extends DropdownMenu {
             message: "Are you sure you want to delete this post?",
             confirmTitle: "Delete",
             loadingTitle: "Deleting...",
-          }, () => IglooPostService.deletePost(postId));
+          }, () => IglooPostService.deleteMessage(postId));
         },
       }],
     });
