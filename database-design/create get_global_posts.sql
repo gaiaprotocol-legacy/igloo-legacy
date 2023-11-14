@@ -1,7 +1,7 @@
-CREATE OR REPLACE FUNCTION get_following_posts(
-    p_user_id uuid,
+CREATE OR REPLACE FUNCTION get_global_posts(
     last_post_id int8 DEFAULT NULL,
-    max_count int DEFAULT 50
+    max_count int DEFAULT 50,
+    signed_user_id uuid DEFAULT NULL
 )
 RETURNS TABLE (
     id int8,
@@ -42,17 +42,23 @@ BEGIN
         p.like_count,
         p.created_at,
         p.updated_at,
-        EXISTS (SELECT 1 FROM post_likes pl WHERE pl.post_id = p.id AND pl.user_id = p_user_id) AS liked,
-        EXISTS (SELECT 1 FROM reposts r WHERE r.post_id = p.id AND r.user_id = p_user_id) AS reposted
+        CASE 
+            WHEN signed_user_id IS NOT NULL THEN 
+                EXISTS (SELECT 1 FROM post_likes pl WHERE pl.post_id = p.id AND pl.user_id = signed_user_id)
+            ELSE FALSE 
+        END AS liked,
+        CASE 
+            WHEN signed_user_id IS NOT NULL THEN 
+                EXISTS (SELECT 1 FROM reposts r WHERE r.post_id = p.id AND r.user_id = signed_user_id)
+            ELSE FALSE 
+        END AS reposted
     FROM 
         posts p
     INNER JOIN 
         users_public u ON p.author = u.user_id
-    INNER JOIN 
-        follows f ON p.author = f.followee_id
     WHERE 
-        f.follower_id = p_user_id
-        AND (last_post_id IS NULL OR p.id < last_post_id)
+        p.parent IS NULL AND
+        last_post_id IS NULL OR p.id < last_post_id
     ORDER BY 
         p.id DESC
     LIMIT 

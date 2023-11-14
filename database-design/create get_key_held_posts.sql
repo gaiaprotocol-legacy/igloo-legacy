@@ -1,4 +1,5 @@
 CREATE OR REPLACE FUNCTION get_key_held_posts(
+    p_user_id uuid,
     p_wallet_address text,
     last_post_id int8 DEFAULT NULL,
     max_count int DEFAULT 50
@@ -19,7 +20,9 @@ RETURNS TABLE (
     repost_count int4,
     like_count int4,
     created_at timestamp with time zone,
-    updated_at timestamp with time zone
+    updated_at timestamp with time zone,
+    liked boolean,
+    reposted boolean
 ) AS $$
 BEGIN
     RETURN QUERY
@@ -39,7 +42,9 @@ BEGIN
         p.repost_count,
         p.like_count,
         p.created_at,
-        p.updated_at
+        p.updated_at,
+        EXISTS (SELECT 1 FROM post_likes pl WHERE pl.post_id = p.id AND pl.user_id = p_user_id) AS liked,
+        EXISTS (SELECT 1 FROM reposts r WHERE r.post_id = p.id AND r.user_id = p_user_id) AS reposted
     FROM 
         posts p
     INNER JOIN 

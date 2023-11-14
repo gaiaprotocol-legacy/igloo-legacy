@@ -1,25 +1,33 @@
 import { msg, Router, Snackbar } from "common-app-module";
 import { PostForm } from "sofi-module";
-import { PostTarget } from "../database-interface/IglooPost.js";
+import IglooPost, { PostTarget } from "../database-interface/IglooPost.js";
 import SignedUserManager from "../user/SignedUserManager.js";
 import IglooPostService from "./IglooPostService.js";
 
 export default class IglooPostForm extends PostForm {
   public target: number = PostTarget.EVERYONE;
 
-  constructor(focus: boolean = false, private callback?: () => void) {
+  constructor(
+    private parentPostId: number | undefined,
+    focus: boolean,
+    private callback: (post: IglooPost) => void,
+  ) {
     super(SignedUserManager.user?.profile_image_thumbnail ?? "", focus);
   }
 
   protected async post(message: string, files: File[]): Promise<void> {
-    const postId = await IglooPostService.post(this.target, message, files);
+    const post = !this.parentPostId
+      ? await IglooPostService.post(this.target, message, files)
+      : await IglooPostService.comment(this.parentPostId, message, files);
+
     new Snackbar({
       message: msg("post-form-posted-snackbar-message"),
       action: {
         title: msg("post-form-posted-snackbar-button"),
-        click: () => Router.go(`/post/${postId}`),
+        click: () => Router.go(`/post/${post.id}`),
       },
     });
-    if (this.callback) this.callback();
+
+    this.callback(post);
   }
 }

@@ -1,8 +1,15 @@
-CREATE OR REPLACE FUNCTION get_post_and_comments(p_post_id int8)
+CREATE OR REPLACE FUNCTION get_post_and_comments(
+    p_post_id int8, 
+    signed_user_id uuid DEFAULT NULL
+)
 RETURNS TABLE (
     id int8,
     target int2,
     author uuid,
+    author_display_name text,
+    author_profile_image text,
+    author_profile_image_thumbnail text,
+    author_x_username text,
     message text,
     translated jsonb,
     rich jsonb,
@@ -12,33 +19,122 @@ RETURNS TABLE (
     like_count int4,
     created_at timestamp with time zone,
     updated_at timestamp with time zone,
+    liked boolean,
+    reposted boolean,
     depth int4
 )
 LANGUAGE SQL AS $$
 WITH RECURSIVE ancestors AS (
-    SELECT *, 0 AS depth
-    FROM posts 
-    WHERE id = p_post_id
+    SELECT 
+        p.id,
+        p.target,
+        p.author,
+        u.display_name,
+        u.profile_image,
+        u.profile_image_thumbnail,
+        u.x_username,
+        p.message,
+        p.translated,
+        p.rich,
+        p.parent,
+        p.comment_count,
+        p.repost_count,
+        p.like_count,
+        p.created_at,
+        p.updated_at,
+        CASE 
+            WHEN signed_user_id IS NOT NULL THEN 
+                EXISTS (SELECT 1 FROM post_likes pl WHERE pl.post_id = p.id AND pl.user_id = signed_user_id)
+            ELSE FALSE 
+        END AS liked,
+        CASE 
+            WHEN signed_user_id IS NOT NULL THEN 
+                EXISTS (SELECT 1 FROM reposts r WHERE r.post_id = p.id AND r.user_id = signed_user_id)
+            ELSE FALSE 
+        END AS reposted,
+        0 AS depth
+    FROM 
+        posts p
+    INNER JOIN 
+        users_public u ON p.author = u.user_id
+    WHERE 
+        p.id = p_post_id
 
     UNION
 
-    SELECT p.*, a.depth - 1 AS depth
-    FROM posts p
-    JOIN ancestors a ON p.id = a.parent
+    SELECT 
+        p.id,
+        p.target,
+        p.author,
+        u.display_name,
+        u.profile_image,
+        u.profile_image_thumbnail,
+        u.x_username,
+        p.message,
+        p.translated,
+        p.rich,
+        p.parent,
+        p.comment_count,
+        p.repost_count,
+        p.like_count,
+        p.created_at,
+        p.updated_at,
+        CASE 
+            WHEN signed_user_id IS NOT NULL THEN 
+                EXISTS (SELECT 1 FROM post_likes pl WHERE pl.post_id = p.id AND pl.user_id = signed_user_id)
+            ELSE FALSE 
+        END AS liked,
+        CASE 
+            WHEN signed_user_id IS NOT NULL THEN 
+                EXISTS (SELECT 1 FROM reposts r WHERE r.post_id = p.id AND r.user_id = signed_user_id)
+            ELSE FALSE 
+        END AS reposted,
+        a.depth - 1 AS depth
+    FROM 
+        posts p
+    INNER JOIN 
+        users_public u ON p.author = u.user_id
+    JOIN 
+        ancestors a ON p.id = a.parent
 ),
-descendants AS (
-    SELECT *, 1 AS depth
-    FROM posts
-    WHERE parent = p_post_id
-
-    UNION
-
-    SELECT p.*, d.depth + 1 AS depth
-    FROM posts p
-    JOIN descendants d ON p.parent = d.id
+comments AS (
+    SELECT 
+        p.id,
+        p.target,
+        p.author,
+        u.display_name,
+        u.profile_image,
+        u.profile_image_thumbnail,
+        u.x_username,
+        p.message,
+        p.translated,
+        p.rich,
+        p.parent,
+        p.comment_count,
+        p.repost_count,
+        p.like_count,
+        p.created_at,
+        p.updated_at,
+        CASE 
+            WHEN signed_user_id IS NOT NULL THEN 
+                EXISTS (SELECT 1 FROM post_likes pl WHERE pl.post_id = p.id AND pl.user_id = signed_user_id)
+            ELSE FALSE 
+        END AS liked,
+        CASE 
+            WHEN signed_user_id IS NOT NULL THEN 
+                EXISTS (SELECT 1 FROM reposts r WHERE r.post_id = p.id AND r.user_id = signed_user_id)
+            ELSE FALSE 
+        END AS reposted,
+        1 AS depth
+    FROM 
+        posts p
+    INNER JOIN 
+        users_public u ON p.author = u.user_id
+    WHERE 
+        p.parent = p_post_id
 )
 SELECT * FROM ancestors
 UNION ALL
-SELECT * FROM descendants
+SELECT * FROM comments
 ORDER BY depth, created_at;
 $$;

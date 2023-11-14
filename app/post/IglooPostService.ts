@@ -35,7 +35,7 @@ class IglooPostService extends PostService<IglooPost> {
       b.insert({ target, message, rich }).select(PostSelectQuery).single()
     );
     this.notifyNewGlobalPost(data);
-    return data.id;
+    return data;
   }
 
   public async comment(parent: number, message: string, files: File[]) {
@@ -43,30 +43,22 @@ class IglooPostService extends PostService<IglooPost> {
     const data = await this.safeFetch((b) =>
       b.insert({ parent, message, rich }).select(PostSelectQuery).single()
     );
-    return data.id;
+    return data;
   }
 
   public async fetchKeyHeldPosts(
+    userId: string,
     walletAddress: string,
     lastPostId?: number,
-  ): Promise<IglooPost[]> {
+  ) {
     const { data, error } = await Supabase.client.rpc("get_key_held_posts", {
+      p_user_id: userId,
       p_wallet_address: walletAddress,
       last_post_id: lastPostId,
       max_count: this.fetchLimit,
     });
     if (error) throw error;
-    const posts = Supabase.safeResult(data) ?? [];
-    for (const post of posts) {
-      post.author = {
-        user_id: post.author,
-        display_name: post.author_display_name,
-        profile_image: post.author_profile_image,
-        profile_image_thumbnail: post.author_profile_image_thumbnail,
-        x_username: post.author_x_username,
-      };
-    }
-    return posts;
+    return this.enhancePostData(data ?? []);
   }
 }
 

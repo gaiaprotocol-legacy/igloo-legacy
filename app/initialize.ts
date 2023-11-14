@@ -1,6 +1,5 @@
 import {
   AppInitializer,
-  BodyNode,
   el,
   MaterialIconSystem,
   msg,
@@ -17,7 +16,7 @@ import Config from "./Config.js";
 import EnvironmentManager from "./EnvironmentManager.js";
 import HomeView from "./home/HomeView.js";
 import Layout from "./layout/Layout.js";
-import ListLoadingBar from "./ListLoadingBar.js";
+import PostView from "./post/PostView.js";
 import ProfileView from "./settings/ProfileView.js";
 import SettingsView from "./settings/SettingsView.js";
 import SignedUserManager from "./user/SignedUserManager.js";
@@ -51,8 +50,7 @@ export default async function initialize(config: Config) {
 
   Router.route("**", Layout);
   Router.route("", HomeView);
+  Router.route("post/{postId}", PostView);
   Router.route("profile", ProfileView);
   Router.route("settings", SettingsView);
-
-  new ListLoadingBar().appendTo(BodyNode);
 }

@@ -22,19 +22,28 @@ export default class KeyHeldPostList extends PostList<IglooPost> {
     );
   }
 
-  protected async fetchPosts(): Promise<
-    { posts: IglooPost[]; mainPostId: number }[]
-  > {
+  protected async fetchPosts(): Promise<{
+    fetchedPosts: { posts: IglooPost[]; mainPostId: number }[];
+    repostedPostIds: number[];
+    likedPostIds: number[];
+  }> {
+    const userId = SignedUserManager.user?.user_id;
+    if (!userId) throw new Error("User ID not found");
     const walletAddress = SignedUserManager.user?.wallet_address;
     if (!walletAddress) throw new Error("Wallet address not found");
 
-    const posts = await IglooPostService.fetchKeyHeldPosts(
+    const result = await IglooPostService.fetchKeyHeldPosts(
+      userId,
       walletAddress,
       this.lastPostId,
     );
-    return posts.map((p) => ({
-      posts: [p],
-      mainPostId: p.id,
-    }));
+    return {
+      fetchedPosts: result.posts.map((p) => ({
+        posts: [p],
+        mainPostId: p.id,
+      })),
+      repostedPostIds: result.repostedPostIds,
+      likedPostIds: result.likedPostIds,
+    };
   }
 }
