@@ -23,6 +23,6 @@ export default class UserDisplay extends DomNode {
     keyHoldingCount: number,
     portfolioValue: bigint,
   ) {
-    // ...
+    console.log(userPublic, subject, keyHoldingCount, portfolioValue);
   }
 }

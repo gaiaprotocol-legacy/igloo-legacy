@@ -12,3 +12,6 @@ export default interface Subject {
   created_at: string;
   updated_at?: string;
 }
+
+export const SubjectsSelectQuery =
+  `*, last_fetched_key_price::text, total_trading_key_volume::text, total_earned_trading_fees::text`;

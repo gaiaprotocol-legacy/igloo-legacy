@@ -32,9 +32,3 @@ subject_key_holders
 	last_fetched_balance - int8 - 0
 	created_at - timestampz - now()
 	updated_at - timestampz - nullable
-
-total_subject_key_balances
-	wallet_address - text - pk
-	total_key_balance - int8 - 0
-	created_at - timestampz - now()
-	updated_at - timestampz - nullable

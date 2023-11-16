@@ -2,6 +2,8 @@ import { DomNode, el, View, ViewParams } from "common-app-module";
 import PreviewUserPublic from "../database-interface/PreviewUserPublic.js";
 import Layout from "../layout/Layout.js";
 import MaterialIcon from "../MaterialIcon.js";
+import SubjectService from "../subject/SubjectService.js";
+import TempSubjectCacher from "../subject/TempSubjectCacher.js";
 import IglooUserCacher from "./IglooUserCacher.js";
 import IglooUserService from "./IglooUserService.js";
 import UserDisplay from "./UserDisplay.js";
@@ -37,16 +39,51 @@ export default class UserView extends View {
     previewUserPublic?: PreviewUserPublic,
   ) {
     let userPublic = IglooUserCacher.getByXUsername(xUsername);
+    let subject = userPublic?.wallet_address
+      ? TempSubjectCacher.get(userPublic.wallet_address)
+      : undefined;
+    let keyHoldingCount = userPublic
+      ? IglooUserCacher.getKeyHoldingCount(userPublic.user_id) ?? 0
+      : 0;
+    let portfolioValue = userPublic
+      ? IglooUserCacher.getPortfolioValue(userPublic.user_id) ?? 0n
+      : 0n;
 
     let userDisplay;
     this.userDisplayContainer.empty().append(
-      userDisplay = new UserDisplay(userPublic, previewUserPublic),
+      userDisplay = new UserDisplay(
+        userPublic,
+        subject,
+        keyHoldingCount,
+        portfolioValue,
+        previewUserPublic,
+      ),
     );
 
     userPublic = await IglooUserService.fetchByXUsername(xUsername);
     if (userPublic) {
       IglooUserCacher.cache(userPublic);
-      if (!userDisplay.deleted) userDisplay.update(userPublic);
+
+      subject = userPublic.wallet_address
+        ? await SubjectService.fetchSubject(userPublic.wallet_address)
+        : undefined;
+
+      if (userPublic.wallet_address) {
+        const result = await IglooUserService.fetchPortfolioValue(
+          userPublic.wallet_address,
+        );
+        keyHoldingCount = result.total_keys_count;
+        portfolioValue = result.total_portfolio_value;
+      }
+
+      if (!userDisplay.deleted) {
+        userDisplay.update(
+          userPublic,
+          subject,
+          keyHoldingCount,
+          portfolioValue,
+        );
+      }
     }
   }
 }

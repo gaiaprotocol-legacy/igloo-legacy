@@ -2,12 +2,12 @@ CREATE OR REPLACE FUNCTION get_portfolio_value(
     p_wallet_address text
 )
 RETURNS TABLE (
-    total_portfolio_value numeric,
-    total_keys_count numeric
+    total_keys_count int8,
+    total_portfolio_value numeric
 ) AS $$
 DECLARE
+    total_keys int8 := 0;
     portfolio_value numeric := 0;
-    total_keys numeric := 0;
     holder_record record;
     subject_detail record;
 BEGIN
@@ -25,15 +25,15 @@ BEGIN
                 subject, 
                 last_fetched_key_price 
             FROM 
-                subject_details 
+                subjects 
             WHERE 
                 subject = holder_record.subject
         ) LOOP
-            portfolio_value := portfolio_value + (holder_record.last_fetched_balance::numeric * subject_detail.last_fetched_key_price);
             total_keys := total_keys + holder_record.last_fetched_balance;
+            portfolio_value := portfolio_value + (holder_record.last_fetched_balance::numeric * subject_detail.last_fetched_key_price);
         END LOOP;
     END LOOP;
 
-    RETURN QUERY SELECT portfolio_value, total_keys;
+    RETURN QUERY SELECT total_keys, portfolio_value;
 END;
 $$ LANGUAGE plpgsql;
