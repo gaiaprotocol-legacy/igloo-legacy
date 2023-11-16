@@ -20,6 +20,7 @@ import PostView from "./post/PostView.js";
 import ProfileView from "./settings/ProfileView.js";
 import SettingsView from "./settings/SettingsView.js";
 import SignedUserManager from "./user/SignedUserManager.js";
+import UserView from "./user/UserView.js";
 import WalletManager from "./wallet/WalletManager.js";
 
 msg.setMessages({
@@ -53,4 +54,18 @@ export default async function initialize(config: Config) {
   Router.route("post/{postId}", PostView);
   Router.route("profile", ProfileView);
   Router.route("settings", SettingsView);
+
+  Router.route("{xUsername}", UserView, [
+    "chats",
+    "chats/{topic}",
+    "explore",
+    "search",
+    "notifications",
+    "settings",
+    "post/{postId}",
+    "{xUsername}/holdings",
+    "{xUsername}/holders",
+    "{xUsername}/following",
+    "{xUsername}/followers",
+  ]);
 }

@@ -37,7 +37,7 @@ export default class PostView extends View {
     this.load(parseInt(params.postId!));
   }
 
-  public changeParams(params: ViewParams, uri: string): void {
+  public changeParams(params: ViewParams): void {
     this.load(parseInt(params.postId!));
   }
 

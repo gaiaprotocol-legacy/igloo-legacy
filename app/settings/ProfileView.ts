@@ -1,5 +1,7 @@
 import { el, msg, Router, View, ViewParams } from "common-app-module";
 import Layout from "../layout/Layout.js";
+import SignedUserManager from "../user/SignedUserManager.js";
+import UserDisplay from "../user/UserDisplay.js";
 
 export default class ProfileView extends View {
   constructor(params: ViewParams) {
@@ -15,6 +17,7 @@ export default class ProfileView extends View {
             click: () => Router.go("/settings"),
           }),
         ),
+        new UserDisplay(SignedUserManager.user),
       ),
     );
   }

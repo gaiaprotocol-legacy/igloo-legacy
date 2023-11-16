@@ -11,7 +11,7 @@ class IglooPostInteractions implements PostInteractions<IglooPost> {
   }
 
   public openAuthorProfile(author: Author) {
-    Router.go(`/${author.x_username}`);
+    Router.go(`/${author.x_username}`, undefined, author);
   }
 
   public openOwnerMenu(postId: number, rect: DOMRect) {
