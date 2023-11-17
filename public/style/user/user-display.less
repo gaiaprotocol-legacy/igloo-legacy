@@ -1,0 +1,29 @@
+.user-display {
+    >section.profile {
+        display: flex;
+        gap    : 30px;
+
+        @media @phone {
+            flex-direction: column;
+            gap           : 20px;
+        }
+
+        >* {
+            flex : 0 50%;
+            width: 50%;
+
+            @media @phone {
+                flex : auto;
+                width: auto;
+            }
+        }
+
+        >.user-connections {
+            flex-grow: 1;
+        }
+    }
+
+    >.user-posts {
+        margin-top: 20px;
+    }
+}

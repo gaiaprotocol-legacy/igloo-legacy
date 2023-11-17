@@ -45,6 +45,8 @@ export default class UserView extends View {
     xUsername: string,
     previewUserPublic?: PreviewUserPublic,
   ) {
+    this.title.text = `@${xUsername}`;
+
     let userPublic = IglooUserCacher.getByXUsername(xUsername);
     let subject = userPublic?.wallet_address
       ? TempSubjectCacher.get(userPublic.wallet_address)

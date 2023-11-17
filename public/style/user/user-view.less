@@ -1,0 +1,121 @@
+.user-view {
+    padding: 21px 18px 31px 30px;
+
+    @media @phone {
+        padding: 20px;
+    }
+
+    >header {
+        margin-bottom: 30px;
+        display      : flex;
+        align-items  : center;
+        gap          : 20px;
+
+        @media @phone {
+            display: none;
+        }
+
+        >button {
+            .embossed-box();
+            width          : 48px;
+            height         : 48px;
+            flex-shrink    : 0;
+            cursor         : pointer;
+            display        : flex;
+            justify-content: center;
+            align-items    : center;
+
+            &:active {
+                .debossed-box();
+            }
+        }
+
+        >h1 {
+            font-feature-settings: 'clig'off, 'liga'off;
+            font-family          : Quicksand;
+            font-size            : 22px;
+            font-style           : normal;
+            font-weight          : 700;
+            line-height          : normal;
+        }
+    }
+
+    >section.profile {
+        display: flex;
+        gap    : 30px;
+
+        @media @phone {
+            flex-direction: column;
+            gap           : 20px;
+
+            >.user-connections {
+                display: none;
+            }
+        }
+
+        >* {
+            flex : 0 50%;
+            width: 50%;
+
+            @media @phone {
+                flex : auto;
+                width: auto;
+            }
+        }
+
+        >.user-connections {
+            flex-grow     : 1;
+            display       : flex;
+            flex-direction: column;
+            gap           : 20px;
+
+            @media @phone {
+                display: none;
+            }
+
+            >.tabs {
+                gap: 0;
+
+                >.tab {
+                    font-size     : 14px;
+                    padding       : 10px 0;
+                    display       : flex;
+                    flex-direction: column;
+                    gap           : 5px;
+
+                    >.value {
+                        font-size: 18px;
+                    }
+                }
+            }
+
+            >.user-list {
+                .embossed-box();
+                flex-grow : 1;
+                height    : 423.5px;
+                overflow-y: auto;
+                padding   : 20px;
+                gap       : 20px;
+            }
+        }
+    }
+
+    >.tabs {
+        margin-top: 20px;
+    }
+
+    @media @phone {
+        >.tabs {
+            padding: 12px;
+
+            >.tab {
+                padding  : 0;
+                font-size: 14px;
+            }
+        }
+    }
+
+    >.post-list {
+        margin-top: 20px;
+    }
+}
