@@ -1451,6 +1451,72 @@ p {
   background: var(--bg-color);
   box-shadow: var(--debossed-box-shadow);
 }
+.holdings-view,
+.holders-view,
+.following-view,
+.followers-view {
+  padding: 21px 18px 31px 30px;
+}
+@media only screen and (max-width: 859px) {
+  .holdings-view,
+  .holders-view,
+  .following-view,
+  .followers-view {
+    padding: 20px;
+  }
+}
+.holdings-view > header,
+.holders-view > header,
+.following-view > header,
+.followers-view > header {
+  margin-bottom: 30px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+@media only screen and (max-width: 859px) {
+  .holdings-view > header,
+  .holders-view > header,
+  .following-view > header,
+  .followers-view > header {
+    display: none;
+  }
+}
+.holdings-view > header > button,
+.holders-view > header > button,
+.following-view > header > button,
+.followers-view > header > button {
+  border-radius: 16px;
+  background: var(--bg-color);
+  box-shadow: var(--embossed-box-shadow);
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.holdings-view > header > button:active,
+.holders-view > header > button:active,
+.following-view > header > button:active,
+.followers-view > header > button:active {
+  border-radius: 16px;
+  outline: var(--debossed-box-border);
+  background: var(--bg-color);
+  box-shadow: var(--debossed-box-shadow);
+}
+.holdings-view > header > h1,
+.holders-view > header > h1,
+.following-view > header > h1,
+.followers-view > header > h1 {
+  font-feature-settings: 'clig' off, 'liga' off;
+  font-family: Quicksand;
+  font-size: 22px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
 .post-popup {
   max-width: 600px !important;
   display: flex;
