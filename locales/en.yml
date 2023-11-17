@@ -16,6 +16,15 @@ post-form-posted-snackbar-message: Your post has been successfully published.
 post-form-posted-snackbar-button: View
 
 key-held-post-list-empty-message: No posts from users you hold ices for yet
+user-post-list-empty-message: No posts from this user yet
+user-comment-post-list-empty-message: No comments from this user yet
+user-repost-list-empty-message: No reposts from this user yet
+user-liked-post-list-empty-message: No liked posts from this user yet
+
+holding-list-empty-message: No users you hold ices for yet
+holder-list-empty-message: No users holding ice for you yet
+following-list-empty-message: Not following anyone yet
+follower-list-empty-message: No followers yet
 
 profile-view-title: Profile
 

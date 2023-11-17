@@ -15,7 +15,6 @@ export default class KeyHeldPostList extends PostList<IglooPost> {
         storeName: "key-held-posts",
         signedUserId: SignedUserManager.user?.user_id,
         emptyMessage: msg("key-held-post-list-empty-message"),
-        wait: true,
       },
       IglooPostInteractions,
       new IglooLottieAnimation(),
