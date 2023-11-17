@@ -1,3 +1,6 @@
+CREATE OR REPLACE FUNCTION "public"."increase_post_comment_count"() RETURNS "trigger"
+LANGUAGE "plpgsql" SECURITY DEFINER
+AS $$
 begin
   IF new.parent IS NOT NULL THEN
     update posts
@@ -8,3 +11,4 @@ begin
   END IF;
   return null;
 end;
+$$;

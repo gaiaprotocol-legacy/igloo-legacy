@@ -1,3 +1,6 @@
+CREATE OR REPLACE FUNCTION "public"."notify_post_comment_event"() RETURNS "trigger"
+LANGUAGE "plpgsql" SECURITY DEFINER
+AS $$
 DECLARE
     v_author UUID;
 begin
@@ -13,3 +16,4 @@ begin
     END IF;
     return null;
 end;
+$$;
