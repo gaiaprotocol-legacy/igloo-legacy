@@ -1,3 +1,5 @@
+user-not-found-message: User not found
+
 mobile-title-bar-welcome-message-signed-in: Hello, {name}!
 mobile-title-bar-welcome-message-not-signed-in: Welcome to Igloo!
 

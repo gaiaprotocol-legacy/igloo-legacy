@@ -1081,6 +1081,90 @@ p {
   display: block;
   margin-top: 18px;
 }
+.user-profile {
+  border-radius: 16px;
+  background: var(--bg-color);
+  box-shadow: var(--embossed-box-shadow);
+  padding: 20px;
+}
+.user-profile > section.profile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+.user-profile > section.profile > .profile-image-wrapper {
+  border-radius: 16px;
+  background: var(--bg-color);
+  box-shadow: var(--embossed-box-shadow);
+  display: flex;
+  flex-shrink: 0;
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  align-items: center;
+  justify-content: center;
+}
+.user-profile > section.profile > .profile-image-wrapper > .profile-image {
+  width: 120px;
+  height: 120px;
+  display: flex;
+  flex-shrink: 0;
+  border-radius: 50%;
+  border: 1px solid #FFF;
+  background: lightgray 50% / cover no-repeat;
+}
+.user-profile > section.profile > h2 {
+  font-feature-settings: 'clig' off, 'liga' off;
+  font-family: Quicksand;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+.user-profile > section.profile > h3 > a {
+  font-feature-settings: 'clig' off, 'liga' off;
+  font-family: Quicksand;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  border-radius: 4px;
+  padding: 4px 8px;
+}
+.user-profile > section.profile > h3 > a:active {
+  border-radius: 16px;
+  outline: var(--debossed-box-border);
+  background: var(--bg-color);
+  box-shadow: var(--debossed-box-shadow);
+}
+.user-profile > section.profile > .socials {
+  margin-top: 4px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.user-profile > section.profile > .socials > a {
+  border-radius: 16px;
+  background: var(--bg-color);
+  box-shadow: var(--embossed-box-shadow);
+  display: flex;
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  align-items: center;
+  justify-content: center;
+}
+.user-profile > section.profile > .socials > a > img {
+  height: 14px;
+}
+.user-profile > section.profile > .socials > a:active {
+  border-radius: 16px;
+  outline: var(--debossed-box-border);
+  background: var(--bg-color);
+  box-shadow: var(--debossed-box-shadow);
+}
 .post-popup {
   max-width: 600px !important;
   display: flex;

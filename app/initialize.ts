@@ -61,6 +61,7 @@ export default async function initialize(config: Config) {
     "explore",
     "search",
     "notifications",
+    "profile",
     "settings",
     "post/{postId}",
     "{xUsername}/holdings",

@@ -1,4 +1,11 @@
-import { DomNode, el, View, ViewParams } from "common-app-module";
+import {
+  DomNode,
+  el,
+  ListLoadingBar,
+  msg,
+  View,
+  ViewParams,
+} from "common-app-module";
 import PreviewUserPublic from "../database-interface/PreviewUserPublic.js";
 import Layout from "../layout/Layout.js";
 import MaterialIcon from "../MaterialIcon.js";
@@ -49,7 +56,7 @@ export default class UserView extends View {
       ? IglooUserCacher.getPortfolioValue(userPublic.user_id) ?? 0n
       : 0n;
 
-    let userDisplay;
+    let userDisplay, loading;
     this.userDisplayContainer.empty().append(
       userDisplay = new UserDisplay(
         userPublic,
@@ -58,10 +65,15 @@ export default class UserView extends View {
         portfolioValue,
         previewUserPublic,
       ),
+      loading = new ListLoadingBar(),
     );
 
     userPublic = await IglooUserService.fetchByXUsername(xUsername);
-    if (userPublic) {
+    if (!userPublic) {
+      this.userDisplayContainer.empty().append(
+        el("p", msg("user-not-found-message")),
+      );
+    } else {
       IglooUserCacher.cache(userPublic);
 
       subject = userPublic.wallet_address
@@ -83,6 +95,7 @@ export default class UserView extends View {
           keyHoldingCount,
           portfolioValue,
         );
+        loading.delete();
       }
     }
   }

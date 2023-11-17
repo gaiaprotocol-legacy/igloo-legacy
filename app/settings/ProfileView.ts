@@ -1,4 +1,12 @@
-import { DomNode, el, msg, Router, View, ViewParams } from "common-app-module";
+import {
+  DomNode,
+  el,
+  ListLoadingBar,
+  msg,
+  Router,
+  View,
+  ViewParams,
+} from "common-app-module";
 import Layout from "../layout/Layout.js";
 import SubjectService from "../subject/SubjectService.js";
 import TempSubjectCacher from "../subject/TempSubjectCacher.js";
@@ -48,11 +56,17 @@ export default class ProfileView extends View {
       this.userDisplayContainer,
     );
 
+    const loading = new ListLoadingBar().appendTo(this.userDisplayContainer);
+
     if (SignedUserManager.user) {
       const userPublic = await IglooUserService.fetchUser(
         SignedUserManager.user.user_id,
       );
-      if (userPublic) {
+      if (!userPublic) {
+        this.userDisplayContainer.empty().append(
+          el("p", msg("user-not-found-message")),
+        );
+      } else {
         IglooUserCacher.cache(userPublic);
 
         subject = userPublic.wallet_address
@@ -74,6 +88,7 @@ export default class ProfileView extends View {
             keyHoldingCount,
             portfolioValue,
           );
+          loading.delete();
         }
       }
     }
