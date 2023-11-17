@@ -1,5 +1,11 @@
 import { DomNode, el } from "common-app-module";
 
+export interface UserProfileData {
+  profile_image?: string;
+  display_name?: string;
+  x_username?: string;
+}
+
 export default class UserProfile extends DomNode {
   private profileImage: DomNode;
   private nameDisplay: DomNode;
@@ -7,11 +13,7 @@ export default class UserProfile extends DomNode {
   private socials: DomNode;
 
   constructor(
-    user: {
-      profile_image?: string;
-      display_name?: string;
-      x_username?: string;
-    },
+    user: UserProfileData,
     loading?: boolean,
   ) {
     super(".user-profile");
@@ -59,7 +61,7 @@ export default class UserProfile extends DomNode {
     if (loading) this.addClass("loading");
   }
 
-  public update() {
+  public update(user: UserProfileData) {
     this.deleteClass("loading");
   }
 }

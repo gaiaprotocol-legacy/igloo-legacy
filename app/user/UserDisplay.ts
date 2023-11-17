@@ -31,6 +31,7 @@ export default class UserDisplay extends DomNode {
     keyHoldingCount: number,
     portfolioValue: bigint,
   ) {
+    this.userProfile.update(userPublic);
     console.log(userPublic, subject, keyHoldingCount, portfolioValue);
   }
 }
