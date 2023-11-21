@@ -6,7 +6,12 @@ import {
   Router,
   SplashLoader,
 } from "common-app-module";
-import { SocialComponent } from "sofi-module";
+import {
+  SocialComponent,
+  TestChatView,
+  TestPostListView,
+  TestPostView,
+} from "sofi-module";
 import messages_en from "../locales/en.yml";
 import messages_ja from "../locales/ja.yml";
 import messages_zh from "../locales/zh.yml";
@@ -49,7 +54,7 @@ export default async function initialize(config: Config) {
     SignedUserManager.fetchUserOnInit(),
   ]);
 
-  Router.route("**", Layout);
+  Router.route("**", Layout, ["test/**"]);
   Router.route("", HomeView);
   Router.route("post/{postId}", PostView);
   Router.route("profile", ProfileView);
@@ -69,4 +74,8 @@ export default async function initialize(config: Config) {
     "{xUsername}/following",
     "{xUsername}/followers",
   ]);
+
+  Router.route("test/chat", TestChatView);
+  Router.route("test/posts", TestPostListView);
+  Router.route("test/post", TestPostView);
 }

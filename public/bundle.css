@@ -781,6 +781,9 @@ p {
   border: 1px solid #FFF;
   background: lightgray 50% / cover no-repeat;
 }
+.test-view {
+  padding: 20px;
+}
 .igloo-lottie-animation {
   display: flex;
   justify-content: center;
