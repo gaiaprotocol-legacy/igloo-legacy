@@ -1593,7 +1593,6 @@ p {
 .chat-room-list-item .last-message-info > .message {
   color: #a1a2ac;
   font-size: 12px;
-  text-transform: capitalize;
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;

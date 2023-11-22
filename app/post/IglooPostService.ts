@@ -32,7 +32,7 @@ class IglooPostService extends PostService<IglooPost> {
   public async post(target: number, message: string, files: File[]) {
     const rich = files.length ? await this.upload(files) : undefined;
     const data = await this.safeFetch<IglooPost>((b) =>
-      b.insert({ target, message, rich }).select(PostSelectQuery).single()
+      b.insert({ target, message, rich }).select(this.selectQuery).single()
     );
     this.notifyNewGlobalPost(data!);
     return data!;
@@ -41,7 +41,7 @@ class IglooPostService extends PostService<IglooPost> {
   public async comment(parent: number, message: string, files: File[]) {
     const rich = files.length ? await this.upload(files) : undefined;
     const data = await this.safeFetch<IglooPost>((b) =>
-      b.insert({ parent, message, rich }).select(PostSelectQuery).single()
+      b.insert({ parent, message, rich }).select(this.selectQuery).single()
     );
     return data!;
   }
