@@ -7,7 +7,7 @@ class SubjectService extends SupabaseService {
   }
 
   public async fetchSubject(subject: string): Promise<Subject | undefined> {
-    const data = await this.safeFetch((b) =>
+    const data = await this.safeFetch<Subject[]>((b) =>
       b.select(this.selectQuery).eq("subject", subject)
     );
     return data?.[0];

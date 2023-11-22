@@ -1,6 +1,8 @@
 import { ListLoadingBar, msg } from "common-app-module";
 import { Topic } from "sofi-module";
 import ChatRoomList from "../chat/ChatRoomList.js";
+import IglooTopicService from "../topic/IglooTopicService.js";
+import TopicChatRoomListItem from "./TopicChatRoomListItem.js";
 
 export default class TopicChatRoomList extends ChatRoomList {
   constructor() {
@@ -12,10 +14,26 @@ export default class TopicChatRoomList extends ChatRoomList {
     const cachedTopics = this.store.get<Topic[]>("cached-topics");
     if (cachedTopics && cachedTopics.length > 0) {
       for (const t of cachedTopics) {
-        //TODO:
+        this.append(new TopicChatRoomListItem(t));
       }
     } else {
       this.append(new ListLoadingBar());
+    }
+
+    this.refresh();
+  }
+
+  private async refresh() {
+    this.append(new ListLoadingBar());
+
+    const topics = await IglooTopicService.fetchGlobalTopics();
+    this.store.set("cached-topics", topics, true);
+
+    if (!this.deleted) {
+      this.empty();
+      for (const t of topics) {
+        this.append(new TopicChatRoomListItem(t));
+      }
     }
   }
 }

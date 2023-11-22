@@ -32,20 +32,6 @@ class UserService {
     return data as any;
   }
 
-  public async fetchByWalletAddresses(
-    walletAddresses: string[],
-  ): Promise<UserDetails[]> {
-    const { data, error } = await Supabase.client.from("users_public").select(
-      UserDetailsSelectQuery,
-    )
-      .in(
-        "wallet_address",
-        walletAddresses,
-      );
-    if (error) throw error;
-    return data as any;
-  }
-
   public async fetchFollowers(
     userId: string,
     lastFetchedFollowedAt: string | undefined,

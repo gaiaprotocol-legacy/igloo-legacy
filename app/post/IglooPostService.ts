@@ -31,19 +31,19 @@ class IglooPostService extends PostService<IglooPost> {
 
   public async post(target: number, message: string, files: File[]) {
     const rich = files.length ? await this.upload(files) : undefined;
-    const data = await this.safeFetch((b) =>
+    const data = await this.safeFetch<IglooPost>((b) =>
       b.insert({ target, message, rich }).select(PostSelectQuery).single()
     );
-    this.notifyNewGlobalPost(data);
-    return data;
+    this.notifyNewGlobalPost(data!);
+    return data!;
   }
 
   public async comment(parent: number, message: string, files: File[]) {
     const rich = files.length ? await this.upload(files) : undefined;
-    const data = await this.safeFetch((b) =>
+    const data = await this.safeFetch<IglooPost>((b) =>
       b.insert({ parent, message, rich }).select(PostSelectQuery).single()
     );
-    return data;
+    return data!;
   }
 
   public async fetchKeyHeldPosts(
