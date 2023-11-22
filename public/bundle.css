@@ -1549,6 +1549,29 @@ p {
     display: none;
   }
 }
+.chats-view > main {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.chats-view > main > section {
+  border-radius: 16px;
+  background: var(--bg-color);
+  box-shadow: var(--embossed-box-shadow);
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  gap: 20px;
+}
+.chats-view > main > section > h2 {
+  font-feature-settings: 'clig' off, 'liga' off;
+  font-family: Quicksand;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  text-transform: capitalize;
+}
 .post-popup {
   max-width: 600px !important;
   display: flex;

@@ -25,4 +25,28 @@
             display: none;
         }
     }
+
+    >main {
+        display       : flex;
+        flex-direction: column;
+        gap           : 20px;
+
+        >section {
+            .embossed-box();
+            display       : flex;
+            flex-direction: column;
+            padding       : 20px;
+            gap           : 20px;
+
+            >h2 {
+                font-feature-settings: 'clig'off, 'liga'off;
+                font-family          : Quicksand;
+                font-size            : 18px;
+                font-style           : normal;
+                font-weight          : 700;
+                line-height          : normal;
+                text-transform       : capitalize;
+            }
+        }
+    }
 }
