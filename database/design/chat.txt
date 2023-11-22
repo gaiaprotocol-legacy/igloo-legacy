@@ -1,0 +1,20 @@
+topic_chat_messages
+	id - int8 - pk
+	topic - text - not null
+	author - uuid, fk to users_public.user_id - auth.uid()
+	message - text - nullable
+	translated - jsonb - nullbale
+	rich - jsonb - nullable
+	created_at - timestampz - now()
+	updated_at - timestampz - nullable
+
+subject_chat_messages
+	id - int8 - pk
+	subject - text - not null
+	author - uuid, fk to users_public.user_id - auth.uid()
+	message - text - nullable
+	translated - jsonb - nullbale
+	rich - jsonb - nullable
+	post_ref - int8 - nullable
+	created_at - timestampz - now()
+	updated_at - timestampz - nullable

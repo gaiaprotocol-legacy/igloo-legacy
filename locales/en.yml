@@ -1,4 +1,6 @@
 user-not-found-message: User not found
+login-required-message: This page requires login. Would you like to login?
+login-required-login-button: Login with 𝕏
 
 mobile-title-bar-welcome-message-signed-in: Hello, {name}!
 mobile-title-bar-welcome-message-not-signed-in: Welcome to Igloo!
@@ -25,6 +27,17 @@ holding-list-empty-message: No users you hold ices for yet
 holder-list-empty-message: No users holding ice for you yet
 following-list-empty-message: Not following anyone yet
 follower-list-empty-message: No followers yet
+
+topic-chat-room-list-empty-message: No chat rooms for topics
+my-subject-chat-room-list-empty-message: No chat rooms for your subjects
+holding-subject-chat-room-list-empty-message: No chat rooms for holding subjects
+following-subject-chat-room-list-empty-message: No chat rooms for following subjects
+
+chats-view-title: Chats
+chats-view-general-section-title: General
+chats-view-my-subject-section-title: My
+chats-view-holding-subject-section-title: Holding
+chats-view-following-subject-section-title: Following
 
 profile-view-title: Profile
 
