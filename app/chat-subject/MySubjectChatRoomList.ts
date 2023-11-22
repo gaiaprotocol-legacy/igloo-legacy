@@ -1,4 +1,5 @@
 import { msg } from "common-app-module";
+import { SoFiUserPublic } from "sofi-module";
 import Subject from "../database-interface/Subject.js";
 import SubjectService from "../subject/SubjectService.js";
 import SignedUserManager from "../user/SignedUserManager.js";
@@ -12,13 +13,17 @@ export default class MySubjectChatRoomList extends SubjectChatRoomList {
     });
   }
 
-  protected async fetchSubjects(): Promise<Subject[]> {
+  protected async fetchSubjects(): Promise<
+    { subjects: Subject[]; owners: SoFiUserPublic[] }
+  > {
     const walletAddress = SignedUserManager.user?.wallet_address;
     if (walletAddress) {
       const subject = await SubjectService.fetchSubject(walletAddress);
-      return subject ? [subject] : [];
+      return subject
+        ? { subjects: [subject], owners: [SignedUserManager.user!] }
+        : { subjects: [], owners: [] };
     } else {
-      return [];
+      return { subjects: [], owners: [] };
     }
   }
 }

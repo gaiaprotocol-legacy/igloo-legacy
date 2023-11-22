@@ -2,7 +2,6 @@ import { ListLoadingBar } from "common-app-module";
 import { SoFiUserPublic } from "sofi-module";
 import ChatRoomList, { ChatRoomListOptions } from "../chat/ChatRoomList.js";
 import Subject from "../database-interface/Subject.js";
-import IglooUserService from "../user/IglooUserService.js";
 import SubjectChatRoomListItem from "./SubjectChatRoomListItem.js";
 
 export default abstract class SubjectChatRoomList extends ChatRoomList {
@@ -28,23 +27,22 @@ export default abstract class SubjectChatRoomList extends ChatRoomList {
     this.refresh();
   }
 
-  protected abstract fetchSubjects(): Promise<Subject[]>;
+  protected abstract fetchSubjects(): Promise<
+    { subjects: Subject[]; owners: SoFiUserPublic[] }
+  >;
 
   private async refresh() {
     this.append(new ListLoadingBar());
 
-    const subjects = await this.fetchSubjects();
-    const subjectOwners = await IglooUserService.fetchByWalletAddresses(
-      subjects.map((s) => s.subject),
-    );
+    const { subjects, owners } = await this.fetchSubjects();
 
     this.store.set("cached-subjects", subjects, true);
-    this.store.set("cached-subject-owners", subjectOwners, true);
+    this.store.set("cached-subject-owners", owners, true);
 
     if (!this.deleted) {
       this.empty();
       for (const s of subjects) {
-        const owner = subjectOwners.find((o) => o.wallet_address === s.subject);
+        const owner = owners.find((o) => o.wallet_address === s.subject);
         if (owner) this.append(new SubjectChatRoomListItem(s, owner));
       }
     }

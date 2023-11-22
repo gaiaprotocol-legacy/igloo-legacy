@@ -1,6 +1,7 @@
 import { msg } from "common-app-module";
 import Subject from "../database-interface/Subject.js";
 import SubjectChatRoomList from "./SubjectChatRoomList.js";
+import { SoFiUserPublic } from "sofi-module";
 
 export default class HoldingSubjectChatRoomList extends SubjectChatRoomList {
   constructor() {
@@ -10,7 +11,9 @@ export default class HoldingSubjectChatRoomList extends SubjectChatRoomList {
     });
   }
 
-  protected fetchSubjects(): Promise<Subject[]> {
+  protected async fetchSubjects(): Promise<
+    { subjects: Subject[]; owners: SoFiUserPublic[] }
+  > {
     throw new Error("Method not implemented.");
   }
 }
