@@ -1635,6 +1635,38 @@ p {
   line-height: normal;
   text-transform: capitalize;
 }
+.chat-room-view {
+  border-radius: 16px;
+  background: var(--bg-color);
+  box-shadow: var(--embossed-box-shadow);
+  position: absolute;
+  left: 510px;
+  top: 20px;
+  width: calc(100% - 530px);
+  height: calc(100% - 40px);
+  display: flex;
+  flex-direction: column;
+}
+@media only screen and (max-width: 859px) {
+  .chat-room-view {
+    position: fixed;
+    border-radius: 0;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 999991;
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  .chat-room-view.mobile-hidden {
+    display: none;
+  }
+}
+.chat-room-view > .chat-message-list {
+  height: 0px;
+  flex-grow: 1;
+  overflow-y: scroll;
+}
 .chat-room-list {
   position: relative;
   display: flex;
