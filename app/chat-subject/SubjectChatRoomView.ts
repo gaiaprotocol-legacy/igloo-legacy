@@ -3,6 +3,7 @@ import { ethers } from "ethers";
 import ChatRoomView from "../chat/ChatRoomView.js";
 import Subject from "../database-interface/Subject.js";
 import SubjectService from "../subject/SubjectService.js";
+import SignedUserManager from "../user/SignedUserManager.js";
 import SubjectChatMessageForm from "./SubjectChatMessageForm.js";
 import SubjectChatMessageList from "./SubjectChatMessageList.js";
 import SubjectChatRoomHeader from "./SubjectChatRoomHeader.js";
@@ -24,7 +25,11 @@ export default class SubjectChatRoomView extends ChatRoomView {
 
     form.on(
       "messageSending",
-      (tempId, message, files) => list.messageSending(tempId, message, files),
+      (tempId, message, files) => {
+        if (SignedUserManager.user) {
+          list.messageSending(tempId, SignedUserManager.user, message, files);
+        }
+      },
     );
     form.on("messageSent", (tempId, id) => list.messageSent(tempId, id));
 

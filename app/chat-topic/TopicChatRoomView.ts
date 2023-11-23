@@ -1,5 +1,6 @@
 import { ViewParams } from "common-app-module";
 import ChatRoomView from "../chat/ChatRoomView.js";
+import SignedUserManager from "../user/SignedUserManager.js";
 import TopicChatMessageForm from "./TopicChatMessageForm.js";
 import TopicChatMessageList from "./TopicChatMessageList.js";
 import TopicChatRoomHeader from "./TopicChatRoomHeader.js";
@@ -21,7 +22,11 @@ export default class TopicChatRoomView extends ChatRoomView {
 
     form.on(
       "messageSending",
-      (tempId, message, files) => list.messageSending(tempId, message, files),
+      (tempId, message, files) => {
+        if (SignedUserManager.user) {
+          list.messageSending(tempId, SignedUserManager.user, message, files);
+        }
+      },
     );
     form.on("messageSent", (tempId, id) => list.messageSent(tempId, id));
 
