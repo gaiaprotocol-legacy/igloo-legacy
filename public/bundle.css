@@ -435,6 +435,69 @@ button.component.text:active {
 .snackbar.component > main > button.close:hover {
   opacity: 0.8;
 }
+.chat-message-display {
+  border-radius: 16px;
+  background: var(--bg-color);
+  box-shadow: var(--embossed-box-shadow);
+  padding: 8px 20px;
+  font-feature-settings: 'clig' off, 'liga' off;
+  font-family: Quicksand;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  word-break: break-all;
+}
+@media only screen and (max-width: 859px) {
+  .chat-message-display {
+    font-size: 12px;
+  }
+}
+.chat-message-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.chat-message-list-item {
+  display: flex;
+  gap: 8px;
+}
+.chat-message-list-item > .author-profile-image {
+  display: flex;
+  width: 42px;
+  height: 42px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  border: 1px solid #FFF;
+  background: lightgray 50% / cover no-repeat;
+  margin-top: 1px;
+  cursor: pointer;
+}
+.chat-message-list-item > main {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.chat-message-list-item > main > header {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.chat-message-list-item > main > header > .author {
+  display: flex;
+}
+.chat-message-list-item > main > header > .author > .name {
+  font-feature-settings: 'clig' off, 'liga' off;
+  font-family: Quicksand;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  cursor: pointer;
+}
+.chat-message-list-item > main > header > .date {
+  color: #a1a2ac;
+  font-size: 12px;
+}
 .post-display {
   display: flex;
   gap: 20px;
