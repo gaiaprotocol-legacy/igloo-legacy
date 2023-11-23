@@ -3,9 +3,10 @@ import { ChatMessageList, Message } from "sofi-module";
 import IglooLottieAnimation from "../IglooLottieAnimation.js";
 import IglooChatMessageInteractions from "../chat/IglooChatMessageInteractions.js";
 import SignedUserManager from "../user/SignedUserManager.js";
+import TopicChatMessageService from "./TopicChatMessageService.js";
 
 export default class TopicChatMessageList extends ChatMessageList {
-  constructor(topic: string) {
+  constructor(private topic: string) {
     super(
       ".topic-chat-message-list",
       {
@@ -18,7 +19,7 @@ export default class TopicChatMessageList extends ChatMessageList {
     );
   }
 
-  protected fetchMessages(): Promise<Message[]> {
-    throw new Error("Method not implemented.");
+  protected async fetchMessages(): Promise<Message[]> {
+    return await TopicChatMessageService.fetchMessages(this.topic);
   }
 }
