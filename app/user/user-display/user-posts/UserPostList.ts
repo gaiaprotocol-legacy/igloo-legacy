@@ -7,7 +7,7 @@ import IglooPostService from "../../../post/IglooPostService.js";
 import SignedUserManager from "../../SignedUserManager.js";
 
 export default class UserPostList extends PostList<IglooPost> {
-  constructor(userId: string) {
+  constructor(private userId: string) {
     super(
       ".user-post-list",
       IglooPostService,
@@ -27,6 +27,7 @@ export default class UserPostList extends PostList<IglooPost> {
       likedPostIds: number[];
     }
   > {
+    console.log(this.userId);
     throw new Error("Method not implemented.");
   }
 }
