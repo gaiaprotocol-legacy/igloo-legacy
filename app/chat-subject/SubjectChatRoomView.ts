@@ -1,25 +1,38 @@
 import { ViewParams } from "common-app-module";
 import { ethers } from "ethers";
 import ChatRoomView from "../chat/ChatRoomView.js";
+import Subject from "../database-interface/Subject.js";
+import SubjectService from "../subject/SubjectService.js";
 import SubjectChatMessageForm from "./SubjectChatMessageForm.js";
 import SubjectChatMessageList from "./SubjectChatMessageList.js";
+import SubjectChatRoomHeader from "./SubjectChatRoomHeader.js";
 
 export default class SubjectChatRoomView extends ChatRoomView {
-  private subject: string;
-
-  constructor(params: ViewParams) {
+  constructor(params: ViewParams, uri: string, data?: any) {
     super(".subject-chat-room-view");
-    this.subject = ethers.getAddress("0x" + params.subject!);
-    this.render();
+    this.render(ethers.getAddress("0x" + params.subject!), data);
   }
 
-  public changeParams(params: ViewParams): void {
-    this.subject = ethers.getAddress("0x" + params.subject!);
-    this.render();
+  public changeParams(params: ViewParams, uri: string, data?: any): void {
+    this.render(ethers.getAddress("0x" + params.subject!), data);
   }
 
-  private render() {
-    const list = new SubjectChatMessageList(this.subject);
-    const form = new SubjectChatMessageForm(this.subject);
+  private async render(subject: string, subjectData: Subject | undefined) {
+    const header = new SubjectChatRoomHeader(subjectData);
+    const list = new SubjectChatMessageList(subject);
+    const form = new SubjectChatMessageForm(subject);
+
+    form.on(
+      "messageSending",
+      (tempId, message, files) => list.messageSending(tempId, message, files),
+    );
+    form.on("messageSent", (tempId, id) => list.messageSent(tempId, id));
+
+    this.container.empty().append(header, list, form);
+
+    if (!subjectData) {
+      subjectData = await SubjectService.fetchSubject(subject);
+      if (subjectData) header.update(subjectData);
+    }
   }
 }
