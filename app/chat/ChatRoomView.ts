@@ -1,8 +1,8 @@
-import { el, View, ViewParams } from "common-app-module";
+import { el, View } from "common-app-module";
 import Layout from "../layout/Layout.js";
 
 export default abstract class ChatRoomView extends View {
-  constructor(params: ViewParams, tag: string) {
+  constructor(tag: string) {
     super();
     Layout.append(
       this.container = el(tag + ".chat-room-view"),

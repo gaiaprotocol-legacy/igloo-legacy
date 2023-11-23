@@ -17,6 +17,8 @@ import messages_ja from "../locales/ja.yml";
 import messages_zh from "../locales/zh.yml";
 import messages_zh_HK from "../locales/zh_HK.yml";
 import messages_zh_TW from "../locales/zh_TW.yml";
+import SubjectChatRoomView from "./chat-subject/SubjectChatRoomView.js";
+import TopicChatRoomView from "./chat-topic/TopicChatRoomView.js";
 import ChatsView from "./chat/ChatsView.js";
 import Config from "./Config.js";
 import EnvironmentManager from "./EnvironmentManager.js";
@@ -58,6 +60,10 @@ export default async function initialize(config: Config) {
   Router.route("**", Layout, ["test/**"]);
   Router.route("", HomeView);
   Router.route(["chats", "chat/{topic}"], ChatsView);
+  Router.route("chat/0x{subject}", SubjectChatRoomView);
+  Router.route(["chats", "chat/{topic}"], TopicChatRoomView, [
+    "chat/0x{subject}",
+  ]);
   Router.route("post/{postId}", PostView);
   Router.route("profile", ProfileView);
   Router.route("settings", SettingsView);

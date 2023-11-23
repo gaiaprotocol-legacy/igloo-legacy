@@ -33,6 +33,8 @@ my-subject-chat-room-list-empty-message: No chat rooms for your subjects
 holding-subject-chat-room-list-empty-message: No chat rooms for holding subjects
 following-subject-chat-room-list-empty-message: No chat rooms for following subjects
 
+chat-message-list-empty-message: No messages yet
+
 chats-view-title: Chats
 chats-view-general-section-title: General
 chats-view-my-subject-section-title: My
