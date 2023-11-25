@@ -1,7 +1,7 @@
 import { Rich, Supabase, UploadManager } from "common-app-module";
 import { PostSelectQuery, PostService } from "sofi-module";
 import IglooPost from "../database-interface/IglooPost.js";
-import SignedUserManager from "../user/SignedUserManager.js";
+import IglooSignedUserManager from "../user/IglooSignedUserManager.js";
 
 class IglooPostService extends PostService<IglooPost> {
   constructor() {
@@ -11,10 +11,10 @@ class IglooPostService extends PostService<IglooPost> {
   private async upload(files: File[]): Promise<Rich> {
     const rich: Rich = { files: [] };
     await Promise.all(files.map(async (file) => {
-      if (SignedUserManager.user) {
+      if (IglooSignedUserManager.user) {
         const url = await UploadManager.uploadImage(
           "post_upload_files",
-          SignedUserManager.user.user_id,
+          IglooSignedUserManager.user.user_id,
           file,
           60 * 60 * 24 * 30,
         );

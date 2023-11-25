@@ -7,7 +7,7 @@ import {
   msg,
   Popup,
 } from "common-app-module";
-import SignedUserManager from "../user/SignedUserManager.js";
+import IglooSignedUserManager from "../user/IglooSignedUserManager.js";
 import WalletManager from "./WalletManager.js";
 
 export default class LinkWalletPopup extends Popup {
@@ -43,7 +43,7 @@ export default class LinkWalletPopup extends Popup {
                 button.disable().title = msg(
                   "link-wallet-popup-linking-button",
                 );
-                await SignedUserManager.linkWallet();
+                await IglooSignedUserManager.linkWallet();
                 this.delete();
               } catch (error) {
                 console.error(error);

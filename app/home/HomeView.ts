@@ -7,7 +7,7 @@ import MaterialIcon from "../MaterialIcon.js";
 import IglooPostInteractions from "../post/IglooPostInteractions.js";
 import IglooPostService from "../post/IglooPostService.js";
 import PostPopup from "../post/PostPopup.js";
-import SignedUserManager from "../user/SignedUserManager.js";
+import IglooSignedUserManager from "../user/IglooSignedUserManager.js";
 import KeyHeldPostList from "./KeyHeldPostList.js";
 
 export default class HomeView extends View {
@@ -23,10 +23,10 @@ export default class HomeView extends View {
         ".home-view",
         el(
           "main",
-          SignedUserManager.signed
+          IglooSignedUserManager.signed
             ? this.tabs = new Tabs(
               "home-view-tabs",
-              SignedUserManager.walletLinked
+              IglooSignedUserManager.walletLinked
                 ? [
                   { id: "global", label: "Global" },
                   { id: "following", label: "Following" },
@@ -41,24 +41,24 @@ export default class HomeView extends View {
           this.globalPostList = new GlobalPostList<IglooPost>(
             IglooPostService,
             {
-              signedUserId: SignedUserManager.user?.user_id,
+              signedUserId: IglooSignedUserManager.user?.user_id,
               wait: true,
             },
             IglooPostInteractions,
             new IglooLottieAnimation(),
           ),
-          SignedUserManager.signed
+          IglooSignedUserManager.signed
             ? this.followingPostList = new FollowingPostList(
               IglooPostService,
               {
-                signedUserId: SignedUserManager.user?.user_id!,
+                signedUserId: IglooSignedUserManager.user?.user_id!,
                 wait: true,
               },
               IglooPostInteractions,
               new IglooLottieAnimation(),
             )
             : undefined,
-          SignedUserManager.walletLinked
+          IglooSignedUserManager.walletLinked
             ? this.keyHeldPostList = new KeyHeldPostList()
             : undefined,
         ),

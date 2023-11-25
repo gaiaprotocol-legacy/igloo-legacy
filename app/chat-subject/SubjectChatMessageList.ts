@@ -1,7 +1,7 @@
 import { ChatMessageList, Message } from "sofi-module";
 import IglooLottieAnimation from "../IglooLottieAnimation.js";
 import IglooChatMessageInteractions from "../chat/IglooChatMessageInteractions.js";
-import SignedUserManager from "../user/SignedUserManager.js";
+import IglooSignedUserManager from "../user/IglooSignedUserManager.js";
 import { msg } from "common-app-module";
 
 export default class SubjectChatMessageList extends ChatMessageList {
@@ -10,7 +10,7 @@ export default class SubjectChatMessageList extends ChatMessageList {
       ".subject-chat-message-list",
       {
         storeName: `subject-${subject}-chat-messages`,
-        signedUserId: SignedUserManager.user?.user_id,
+        signedUserId: IglooSignedUserManager.user?.user_id,
         emptyMessage: msg("chat-message-list-empty-message"),
       },
       IglooChatMessageInteractions,

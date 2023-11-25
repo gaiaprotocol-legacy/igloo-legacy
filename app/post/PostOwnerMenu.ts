@@ -1,4 +1,4 @@
-import { Confirm, DropdownMenu } from "common-app-module";
+import { Confirm, DropdownMenu, msg } from "common-app-module";
 import IglooPostService from "./IglooPostService.js";
 
 export default class PostOwnerMenu extends DropdownMenu {
@@ -10,13 +10,13 @@ export default class PostOwnerMenu extends DropdownMenu {
       left: options.left,
       top: options.top,
       items: [{
-        title: "Delete",
+        title: msg("post-owner-menu-delete-button"),
         click: () => {
           new Confirm({
-            title: "Delete Post",
-            message: "Are you sure you want to delete this post?",
-            confirmTitle: "Delete",
-            loadingTitle: "Deleting...",
+            title: msg("delete-post-confirm-title"),
+            message: msg("delete-post-confirm-message"),
+            confirmTitle: msg("delete-post-confirm-delete-button"),
+            loadingTitle: msg("delete-post-confirm-deleting-button"),
           }, () => IglooPostService.deleteMessage(postId));
         },
       }],

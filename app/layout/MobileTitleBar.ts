@@ -1,6 +1,6 @@
 import { DomNode, el, msg, Router, StringUtil } from "common-app-module";
 import MaterialIcon from "../MaterialIcon.js";
-import SignedUserManager from "../user/SignedUserManager.js";
+import IglooSignedUserManager from "../user/IglooSignedUserManager.js";
 
 export default class MobileTitleBar extends DomNode {
   private welcomeMessage: string;
@@ -12,9 +12,9 @@ export default class MobileTitleBar extends DomNode {
   constructor() {
     super(".mobile-title-bar");
 
-    this.welcomeMessage = SignedUserManager.signed
+    this.welcomeMessage = IglooSignedUserManager.signed
       ? msg("mobile-title-bar-welcome-message-signed-in", {
-        name: SignedUserManager.user?.display_name,
+        name: IglooSignedUserManager.user?.display_name,
       })
       : msg("mobile-title-bar-welcome-message-not-signed-in");
 
@@ -26,14 +26,14 @@ export default class MobileTitleBar extends DomNode {
         click: () => history.back(),
       }),
       this.titleDisplay = el("p", this.welcomeMessage),
-      !SignedUserManager.signed
+      !IglooSignedUserManager.signed
         ? el("button.login", new MaterialIcon("login"), {
-          click: () => SignedUserManager.signIn(),
+          click: () => IglooSignedUserManager.signIn(),
         })
         : el("a.signed-user", {
           style: {
             backgroundImage:
-              `url(${SignedUserManager.user?.profile_image_thumbnail})`,
+              `url(${IglooSignedUserManager.user?.profile_image_thumbnail})`,
           },
           click: () => Router.go("/profile"),
         }),

@@ -27,7 +27,7 @@ import Layout from "./layout/Layout.js";
 import PostView from "./post/PostView.js";
 import ProfileView from "./settings/ProfileView.js";
 import SettingsView from "./settings/SettingsView.js";
-import SignedUserManager from "./user/SignedUserManager.js";
+import IglooSignedUserManager from "./user/IglooSignedUserManager.js";
 import UserView from "./user/UserView.js";
 import WalletManager from "./wallet/WalletManager.js";
 
@@ -54,7 +54,7 @@ export default async function initialize(config: Config) {
   WalletManager.init(config.walletConnectProjectId);
 
   await SplashLoader.load(el("img", { src: "/images/igloo-character.png" }), [
-    SignedUserManager.fetchUserOnInit(),
+    IglooSignedUserManager.fetchUserOnInit(),
   ]);
 
   Router.route("**", Layout, ["test/**"]);

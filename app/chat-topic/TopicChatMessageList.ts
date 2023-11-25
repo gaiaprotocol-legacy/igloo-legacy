@@ -2,7 +2,7 @@ import { msg, Supabase } from "common-app-module";
 import { ChatMessageList, Message } from "sofi-module";
 import IglooLottieAnimation from "../IglooLottieAnimation.js";
 import IglooChatMessageInteractions from "../chat/IglooChatMessageInteractions.js";
-import SignedUserManager from "../user/SignedUserManager.js";
+import IglooSignedUserManager from "../user/IglooSignedUserManager.js";
 import TopicChatMessageService from "./TopicChatMessageService.js";
 import { RealtimeChannel } from "@supabase/supabase-js";
 
@@ -14,7 +14,7 @@ export default class TopicChatMessageList extends ChatMessageList {
       ".topic-chat-message-list",
       {
         storeName: `topic-${topic}-chat-messages`,
-        signedUserId: SignedUserManager.user?.user_id,
+        signedUserId: IglooSignedUserManager.user?.user_id,
         emptyMessage: msg("chat-message-list-empty-message"),
       },
       IglooChatMessageInteractions,

@@ -1,7 +1,7 @@
 import { Rich, UploadManager } from "common-app-module";
 import { MessageSelectQuery, MessageService } from "sofi-module";
 import SubjectChatMessage from "../database-interface/SubjectChatMessage.js";
-import SignedUserManager from "../user/SignedUserManager.js";
+import IglooSignedUserManager from "../user/IglooSignedUserManager.js";
 
 class SubjectChatMessageService extends MessageService<SubjectChatMessage> {
   constructor() {
@@ -11,10 +11,10 @@ class SubjectChatMessageService extends MessageService<SubjectChatMessage> {
   private async upload(files: File[]): Promise<Rich> {
     const rich: Rich = { files: [] };
     await Promise.all(files.map(async (file) => {
-      if (SignedUserManager.user) {
+      if (IglooSignedUserManager.user) {
         const url = await UploadManager.uploadImage(
           "subject_chat_upload_files",
-          SignedUserManager.user.user_id,
+          IglooSignedUserManager.user.user_id,
           file,
           60 * 60 * 24 * 30,
         );

@@ -1,7 +1,7 @@
 import { msg, Router, Snackbar } from "common-app-module";
 import { PostForm } from "sofi-module";
 import IglooPost, { PostTarget } from "../database-interface/IglooPost.js";
-import SignedUserManager from "../user/SignedUserManager.js";
+import IglooSignedUserManager from "../user/IglooSignedUserManager.js";
 import IglooPostService from "./IglooPostService.js";
 
 export default class IglooPostForm extends PostForm {
@@ -12,7 +12,7 @@ export default class IglooPostForm extends PostForm {
     focus: boolean,
     private callback: (post: IglooPost) => void,
   ) {
-    super(SignedUserManager.user?.profile_image_thumbnail ?? "", focus);
+    super(IglooSignedUserManager.user?.profile_image_thumbnail ?? "", focus);
   }
 
   protected async post(message: string, files: File[]): Promise<void> {

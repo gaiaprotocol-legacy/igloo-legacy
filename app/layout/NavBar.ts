@@ -1,6 +1,6 @@
 import { DomNode, el, Router } from "common-app-module";
 import MaterialIcon from "../MaterialIcon.js";
-import SignedUserManager from "../user/SignedUserManager.js";
+import IglooSignedUserManager from "../user/IglooSignedUserManager.js";
 
 export default class NavBar extends DomNode {
   private activatedButton: DomNode | undefined;
@@ -23,14 +23,14 @@ export default class NavBar extends DomNode {
       el("button.notifications", new MaterialIcon("notifications"), {
         click: () => Router.go("/notifications"),
       }),
-      !SignedUserManager.signed
+      !IglooSignedUserManager.signed
         ? el("button.login", new MaterialIcon("login"), {
-          click: () => SignedUserManager.signIn(),
+          click: () => IglooSignedUserManager.signIn(),
         })
         : el("a.signed-user", {
           style: {
             backgroundImage:
-              `url(${SignedUserManager.user?.profile_image_thumbnail})`,
+              `url(${IglooSignedUserManager.user?.profile_image_thumbnail})`,
           },
           click: () => Router.go("/profile"),
         }),

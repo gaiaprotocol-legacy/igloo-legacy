@@ -1,5 +1,5 @@
 import { DomNode, el, msg } from "common-app-module";
-import SignedUserManager from "./SignedUserManager.js";
+import IglooSignedUserManager from "./IglooSignedUserManager.js";
 
 export default class LoginRequiredDisplay extends DomNode {
   constructor() {
@@ -7,7 +7,7 @@ export default class LoginRequiredDisplay extends DomNode {
     this.append(
       el("p", msg("login-required-message")),
       el("button", msg("login-required-login-button"), {
-        click: () => SignedUserManager.signIn(),
+        click: () => IglooSignedUserManager.signIn(),
       }),
     );
   }

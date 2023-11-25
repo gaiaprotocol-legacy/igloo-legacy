@@ -5,7 +5,7 @@ import MySubjectChatRoomList from "../chat-subject/MySubjectChatRoomList.js";
 import TopicChatRoomList from "../chat-topic/TopicChatRoomList.js";
 import Layout from "../layout/Layout.js";
 import LoginRequiredDisplay from "../user/LoginRequiredDisplay.js";
-import SignedUserManager from "../user/SignedUserManager.js";
+import IglooSignedUserManager from "../user/IglooSignedUserManager.js";
 
 export default class ChatsView extends View {
   constructor() {
@@ -21,7 +21,7 @@ export default class ChatsView extends View {
             el("h2", msg("chats-view-general-section-title")),
             new TopicChatRoomList(),
           ),
-          ...(!SignedUserManager.signed ? [new LoginRequiredDisplay()] : [
+          ...(!IglooSignedUserManager.signed ? [new LoginRequiredDisplay()] : [
             el(
               "section",
               el("h2", msg("chats-view-my-subject-section-title")),

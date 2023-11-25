@@ -1,7 +1,7 @@
 posts
 	id - int8 - pk
 	target - int2 - nullbale
-	author - uuid - auth.uid() - fk users_public.user_id
+	author - uuid, fk to users_public.user_id - auth.uid()
 	message - text - not null
 	translated - jsonb - nullbale
 	rich - jsonb - nullable
@@ -11,3 +11,13 @@ posts
 	like_count - int4 - 0
 	created_at - timestampz - now()
 	updated_at - timestampz - nullable
+
+reposts
+	post_id - int8 - pk
+	user_id - uuid, fk to users_public.user_id - auth.uid() - pk
+	created_at - timestampz - now()
+
+post_likes
+	post_id - int8 - pk
+	user_id - uuid, fk to users_public.user_id - auth.uid() - pk
+	created_at - timestampz - now()

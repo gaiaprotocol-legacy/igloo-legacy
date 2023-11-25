@@ -4,7 +4,7 @@ import IglooLottieAnimation from "../../../IglooLottieAnimation.js";
 import IglooPost from "../../../database-interface/IglooPost.js";
 import IglooPostInteractions from "../../../post/IglooPostInteractions.js";
 import IglooPostService from "../../../post/IglooPostService.js";
-import SignedUserManager from "../../SignedUserManager.js";
+import IglooSignedUserManager from "../../IglooSignedUserManager.js";
 
 export default class UserPostList extends PostList<IglooPost> {
   constructor(private userId: string) {
@@ -12,7 +12,7 @@ export default class UserPostList extends PostList<IglooPost> {
       ".user-post-list",
       IglooPostService,
       {
-        signedUserId: SignedUserManager.user?.user_id,
+        signedUserId: IglooSignedUserManager.user?.user_id,
         emptyMessage: msg("user-post-list-empty-message"),
       },
       IglooPostInteractions,

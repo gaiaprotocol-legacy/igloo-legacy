@@ -12,7 +12,7 @@ import SubjectService from "../subject/SubjectService.js";
 import TempSubjectCacher from "../subject/TempSubjectCacher.js";
 import IglooUserCacher from "../user/IglooUserCacher.js";
 import IglooUserService from "../user/IglooUserService.js";
-import SignedUserManager from "../user/SignedUserManager.js";
+import IglooSignedUserManager from "../user/IglooSignedUserManager.js";
 import UserDisplay from "../user/UserDisplay.js";
 
 export default class ProfileView extends View {
@@ -37,18 +37,18 @@ export default class ProfileView extends View {
   }
 
   private async load() {
-    let subject = SignedUserManager.user?.wallet_address
-      ? TempSubjectCacher.get(SignedUserManager.user.wallet_address)
+    let subject = IglooSignedUserManager.user?.wallet_address
+      ? TempSubjectCacher.get(IglooSignedUserManager.user.wallet_address)
       : undefined;
-    let keyHoldingCount = SignedUserManager.user
-      ? IglooUserCacher.getKeyHoldingCount(SignedUserManager.user.user_id) ?? 0
+    let keyHoldingCount = IglooSignedUserManager.user
+      ? IglooUserCacher.getKeyHoldingCount(IglooSignedUserManager.user.user_id) ?? 0
       : 0;
-    let portfolioValue = SignedUserManager.user
-      ? IglooUserCacher.getPortfolioValue(SignedUserManager.user.user_id) ?? 0n
+    let portfolioValue = IglooSignedUserManager.user
+      ? IglooUserCacher.getPortfolioValue(IglooSignedUserManager.user.user_id) ?? 0n
       : 0n;
 
     const userDisplay = new UserDisplay(
-      SignedUserManager.user,
+      IglooSignedUserManager.user,
       subject,
       keyHoldingCount,
       portfolioValue,
@@ -58,9 +58,9 @@ export default class ProfileView extends View {
 
     const loading = new ListLoadingBar().appendTo(this.userDisplayContainer);
 
-    if (SignedUserManager.user) {
+    if (IglooSignedUserManager.user) {
       const userPublic = await IglooUserService.fetchUser(
-        SignedUserManager.user.user_id,
+        IglooSignedUserManager.user.user_id,
       );
       if (!userPublic) {
         this.userDisplayContainer.empty().append(

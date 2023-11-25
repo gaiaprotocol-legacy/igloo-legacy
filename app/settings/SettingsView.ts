@@ -1,7 +1,7 @@
 import { DomNode, el, msg, Router, Switch, View, ViewParams } from "common-app-module";
 import Layout from "../layout/Layout.js";
 import ThemeManager from "../ThemeManager.js";
-import SignedUserManager from "../user/SignedUserManager.js";
+import IglooSignedUserManager from "../user/IglooSignedUserManager.js";
 import LinkWalletPopup from "../wallet/LinkWalletPopup.js";
 
 export default class SettingsView extends View {
@@ -63,16 +63,16 @@ export default class SettingsView extends View {
               el("p", msg("settings-view-dark-mode-section-description")),
               this.darkModeSwitch = new Switch(ThemeManager.darkMode),
             ),
-            !SignedUserManager.signed
+            !IglooSignedUserManager.signed
               ? undefined
               : this.linkWalletSection = el("section.link-wallet"),
-            !SignedUserManager.signed
+            !IglooSignedUserManager.signed
               ? el(
                 "section.login",
                 el("h2", msg("settings-view-login-section-title")),
                 el("p", msg("settings-view-login-section-description")),
                 el("button", msg("settings-view-login-button"), {
-                  click: () => SignedUserManager.signIn(),
+                  click: () => IglooSignedUserManager.signIn(),
                 }),
               )
               : el(
@@ -80,7 +80,7 @@ export default class SettingsView extends View {
                 el("h2", msg("settings-view-logout-section-title")),
                 el("p", msg("settings-view-logout-section-description")),
                 el("button", msg("settings-view-logout-button"), {
-                  click: () => SignedUserManager.signOut(),
+                  click: () => IglooSignedUserManager.signOut(),
                 }),
               ),
           ),
@@ -95,7 +95,7 @@ export default class SettingsView extends View {
 
     this.renderLinkWalletSection();
     this.container.onDelegate(
-      SignedUserManager,
+      IglooSignedUserManager,
       "walletLinked",
       () => this.renderLinkWalletSection(),
     );
@@ -104,13 +104,13 @@ export default class SettingsView extends View {
   private renderLinkWalletSection() {
     this.linkWalletSection?.empty().append(
       el("h2", msg("settings-view-link-wallet-section-title")),
-      SignedUserManager.walletLinked
+      IglooSignedUserManager.walletLinked
         ? el(
           "p.linked",
           msg("settings-view-link-wallet-section-linked") + " ",
-          el("a", SignedUserManager.user?.wallet_address, {
+          el("a", IglooSignedUserManager.user?.wallet_address, {
             href:
-              `https://snowtrace.io/address/${SignedUserManager.user?.wallet_address}`,
+              `https://snowtrace.io/address/${IglooSignedUserManager.user?.wallet_address}`,
             target: "_blank",
           }),
         )

@@ -35,6 +35,12 @@ following-subject-chat-room-list-empty-message: No chat rooms for following subj
 
 chat-message-list-empty-message: No messages yet
 
+post-owner-menu-delete-button: Delete
+delete-post-confirm-title: Delete Post
+delete-post-confirm-message: Are you sure you want to delete this post?
+delete-post-confirm-delete-button: Delete
+delete-post-confirm-deleting-button: Deleting...
+
 chats-view-title: Chats
 chats-view-general-section-title: General
 chats-view-my-subject-section-title: My

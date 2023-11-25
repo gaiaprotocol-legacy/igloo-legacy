@@ -4,7 +4,7 @@ import IglooLottieAnimation from "../IglooLottieAnimation.js";
 import IglooPost from "../database-interface/IglooPost.js";
 import IglooPostInteractions from "../post/IglooPostInteractions.js";
 import IglooPostService from "../post/IglooPostService.js";
-import SignedUserManager from "../user/SignedUserManager.js";
+import IglooSignedUserManager from "../user/IglooSignedUserManager.js";
 
 export default class KeyHeldPostList extends PostList<IglooPost> {
   constructor() {
@@ -13,7 +13,7 @@ export default class KeyHeldPostList extends PostList<IglooPost> {
       IglooPostService,
       {
         storeName: "key-held-posts",
-        signedUserId: SignedUserManager.user?.user_id,
+        signedUserId: IglooSignedUserManager.user?.user_id,
         emptyMessage: msg("key-held-post-list-empty-message"),
       },
       IglooPostInteractions,
@@ -26,9 +26,9 @@ export default class KeyHeldPostList extends PostList<IglooPost> {
     repostedPostIds: number[];
     likedPostIds: number[];
   }> {
-    const userId = SignedUserManager.user?.user_id;
+    const userId = IglooSignedUserManager.user?.user_id;
     if (!userId) throw new Error("User ID not found");
-    const walletAddress = SignedUserManager.user?.wallet_address;
+    const walletAddress = IglooSignedUserManager.user?.wallet_address;
     if (!walletAddress) throw new Error("Wallet address not found");
 
     const result = await IglooPostService.fetchKeyHeldPosts(

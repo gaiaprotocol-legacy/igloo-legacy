@@ -9,7 +9,7 @@ import { PostThread } from "sofi-module";
 import IglooPost from "../database-interface/IglooPost.js";
 import Layout from "../layout/Layout.js";
 import MaterialIcon from "../MaterialIcon.js";
-import SignedUserManager from "../user/SignedUserManager.js";
+import IglooSignedUserManager from "../user/IglooSignedUserManager.js";
 import IglooPostForm from "./IglooPostForm.js";
 import IglooPostInteractions from "./IglooPostInteractions.js";
 import IglooPostService from "./IglooPostService.js";
@@ -60,7 +60,7 @@ export default class PostView extends View {
 
     const result = await IglooPostService.fetchPost(
       mainPostId,
-      SignedUserManager.user?.user_id,
+      IglooSignedUserManager.user?.user_id,
     );
     IglooTempPostCacher.cache(mainPostId, result);
 
@@ -121,7 +121,7 @@ export default class PostView extends View {
         repostedPostIds,
         likedPostIds,
         newPostIds,
-        signedUserId: SignedUserManager.user?.user_id,
+        signedUserId: IglooSignedUserManager.user?.user_id,
       },
       IglooPostInteractions,
       new IglooPostForm(

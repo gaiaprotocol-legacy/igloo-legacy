@@ -2,7 +2,7 @@ import { msg } from "common-app-module";
 import { SoFiUserPublic } from "sofi-module";
 import Subject from "../database-interface/Subject.js";
 import SubjectService from "../subject/SubjectService.js";
-import SignedUserManager from "../user/SignedUserManager.js";
+import IglooSignedUserManager from "../user/IglooSignedUserManager.js";
 import SubjectChatRoomList from "./SubjectChatRoomList.js";
 
 export default class MySubjectChatRoomList extends SubjectChatRoomList {
@@ -16,11 +16,11 @@ export default class MySubjectChatRoomList extends SubjectChatRoomList {
   protected async fetchSubjects(): Promise<
     { subjects: Subject[]; owners: SoFiUserPublic[] }
   > {
-    const walletAddress = SignedUserManager.user?.wallet_address;
+    const walletAddress = IglooSignedUserManager.user?.wallet_address;
     if (walletAddress) {
       const subject = await SubjectService.fetchSubject(walletAddress);
       return subject
-        ? { subjects: [subject], owners: [SignedUserManager.user!] }
+        ? { subjects: [subject], owners: [IglooSignedUserManager.user!] }
         : { subjects: [], owners: [] };
     } else {
       return { subjects: [], owners: [] };
