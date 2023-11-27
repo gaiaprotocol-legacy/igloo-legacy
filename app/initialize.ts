@@ -2,11 +2,11 @@ import {
   AppInitializer,
   el,
   MaterialIconSystem,
-  msg,
   Router,
   SplashLoader,
 } from "common-app-module";
 import {
+  msg,
   SocialComponent,
   TestChatView,
   TestPostListView,

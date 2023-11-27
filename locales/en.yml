@@ -14,6 +14,9 @@ link-wallet-popup-cancel-button: Cancel
 link-wallet-popup-link-button: Link Wallet
 link-wallet-popup-linking-button: Linking...
 
+post-target-everyone: Everyone
+post-target-key-holders: Key Holders
+
 post-form-posted-snackbar-message: Your post has been successfully published.
 post-form-posted-snackbar-button: View
 
