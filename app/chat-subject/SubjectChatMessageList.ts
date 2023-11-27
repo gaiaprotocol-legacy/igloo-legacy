@@ -1,5 +1,5 @@
 import { ChatMessageList, Message } from "sofi-module";
-import IglooLottieAnimation from "../IglooLottieAnimation.js";
+import IglooLoadingAnimation from "../IglooLoadingAnimation.js";
 import IglooChatMessageInteractions from "../chat/IglooChatMessageInteractions.js";
 import IglooSignedUserManager from "../user/IglooSignedUserManager.js";
 import { msg } from "common-app-module";
@@ -14,7 +14,7 @@ export default class SubjectChatMessageList extends ChatMessageList {
         emptyMessage: msg("chat-message-list-empty-message"),
       },
       IglooChatMessageInteractions,
-      new IglooLottieAnimation(),
+      new IglooLoadingAnimation(),
     );
   }
 

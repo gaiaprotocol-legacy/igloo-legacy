@@ -1,6 +1,6 @@
 import { msg, Supabase } from "common-app-module";
 import { ChatMessageList, Message } from "sofi-module";
-import IglooLottieAnimation from "../IglooLottieAnimation.js";
+import IglooLoadingAnimation from "../IglooLoadingAnimation.js";
 import IglooChatMessageInteractions from "../chat/IglooChatMessageInteractions.js";
 import IglooSignedUserManager from "../user/IglooSignedUserManager.js";
 import TopicChatMessageService from "./TopicChatMessageService.js";
@@ -18,7 +18,7 @@ export default class TopicChatMessageList extends ChatMessageList {
         emptyMessage: msg("chat-message-list-empty-message"),
       },
       IglooChatMessageInteractions,
-      new IglooLottieAnimation(),
+      new IglooLoadingAnimation(),
     );
 
     this.channel = Supabase.client

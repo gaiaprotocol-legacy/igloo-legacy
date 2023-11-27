@@ -1,7 +1,7 @@
 import { el, Tabs, View, ViewParams } from "common-app-module";
 import { FollowingPostList, GlobalPostList } from "sofi-module";
 import IglooPost from "../database-interface/IglooPost.js";
-import IglooLottieAnimation from "../IglooLottieAnimation.js";
+import IglooLoadingAnimation from "../IglooLoadingAnimation.js";
 import Layout from "../layout/Layout.js";
 import MaterialIcon from "../MaterialIcon.js";
 import IglooPostInteractions from "../post/IglooPostInteractions.js";
@@ -45,7 +45,7 @@ export default class HomeView extends View {
               wait: true,
             },
             IglooPostInteractions,
-            new IglooLottieAnimation(),
+            new IglooLoadingAnimation(),
           ),
           IglooSignedUserManager.signed
             ? this.followingPostList = new FollowingPostList(
@@ -55,7 +55,7 @@ export default class HomeView extends View {
                 wait: true,
               },
               IglooPostInteractions,
-              new IglooLottieAnimation(),
+              new IglooLoadingAnimation(),
             )
             : undefined,
           IglooSignedUserManager.walletLinked

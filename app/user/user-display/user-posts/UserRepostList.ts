@@ -1,6 +1,6 @@
 import { msg } from "common-app-module";
 import { PostList } from "sofi-module";
-import IglooLottieAnimation from "../../../IglooLottieAnimation.js";
+import IglooLoadingAnimation from "../../../IglooLoadingAnimation.js";
 import IglooPost from "../../../database-interface/IglooPost.js";
 import IglooPostInteractions from "../../../post/IglooPostInteractions.js";
 import IglooPostService from "../../../post/IglooPostService.js";
@@ -16,7 +16,7 @@ export default class UserRepostList extends PostList<IglooPost> {
         emptyMessage: msg("user-repost-list-empty-message"),
       },
       IglooPostInteractions,
-      new IglooLottieAnimation(),
+      new IglooLoadingAnimation(),
     );
   }
 
