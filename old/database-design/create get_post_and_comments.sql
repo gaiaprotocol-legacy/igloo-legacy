@@ -10,7 +10,7 @@ RETURNS TABLE (
     message text,
     translated jsonb,
     rich jsonb,
-    post_ref int8,
+    parent int8,
     comment_count int4,
     repost_count int4,
     like_count int4,
@@ -28,18 +28,18 @@ WITH RECURSIVE ancestors AS (
 
     SELECT p.*, a.depth - 1 AS depth
     FROM posts p
-    JOIN ancestors a ON p.id = a.post_ref
+    JOIN ancestors a ON p.id = a.parent
 ),
 descendants AS (
     SELECT *, 1 AS depth
     FROM posts
-    WHERE post_ref = p_post_id
+    WHERE parent = p_post_id
 
     UNION
 
     SELECT p.*, d.depth + 1 AS depth
     FROM posts p
-    JOIN descendants d ON p.post_ref = d.id
+    JOIN descendants d ON p.parent = d.id
 )
 SELECT * FROM ancestors
 UNION ALL

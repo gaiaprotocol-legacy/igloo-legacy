@@ -1,61 +1,8 @@
 
-wallet_linking_nonces
-	user_id - uuid - auth.uid() - pk
-	wallet_address - text - not null
-	nonce - uuid - gen_random_uuid()
-	created_at - timestampz - now()
-
-notifications
-	id - int8 - auto_increment - pk
-    user_id - uuid - not null
-    triggered_by - uuid - not null
-	type - int2 - not null
-	source_id - int8 - nullable
-	amount - int8 - nullable
-	read - bool - false
-	read_at - timestampz - nullable
-	created_at - timestampz - now()
-
 tracked_event_blocks
 	contract_type - string - pk
 	block_number - int8 - not null
 	updated_at - timestampz - now()
-
-topics
-	topic - text - pk
-	last_message - text - nullable
-	last_message_sent_at - timestampz - -infinity
-	created_at - timestampz - now()
-	updated_at - timestampz
-
-topic_chat_messages
-	id - int8 - pk
-	topic - text - not null
-	author - uuid - auth.uid()
-	author_name - text - not null
-	author_avatar_url - text - nullable
-	author_x_username - text - nullable
-	message_type - int2 - not null
-	message - text - nullable
-	translated - jsonb - nullbale
-	rich - jsonb - nullable
-	created_at - timestampz - now()
-	updated_at - timestampz - nullable
-
-subject_chat_messages
-	id - int8 - pk
-	subject - text - not null
-	author - uuid - auth.uid()
-	author_name - text - not null
-	author_avatar_url - text - nullable
-	author_x_username - text - nullable
-	message_type - int2 - not null
-	message - text - nullable
-	translated - jsonb - nullbale
-	rich - jsonb - nullable
-	post_ref - int8 - nullable
-	created_at - timestampz - now()
-	updated_at - timestampz - nullable
 
 subject_trade_events
 	block_number - int8 - pk
