@@ -317,7 +317,7 @@ CREATE OR REPLACE FUNCTION "public"."notify_follow_event"() RETURNS "trigger"
     LANGUAGE "plpgsql" SECURITY DEFINER
     AS $$begin
     insert into notifications (
-        user_id, triggered_by, type
+        user_id, triggerer, type
     ) values (
         new.followee_id, new.follower_id, 2
     );
@@ -335,7 +335,7 @@ begin
         SELECT author INTO v_author FROM posts WHERE id = new.post_ref;
         IF v_author <> new.author THEN
             INSERT INTO notifications (
-                user_id, triggered_by, type, source_id
+                user_id, triggerer, type, source_id
             ) VALUES (
                 v_author, new.author, 5, new.id
             );
@@ -355,7 +355,7 @@ BEGIN
     
     IF v_author <> new.user_id THEN
         INSERT INTO notifications (
-            user_id, triggered_by, type, source_id
+            user_id, triggerer, type, source_id
         ) VALUES (
             v_author, new.user_id, 3, new.post_id
         );
@@ -376,7 +376,7 @@ BEGIN
     
     IF v_author <> new.user_id THEN
         INSERT INTO notifications (
-            user_id, triggered_by, type, source_id
+            user_id, triggerer, type, source_id
         ) VALUES (
             v_author, new.user_id, 4, new.post_id
         );
@@ -400,13 +400,13 @@ BEGIN
     IF v_sender IS NOT NULL AND v_receiver IS NOT NULL AND v_sender <> v_receiver THEN
         IF new.args[3] = 'true' THEN
             INSERT INTO notifications (
-                user_id, triggered_by, type, amount
+                user_id, triggerer, type, amount
             ) VALUES (
                 v_receiver, v_sender, 0, new.args[4]::int8
             );
         ELSE
             INSERT INTO notifications (
-                user_id, triggered_by, type, amount
+                user_id, triggerer, type, amount
             ) VALUES (
                 v_receiver, v_sender, 1, new.args[4]::int8
             );
@@ -551,7 +551,7 @@ ALTER TABLE "public"."follows" OWNER TO "postgres";
 CREATE TABLE IF NOT EXISTS "public"."notifications" (
     "id" bigint NOT NULL,
     "user_id" "uuid" NOT NULL,
-    "triggered_by" "uuid" NOT NULL,
+    "triggerer" "uuid" NOT NULL,
     "type" smallint NOT NULL,
     "source_id" bigint,
     "amount" bigint,
@@ -869,7 +869,7 @@ ALTER TABLE ONLY "public"."follows"
     ADD CONSTRAINT "follows_follower_id_fkey" FOREIGN KEY ("follower_id") REFERENCES "auth"."users"("id");
 
 ALTER TABLE ONLY "public"."notifications"
-    ADD CONSTRAINT "notifications_triggered_by_fkey" FOREIGN KEY ("triggered_by") REFERENCES "auth"."users"("id");
+    ADD CONSTRAINT "notifications_triggerer_fkey" FOREIGN KEY ("triggerer") REFERENCES "auth"."users"("id");
 
 ALTER TABLE ONLY "public"."notifications"
     ADD CONSTRAINT "notifications_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "auth"."users"("id");

@@ -8,13 +8,13 @@ BEGIN
     IF v_sender IS NOT NULL AND v_receiver IS NOT NULL AND v_sender <> v_receiver THEN
         IF new.args[3] = 'true' THEN
             INSERT INTO notifications (
-                user_id, triggered_by, type, amount
+                user_id, triggerer, type, amount
             ) VALUES (
                 v_receiver, v_sender, 0, new.args[4]::int8
             );
         ELSE
             INSERT INTO notifications (
-                user_id, triggered_by, type, amount
+                user_id, triggerer, type, amount
             ) VALUES (
                 v_receiver, v_sender, 1, new.args[4]::int8
             );

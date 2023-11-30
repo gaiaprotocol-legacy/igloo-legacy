@@ -44,7 +44,7 @@ export default class NotificationList extends DomNode {
     if (cachedNotifications) {
       for (const notification of cachedNotifications) {
         const triggerer = cachedUserDetails.find((user) =>
-          user.user_id === notification.triggered_by
+          user.user_id === notification.triggerer
         )!;
         if (this.checkNotiIsPost(notification)) {
           const post = cachedPosts.find((post) =>
@@ -79,11 +79,11 @@ export default class NotificationList extends DomNode {
             "cached-user-details",
           ) ?? [];
           let triggerer = cachedUserDetails.find((user) =>
-            user.user_id === payload.new.triggered_by
+            user.user_id === payload.new.triggerer
           );
           if (!triggerer) {
             triggerer = await UserService.fetchById(
-              payload.new.triggered_by,
+              payload.new.triggerer,
             );
           }
           cachedUserDetails.push(triggerer);
@@ -139,7 +139,7 @@ export default class NotificationList extends DomNode {
       ).limit(100);
     if (notiError) throw notiError;
 
-    const userIds = notiData.map((noti) => noti.triggered_by);
+    const userIds = notiData.map((noti) => noti.triggerer);
     const { data: userDetailsData, error: userDetailsError } = await Supabase
       .client.from("users_public").select().in("user_id", userIds);
     if (userDetailsError) throw userDetailsError;
@@ -167,7 +167,7 @@ export default class NotificationList extends DomNode {
       } else {
         for (const notification of notiData) {
           const triggerer = userDetailsData.find((user) =>
-            user.user_id === notification.triggered_by
+            user.user_id === notification.triggerer
           )!;
           if (this.checkNotiIsPost(notification)) {
             const post = postData.find((post) =>
@@ -188,8 +188,8 @@ export default class NotificationList extends DomNode {
       if (!userIds.includes(notification.user_id)) {
         userIds.push(notification.user_id);
       }
-      if (!userIds.includes(notification.triggered_by)) {
-        userIds.push(notification.triggered_by);
+      if (!userIds.includes(notification.triggerer)) {
+        userIds.push(notification.triggerer);
       }
     }
     const userDetailsSet = await UserService.fetchByIds(userIds);
