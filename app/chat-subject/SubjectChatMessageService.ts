@@ -31,10 +31,7 @@ class SubjectChatMessageService extends MessageService<SubjectChatMessage> {
 
   public async sendMessage(subject: string, message: string, files: File[]) {
     const rich = files.length ? await this.upload(files) : undefined;
-    const data = await this.safeFetch<SubjectChatMessage>((b) =>
-      b.insert({ subject, message, rich }).select(this.selectQuery).single()
-    );
-    return data!;
+    return await this.safeInsertAndSelect({ subject, message, rich });
   }
 }
 

@@ -5,11 +5,7 @@ import SubjectKeyBalanceCacher from "./SubjectKeyBalanceCacher.js";
 
 class SubjectKeyService {
   public async buyKey(subject: string): Promise<void> {
-    await IglooSubjectContract.buyKeys(
-      subject,
-      1n,
-      await IglooSubjectContract.getBuyPriceAfterFee(subject, 1n),
-    );
+    await IglooSubjectContract.buyKeys(subject, 1n);
 
     Supabase.client.functions.invoke("track-subject-events");
     Supabase.client.functions.invoke("track-subject-price-and-balance", {

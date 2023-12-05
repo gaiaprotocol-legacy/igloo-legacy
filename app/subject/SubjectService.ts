@@ -2,16 +2,13 @@ import { Supabase, SupabaseService } from "common-app-module";
 import { SoFiUserPublic } from "sofi-module";
 import Subject, { SubjectsSelectQuery } from "../database-interface/Subject.js";
 
-class SubjectService extends SupabaseService {
+class SubjectService extends SupabaseService<Subject> {
   constructor() {
     super("subjects", SubjectsSelectQuery, 50);
   }
 
   public async fetchSubject(subject: string): Promise<Subject | undefined> {
-    const data = await this.safeFetch<Subject[]>((b) =>
-      b.select(this.selectQuery).eq("subject", subject)
-    );
-    return data?.[0];
+    return await this.safeSelectSingle((b) => b.eq("subject", subject));
   }
 
   protected enhanceSubjectData(subjects: Subject[]): {

@@ -29,12 +29,14 @@ class IglooSubjectContract extends Contract<IglooSubject> {
     return this.viewContract.keysBalance(subject, walletAddress);
   }
 
-  public async buyKeys(subject: string, amount: bigint, value: bigint) {
+  public async buyKeys(subject: string, amount: bigint) {
     const writeContract = await this.getWriteContract();
     if (!writeContract) {
       throw new Error("No signer");
     }
-    const tx = await writeContract.buyKeys(subject, amount, { value });
+    const tx = await writeContract.buyKeys(subject, amount, {
+      value: await this.getBuyPriceAfterFee(subject, amount),
+    });
     return tx.wait();
   }
 

@@ -6,7 +6,7 @@ import {
   View,
   ViewParams,
 } from "common-app-module";
-import PreviewUserPublic from "../database-interface/PreviewUserPublic.js";
+import { PreviewUserPublic } from "sofi-module";
 import Layout from "../layout/Layout.js";
 import MaterialIcon from "../MaterialIcon.js";
 import SubjectService from "../subject/SubjectService.js";
