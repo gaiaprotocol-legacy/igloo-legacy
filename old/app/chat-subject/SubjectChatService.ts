@@ -47,7 +47,7 @@ class SubjectChatService {
 
   public async fetchLatestMessages(subject: string) {
     const { data, error } = await Supabase.client.from("subject_chat_messages")
-      .select().eq("subject", subject).order("created_at", { ascending: false })
+      .select().eq("subject", subject).order("id", { ascending: false })
       .limit(SubjectChatService.FETCH_MESSAGE_LIMIT);
     if (error) throw error;
     return data as SubjectChatMessage[];

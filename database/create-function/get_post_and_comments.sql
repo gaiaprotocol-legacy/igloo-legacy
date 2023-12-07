@@ -1,5 +1,6 @@
 CREATE OR REPLACE FUNCTION get_post_and_comments(
     p_post_id int8, 
+    last_comment_id int8 DEFAULT NULL,
     max_comment_count int DEFAULT 50, 
     signed_user_id uuid DEFAULT NULL
 )
@@ -132,7 +133,8 @@ comments AS (
     INNER JOIN 
         users_public u ON p.author = u.user_id
     WHERE 
-        p.parent = p_post_id
+        p.parent = p_post_id AND
+        last_comment_id IS NULL OR p.id < last_comment_id
     ORDER BY p.id
     LIMIT max_comment_count
 )

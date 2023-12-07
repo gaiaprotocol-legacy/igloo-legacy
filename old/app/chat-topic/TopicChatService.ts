@@ -47,7 +47,7 @@ class TopicChatService {
 
   public async fetchLatestMessages(topic: string) {
     const { data, error } = await Supabase.client.from("topic_chat_messages")
-      .select().eq("topic", topic).order("created_at", { ascending: false })
+      .select().eq("topic", topic).order("id", { ascending: false })
       .limit(TopicChatService.FETCH_MESSAGE_LIMIT);
     if (error) throw error;
     return data as TopicChatMessage[];

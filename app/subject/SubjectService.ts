@@ -1,5 +1,5 @@
 import { Supabase, SupabaseService } from "common-app-module";
-import { SoFiUserPublic } from "sofi-module";
+import IglooUser from "../database-interface/IglooUser.js";
 import Subject, { SubjectsSelectQuery } from "../database-interface/Subject.js";
 
 class SubjectService extends SupabaseService<Subject> {
@@ -13,10 +13,10 @@ class SubjectService extends SupabaseService<Subject> {
 
   protected enhanceSubjectData(subjects: Subject[]): {
     subjects: Subject[];
-    owners: SoFiUserPublic[];
+    owners: IglooUser[];
   } {
     const _subjects = Supabase.safeResult<Subject[]>(subjects) ?? [];
-    const owners: SoFiUserPublic[] = [];
+    const owners: IglooUser[] = [];
 
     for (const subject of _subjects as any) {
       owners.push({
