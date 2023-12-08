@@ -31,9 +31,7 @@ export default class TopicChatMessageList extends ChatMessageList {
           table: "topic_chat_messages",
           filter: "topic=eq." + topic,
         },
-        (payload: any) => {
-          console.log(payload);
-        },
+        (payload: any) => this.addNewMessage(payload.new),
       )
       .subscribe();
   }
