@@ -1,10 +1,10 @@
+import { RealtimeChannel } from "@supabase/supabase-js";
 import { msg, Supabase } from "common-app-module";
 import { ChatMessageList, Message } from "sofi-module";
-import IglooLoadingAnimation from "../IglooLoadingAnimation.js";
 import IglooChatMessageInteractions from "../chat/IglooChatMessageInteractions.js";
+import IglooLoadingAnimation from "../IglooLoadingAnimation.js";
 import IglooSignedUserManager from "../user/IglooSignedUserManager.js";
 import TopicChatMessageService from "./TopicChatMessageService.js";
-import { RealtimeChannel } from "@supabase/supabase-js";
 
 export default class TopicChatMessageList extends ChatMessageList {
   private channel: RealtimeChannel;
@@ -31,7 +31,12 @@ export default class TopicChatMessageList extends ChatMessageList {
           table: "topic_chat_messages",
           filter: "topic=eq." + topic,
         },
-        (payload: any) => this.addNewMessage(payload.new),
+        async (payload: any) => {
+          const message = await TopicChatMessageService.fetchMessage(
+            payload.new.id,
+          );
+          if (message) this.addNewMessage(message);
+        },
       )
       .subscribe();
   }
