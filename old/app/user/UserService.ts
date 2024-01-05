@@ -1,4 +1,4 @@
-import { Supabase } from "common-app-module";
+import { Supabase } from "@common-module/app";
 import { SubjectDetailsSelectQuery } from "../database-interface/SubjectDetails.js";
 import UserDetails, {
   UserDetailsSelectQuery,

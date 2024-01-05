@@ -1,5 +1,5 @@
-import { EventContainer, Store, Supabase } from "common-app-module";
-import { TempUserPublicCacher } from "sofi-module";
+import { EventContainer, Store, Supabase } from "@common-module/app";
+import { TempUserPublicCacher } from "@common-module/social";
 import UserDetails, {
   DefaultUserDetails,
   UserDetailsSelectQuery,

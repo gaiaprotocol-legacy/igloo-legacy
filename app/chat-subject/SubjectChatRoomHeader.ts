@@ -1,4 +1,4 @@
-import { DomNode } from "common-app-module";
+import { DomNode } from "@common-module/app";
 import Subject from "../database-interface/Subject.js";
 
 export default class SubjectChatRoomHeader extends DomNode {

@@ -1,5 +1,5 @@
-import { msg } from "common-app-module";
-import { PostList } from "sofi-module";
+import { msg } from "@common-module/app";
+import { PostList } from "@common-module/social";
 import IglooLoadingAnimation from "../IglooLoadingAnimation.js";
 import IglooPost from "../database-interface/IglooPost.js";
 import IglooPostInteractions from "../post/IglooPostInteractions.js";

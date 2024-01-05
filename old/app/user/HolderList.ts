@@ -1,4 +1,4 @@
-import { Store } from "common-app-module";
+import { Store } from "@common-module/app";
 import UserDetails from "../database-interface/UserDetails.js";
 import UserDetailsCacher from "./UserDetailsCacher.js";
 import UserService from "./UserService.js";

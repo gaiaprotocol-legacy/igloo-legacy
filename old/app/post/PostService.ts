@@ -1,5 +1,5 @@
-import { Supabase, UploadedFile } from "common-app-module";
-import { Post, PostSelectQuery } from "sofi-module";
+import { Constants, Supabase, UploadedFile } from "@common-module/app";
+import { Post, PostSelectQuery } from "@common-module/social";
 import UploadManager from "../UploadManager.js";
 import SignedUserManager from "../user/SignedUserManager.js";
 
@@ -134,7 +134,7 @@ class PostService {
       userId,
     ).gt(
       "created_at",
-      lastLikedAt ?? "1970-01-01T00:00:00.000Z",
+      lastLikedAt ?? Constants.UNIX_EPOCH_START_DATE,
     );
     if (likedError) throw likedError;
     const likedPostIds = likedData.map((liked) => liked.post_id);
@@ -166,7 +166,7 @@ class PostService {
       userId,
     ).gt(
       "created_at",
-      lastLikedAt ?? "1970-01-01T00:00:00.000Z",
+      lastLikedAt ?? Constants.UNIX_EPOCH_START_DATE,
     );
     if (repostError) throw repostError;
     const repostedPostIds = repostData.map((liked) => liked.post_id);

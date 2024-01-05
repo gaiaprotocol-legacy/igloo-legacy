@@ -1,5 +1,5 @@
-import { msg } from "common-app-module";
-import { SoFiUserPublic } from "sofi-module";
+import { msg } from "@common-module/app";
+import { SoFiUserPublic } from "@common-module/social";
 import Subject from "../database-interface/Subject.js";
 import SubjectService from "../subject/SubjectService.js";
 import IglooSignedUserManager from "../user/IglooSignedUserManager.js";

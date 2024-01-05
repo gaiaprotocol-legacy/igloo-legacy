@@ -1,5 +1,5 @@
-import { el, Tabs, View, ViewParams } from "common-app-module";
-import { FollowingPostList, GlobalPostList } from "sofi-module";
+import { el, Tabs, View, ViewParams } from "@common-module/app";
+import { FollowingPostList, GlobalPostList } from "@common-module/social";
 import IglooPost from "../database-interface/IglooPost.js";
 import IglooLoadingAnimation from "../IglooLoadingAnimation.js";
 import Layout from "../layout/Layout.js";

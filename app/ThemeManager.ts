@@ -1,4 +1,4 @@
-import { Store } from "common-app-module";
+import { Store } from "@common-module/app";
 
 class ThemeManager {
   private store = new Store("__THEME_MANAGER_STORE");

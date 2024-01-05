@@ -1,4 +1,4 @@
-import { el, Router } from "common-app-module";
+import { el, Router } from "@common-module/app";
 import ChatRoomHeader from "../chat/ChatRoomHeader.js";
 import SubjectDetails from "../database-interface/SubjectDetails.js";
 import UserDetails from "../database-interface/UserDetails.js";

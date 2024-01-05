@@ -5,8 +5,8 @@ import {
   msg,
   View,
   ViewParams,
-} from "common-app-module";
-import { PreviewUserPublic } from "sofi-module";
+} from "@common-module/app";
+import { PreviewUserPublic } from "@common-module/social";
 import Layout from "../layout/Layout.js";
 import MaterialIcon from "../MaterialIcon.js";
 import SubjectService from "../subject/SubjectService.js";

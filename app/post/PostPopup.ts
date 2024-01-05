@@ -1,4 +1,4 @@
-import { Component, el, Popup } from "common-app-module";
+import { Component, el, Popup } from "@common-module/app";
 import { PostTarget } from "../database-interface/IglooPost.js";
 import MaterialIcon from "../MaterialIcon.js";
 import IglooPostForm from "./IglooPostForm.js";

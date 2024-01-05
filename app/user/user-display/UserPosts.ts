@@ -1,4 +1,4 @@
-import { DomNode, Tabs } from "common-app-module";
+import { DomNode, Tabs } from "@common-module/app";
 import UserPostList from "./user-posts/UserPostList.js";
 import UserRepostList from "./user-posts/UserRepostList.js";
 import UserCommentPostList from "./user-posts/UserCommentPostList.js";

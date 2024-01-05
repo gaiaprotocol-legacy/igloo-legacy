@@ -1,5 +1,5 @@
-import { Router } from "common-app-module";
-import { Author, ChatMessageInteractions } from "sofi-module";
+import { Router } from "@common-module/app";
+import { Author, ChatMessageInteractions } from "@common-module/social";
 
 class IglooChatMessageInteractions implements ChatMessageInteractions {
   public openAuthorProfile(author: Author) {

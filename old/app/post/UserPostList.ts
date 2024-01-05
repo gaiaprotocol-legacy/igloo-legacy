@@ -1,6 +1,6 @@
 import { RealtimeChannel } from "@supabase/supabase-js";
-import { Store, Supabase } from "common-app-module";
-import { Post } from "sofi-module";
+import { Store, Supabase } from "@common-module/app";
+import { Post } from "@common-module/social";
 import SignedUserManager from "../user/SignedUserManager.js";
 import PostCacher from "./PostCacher.js";
 import PostList from "./PostList.js";

@@ -1,4 +1,4 @@
-import { Supabase, SupabaseService } from "common-app-module";
+import { Supabase, SupabaseService } from "@common-module/app";
 import IglooUser from "../database-interface/IglooUser.js";
 import Subject, { SubjectsSelectQuery } from "../database-interface/Subject.js";
 

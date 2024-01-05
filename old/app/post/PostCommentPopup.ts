@@ -7,8 +7,8 @@ import {
   Router,
   Snackbar,
   UploadedFile,
-} from "common-app-module";
-import { Post } from "sofi-module";
+} from "@common-module/app";
+import { Post } from "@common-module/social";
 import MaterialIcon from "../MaterialIcon.js";
 import SignedUserManager from "../user/SignedUserManager.js";
 import PostService from "./PostService.js";

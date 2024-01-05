@@ -1,4 +1,4 @@
-import { EventContainer, Store } from "common-app-module";
+import { EventContainer, Store } from "@common-module/app";
 
 class SubjectChatMessageCacher extends EventContainer {
   private store: Store = new Store("cached-subject-chat-messages");

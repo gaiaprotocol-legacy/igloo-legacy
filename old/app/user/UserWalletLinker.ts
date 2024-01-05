@@ -1,4 +1,4 @@
-import { Supabase } from "common-app-module";
+import { Supabase } from "@common-module/app";
 import SignedUserManager from "./SignedUserManager.js";
 import UserDetailsCacher from "./UserDetailsCacher.js";
 import WalletManager from "./WalletManager.js";

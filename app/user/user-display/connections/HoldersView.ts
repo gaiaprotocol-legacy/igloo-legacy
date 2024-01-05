@@ -1,4 +1,4 @@
-import { el, ListLoadingBar, msg, View, ViewParams } from "common-app-module";
+import { el, ListLoadingBar, msg, View, ViewParams } from "@common-module/app";
 import Layout from "../../../layout/Layout.js";
 import MaterialIcon from "../../../MaterialIcon.js";
 import IglooUserCacher from "../../IglooUserCacher.js";

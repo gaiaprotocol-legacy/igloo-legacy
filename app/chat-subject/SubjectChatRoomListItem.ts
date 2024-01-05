@@ -1,5 +1,5 @@
-import { el, Router } from "common-app-module";
-import { SoFiUserPublic } from "sofi-module";
+import { el, Router } from "@common-module/app";
+import { SoFiUserPublic } from "@common-module/social";
 import ChatRoomListItem from "../chat/ChatRoomListItem.js";
 import Subject from "../database-interface/Subject.js";
 

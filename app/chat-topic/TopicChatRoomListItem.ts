@@ -1,5 +1,5 @@
-import { el, Router } from "common-app-module";
-import { Topic } from "sofi-module";
+import { el, Router } from "@common-module/app";
+import { Topic } from "@common-module/social";
 import ChatRoomListItem from "../chat/ChatRoomListItem.js";
 
 export default class TopicChatRoomListItem extends ChatRoomListItem {

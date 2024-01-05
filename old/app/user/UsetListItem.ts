@@ -1,4 +1,4 @@
-import { DomNode, el, Router } from "common-app-module";
+import { DomNode, el, Router } from "@common-module/app";
 import { ethers } from "ethers";
 import UserDetails from "../database-interface/UserDetails.js";
 import MaterialIcon from "../MaterialIcon.js";

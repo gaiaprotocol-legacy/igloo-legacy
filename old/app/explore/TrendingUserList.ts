@@ -1,4 +1,4 @@
-import { Store } from "common-app-module";
+import { Store } from "@common-module/app";
 import UserDetails from "../database-interface/UserDetails.js";
 import SubjectDetailsCacher from "../subject/SubjectDetailsCacher.js";
 import SubjectService from "../subject/SubjectService.js";

@@ -1,3 +1,5 @@
+import { Constants } from "../../../../@common-module/app/lib/index";
+
 function n2u(value: any) {
   return value === null ? undefined : value;
 }
@@ -24,9 +26,9 @@ export const DefaultSubjectDetails: SubjectDetails = {
   total_earned_trading_fees: "0",
   last_message_sent_at: "",
   key_holder_count: 0,
-  last_key_purchased_at: "-infinity",
+  last_key_purchased_at: Constants.NEGATIVE_INFINITY,
   owned_key_count: 0,
-  created_at: "-infinity",
+  created_at: Constants.NEGATIVE_INFINITY,
 };
 
 export const SubjectDetailsSelectQuery =

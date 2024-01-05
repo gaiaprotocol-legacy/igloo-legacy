@@ -1,4 +1,4 @@
-import { el, msg, View } from "common-app-module";
+import { el, msg, View } from "@common-module/app";
 import FollowingSubjectChatRoomList from "../chat-subject/FollowingSubjectChatRoomList.js";
 import HoldingSubjectChatRoomList from "../chat-subject/HoldingSubjectChatRoomList.js";
 import MySubjectChatRoomList from "../chat-subject/MySubjectChatRoomList.js";

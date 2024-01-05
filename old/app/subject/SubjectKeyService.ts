@@ -1,4 +1,4 @@
-import { Supabase } from "common-app-module";
+import { Supabase } from "@common-module/app";
 import IglooSubjectContract from "../contracts/IglooSubjectContract.js";
 import SignedUserManager from "../user/SignedUserManager.js";
 import SubjectKeyBalanceCacher from "./SubjectKeyBalanceCacher.js";

@@ -1,6 +1,6 @@
 import { User } from "@supabase/supabase-js";
 import { getNetwork, getWalletClient } from "@wagmi/core";
-import { Confirm, EventContainer, Supabase } from "common-app-module";
+import { Confirm, EventContainer, Supabase } from "@common-module/app";
 import { BrowserProvider, JsonRpcSigner } from "ethers";
 import EnvironmentManager from "../EnvironmentManager.js";
 import FollowCacher from "./FollowManager.js";

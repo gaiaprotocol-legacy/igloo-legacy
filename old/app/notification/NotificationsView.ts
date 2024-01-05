@@ -1,4 +1,4 @@
-import { DomNode, el, View, ViewParams } from "common-app-module";
+import { DomNode, el, View, ViewParams } from "@common-module/app";
 import Layout from "../layout/Layout.js";
 import LoginRequired from "../user/LoginRequired.js";
 import SignedUserManager from "../user/SignedUserManager.js";

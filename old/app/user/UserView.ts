@@ -5,8 +5,8 @@ import {
   Tabs,
   View,
   ViewParams,
-} from "common-app-module";
-import { SocialUserPublic, TempUserPublicCacher } from "sofi-module";
+} from "@common-module/app";
+import { SocialUserPublic, TempUserPublicCacher } from "@common-module/social";
 import SubjectDetails from "../database-interface/SubjectDetails.js";
 import Layout from "../layout/Layout.js";
 import MaterialIcon from "../MaterialIcon.js";

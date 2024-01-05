@@ -1,4 +1,4 @@
-import { DomNode, el, Router } from "common-app-module";
+import { DomNode, el, Router } from "@common-module/app";
 import TrendingUserList from "../explore/TrendingUserList.js";
 import MaterialIcon from "../MaterialIcon.js";
 

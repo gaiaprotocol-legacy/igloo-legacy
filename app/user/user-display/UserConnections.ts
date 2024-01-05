@@ -1,4 +1,4 @@
-import { DomNode, Tabs } from "common-app-module";
+import { DomNode, Tabs } from "@common-module/app";
 import FollowerList from "./connections/FollowerList.js";
 import FollowingList from "./connections/FollowingList.js";
 import HolderList from "./connections/HolderList.js";

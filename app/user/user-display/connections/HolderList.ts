@@ -1,4 +1,4 @@
-import { msg } from "common-app-module";
+import { msg } from "@common-module/app";
 import UserList from "../../UserList.js";
 
 export default class HolderList extends UserList {

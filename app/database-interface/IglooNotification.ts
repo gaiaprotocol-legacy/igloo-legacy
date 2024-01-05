@@ -1,4 +1,4 @@
-import { Notification } from "sofi-module";
+import { Notification } from "@common-module/social";
 
 export enum IglooNotificationType {
   BUY_KEY,

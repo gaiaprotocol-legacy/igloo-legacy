@@ -1,5 +1,5 @@
-import { Rich, UploadManager } from "common-app-module";
-import { MessageSelectQuery, MessageService } from "sofi-module";
+import { Rich, UploadManager } from "@common-module/app";
+import { MessageSelectQuery, MessageService } from "@common-module/social";
 import SubjectChatMessage from "../database-interface/SubjectChatMessage.js";
 import IglooSignedUserManager from "../user/IglooSignedUserManager.js";
 

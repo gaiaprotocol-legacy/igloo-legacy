@@ -1,4 +1,4 @@
-import { Message } from "sofi-module";
+import { Message } from "@common-module/social";
 
 export default interface TopicChatMessage extends Message {
   topic: string;

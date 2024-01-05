@@ -1,6 +1,6 @@
 import { RealtimeChannel } from "@supabase/supabase-js";
-import { msg, Supabase } from "common-app-module";
-import { ChatMessageList, Message } from "sofi-module";
+import { msg, Supabase } from "@common-module/app";
+import { ChatMessageList, Message } from "@common-module/social";
 import IglooChatMessageInteractions from "../chat/IglooChatMessageInteractions.js";
 import IglooLoadingAnimation from "../IglooLoadingAnimation.js";
 import IglooSignedUserManager from "../user/IglooSignedUserManager.js";

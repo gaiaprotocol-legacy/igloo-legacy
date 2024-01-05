@@ -1,4 +1,4 @@
-import { BodyNode, DomNode, el, View, ViewParams } from "common-app-module";
+import { BodyNode, DomNode, el, View, ViewParams } from "@common-module/app";
 import MobileTitleBar from "./MobileTitleBar.js";
 import NavBar from "./NavBar.js";
 import TopUserSection from "./TopUserSection.js";

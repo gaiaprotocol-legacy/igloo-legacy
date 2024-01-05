@@ -6,7 +6,7 @@ import {
   el,
   msg,
   Popup,
-} from "common-app-module";
+} from "@common-module/app";
 import IglooSignedUserManager from "../user/IglooSignedUserManager.js";
 import WalletManager from "./WalletManager.js";
 

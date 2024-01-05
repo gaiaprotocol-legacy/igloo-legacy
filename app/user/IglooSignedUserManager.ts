@@ -1,5 +1,5 @@
-import { Supabase } from "common-app-module";
-import { SignedUserManager } from "sofi-module";
+import { Supabase } from "@common-module/app";
+import { SignedUserManager } from "@common-module/social";
 import EnvironmentManager from "../EnvironmentManager.js";
 import WalletManager from "../wallet/WalletManager.js";
 import IglooUserCacher from "./IglooUserCacher.js";

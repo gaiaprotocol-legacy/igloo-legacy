@@ -13,7 +13,8 @@ import {
   w3mProvider,
 } from "@web3modal/ethereum";
 import { Web3Modal } from "@web3modal/html";
-import { EventContainer } from "common-app-module";
+import { EventContainer } from "@common-module/app";
+import ThemeManager from "../ThemeManager.js";
 
 class WalletManager extends EventContainer {
   private web3modal!: Web3Modal;
@@ -47,7 +48,7 @@ class WalletManager extends EventContainer {
 
     this.web3modal = new Web3Modal({
       projectId,
-      themeMode: "light",
+      themeMode: ThemeManager.darkMode ? "dark" : "light",
       themeVariables: {
         "--w3m-accent-color": "#5585FF",
         "--w3m-background-color": "#5585FF",

@@ -1,5 +1,5 @@
-import { Router } from "common-app-module";
-import { Author, PostInteractions } from "sofi-module";
+import { Router } from "@common-module/app";
+import { Author, PostInteractions } from "@common-module/social";
 import IglooPost from "../database-interface/IglooPost.js";
 import IglooPostService from "./IglooPostService.js";
 import PostCommentPopup from "./PostCommentPopup.js";

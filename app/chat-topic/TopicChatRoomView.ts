@@ -1,4 +1,4 @@
-import { ViewParams } from "common-app-module";
+import { ViewParams } from "@common-module/app";
 import ChatRoomView from "../chat/ChatRoomView.js";
 import IglooSignedUserManager from "../user/IglooSignedUserManager.js";
 import TopicChatMessageForm from "./TopicChatMessageForm.js";

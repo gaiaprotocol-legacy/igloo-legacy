@@ -1,5 +1,5 @@
-import { msg, Router, Snackbar } from "common-app-module";
-import { PostForm } from "sofi-module";
+import { msg, Router, Snackbar } from "@common-module/app";
+import { PostForm } from "@common-module/social";
 import IglooPost, { PostTarget } from "../database-interface/IglooPost.js";
 import IglooSignedUserManager from "../user/IglooSignedUserManager.js";
 import IglooPostService from "./IglooPostService.js";

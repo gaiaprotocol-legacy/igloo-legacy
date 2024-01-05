@@ -6,7 +6,7 @@ import {
   Router,
   View,
   ViewParams,
-} from "common-app-module";
+} from "@common-module/app";
 import Layout from "../layout/Layout.js";
 import SubjectService from "../subject/SubjectService.js";
 import TempSubjectCacher from "../subject/TempSubjectCacher.js";

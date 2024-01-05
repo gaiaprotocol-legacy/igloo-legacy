@@ -1,4 +1,4 @@
-import { ViewParams } from "common-app-module";
+import { ViewParams } from "@common-module/app";
 import { ethers } from "ethers";
 import ChatRoomView from "../chat/ChatRoomView.js";
 import SubjectChatMessageForm from "./SubjectChatMessageForm.js";

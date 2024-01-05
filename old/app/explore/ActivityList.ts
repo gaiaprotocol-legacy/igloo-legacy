@@ -1,5 +1,5 @@
 import { RealtimeChannel } from "@supabase/supabase-js";
-import { DomNode, el, Store, Supabase } from "common-app-module";
+import { DomNode, el, Store, Supabase } from "@common-module/app";
 import SubjectTradeEvent from "../database-interface/SubjectTradeEvent.js";
 import UserDetailsCacher from "../user/UserDetailsCacher.js";
 import UserService from "../user/UserService.js";

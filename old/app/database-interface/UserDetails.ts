@@ -1,3 +1,5 @@
+import { Constants } from "../../../../@common-module/app/lib/index";
+
 function n2u(value: any) {
   return value === null ? undefined : value;
 }
@@ -25,7 +27,7 @@ export const DefaultUserDetails: UserDetails = {
   follower_count: 0,
   following_count: 0,
   blocked: false,
-  created_at: "-infinity",
+  created_at: Constants.NEGATIVE_INFINITY,
 };
 
 export const UserDetailsSelectQuery = `*, total_earned_trading_fees::text`;

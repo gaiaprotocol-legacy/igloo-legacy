@@ -4,7 +4,7 @@ import {
   Router,
   View,
   ViewParams,
-} from "common-app-module";
+} from "@common-module/app";
 import Layout from "../layout/Layout.js";
 import MaterialIcon from "../MaterialIcon.js";
 import SearchResultUserList from "./SearchResultUserList.js";

@@ -4,14 +4,15 @@ import {
   MaterialIconSystem,
   Router,
   SplashLoader,
-} from "common-app-module";
+} from "@common-module/app";
 import {
+  AuthUtil,
   msg,
   SocialComponent,
   TestChatView,
   TestPostListView,
   TestPostView,
-} from "sofi-module";
+} from "@common-module/social";
 import messages_en from "../locales/en.yml";
 import messages_ja from "../locales/ja.yml";
 import messages_zh from "../locales/zh.yml";
@@ -86,4 +87,6 @@ export default async function initialize(config: Config) {
   Router.route("test/chat", TestChatView);
   Router.route("test/posts", TestPostListView);
   Router.route("test/post", TestPostView);
+
+  AuthUtil.checkEmailAccess();
 }

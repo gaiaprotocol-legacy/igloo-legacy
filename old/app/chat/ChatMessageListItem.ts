@@ -1,4 +1,4 @@
-import { DomNode, el, Rich, Router } from "common-app-module";
+import { DomNode, el, Rich, Router } from "@common-module/app";
 import dayjs from "dayjs";
 import ChatMessage from "../database-interface/ChatMessage.js";
 import SignedUserManager from "../user/SignedUserManager.js";

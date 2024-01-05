@@ -4,8 +4,8 @@ import {
   ListLoadingBar,
   View,
   ViewParams,
-} from "common-app-module";
-import { PostThread } from "sofi-module";
+} from "@common-module/app";
+import { PostThread } from "@common-module/social";
 import IglooPost from "../database-interface/IglooPost.js";
 import Layout from "../layout/Layout.js";
 import MaterialIcon from "../MaterialIcon.js";

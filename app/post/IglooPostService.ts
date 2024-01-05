@@ -1,5 +1,5 @@
-import { Rich, Supabase, UploadManager } from "common-app-module";
-import { PostSelectQuery, PostService } from "sofi-module";
+import { Rich, Supabase, UploadManager } from "@common-module/app";
+import { PostSelectQuery, PostService } from "@common-module/social";
 import IglooPost from "../database-interface/IglooPost.js";
 import IglooSignedUserManager from "../user/IglooSignedUserManager.js";
 

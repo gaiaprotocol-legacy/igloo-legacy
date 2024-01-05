@@ -1,4 +1,4 @@
-import { DomNode, el, msg } from "common-app-module";
+import { DomNode, el, msg } from "@common-module/app";
 import IglooSignedUserManager from "./IglooSignedUserManager.js";
 
 export default class LoginRequiredDisplay extends DomNode {

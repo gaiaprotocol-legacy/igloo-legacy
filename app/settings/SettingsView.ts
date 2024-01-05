@@ -1,4 +1,4 @@
-import { DomNode, el, msg, Router, Switch, View, ViewParams } from "common-app-module";
+import { DomNode, el, msg, Router, Switch, View, ViewParams } from "@common-module/app";
 import Layout from "../layout/Layout.js";
 import ThemeManager from "../ThemeManager.js";
 import IglooSignedUserManager from "../user/IglooSignedUserManager.js";

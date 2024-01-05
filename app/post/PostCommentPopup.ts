@@ -1,4 +1,4 @@
-import { Component, Popup } from "common-app-module";
+import { Component, Popup } from "@common-module/app";
 import IglooPost from "../database-interface/IglooPost.js";
 
 export default class PostCommentPopup extends Popup {

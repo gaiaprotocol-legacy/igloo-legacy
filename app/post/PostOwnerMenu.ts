@@ -1,4 +1,4 @@
-import { Confirm, DropdownMenu, msg } from "common-app-module";
+import { Confirm, DropdownMenu, msg } from "@common-module/app";
 import IglooPostService from "./IglooPostService.js";
 
 export default class PostOwnerMenu extends DropdownMenu {

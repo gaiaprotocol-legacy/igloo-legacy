@@ -1,4 +1,4 @@
-import { I18NText, Rich } from "common-app-module";
+import { I18NText, Rich } from "@common-module/app";
 
 export enum MessageType {
   MESSAGE,

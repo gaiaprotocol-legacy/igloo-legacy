@@ -4,9 +4,9 @@ import {
   el,
   ErrorAlert,
   Router,
-} from "common-app-module";
+} from "@common-module/app";
 import { ethers } from "ethers";
-import { SocialUserPublic } from "sofi-module";
+import { SocialUserPublic } from "@common-module/social";
 import SubjectDetails from "../database-interface/SubjectDetails.js";
 import MaterialIcon from "../MaterialIcon.js";
 import BuySubjectKeyPopup from "../subject/BuySubjectKeyPopup.js";

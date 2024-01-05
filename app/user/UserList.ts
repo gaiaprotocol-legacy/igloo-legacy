@@ -1,5 +1,5 @@
-import { DomNode, Store } from "common-app-module";
-import { SoFiUserPublic } from "sofi-module";
+import { DomNode, Store } from "@common-module/app";
+import { SoFiUserPublic } from "@common-module/social";
 import UserListItem from "./UserListItem.js";
 
 export default abstract class UserList extends DomNode {

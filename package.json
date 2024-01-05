@@ -17,6 +17,7 @@
   },
   "type": "module",
   "dependencies": {
+    "@common-module/social": "^0.0.1",
     "@openzeppelin/contracts": "^4.9.3",
     "@openzeppelin/contracts-upgradeable": "^4.9.3",
     "@types/uuid": "^9.0.4",
@@ -25,7 +26,6 @@
     "@web3modal/html": "^2.7.1",
     "ethers": "^6.7.1",
     "firebase": "^10.4.0",
-    "sofi-module": "^0.0.3",
     "uuid": "^9.0.1",
     "viem": "^1.5.3"
   },

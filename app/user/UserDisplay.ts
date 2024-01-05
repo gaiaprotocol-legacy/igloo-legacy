@@ -1,5 +1,5 @@
-import { DomNode, el } from "common-app-module";
-import { SoFiUserPublic } from "sofi-module";
+import { DomNode, el } from "@common-module/app";
+import { SoFiUserPublic } from "@common-module/social";
 import PreviewUserPublic from "../database-interface/PreviewUserPublic.js";
 import Subject from "../database-interface/Subject.js";
 import UserConnections from "./user-display/UserConnections.js";

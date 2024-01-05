@@ -1,9 +1,9 @@
-import { Supabase } from "common-app-module";
+import { Supabase } from "@common-module/app";
 import {
   SoFiUserPublic,
   SoFiUserPublicSelectQuery,
   SoFiUserService,
-} from "sofi-module";
+} from "@common-module/social";
 
 class IglooUserService extends SoFiUserService<SoFiUserPublic> {
   constructor() {

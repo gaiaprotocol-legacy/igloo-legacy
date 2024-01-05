@@ -1,4 +1,4 @@
-import { EventContainer, Store, Supabase } from "common-app-module";
+import { EventContainer, Store, Supabase } from "@common-module/app";
 
 class SubjectKeyBalanceCacher extends EventContainer {
   private store: Store = new Store("cached-subject-key-balances");

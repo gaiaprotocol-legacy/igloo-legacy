@@ -6,7 +6,7 @@ import {
   el,
   ErrorAlert,
   Popup,
-} from "common-app-module";
+} from "@common-module/app";
 import { ethers } from "ethers";
 import IglooSubjectContract from "../contracts/IglooSubjectContract.js";
 import UserDetails from "../database-interface/UserDetails.js";

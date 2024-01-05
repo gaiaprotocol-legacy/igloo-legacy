@@ -1,5 +1,5 @@
-import { Store } from "common-app-module";
-import { Post } from "sofi-module";
+import { Constants, Store } from "@common-module/app";
+import { Post } from "@common-module/social";
 import SignedUserManager from "../user/SignedUserManager.js";
 import PostCacher from "./PostCacher.js";
 import PostList from "./PostList.js";
@@ -8,7 +8,7 @@ import PostService from "./PostService.js";
 export default class UserRepostList extends PostList {
   private store: Store;
   private isContentFromCache: boolean = true;
-  private lastRepostedAt: string = "-infinity";
+  private lastRepostedAt: string = Constants.NEGATIVE_INFINITY;
 
   constructor(private userId: string) {
     super(".user-repost-list", "No reposts yet.");
@@ -42,7 +42,8 @@ export default class UserRepostList extends PostList {
     const posts = result.map((item) => item.post);
 
     PostCacher.cachePosts(posts);
-    this.lastRepostedAt = result[result.length - 1]?.repostedAt ?? "-infinity";
+    this.lastRepostedAt = result[result.length - 1]?.repostedAt ??
+      Constants.NEGATIVE_INFINITY;
 
     const postIds = posts.map((post) => post.id);
 

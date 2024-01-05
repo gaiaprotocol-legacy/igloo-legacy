@@ -1,4 +1,4 @@
-import { ChatMessageForm } from "sofi-module";
+import { ChatMessageForm } from "@common-module/social";
 import TopicChatMessageService from "./TopicChatMessageService.js";
 
 export default class TopicChatMessageForm extends ChatMessageForm {

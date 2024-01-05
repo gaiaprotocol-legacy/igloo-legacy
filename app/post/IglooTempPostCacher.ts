@@ -1,4 +1,4 @@
-import { TempPostCacher } from "sofi-module";
+import { TempPostCacher } from "@common-module/social";
 import IglooPost from "../database-interface/IglooPost.js";
 
 class IglooTempPostCacher extends TempPostCacher<IglooPost> {

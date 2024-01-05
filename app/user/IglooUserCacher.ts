@@ -1,5 +1,5 @@
-import { TempSoFiUserCacher } from "sofi-module";
-import SoFiUserPublic from "sofi-module/lib/database-interface/SoFiUserPublic.js";
+import { TempSoFiUserCacher } from "@common-module/social";
+import SoFiUserPublic from "@common-module/social/lib/database-interface/SoFiUserPublic.js";
 
 class IglooUserCacher extends TempSoFiUserCacher<SoFiUserPublic> {
   private keyHoldingCountMap = new Map<string, number>();
