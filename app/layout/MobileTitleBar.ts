@@ -19,7 +19,7 @@ export default class MobileTitleBar extends DomNode {
       : msg("mobile-title-bar-welcome-message-not-signed-in");
 
     this.append(
-      this.logo = el("h1", el("img", { src: "/images/logo.png" }), {
+      this.logo = el("h1", el("img", { src: "/images/logo-top.png" }), {
         click: () => Router.go("/"),
       }),
       this.backButton = el("button.back", new MaterialIcon("arrow_back"), {

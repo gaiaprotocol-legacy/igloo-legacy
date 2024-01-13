@@ -17,7 +17,7 @@ export default async function initialize(config: Config) {
   IglooSubjectContract.init(config.iglooSubjectAddress);
 
   const splash = new SplashScreen(
-    el("img", { src: "/images/igloo-character.png" }),
+    el("img", { src: "/images/logo.png" }),
   );
   await Promise.all([
     SignedUserManager.fetchUserOnInit(),

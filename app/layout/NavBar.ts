@@ -8,7 +8,7 @@ export default class NavBar extends DomNode {
   constructor() {
     super(".nav-bar");
     this.append(
-      el("h1", el("img", { src: "/images/logo.png" }), {
+      el("h1", el("img", { src: "/images/logo-top.png" }), {
         click: () => Router.go("/"),
       }),
       el("button.home", new MaterialIcon("home"), {

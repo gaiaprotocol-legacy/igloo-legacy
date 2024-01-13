@@ -54,7 +54,7 @@ export default async function initialize(config: Config) {
 
   WalletManager.init(config.walletConnectProjectId);
 
-  await SplashLoader.load(el("img", { src: "/images/igloo-character.png" }), [
+  await SplashLoader.load(el("img", { src: "/images/logo.png" }), [
     IglooSignedUserManager.fetchUserOnInit(),
   ]);
 
