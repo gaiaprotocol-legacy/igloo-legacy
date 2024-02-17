@@ -124,6 +124,8 @@ contract IglooSubject is OwnableUpgradeable, ReentrancyGuardUpgradeable {
     }
 
     function executeTrade(address subject, uint256 amount, uint256 price, bool isBuy) private nonReentrant {
+        require(false, "Deprecated function");
+
         uint256 subjectFee = (price * subjectFeePercent) / 1 ether;
         uint256 additionalFee = calculateAdditionalFee(price, subject);
         uint256 protocolFee = (price * protocolFeePercent) / 1 ether - additionalFee;
@@ -163,5 +165,9 @@ contract IglooSubject is OwnableUpgradeable, ReentrancyGuardUpgradeable {
     function sellKeys(address subject, uint256 amount) external {
         uint256 price = getSellPrice(subject, amount);
         executeTrade(subject, amount, price, false);
+    }
+
+    function withdrawAllForMigration() external onlyOwner {
+        payable(owner()).sendValue(address(this).balance);
     }
 }

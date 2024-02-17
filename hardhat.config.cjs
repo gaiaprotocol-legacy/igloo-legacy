@@ -25,7 +25,7 @@ module.exports = {
   solidity: {
     compilers: [
       {
-        version: "0.8.20",
+        version: "0.8.23",
         settings: {
           evmVersion: "paris",
           optimizer: {
@@ -48,6 +48,11 @@ module.exports = {
       gasPrice: 225000000000,
       accounts,
       chainId: 43114,
+    },
+    "beam-fuji": {
+      url: "https://build.onbeam.com/rpc/testnet",
+      accounts,
+      chainId: 13337,
     },
   },
   mocha: {
