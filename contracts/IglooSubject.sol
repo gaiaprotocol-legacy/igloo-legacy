@@ -155,12 +155,12 @@ contract IglooSubject is OwnableUpgradeable, ReentrancyGuardUpgradeable {
         emit Trade(msg.sender, subject, isBuy, amount, price, protocolFee, subjectFee + additionalFee, supply);
     }
 
-    function buyKeys(address subject, uint256 amount) public payable {
+    function buyKeys(address subject, uint256 amount) external payable {
         uint256 price = getBuyPrice(subject, amount);
         executeTrade(subject, amount, price, true);
     }
 
-    function sellKeys(address subject, uint256 amount) public {
+    function sellKeys(address subject, uint256 amount) external {
         uint256 price = getSellPrice(subject, amount);
         executeTrade(subject, amount, price, false);
     }
