@@ -23,6 +23,7 @@ async function main() {
   await igloo.waitForDeployment();
 
   console.log("Igloo deployed to:", igloo.target);
+  process.exit();
 }
 
 main();
