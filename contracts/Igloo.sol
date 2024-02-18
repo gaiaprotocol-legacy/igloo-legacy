@@ -10,7 +10,7 @@ import "@openzeppelin/contracts-upgradeable/utils/AddressUpgradeable.sol";
 contract Igloo is OwnableUpgradeable, ReentrancyGuardUpgradeable {
     using AddressUpgradeable for address payable;
 
-    uint256 private constant BASE_DIVIDER = 100;
+    uint256 private baseDivider;
     uint256 private constant ACC_FEE_PRECISION = 1e4;
 
     enum KeyType {
@@ -34,6 +34,7 @@ contract Igloo is OwnableUpgradeable, ReentrancyGuardUpgradeable {
     event SetHybridHolderFeePercent(uint256 percent);
 
     function initialize(
+        uint256 _baseDivider,
         address payable _protocolFeeDestination,
         uint256 _protocolFeePercent,
         uint256 _creatorFeePercent,
@@ -44,6 +45,7 @@ contract Igloo is OwnableUpgradeable, ReentrancyGuardUpgradeable {
         __Ownable_init();
         __ReentrancyGuard_init();
 
+        baseDivider = _baseDivider;
         protocolFeeDestination = _protocolFeeDestination;
         protocolFeePercent = _protocolFeePercent;
         creatorFeePercent = _creatorFeePercent;
@@ -106,6 +108,7 @@ contract Igloo is OwnableUpgradeable, ReentrancyGuardUpgradeable {
     mapping(uint256 => mapping(address => Holder)) public holders;
 
     event KeyCreated(uint256 indexed keyId, address indexed owner, KeyType keyType);
+    event KeyDeleted(uint256 indexed keyId);
 
     event ChangeKeyType(uint256 indexed keyId, KeyType keyType);
     event ChangeKeyOwner(uint256 indexed keyId, address indexed oldOwner, address indexed newOwner);
@@ -126,13 +129,18 @@ contract Igloo is OwnableUpgradeable, ReentrancyGuardUpgradeable {
 
     function createKey(KeyType keyType) external returns (uint256 keyId) {
         keyId = nextKeyId++;
-        keys[keyId] = Key({keyType: keyType, owner: msg.sender, supply: 1, accFeePerUnit: 0});
-        holders[keyId][msg.sender].balance = 1;
+        keys[keyId] = Key({keyType: keyType, owner: msg.sender, supply: 0, accFeePerUnit: 0});
         emit KeyCreated(keyId, msg.sender, keyType);
     }
 
     function exists(uint256 keyId) public view returns (bool) {
-        return keys[keyId].supply > 0;
+        return keys[keyId].owner != address(0);
+    }
+
+    function deleteKey(uint256 keyId) external {
+        require(keys[keyId].owner == msg.sender && keys[keyId].supply == 0, "Not key owner or supply not 0");
+        delete keys[keyId];
+        emit KeyDeleted(keyId);
     }
 
     function changeKeyType(uint256 keyId, KeyType keyType) external {
@@ -147,13 +155,13 @@ contract Igloo is OwnableUpgradeable, ReentrancyGuardUpgradeable {
         emit ChangeKeyOwner(keyId, msg.sender, newOwner);
     }
 
-    function getPrice(uint256 supply, uint256 amount) public pure returns (uint256) {
+    function getPrice(uint256 supply, uint256 amount) public view returns (uint256) {
         uint256 sum1 = supply == 0 ? 0 : ((supply - 1) * (supply) * (2 * (supply - 1) + 1)) / 6;
         uint256 sum2 = supply == 0 && amount == 1
             ? 0
             : ((supply - 1 + amount) * (supply + amount) * (2 * (supply - 1 + amount) + 1)) / 6;
         uint256 summation = sum2 - sum1;
-        return (summation * 1 ether) / BASE_DIVIDER;
+        return (summation * 1 ether) / baseDivider;
     }
 
     function getBuyPrice(uint256 keyId, uint256 amount) public view returns (uint256) {
