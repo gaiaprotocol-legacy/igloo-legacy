@@ -10,633 +10,43 @@ SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
 
-CREATE EXTENSION IF NOT EXISTS "pg_cron" WITH SCHEMA "extensions";
+CREATE SCHEMA IF NOT EXISTS "public";
 
-CREATE EXTENSION IF NOT EXISTS "pg_net" WITH SCHEMA "extensions";
-
-CREATE EXTENSION IF NOT EXISTS "pgsodium" WITH SCHEMA "pgsodium";
-
-CREATE EXTENSION IF NOT EXISTS "pg_graphql" WITH SCHEMA "graphql";
-
-CREATE EXTENSION IF NOT EXISTS "pg_stat_statements" WITH SCHEMA "extensions";
-
-CREATE EXTENSION IF NOT EXISTS "pgcrypto" WITH SCHEMA "extensions";
-
-CREATE EXTENSION IF NOT EXISTS "pgjwt" WITH SCHEMA "extensions";
-
-CREATE EXTENSION IF NOT EXISTS "supabase_vault" WITH SCHEMA "vault";
-
-CREATE EXTENSION IF NOT EXISTS "uuid-ossp" WITH SCHEMA "extensions";
-
-CREATE OR REPLACE FUNCTION "public"."decrease_follow_count"() RETURNS "trigger"
-    LANGUAGE "plpgsql" SECURITY DEFINER
-    AS $$begin
-  update users_public
-  set
-    follower_count = follower_count - 1
-  where
-    user_id = old.followee_id;
-  update users_public
-  set
-    following_count = following_count - 1
-  where
-    user_id = old.follower_id;
-  return null;
-end;$$;
-
-ALTER FUNCTION "public"."decrease_follow_count"() OWNER TO "postgres";
-
-CREATE OR REPLACE FUNCTION "public"."decrease_post_comment_count"() RETURNS "trigger"
-    LANGUAGE "plpgsql" SECURITY DEFINER
-    AS $$begin
-  IF old.post_ref IS NOT NULL THEN
-    update posts
-    set
-      comment_count = comment_count - 1
-    where
-      id = old.post_ref;
-  END IF;
-  return null;
-end;$$;
-
-ALTER FUNCTION "public"."decrease_post_comment_count"() OWNER TO "postgres";
-
-CREATE OR REPLACE FUNCTION "public"."decrease_post_like_count"() RETURNS "trigger"
-    LANGUAGE "plpgsql" SECURITY DEFINER
-    AS $$begin
-  update posts
-  set
-    like_count = like_count - 1
-  where
-    id = old.post_id;
-  return null;
-end;$$;
-
-ALTER FUNCTION "public"."decrease_post_like_count"() OWNER TO "postgres";
-
-CREATE OR REPLACE FUNCTION "public"."decrease_repost_count"() RETURNS "trigger"
-    LANGUAGE "plpgsql" SECURITY DEFINER
-    AS $$begin
-  update posts
-  set
-    repost_count = repost_count - 1
-  where
-    id = old.post_id;
-  return null;
-end;$$;
-
-ALTER FUNCTION "public"."decrease_repost_count"() OWNER TO "postgres";
-
-CREATE OR REPLACE FUNCTION "public"."decrease_subject_key_holder_count"() RETURNS "trigger"
-    LANGUAGE "plpgsql" SECURITY DEFINER
-    AS $$begin
-  insert into subject_details (
-    subject
-  ) values (
-    old.subject
-  ) on conflict (subject) do nothing;
-  IF old.last_fetched_balance > 0 THEN
-    update subject_details
-    set
-      key_holder_count = key_holder_count - 1
-    where
-      subject = old.subject;
-  END IF;
-  return null;
-end;$$;
-
-ALTER FUNCTION "public"."decrease_subject_key_holder_count"() OWNER TO "postgres";
-
-CREATE OR REPLACE FUNCTION "public"."decrease_total_subject_key_balance"() RETURNS "trigger"
-    LANGUAGE "plpgsql" SECURITY DEFINER
-    AS $$begin
-  insert into total_subject_key_balances (
-    wallet_address
-  ) values (
-    old.wallet_address
-  ) on conflict (wallet_address) do nothing;
-  update total_subject_key_balances
-  set
-    total_key_balance = total_key_balance - old.last_fetched_balance
-  where
-    wallet_address = old.wallet_address;
-  return null;
-end;$$;
-
-ALTER FUNCTION "public"."decrease_total_subject_key_balance"() OWNER TO "postgres";
-
-CREATE OR REPLACE FUNCTION "public"."get_portfolio_value"("param_wallet_address" "text") RETURNS "text"
-    LANGUAGE "plpgsql" SECURITY DEFINER
-    AS $$DECLARE
-    portfolio_value numeric := 0;
-    holder_record record;
-    subject_detail record;
-begin
-    FOR holder_record IN (
-        SELECT 
-            subject, 
-            last_fetched_balance
-        FROM 
-            subject_key_holders 
-        WHERE 
-            wallet_address = param_wallet_address
-    ) LOOP
-        FOR subject_detail IN (
-            SELECT 
-                subject, 
-                last_fetched_key_price 
-            FROM 
-                subject_details 
-            WHERE 
-                subject = holder_record.subject
-        ) LOOP
-            portfolio_value := portfolio_value + (holder_record.last_fetched_balance::numeric * subject_detail.last_fetched_key_price);
-        END LOOP;
-    END LOOP;
-    RETURN portfolio_value;
-end;$$;
-
-ALTER FUNCTION "public"."get_portfolio_value"("param_wallet_address" "text") OWNER TO "postgres";
-
-CREATE OR REPLACE FUNCTION "public"."get_post_and_comments"("p_post_id" bigint) RETURNS TABLE("id" bigint, "group_id" bigint, "target" smallint, "author" "uuid", "author_name" "text", "author_avatar_url" "text", "author_x_username" "text", "message" "text", "translated" "jsonb", "rich" "jsonb", "post_ref" bigint, "comment_count" integer, "repost_count" integer, "like_count" integer, "created_at" timestamp with time zone, "updated_at" timestamp with time zone, "depth" integer)
-    LANGUAGE "sql"
-    AS $$
-WITH RECURSIVE ancestors AS (
-    SELECT *, 0 AS depth
-    FROM posts 
-    WHERE id = p_post_id
-
-    UNION
-
-    SELECT p.*, a.depth - 1 AS depth
-    FROM posts p
-    JOIN ancestors a ON p.id = a.post_ref
-),
-descendants AS (
-    SELECT *, 1 AS depth
-    FROM posts
-    WHERE post_ref = p_post_id
-
-    UNION
-
-    SELECT p.*, d.depth + 1 AS depth
-    FROM posts p
-    JOIN descendants d ON p.post_ref = d.id
-)
-SELECT * FROM ancestors
-UNION ALL
-SELECT * FROM descendants
-ORDER BY depth, created_at;
-$$;
-
-ALTER FUNCTION "public"."get_post_and_comments"("p_post_id" bigint) OWNER TO "postgres";
-
-CREATE OR REPLACE FUNCTION "public"."increase_follow_count"() RETURNS "trigger"
-    LANGUAGE "plpgsql" SECURITY DEFINER
-    AS $$begin
-  update users_public
-  set
-    follower_count = follower_count + 1
-  where
-    user_id = new.followee_id;
-  update users_public
-  set
-    following_count = following_count + 1
-  where
-    user_id = new.follower_id;
-  return null;
-end;$$;
-
-ALTER FUNCTION "public"."increase_follow_count"() OWNER TO "postgres";
-
-CREATE OR REPLACE FUNCTION "public"."increase_post_comment_count"() RETURNS "trigger"
-    LANGUAGE "plpgsql" SECURITY DEFINER
-    AS $$begin
-  IF new.post_ref IS NOT NULL THEN
-    update posts
-    set
-      comment_count = comment_count + 1
-    where
-      id = new.post_ref;
-  END IF;
-  return null;
-end;$$;
-
-ALTER FUNCTION "public"."increase_post_comment_count"() OWNER TO "postgres";
-
-CREATE OR REPLACE FUNCTION "public"."increase_post_like_count"() RETURNS "trigger"
-    LANGUAGE "plpgsql" SECURITY DEFINER
-    AS $$begin
-  update posts
-  set
-    like_count = like_count + 1
-  where
-    id = new.post_id;
-  return null;
-end;$$;
-
-ALTER FUNCTION "public"."increase_post_like_count"() OWNER TO "postgres";
-
-CREATE OR REPLACE FUNCTION "public"."increase_repost_count"() RETURNS "trigger"
-    LANGUAGE "plpgsql" SECURITY DEFINER
-    AS $$begin
-  update posts
-  set
-    repost_count = repost_count + 1
-  where
-    id = new.post_id;
-  return null;
-end;$$;
-
-ALTER FUNCTION "public"."increase_repost_count"() OWNER TO "postgres";
-
-CREATE OR REPLACE FUNCTION "public"."increase_subject_key_holder_count"() RETURNS "trigger"
-    LANGUAGE "plpgsql" SECURITY DEFINER
-    AS $$begin
-  insert into subject_details (
-    subject
-  ) values (
-    new.subject
-  ) on conflict (subject) do nothing;
-  IF new.last_fetched_balance > 0 THEN
-    update subject_details
-    set
-      key_holder_count = key_holder_count + 1
-    where
-      subject = new.subject;
-  END IF;
-  return null;
-end;$$;
-
-ALTER FUNCTION "public"."increase_subject_key_holder_count"() OWNER TO "postgres";
-
-CREATE OR REPLACE FUNCTION "public"."increase_subject_total_trading_volume_and_fees_earned"() RETURNS "trigger"
-    LANGUAGE "plpgsql" SECURITY DEFINER
-    AS $$begin
-    update users_public
-    set
-        total_earned_trading_fees = total_earned_trading_fees + new.args[7]::numeric
-    where
-        wallet_address = new.args[1];
-    insert into subject_details (
-        subject
-    ) values (
-        new.args[2]
-    ) on conflict (subject) do nothing;
-    update subject_details
-    set
-        total_trading_key_volume = total_trading_key_volume + new.args[5]::numeric,
-        total_earned_trading_fees = total_earned_trading_fees + new.args[7]::numeric,
-        last_key_purchased_at = now()
-    where
-        subject = new.args[2];
-    return null;
-end;$$;
-
-ALTER FUNCTION "public"."increase_subject_total_trading_volume_and_fees_earned"() OWNER TO "postgres";
-
-CREATE OR REPLACE FUNCTION "public"."increase_total_subject_key_balance"() RETURNS "trigger"
-    LANGUAGE "plpgsql" SECURITY DEFINER
-    AS $$begin
-  insert into total_subject_key_balances (
-    wallet_address
-  ) values (
-    new.wallet_address
-  ) on conflict (wallet_address) do nothing;
-  update total_subject_key_balances
-  set
-    total_key_balance = total_key_balance + new.last_fetched_balance
-  where
-    wallet_address = new.wallet_address;
-  return null;
-end;$$;
-
-ALTER FUNCTION "public"."increase_total_subject_key_balance"() OWNER TO "postgres";
-
-CREATE OR REPLACE FUNCTION "public"."notify_follow_event"() RETURNS "trigger"
-    LANGUAGE "plpgsql" SECURITY DEFINER
-    AS $$begin
-    insert into notifications (
-        user_id, triggerer, type
-    ) values (
-        new.followee_id, new.follower_id, 2
-    );
-    return null;
-end;$$;
-
-ALTER FUNCTION "public"."notify_follow_event"() OWNER TO "postgres";
-
-CREATE OR REPLACE FUNCTION "public"."notify_post_comment_event"() RETURNS "trigger"
-    LANGUAGE "plpgsql" SECURITY DEFINER
-    AS $$DECLARE
-    v_author UUID;
-begin
-    IF new.post_ref IS NOT NULL THEN
-        SELECT author INTO v_author FROM posts WHERE id = new.post_ref;
-        IF v_author <> new.author THEN
-            INSERT INTO notifications (
-                user_id, triggerer, type, source_id
-            ) VALUES (
-                v_author, new.author, 5, new.id
-            );
-        END IF;
-    END IF;
-    return null;
-end;$$;
-
-ALTER FUNCTION "public"."notify_post_comment_event"() OWNER TO "postgres";
-
-CREATE OR REPLACE FUNCTION "public"."notify_post_like_event"() RETURNS "trigger"
-    LANGUAGE "plpgsql" SECURITY DEFINER
-    AS $$DECLARE
-    v_author UUID;
-BEGIN
-    SELECT author INTO v_author FROM posts WHERE id = new.post_id;
-    
-    IF v_author <> new.user_id THEN
-        INSERT INTO notifications (
-            user_id, triggerer, type, source_id
-        ) VALUES (
-            v_author, new.user_id, 3, new.post_id
-        );
-    END IF;
-    
-    RETURN NULL;
-END;
-$$;
-
-ALTER FUNCTION "public"."notify_post_like_event"() OWNER TO "postgres";
-
-CREATE OR REPLACE FUNCTION "public"."notify_repost_event"() RETURNS "trigger"
-    LANGUAGE "plpgsql" SECURITY DEFINER
-    AS $$DECLARE
-    v_author UUID;
-BEGIN
-    SELECT author INTO v_author FROM posts WHERE id = new.post_id;
-    
-    IF v_author <> new.user_id THEN
-        INSERT INTO notifications (
-            user_id, triggerer, type, source_id
-        ) VALUES (
-            v_author, new.user_id, 4, new.post_id
-        );
-    END IF;
-    
-    RETURN NULL;
-END;
-$$;
-
-ALTER FUNCTION "public"."notify_repost_event"() OWNER TO "postgres";
-
-CREATE OR REPLACE FUNCTION "public"."notify_trade_key_event"() RETURNS "trigger"
-    LANGUAGE "plpgsql" SECURITY DEFINER
-    AS $$DECLARE
-    v_sender UUID;
-    v_receiver UUID;
-BEGIN
-    SELECT user_id INTO v_sender FROM users_public WHERE wallet_address = new.args[1];
-    SELECT user_id INTO v_receiver FROM users_public WHERE wallet_address = new.args[2];
-    
-    IF v_sender IS NOT NULL AND v_receiver IS NOT NULL AND v_sender <> v_receiver THEN
-        IF new.args[3] = 'true' THEN
-            INSERT INTO notifications (
-                user_id, triggerer, type, amount
-            ) VALUES (
-                v_receiver, v_sender, 0, new.args[4]::int8
-            );
-        ELSE
-            INSERT INTO notifications (
-                user_id, triggerer, type, amount
-            ) VALUES (
-                v_receiver, v_sender, 1, new.args[4]::int8
-            );
-        END IF;
-    END IF;
-
-    RETURN NULL;
-END;
-$$;
-
-ALTER FUNCTION "public"."notify_trade_key_event"() OWNER TO "postgres";
-
-CREATE OR REPLACE FUNCTION "public"."set_author_default_values"() RETURNS "trigger"
-    LANGUAGE "plpgsql" SECURITY DEFINER
-    AS $$BEGIN
-  new.author_name := (SELECT raw_user_meta_data ->> 'full_name' FROM auth.users WHERE id = new.author);
-  new.author_avatar_url := (SELECT raw_user_meta_data ->> 'avatar_url' FROM auth.users WHERE id = new.author);
-  new.author_x_username := (SELECT raw_user_meta_data ->> 'user_name' FROM auth.users WHERE id = new.author);
-  RETURN new;
-END;$$;
-
-ALTER FUNCTION "public"."set_author_default_values"() OWNER TO "postgres";
-
-CREATE OR REPLACE FUNCTION "public"."set_notification_read_at"() RETURNS "trigger"
-    LANGUAGE "plpgsql" SECURITY DEFINER
-    AS $$BEGIN
-  IF old.read = false AND new.read = true THEN
-    new.read_at := now();
-  END IF;
-  RETURN new;
-END;
-$$;
-
-ALTER FUNCTION "public"."set_notification_read_at"() OWNER TO "postgres";
-
-CREATE OR REPLACE FUNCTION "public"."set_updated_at"() RETURNS "trigger"
-    LANGUAGE "plpgsql" SECURITY DEFINER
-    AS $$BEGIN
-  new.updated_at := now();
-  RETURN new;
-END;$$;
-
-ALTER FUNCTION "public"."set_updated_at"() OWNER TO "postgres";
-
-CREATE OR REPLACE FUNCTION "public"."set_user_metadata_to_details"() RETURNS "trigger"
-    LANGUAGE "plpgsql" SECURITY DEFINER
-    SET "search_path" TO 'public'
-    AS $$
-begin
-  insert into public.users_public (user_id, display_name, profile_image, x_username)
-  values (
-    new.id,
-    new.raw_user_meta_data ->> 'full_name',
-    new.raw_user_meta_data ->> 'avatar_url',
-    new.raw_user_meta_data ->> 'user_name'
-  ) on conflict (user_id) do update
-  set
-    display_name = new.raw_user_meta_data ->> 'full_name',
-    profile_image = new.raw_user_meta_data ->> 'avatar_url',
-    x_username = new.raw_user_meta_data ->> 'user_name';
-  return new;
-end;
-$$;
-
-ALTER FUNCTION "public"."set_user_metadata_to_details"() OWNER TO "postgres";
-
-CREATE OR REPLACE FUNCTION "public"."update_subject_key_holder_count"() RETURNS "trigger"
-    LANGUAGE "plpgsql" SECURITY DEFINER
-    AS $$begin
-  insert into subject_details (
-    subject
-  ) values (
-    new.subject
-  ) on conflict (subject) do nothing;
-  IF old.last_fetched_balance = 0 AND new.last_fetched_balance > 0 THEN
-    update subject_details
-    set
-      key_holder_count = key_holder_count + 1
-    where
-      subject = new.subject;
-  ELSIF old.last_fetched_balance > 0 AND new.last_fetched_balance = 0 THEN
-    update subject_details
-    set
-      key_holder_count = key_holder_count - 1
-    where
-      subject = new.subject;
-  END IF;
-  return null;
-end;$$;
-
-ALTER FUNCTION "public"."update_subject_key_holder_count"() OWNER TO "postgres";
-
-CREATE OR REPLACE FUNCTION "public"."update_subject_last_message"() RETURNS "trigger"
-    LANGUAGE "plpgsql" SECURITY DEFINER
-    AS $$begin
-  insert into subject_details (
-    subject
-  ) values (
-    new.subject
-  ) on conflict (subject) do nothing;
-  update subject_details
-    set
-        last_message = new.author_name || ': ' || new.message,
-        last_message_sent_at = now()
-    where
-        subject = new.subject;
-  return null;
-end;$$;
-
-ALTER FUNCTION "public"."update_subject_last_message"() OWNER TO "postgres";
-
-CREATE OR REPLACE FUNCTION "public"."update_total_subject_key_balance"() RETURNS "trigger"
-    LANGUAGE "plpgsql" SECURITY DEFINER
-    AS $$begin
-  insert into total_subject_key_balances (
-    wallet_address
-  ) values (
-    new.wallet_address
-  ) on conflict (wallet_address) do nothing;
-  update total_subject_key_balances
-  set
-    total_key_balance = total_key_balance - old.last_fetched_balance + new.last_fetched_balance
-  where
-    wallet_address = new.wallet_address;
-  return null;
-end;$$;
-
-ALTER FUNCTION "public"."update_total_subject_key_balance"() OWNER TO "postgres";
+ALTER SCHEMA "public" OWNER TO "pg_database_owner";
 
 SET default_tablespace = '';
 
 SET default_table_access_method = "heap";
 
-CREATE TABLE IF NOT EXISTS "public"."follows" (
-    "follower_id" "uuid" DEFAULT "auth"."uid"() NOT NULL,
-    "followee_id" "uuid" NOT NULL,
-    "followed_at" timestamp with time zone DEFAULT "now"() NOT NULL
-);
-
-ALTER TABLE "public"."follows" OWNER TO "postgres";
-
-CREATE TABLE IF NOT EXISTS "public"."notifications" (
-    "id" bigint NOT NULL,
-    "user_id" "uuid" NOT NULL,
-    "triggerer" "uuid" NOT NULL,
-    "type" smallint NOT NULL,
-    "source_id" bigint,
-    "amount" bigint,
-    "read" boolean DEFAULT false NOT NULL,
-    "read_at" timestamp with time zone,
+CREATE TABLE IF NOT EXISTS "public"."activities" (
+    "chain" "text" NOT NULL,
+    "block_number" bigint NOT NULL,
+    "log_index" bigint NOT NULL,
+    "tx" "text" NOT NULL,
+    "wallet_address" "text" NOT NULL,
+    "key_id" bigint,
+    "activity_name" "text" NOT NULL,
+    "args" "text"[],
     "created_at" timestamp with time zone DEFAULT "now"() NOT NULL
 );
 
-ALTER TABLE "public"."notifications" OWNER TO "postgres";
+ALTER TABLE "public"."activities" OWNER TO "postgres";
 
-ALTER TABLE "public"."notifications" ALTER COLUMN "id" ADD GENERATED BY DEFAULT AS IDENTITY (
-    SEQUENCE NAME "public"."notifications_id_seq"
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1
-);
-
-CREATE TABLE IF NOT EXISTS "public"."post_likes" (
-    "post_id" bigint NOT NULL,
-    "user_id" "uuid" DEFAULT "auth"."uid"() NOT NULL,
-    "created_at" timestamp with time zone DEFAULT "now"() NOT NULL
-);
-
-ALTER TABLE "public"."post_likes" OWNER TO "postgres";
-
-CREATE TABLE IF NOT EXISTS "public"."posts" (
+CREATE TABLE IF NOT EXISTS "public"."key_chat_messages" (
     "id" bigint NOT NULL,
-    "group_id" bigint,
-    "target" smallint,
-    "author" "uuid" DEFAULT "auth"."uid"() NOT NULL,
-    "author_name" "text" NOT NULL,
-    "author_avatar_url" "text",
-    "author_x_username" "text",
-    "message" "text" NOT NULL,
-    "translated" "jsonb",
-    "rich" "jsonb",
-    "post_ref" bigint,
-    "comment_count" integer DEFAULT 0 NOT NULL,
-    "repost_count" integer DEFAULT 0 NOT NULL,
-    "like_count" integer DEFAULT 0 NOT NULL,
     "created_at" timestamp with time zone DEFAULT "now"() NOT NULL,
-    "updated_at" timestamp with time zone
-);
-
-ALTER TABLE "public"."posts" OWNER TO "postgres";
-
-ALTER TABLE "public"."posts" ALTER COLUMN "id" ADD GENERATED BY DEFAULT AS IDENTITY (
-    SEQUENCE NAME "public"."posts_id_seq"
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1
-);
-
-CREATE TABLE IF NOT EXISTS "public"."reposts" (
-    "post_id" bigint NOT NULL,
-    "user_id" "uuid" DEFAULT "auth"."uid"() NOT NULL,
-    "created_at" timestamp with time zone DEFAULT "now"() NOT NULL
-);
-
-ALTER TABLE "public"."reposts" OWNER TO "postgres";
-
-CREATE TABLE IF NOT EXISTS "public"."subject_chat_messages" (
-    "id" bigint NOT NULL,
-    "subject" "text" NOT NULL,
+    "chain" "text" NOT NULL,
+    "key_id" bigint NOT NULL,
     "author" "uuid" DEFAULT "auth"."uid"() NOT NULL,
-    "author_name" "text" NOT NULL,
-    "author_avatar_url" "text",
-    "author_x_username" "text",
-    "message_type" smallint NOT NULL,
     "message" "text",
-    "translated" "jsonb",
     "rich" "jsonb",
-    "post_ref" bigint,
-    "created_at" timestamp with time zone DEFAULT "now"() NOT NULL,
-    "updated_at" timestamp with time zone
+    "translated" "jsonb"
 );
 
-ALTER TABLE "public"."subject_chat_messages" OWNER TO "postgres";
+ALTER TABLE "public"."key_chat_messages" OWNER TO "postgres";
 
-ALTER TABLE "public"."subject_chat_messages" ALTER COLUMN "id" ADD GENERATED BY DEFAULT AS IDENTITY (
-    SEQUENCE NAME "public"."subject_chat_messages_id_seq"
+ALTER TABLE "public"."key_chat_messages" ALTER COLUMN "id" ADD GENERATED BY DEFAULT AS IDENTITY (
+    SEQUENCE NAME "public"."chat_messages_id_seq"
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -644,78 +54,77 @@ ALTER TABLE "public"."subject_chat_messages" ALTER COLUMN "id" ADD GENERATED BY 
     CACHE 1
 );
 
-CREATE TABLE IF NOT EXISTS "public"."subject_details" (
-    "subject" "text" NOT NULL,
-    "last_fetched_key_price" numeric DEFAULT '10000000000000000'::numeric NOT NULL,
-    "total_trading_key_volume" numeric DEFAULT '0'::numeric NOT NULL,
-    "total_earned_trading_fees" numeric DEFAULT '0'::numeric NOT NULL,
-    "is_key_price_up" boolean,
-    "last_message" "text",
-    "last_message_sent_at" timestamp with time zone DEFAULT '-infinity'::timestamp with time zone NOT NULL,
-    "key_holder_count" integer DEFAULT 0 NOT NULL,
-    "last_key_purchased_at" timestamp with time zone DEFAULT '-infinity'::timestamp with time zone NOT NULL,
-    "owned_key_count" integer DEFAULT 0 NOT NULL,
-    "created_at" timestamp with time zone DEFAULT "now"() NOT NULL,
-    "updated_at" timestamp with time zone
+CREATE TABLE IF NOT EXISTS "public"."contract_events" (
+    "chain" "text" NOT NULL,
+    "block_number" bigint NOT NULL,
+    "log_index" bigint NOT NULL,
+    "tx" "text" NOT NULL,
+    "event_name" "text" NOT NULL,
+    "args" "text"[] DEFAULT '{}'::"text"[] NOT NULL,
+    "wallet_address" "text",
+    "key_id" bigint,
+    "created_at" timestamp with time zone DEFAULT "now"() NOT NULL
 );
 
-ALTER TABLE "public"."subject_details" OWNER TO "postgres";
+ALTER TABLE "public"."contract_events" OWNER TO "postgres";
 
-CREATE TABLE IF NOT EXISTS "public"."subject_key_holders" (
-    "subject" "text" NOT NULL,
+CREATE TABLE IF NOT EXISTS "public"."general_chat_messages" (
+    "id" bigint NOT NULL,
+    "source" "text" NOT NULL,
+    "author" "uuid" DEFAULT "auth"."uid"(),
+    "external_author_id" "text",
+    "external_author_name" "text",
+    "external_author_avatar" "text",
+    "message" "text",
+    "external_message_id" "text",
+    "translated" "jsonb",
+    "rich" "jsonb",
+    "created_at" timestamp with time zone DEFAULT "now"() NOT NULL
+);
+
+ALTER TABLE "public"."general_chat_messages" OWNER TO "postgres";
+
+ALTER TABLE "public"."general_chat_messages" ALTER COLUMN "id" ADD GENERATED BY DEFAULT AS IDENTITY (
+    SEQUENCE NAME "public"."general_chat_messages_id_seq"
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1
+);
+
+CREATE TABLE IF NOT EXISTS "public"."key_holders" (
+    "chain" "text" NOT NULL,
+    "key_id" bigint NOT NULL,
     "wallet_address" "text" NOT NULL,
     "last_fetched_balance" bigint DEFAULT '0'::bigint NOT NULL,
     "created_at" timestamp with time zone DEFAULT "now"() NOT NULL,
     "updated_at" timestamp with time zone
 );
 
-ALTER TABLE "public"."subject_key_holders" OWNER TO "postgres";
+ALTER TABLE "public"."key_holders" OWNER TO "postgres";
 
-CREATE TABLE IF NOT EXISTS "public"."subject_trade_events" (
-    "block_number" bigint NOT NULL,
-    "log_index" bigint NOT NULL,
-    "args" "text"[] NOT NULL,
-    "wallet_address" "text" NOT NULL,
-    "subject" "text" NOT NULL,
-    "created_at" timestamp with time zone DEFAULT "now"() NOT NULL
-);
-
-ALTER TABLE "public"."subject_trade_events" OWNER TO "postgres";
-
-CREATE TABLE IF NOT EXISTS "public"."topic_chat_messages" (
-    "id" bigint NOT NULL,
-    "topic" "text" NOT NULL,
-    "author" "uuid" DEFAULT "auth"."uid"() NOT NULL,
-    "author_name" "text" NOT NULL,
-    "author_avatar_url" "text",
-    "author_x_username" "text",
-    "message_type" smallint NOT NULL,
-    "message" "text",
-    "translated" "jsonb",
-    "rich" "jsonb",
+CREATE TABLE IF NOT EXISTS "public"."keys" (
+    "chain" "text" NOT NULL,
+    "key_id" bigint NOT NULL,
+    "owner" "text" NOT NULL,
+    "name" "text",
+    "image" "text",
+    "image_thumb" "text",
+    "metadata" "jsonb",
+    "supply" bigint DEFAULT '0'::bigint NOT NULL,
+    "last_fetched_price" numeric DEFAULT '10000000000000000'::numeric NOT NULL,
+    "total_trading_volume" numeric DEFAULT '0'::numeric NOT NULL,
+    "is_price_up" boolean,
+    "last_message" "text",
+    "last_message_sent_at" timestamp with time zone DEFAULT '-infinity'::timestamp with time zone NOT NULL,
+    "holder_count" integer DEFAULT 1 NOT NULL,
+    "last_purchased_at" timestamp with time zone DEFAULT '-infinity'::timestamp with time zone NOT NULL,
     "created_at" timestamp with time zone DEFAULT "now"() NOT NULL,
     "updated_at" timestamp with time zone
 );
 
-ALTER TABLE "public"."topic_chat_messages" OWNER TO "postgres";
-
-ALTER TABLE "public"."topic_chat_messages" ALTER COLUMN "id" ADD GENERATED BY DEFAULT AS IDENTITY (
-    SEQUENCE NAME "public"."topic_chat_messages_id_seq"
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1
-);
-
-CREATE TABLE IF NOT EXISTS "public"."total_subject_key_balances" (
-    "wallet_address" "text" NOT NULL,
-    "total_key_balance" bigint DEFAULT '0'::bigint NOT NULL,
-    "created_at" timestamp with time zone DEFAULT "now"() NOT NULL,
-    "updated_at" timestamp with time zone
-);
-
-ALTER TABLE "public"."total_subject_key_balances" OWNER TO "postgres";
+ALTER TABLE "public"."keys" OWNER TO "postgres";
 
 CREATE TABLE IF NOT EXISTS "public"."tracked_event_blocks" (
     "contract_type" smallint NOT NULL,
@@ -725,16 +134,29 @@ CREATE TABLE IF NOT EXISTS "public"."tracked_event_blocks" (
 
 ALTER TABLE "public"."tracked_event_blocks" OWNER TO "postgres";
 
+CREATE TABLE IF NOT EXISTS "public"."user_wallets" (
+    "wallet_address" "text" NOT NULL,
+    "total_key_balance" bigint DEFAULT '0'::bigint NOT NULL,
+    "total_earned_trading_fees" numeric DEFAULT '0'::numeric NOT NULL,
+    "created_at" timestamp with time zone DEFAULT "now"() NOT NULL,
+    "updated_at" timestamp with time zone
+);
+
+ALTER TABLE "public"."user_wallets" OWNER TO "postgres";
+
 CREATE TABLE IF NOT EXISTS "public"."users_public" (
     "user_id" "uuid" DEFAULT "auth"."uid"() NOT NULL,
     "wallet_address" "text",
     "total_earned_trading_fees" numeric DEFAULT '0'::numeric NOT NULL,
     "display_name" "text",
-    "profile_image" "text",
+    "avatar" "text",
+    "avatar_thumb" "text",
+    "avatar_stored" boolean DEFAULT false NOT NULL,
+    "stored_avatar" "text",
+    "stored_avatar_thumb" "text",
     "x_username" "text",
     "metadata" "jsonb",
-    "follower_count" integer DEFAULT 0 NOT NULL,
-    "following_count" integer DEFAULT 0 NOT NULL,
+    "points" integer DEFAULT 0 NOT NULL,
     "blocked" boolean DEFAULT false NOT NULL,
     "created_at" timestamp with time zone DEFAULT "now"() NOT NULL,
     "updated_at" timestamp with time zone
@@ -751,416 +173,157 @@ CREATE TABLE IF NOT EXISTS "public"."wallet_linking_nonces" (
 
 ALTER TABLE "public"."wallet_linking_nonces" OWNER TO "postgres";
 
-ALTER TABLE ONLY "public"."follows"
-    ADD CONSTRAINT "follows_pkey" PRIMARY KEY ("follower_id", "followee_id");
+ALTER TABLE ONLY "public"."activities"
+    ADD CONSTRAINT "activities_pkey" PRIMARY KEY ("chain", "block_number", "log_index");
 
-ALTER TABLE ONLY "public"."notifications"
-    ADD CONSTRAINT "notifications_pkey" PRIMARY KEY ("id");
+ALTER TABLE ONLY "public"."key_chat_messages"
+    ADD CONSTRAINT "chat_messages_pkey" PRIMARY KEY ("id");
 
-ALTER TABLE ONLY "public"."post_likes"
-    ADD CONSTRAINT "post_likes_pkey" PRIMARY KEY ("post_id", "user_id");
+ALTER TABLE ONLY "public"."contract_events"
+    ADD CONSTRAINT "contract_events_pkey" PRIMARY KEY ("chain", "block_number", "log_index");
 
-ALTER TABLE ONLY "public"."posts"
-    ADD CONSTRAINT "posts_pkey" PRIMARY KEY ("id");
+ALTER TABLE ONLY "public"."general_chat_messages"
+    ADD CONSTRAINT "general_chat_messages_pkey" PRIMARY KEY ("id");
 
-ALTER TABLE ONLY "public"."reposts"
-    ADD CONSTRAINT "reposts_pkey" PRIMARY KEY ("post_id", "user_id");
+ALTER TABLE ONLY "public"."key_holders"
+    ADD CONSTRAINT "key_holders_pkey" PRIMARY KEY ("chain", "key_id", "wallet_address");
 
-ALTER TABLE ONLY "public"."subject_chat_messages"
-    ADD CONSTRAINT "subject_chat_messages_pkey" PRIMARY KEY ("id");
-
-ALTER TABLE ONLY "public"."subject_details"
-    ADD CONSTRAINT "subject_details_pkey" PRIMARY KEY ("subject");
-
-ALTER TABLE ONLY "public"."subject_key_holders"
-    ADD CONSTRAINT "subject_key_holders_pkey" PRIMARY KEY ("subject", "wallet_address");
-
-ALTER TABLE ONLY "public"."subject_trade_events"
-    ADD CONSTRAINT "subject_trade_events_pkey" PRIMARY KEY ("block_number", "log_index");
-
-ALTER TABLE ONLY "public"."topic_chat_messages"
-    ADD CONSTRAINT "topic_chat_messages_pkey" PRIMARY KEY ("id");
-
-ALTER TABLE ONLY "public"."total_subject_key_balances"
-    ADD CONSTRAINT "total_subject_key_balances_pkey" PRIMARY KEY ("wallet_address");
-
-ALTER TABLE ONLY "public"."tracked_event_blocks"
-    ADD CONSTRAINT "tracked_event_blocks_contract_type_key" UNIQUE ("contract_type");
+ALTER TABLE ONLY "public"."keys"
+    ADD CONSTRAINT "keys_pkey" PRIMARY KEY ("chain", "key_id");
 
 ALTER TABLE ONLY "public"."tracked_event_blocks"
     ADD CONSTRAINT "tracked_event_blocks_pkey" PRIMARY KEY ("contract_type");
 
+ALTER TABLE ONLY "public"."user_wallets"
+    ADD CONSTRAINT "user_wallets_pkey" PRIMARY KEY ("wallet_address");
+
 ALTER TABLE ONLY "public"."users_public"
-    ADD CONSTRAINT "user_details_pkey" PRIMARY KEY ("user_id");
+    ADD CONSTRAINT "users_public_pkey" PRIMARY KEY ("user_id");
+
+ALTER TABLE ONLY "public"."users_public"
+    ADD CONSTRAINT "users_public_wallet_address_key" UNIQUE ("wallet_address");
 
 ALTER TABLE ONLY "public"."wallet_linking_nonces"
     ADD CONSTRAINT "wallet_linking_nonces_pkey" PRIMARY KEY ("user_id");
 
-CREATE TRIGGER "decrease_follow_count" AFTER DELETE ON "public"."follows" FOR EACH ROW EXECUTE FUNCTION "public"."decrease_follow_count"();
+ALTER TABLE ONLY "public"."general_chat_messages"
+    ADD CONSTRAINT "general_chat_messages_author_fkey" FOREIGN KEY ("author") REFERENCES "public"."users_public"("user_id");
 
-CREATE TRIGGER "decrease_post_comment_count" AFTER DELETE ON "public"."posts" FOR EACH ROW EXECUTE FUNCTION "public"."decrease_post_comment_count"();
-
-CREATE TRIGGER "decrease_post_like_count" AFTER DELETE ON "public"."post_likes" FOR EACH ROW EXECUTE FUNCTION "public"."decrease_post_like_count"();
-
-CREATE TRIGGER "decrease_repost_count" AFTER DELETE ON "public"."reposts" FOR EACH ROW EXECUTE FUNCTION "public"."decrease_repost_count"();
-
-CREATE TRIGGER "decrease_subject_key_holder_count" AFTER DELETE ON "public"."subject_key_holders" FOR EACH ROW EXECUTE FUNCTION "public"."decrease_subject_key_holder_count"();
-
-CREATE TRIGGER "decrease_total_subject_key_balance" AFTER DELETE ON "public"."subject_key_holders" FOR EACH ROW EXECUTE FUNCTION "public"."decrease_total_subject_key_balance"();
-
-CREATE TRIGGER "increase_follow_count" AFTER INSERT ON "public"."follows" FOR EACH ROW EXECUTE FUNCTION "public"."increase_follow_count"();
-
-CREATE TRIGGER "increase_post_comment_count" AFTER INSERT ON "public"."posts" FOR EACH ROW EXECUTE FUNCTION "public"."increase_post_comment_count"();
-
-CREATE TRIGGER "increase_post_like_count" AFTER INSERT ON "public"."post_likes" FOR EACH ROW EXECUTE FUNCTION "public"."increase_post_like_count"();
-
-CREATE TRIGGER "increase_repost_count" AFTER INSERT ON "public"."reposts" FOR EACH ROW EXECUTE FUNCTION "public"."increase_repost_count"();
-
-CREATE TRIGGER "increase_subject_key_holder_count" AFTER INSERT ON "public"."subject_key_holders" FOR EACH ROW EXECUTE FUNCTION "public"."increase_subject_key_holder_count"();
-
-CREATE TRIGGER "increase_subject_total_trading_volume_and_fees_earned" AFTER INSERT ON "public"."subject_trade_events" FOR EACH ROW EXECUTE FUNCTION "public"."increase_subject_total_trading_volume_and_fees_earned"();
-
-CREATE TRIGGER "increase_total_subject_key_balance" AFTER INSERT ON "public"."subject_key_holders" FOR EACH ROW EXECUTE FUNCTION "public"."increase_total_subject_key_balance"();
-
-CREATE TRIGGER "notify_follow_event" AFTER INSERT ON "public"."follows" FOR EACH ROW EXECUTE FUNCTION "public"."notify_follow_event"();
-
-CREATE TRIGGER "notify_post_comment_event" AFTER INSERT ON "public"."posts" FOR EACH ROW EXECUTE FUNCTION "public"."notify_post_comment_event"();
-
-CREATE TRIGGER "notify_post_like_event" AFTER INSERT ON "public"."post_likes" FOR EACH ROW EXECUTE FUNCTION "public"."notify_post_like_event"();
-
-CREATE TRIGGER "notify_repost_event" AFTER INSERT ON "public"."reposts" FOR EACH ROW EXECUTE FUNCTION "public"."notify_repost_event"();
-
-CREATE TRIGGER "notify_trade_key_event" AFTER INSERT ON "public"."subject_trade_events" FOR EACH ROW EXECUTE FUNCTION "public"."notify_trade_key_event"();
-
-CREATE TRIGGER "set_author_default_values" BEFORE INSERT ON "public"."posts" FOR EACH ROW EXECUTE FUNCTION "public"."set_author_default_values"();
-
-CREATE TRIGGER "set_author_default_values" BEFORE INSERT ON "public"."subject_chat_messages" FOR EACH ROW EXECUTE FUNCTION "public"."set_author_default_values"();
-
-CREATE TRIGGER "set_author_default_values" BEFORE INSERT ON "public"."topic_chat_messages" FOR EACH ROW EXECUTE FUNCTION "public"."set_author_default_values"();
-
-CREATE TRIGGER "set_notification_read_at" BEFORE UPDATE ON "public"."notifications" FOR EACH ROW EXECUTE FUNCTION "public"."set_notification_read_at"();
-
-CREATE TRIGGER "set_posts_updated_at" BEFORE UPDATE ON "public"."posts" FOR EACH ROW EXECUTE FUNCTION "public"."set_updated_at"();
-
-CREATE TRIGGER "set_subject_chat_messages_updated_at" BEFORE UPDATE ON "public"."subject_chat_messages" FOR EACH ROW EXECUTE FUNCTION "public"."set_updated_at"();
-
-CREATE TRIGGER "set_subject_details_updated_at" BEFORE UPDATE ON "public"."subject_details" FOR EACH ROW EXECUTE FUNCTION "public"."set_updated_at"();
-
-CREATE TRIGGER "set_subject_key_holders_updated_at" BEFORE UPDATE ON "public"."subject_key_holders" FOR EACH ROW EXECUTE FUNCTION "public"."set_updated_at"();
-
-CREATE TRIGGER "set_topic_chat_messages_updated_at" BEFORE UPDATE ON "public"."topic_chat_messages" FOR EACH ROW EXECUTE FUNCTION "public"."set_updated_at"();
-
-CREATE TRIGGER "set_total_subject_key_balances_updated_at" BEFORE UPDATE ON "public"."total_subject_key_balances" FOR EACH ROW EXECUTE FUNCTION "public"."set_updated_at"();
-
-CREATE TRIGGER "set_tracked_event_blocks_updated_at" BEFORE UPDATE ON "public"."tracked_event_blocks" FOR EACH ROW EXECUTE FUNCTION "public"."set_updated_at"();
-
-CREATE TRIGGER "set_users_public_updated_at" BEFORE UPDATE ON "public"."users_public" FOR EACH ROW EXECUTE FUNCTION "public"."set_updated_at"();
-
-CREATE TRIGGER "update_subject_key_holder_count" AFTER UPDATE ON "public"."subject_key_holders" FOR EACH ROW EXECUTE FUNCTION "public"."update_subject_key_holder_count"();
-
-CREATE TRIGGER "update_subject_last_message" AFTER INSERT ON "public"."subject_chat_messages" FOR EACH ROW EXECUTE FUNCTION "public"."update_subject_last_message"();
-
-CREATE TRIGGER "update_total_subject_key_balance" AFTER UPDATE ON "public"."subject_key_holders" FOR EACH ROW EXECUTE FUNCTION "public"."update_total_subject_key_balance"();
-
-ALTER TABLE ONLY "public"."follows"
-    ADD CONSTRAINT "follows_followee_id_fkey" FOREIGN KEY ("followee_id") REFERENCES "auth"."users"("id");
-
-ALTER TABLE ONLY "public"."follows"
-    ADD CONSTRAINT "follows_follower_id_fkey" FOREIGN KEY ("follower_id") REFERENCES "auth"."users"("id");
-
-ALTER TABLE ONLY "public"."notifications"
-    ADD CONSTRAINT "notifications_triggerer_fkey" FOREIGN KEY ("triggerer") REFERENCES "auth"."users"("id");
-
-ALTER TABLE ONLY "public"."notifications"
-    ADD CONSTRAINT "notifications_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "auth"."users"("id");
-
-ALTER TABLE ONLY "public"."post_likes"
-    ADD CONSTRAINT "post_likes_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "auth"."users"("id");
-
-ALTER TABLE ONLY "public"."posts"
-    ADD CONSTRAINT "posts_author_fkey" FOREIGN KEY ("author") REFERENCES "public"."users_public"("user_id");
-
-ALTER TABLE ONLY "public"."reposts"
-    ADD CONSTRAINT "reposts_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "auth"."users"("id");
-
-ALTER TABLE ONLY "public"."subject_chat_messages"
-    ADD CONSTRAINT "subject_chat_messages_author_fkey" FOREIGN KEY ("author") REFERENCES "auth"."users"("id");
-
-ALTER TABLE ONLY "public"."topic_chat_messages"
-    ADD CONSTRAINT "topic_chat_messages_author_fkey" FOREIGN KEY ("author") REFERENCES "auth"."users"("id");
+ALTER TABLE ONLY "public"."key_chat_messages"
+    ADD CONSTRAINT "key_chat_messages_author_fkey" FOREIGN KEY ("author") REFERENCES "public"."users_public"("user_id");
 
 ALTER TABLE ONLY "public"."users_public"
     ADD CONSTRAINT "users_public_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "auth"."users"("id");
 
 ALTER TABLE ONLY "public"."wallet_linking_nonces"
-    ADD CONSTRAINT "wallet_linking_nonces_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "auth"."users"("id");
+    ADD CONSTRAINT "wallet_linking_nonces_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "public"."users_public"("user_id");
 
-CREATE POLICY "can delete only authed" ON "public"."posts" FOR DELETE TO "authenticated" USING (("author" = "auth"."uid"()));
+ALTER TABLE "public"."activities" ENABLE ROW LEVEL SECURITY;
 
-CREATE POLICY "can follow only follower" ON "public"."follows" FOR INSERT TO "authenticated" WITH CHECK ((("follower_id" = "auth"."uid"()) AND ("follower_id" <> "followee_id")));
-
-CREATE POLICY "can like only authed" ON "public"."post_likes" FOR INSERT TO "authenticated" WITH CHECK (("user_id" = "auth"."uid"()));
-
-CREATE POLICY "can repost only authed" ON "public"."reposts" FOR INSERT TO "authenticated" WITH CHECK (("user_id" = "auth"."uid"()));
-
-CREATE POLICY "can unfollow only follower" ON "public"."follows" FOR DELETE TO "authenticated" USING (("follower_id" = "auth"."uid"()));
-
-CREATE POLICY "can unlike only authed" ON "public"."post_likes" FOR DELETE TO "authenticated" USING (("user_id" = "auth"."uid"()));
-
-CREATE POLICY "can unrepost only authed" ON "public"."reposts" FOR DELETE TO "authenticated" USING (("user_id" = "auth"."uid"()));
-
-CREATE POLICY "can view only holder or owner" ON "public"."subject_chat_messages" FOR SELECT TO "authenticated" USING (((((("message" <> ''::"text") AND ("length"("message") <= 1000)) OR ("rich" IS NOT NULL)) AND ("subject" = ( SELECT "users_public"."wallet_address"
+CREATE POLICY "can update only owner" ON "public"."keys" FOR UPDATE TO "authenticated" USING (("owner" = ( SELECT "users_public"."wallet_address"
    FROM "public"."users_public"
-  WHERE ("users_public"."user_id" = "auth"."uid"())))) OR (1 <= ( SELECT "subject_key_holders"."last_fetched_balance"
-   FROM "public"."subject_key_holders"
-  WHERE (("subject_key_holders"."subject" = "subject_chat_messages"."subject") AND ("subject_key_holders"."wallet_address" = ( SELECT "users_public"."wallet_address"
-           FROM "public"."users_public"
-          WHERE ("users_public"."user_id" = "auth"."uid"()))))))));
-
-CREATE POLICY "can view only user" ON "public"."notifications" FOR SELECT TO "authenticated" USING (("user_id" = "auth"."uid"()));
-
-CREATE POLICY "can write only authed" ON "public"."posts" FOR INSERT TO "authenticated" WITH CHECK ((("message" <> ''::"text") AND ("length"("message") <= 2000) AND ("author" = "auth"."uid"())));
-
-CREATE POLICY "can write only authed" ON "public"."topic_chat_messages" FOR INSERT TO "authenticated" WITH CHECK ((((("message" <> ''::"text") AND ("length"("message") <= 1000)) OR ("rich" IS NOT NULL)) AND ("author" = "auth"."uid"())));
-
-CREATE POLICY "can write only holder or owner" ON "public"."subject_chat_messages" FOR INSERT TO "authenticated" WITH CHECK ((((("message" <> ''::"text") AND ("length"("message") < 1000)) OR ("rich" IS NOT NULL)) AND ("author" = "auth"."uid"()) AND (("subject" = ( SELECT "users_public"."wallet_address"
+  WHERE ("users_public"."user_id" = "auth"."uid"())))) WITH CHECK (("owner" = ( SELECT "users_public"."wallet_address"
    FROM "public"."users_public"
-  WHERE ("users_public"."user_id" = "auth"."uid"()))) OR (1 <= ( SELECT "subject_key_holders"."last_fetched_balance"
-   FROM "public"."subject_key_holders"
-  WHERE (("subject_key_holders"."subject" = "subject_chat_messages"."subject") AND ("subject_key_holders"."wallet_address" = ( SELECT "users_public"."wallet_address"
-           FROM "public"."users_public"
-          WHERE ("users_public"."user_id" = "auth"."uid"())))))))));
+  WHERE ("users_public"."user_id" = "auth"."uid"()))));
 
-ALTER TABLE "public"."follows" ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "can write only authed" ON "public"."general_chat_messages" FOR INSERT TO "authenticated" WITH CHECK ((((("message" IS NOT NULL) AND ("message" <> ''::"text") AND ("length"("message") <= 1000)) OR (("message" IS NULL) AND ("rich" IS NOT NULL))) AND ("author" = "auth"."uid"()) AND (( SELECT "users_public"."blocked"
+   FROM "public"."users_public"
+  WHERE ("users_public"."user_id" = "auth"."uid"())) <> true)));
 
-ALTER TABLE "public"."notifications" ENABLE ROW LEVEL SECURITY;
+ALTER TABLE "public"."contract_events" ENABLE ROW LEVEL SECURITY;
 
-ALTER TABLE "public"."post_likes" ENABLE ROW LEVEL SECURITY;
+ALTER TABLE "public"."general_chat_messages" ENABLE ROW LEVEL SECURITY;
 
-ALTER TABLE "public"."posts" ENABLE ROW LEVEL SECURITY;
+ALTER TABLE "public"."key_chat_messages" ENABLE ROW LEVEL SECURITY;
 
-ALTER TABLE "public"."reposts" ENABLE ROW LEVEL SECURITY;
+ALTER TABLE "public"."key_holders" ENABLE ROW LEVEL SECURITY;
 
-ALTER TABLE "public"."subject_chat_messages" ENABLE ROW LEVEL SECURITY;
-
-ALTER TABLE "public"."subject_details" ENABLE ROW LEVEL SECURITY;
-
-ALTER TABLE "public"."subject_key_holders" ENABLE ROW LEVEL SECURITY;
-
-ALTER TABLE "public"."subject_trade_events" ENABLE ROW LEVEL SECURITY;
-
-ALTER TABLE "public"."topic_chat_messages" ENABLE ROW LEVEL SECURITY;
-
-ALTER TABLE "public"."total_subject_key_balances" ENABLE ROW LEVEL SECURITY;
+ALTER TABLE "public"."keys" ENABLE ROW LEVEL SECURITY;
 
 ALTER TABLE "public"."tracked_event_blocks" ENABLE ROW LEVEL SECURITY;
 
+ALTER TABLE "public"."user_wallets" ENABLE ROW LEVEL SECURITY;
+
 ALTER TABLE "public"."users_public" ENABLE ROW LEVEL SECURITY;
 
-CREATE POLICY "view everyone" ON "public"."follows" FOR SELECT USING (true);
+CREATE POLICY "view everyone" ON "public"."activities" FOR SELECT USING (true);
 
-CREATE POLICY "view everyone" ON "public"."post_likes" FOR SELECT USING (true);
+CREATE POLICY "view everyone" ON "public"."general_chat_messages" FOR SELECT USING (true);
 
-CREATE POLICY "view everyone" ON "public"."reposts" FOR SELECT USING (true);
+CREATE POLICY "view everyone" ON "public"."key_holders" FOR SELECT USING (true);
 
-CREATE POLICY "view everyone" ON "public"."subject_details" FOR SELECT USING (true);
+CREATE POLICY "view everyone" ON "public"."keys" FOR SELECT USING (true);
 
-CREATE POLICY "view everyone" ON "public"."subject_key_holders" FOR SELECT USING (true);
-
-CREATE POLICY "view everyone" ON "public"."subject_trade_events" FOR SELECT USING (true);
-
-CREATE POLICY "view everyone" ON "public"."topic_chat_messages" FOR SELECT USING (true);
-
-CREATE POLICY "view everyone" ON "public"."total_subject_key_balances" FOR SELECT USING (true);
+CREATE POLICY "view everyone" ON "public"."user_wallets" FOR SELECT USING (true);
 
 CREATE POLICY "view everyone" ON "public"."users_public" FOR SELECT USING (true);
 
-CREATE POLICY "view everyone or only keyholders" ON "public"."posts" FOR SELECT USING ((("target" IS NULL) OR ("target" = 0) OR ("author" = "auth"."uid"()) OR (("target" = 1) AND (( SELECT "subject_key_holders"."last_fetched_balance"
-   FROM "public"."subject_key_holders"
-  WHERE (("subject_key_holders"."subject" = ( SELECT "users_public"."wallet_address"
+CREATE POLICY "view only holder or owner" ON "public"."key_chat_messages" FOR SELECT TO "authenticated" USING (((( SELECT "keys"."owner"
+   FROM "public"."keys"
+  WHERE (("keys"."chain" = "key_chat_messages"."chain") AND ("keys"."key_id" = "key_chat_messages"."key_id"))) = ( SELECT "users_public"."wallet_address"
+   FROM "public"."users_public"
+  WHERE ("users_public"."user_id" = "auth"."uid"()))) OR (1 <= ( SELECT "key_holders"."last_fetched_balance"
+   FROM "public"."key_holders"
+  WHERE (("key_holders"."chain" = "key_chat_messages"."chain") AND ("key_holders"."key_id" = "key_chat_messages"."key_id") AND ("key_holders"."wallet_address" = ( SELECT "users_public"."wallet_address"
            FROM "public"."users_public"
-          WHERE ("users_public"."user_id" = "posts"."author"))) AND ("subject_key_holders"."wallet_address" = ( SELECT "users_public"."wallet_address"
-           FROM "public"."users_public"
-          WHERE ("users_public"."user_id" = "auth"."uid"()))))) >= 1))));
+          WHERE ("users_public"."user_id" = "auth"."uid"()))))))));
 
 ALTER TABLE "public"."wallet_linking_nonces" ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "write only holder or owner" ON "public"."key_chat_messages" FOR INSERT TO "authenticated" WITH CHECK ((((("message" <> ''::"text") AND ("length"("message") < 1000)) OR ("rich" IS NOT NULL)) AND ("author" = "auth"."uid"()) AND ((( SELECT "keys"."owner"
+   FROM "public"."keys"
+  WHERE (("keys"."chain" = "key_chat_messages"."chain") AND ("keys"."key_id" = "key_chat_messages"."key_id"))) = ( SELECT "users_public"."wallet_address"
+   FROM "public"."users_public"
+  WHERE ("users_public"."user_id" = "auth"."uid"()))) OR (1 <= ( SELECT "key_holders"."last_fetched_balance"
+   FROM "public"."key_holders"
+  WHERE (("key_holders"."chain" = "key_chat_messages"."chain") AND ("key_holders"."key_id" = "key_chat_messages"."key_id") AND ("key_holders"."wallet_address" = ( SELECT "users_public"."wallet_address"
+           FROM "public"."users_public"
+          WHERE ("users_public"."user_id" = "auth"."uid"())))))))));
 
 GRANT USAGE ON SCHEMA "public" TO "postgres";
 GRANT USAGE ON SCHEMA "public" TO "anon";
 GRANT USAGE ON SCHEMA "public" TO "authenticated";
 GRANT USAGE ON SCHEMA "public" TO "service_role";
 
-GRANT ALL ON FUNCTION "public"."decrease_follow_count"() TO "anon";
-GRANT ALL ON FUNCTION "public"."decrease_follow_count"() TO "authenticated";
-GRANT ALL ON FUNCTION "public"."decrease_follow_count"() TO "service_role";
+GRANT ALL ON TABLE "public"."activities" TO "anon";
+GRANT ALL ON TABLE "public"."activities" TO "authenticated";
+GRANT ALL ON TABLE "public"."activities" TO "service_role";
 
-GRANT ALL ON FUNCTION "public"."decrease_post_comment_count"() TO "anon";
-GRANT ALL ON FUNCTION "public"."decrease_post_comment_count"() TO "authenticated";
-GRANT ALL ON FUNCTION "public"."decrease_post_comment_count"() TO "service_role";
+GRANT ALL ON TABLE "public"."key_chat_messages" TO "anon";
+GRANT ALL ON TABLE "public"."key_chat_messages" TO "authenticated";
+GRANT ALL ON TABLE "public"."key_chat_messages" TO "service_role";
 
-GRANT ALL ON FUNCTION "public"."decrease_post_like_count"() TO "anon";
-GRANT ALL ON FUNCTION "public"."decrease_post_like_count"() TO "authenticated";
-GRANT ALL ON FUNCTION "public"."decrease_post_like_count"() TO "service_role";
+GRANT ALL ON SEQUENCE "public"."chat_messages_id_seq" TO "anon";
+GRANT ALL ON SEQUENCE "public"."chat_messages_id_seq" TO "authenticated";
+GRANT ALL ON SEQUENCE "public"."chat_messages_id_seq" TO "service_role";
 
-GRANT ALL ON FUNCTION "public"."decrease_repost_count"() TO "anon";
-GRANT ALL ON FUNCTION "public"."decrease_repost_count"() TO "authenticated";
-GRANT ALL ON FUNCTION "public"."decrease_repost_count"() TO "service_role";
+GRANT ALL ON TABLE "public"."contract_events" TO "anon";
+GRANT ALL ON TABLE "public"."contract_events" TO "authenticated";
+GRANT ALL ON TABLE "public"."contract_events" TO "service_role";
 
-GRANT ALL ON FUNCTION "public"."decrease_subject_key_holder_count"() TO "anon";
-GRANT ALL ON FUNCTION "public"."decrease_subject_key_holder_count"() TO "authenticated";
-GRANT ALL ON FUNCTION "public"."decrease_subject_key_holder_count"() TO "service_role";
+GRANT ALL ON TABLE "public"."general_chat_messages" TO "anon";
+GRANT ALL ON TABLE "public"."general_chat_messages" TO "authenticated";
+GRANT ALL ON TABLE "public"."general_chat_messages" TO "service_role";
 
-GRANT ALL ON FUNCTION "public"."decrease_total_subject_key_balance"() TO "anon";
-GRANT ALL ON FUNCTION "public"."decrease_total_subject_key_balance"() TO "authenticated";
-GRANT ALL ON FUNCTION "public"."decrease_total_subject_key_balance"() TO "service_role";
+GRANT ALL ON SEQUENCE "public"."general_chat_messages_id_seq" TO "anon";
+GRANT ALL ON SEQUENCE "public"."general_chat_messages_id_seq" TO "authenticated";
+GRANT ALL ON SEQUENCE "public"."general_chat_messages_id_seq" TO "service_role";
 
-GRANT ALL ON FUNCTION "public"."get_portfolio_value"("param_wallet_address" "text") TO "anon";
-GRANT ALL ON FUNCTION "public"."get_portfolio_value"("param_wallet_address" "text") TO "authenticated";
-GRANT ALL ON FUNCTION "public"."get_portfolio_value"("param_wallet_address" "text") TO "service_role";
+GRANT ALL ON TABLE "public"."key_holders" TO "anon";
+GRANT ALL ON TABLE "public"."key_holders" TO "authenticated";
+GRANT ALL ON TABLE "public"."key_holders" TO "service_role";
 
-GRANT ALL ON FUNCTION "public"."get_post_and_comments"("p_post_id" bigint) TO "anon";
-GRANT ALL ON FUNCTION "public"."get_post_and_comments"("p_post_id" bigint) TO "authenticated";
-GRANT ALL ON FUNCTION "public"."get_post_and_comments"("p_post_id" bigint) TO "service_role";
-
-GRANT ALL ON FUNCTION "public"."increase_follow_count"() TO "anon";
-GRANT ALL ON FUNCTION "public"."increase_follow_count"() TO "authenticated";
-GRANT ALL ON FUNCTION "public"."increase_follow_count"() TO "service_role";
-
-GRANT ALL ON FUNCTION "public"."increase_post_comment_count"() TO "anon";
-GRANT ALL ON FUNCTION "public"."increase_post_comment_count"() TO "authenticated";
-GRANT ALL ON FUNCTION "public"."increase_post_comment_count"() TO "service_role";
-
-GRANT ALL ON FUNCTION "public"."increase_post_like_count"() TO "anon";
-GRANT ALL ON FUNCTION "public"."increase_post_like_count"() TO "authenticated";
-GRANT ALL ON FUNCTION "public"."increase_post_like_count"() TO "service_role";
-
-GRANT ALL ON FUNCTION "public"."increase_repost_count"() TO "anon";
-GRANT ALL ON FUNCTION "public"."increase_repost_count"() TO "authenticated";
-GRANT ALL ON FUNCTION "public"."increase_repost_count"() TO "service_role";
-
-GRANT ALL ON FUNCTION "public"."increase_subject_key_holder_count"() TO "anon";
-GRANT ALL ON FUNCTION "public"."increase_subject_key_holder_count"() TO "authenticated";
-GRANT ALL ON FUNCTION "public"."increase_subject_key_holder_count"() TO "service_role";
-
-GRANT ALL ON FUNCTION "public"."increase_subject_total_trading_volume_and_fees_earned"() TO "anon";
-GRANT ALL ON FUNCTION "public"."increase_subject_total_trading_volume_and_fees_earned"() TO "authenticated";
-GRANT ALL ON FUNCTION "public"."increase_subject_total_trading_volume_and_fees_earned"() TO "service_role";
-
-GRANT ALL ON FUNCTION "public"."increase_total_subject_key_balance"() TO "anon";
-GRANT ALL ON FUNCTION "public"."increase_total_subject_key_balance"() TO "authenticated";
-GRANT ALL ON FUNCTION "public"."increase_total_subject_key_balance"() TO "service_role";
-
-GRANT ALL ON FUNCTION "public"."notify_follow_event"() TO "anon";
-GRANT ALL ON FUNCTION "public"."notify_follow_event"() TO "authenticated";
-GRANT ALL ON FUNCTION "public"."notify_follow_event"() TO "service_role";
-
-GRANT ALL ON FUNCTION "public"."notify_post_comment_event"() TO "anon";
-GRANT ALL ON FUNCTION "public"."notify_post_comment_event"() TO "authenticated";
-GRANT ALL ON FUNCTION "public"."notify_post_comment_event"() TO "service_role";
-
-GRANT ALL ON FUNCTION "public"."notify_post_like_event"() TO "anon";
-GRANT ALL ON FUNCTION "public"."notify_post_like_event"() TO "authenticated";
-GRANT ALL ON FUNCTION "public"."notify_post_like_event"() TO "service_role";
-
-GRANT ALL ON FUNCTION "public"."notify_repost_event"() TO "anon";
-GRANT ALL ON FUNCTION "public"."notify_repost_event"() TO "authenticated";
-GRANT ALL ON FUNCTION "public"."notify_repost_event"() TO "service_role";
-
-GRANT ALL ON FUNCTION "public"."notify_trade_key_event"() TO "anon";
-GRANT ALL ON FUNCTION "public"."notify_trade_key_event"() TO "authenticated";
-GRANT ALL ON FUNCTION "public"."notify_trade_key_event"() TO "service_role";
-
-GRANT ALL ON FUNCTION "public"."set_author_default_values"() TO "anon";
-GRANT ALL ON FUNCTION "public"."set_author_default_values"() TO "authenticated";
-GRANT ALL ON FUNCTION "public"."set_author_default_values"() TO "service_role";
-
-GRANT ALL ON FUNCTION "public"."set_notification_read_at"() TO "anon";
-GRANT ALL ON FUNCTION "public"."set_notification_read_at"() TO "authenticated";
-GRANT ALL ON FUNCTION "public"."set_notification_read_at"() TO "service_role";
-
-GRANT ALL ON FUNCTION "public"."set_updated_at"() TO "anon";
-GRANT ALL ON FUNCTION "public"."set_updated_at"() TO "authenticated";
-GRANT ALL ON FUNCTION "public"."set_updated_at"() TO "service_role";
-
-GRANT ALL ON FUNCTION "public"."set_user_metadata_to_details"() TO "anon";
-GRANT ALL ON FUNCTION "public"."set_user_metadata_to_details"() TO "authenticated";
-GRANT ALL ON FUNCTION "public"."set_user_metadata_to_details"() TO "service_role";
-
-GRANT ALL ON FUNCTION "public"."update_subject_key_holder_count"() TO "anon";
-GRANT ALL ON FUNCTION "public"."update_subject_key_holder_count"() TO "authenticated";
-GRANT ALL ON FUNCTION "public"."update_subject_key_holder_count"() TO "service_role";
-
-GRANT ALL ON FUNCTION "public"."update_subject_last_message"() TO "anon";
-GRANT ALL ON FUNCTION "public"."update_subject_last_message"() TO "authenticated";
-GRANT ALL ON FUNCTION "public"."update_subject_last_message"() TO "service_role";
-
-GRANT ALL ON FUNCTION "public"."update_total_subject_key_balance"() TO "anon";
-GRANT ALL ON FUNCTION "public"."update_total_subject_key_balance"() TO "authenticated";
-GRANT ALL ON FUNCTION "public"."update_total_subject_key_balance"() TO "service_role";
-
-GRANT ALL ON TABLE "public"."follows" TO "anon";
-GRANT ALL ON TABLE "public"."follows" TO "authenticated";
-GRANT ALL ON TABLE "public"."follows" TO "service_role";
-
-GRANT ALL ON TABLE "public"."notifications" TO "anon";
-GRANT ALL ON TABLE "public"."notifications" TO "authenticated";
-GRANT ALL ON TABLE "public"."notifications" TO "service_role";
-
-GRANT ALL ON SEQUENCE "public"."notifications_id_seq" TO "anon";
-GRANT ALL ON SEQUENCE "public"."notifications_id_seq" TO "authenticated";
-GRANT ALL ON SEQUENCE "public"."notifications_id_seq" TO "service_role";
-
-GRANT ALL ON TABLE "public"."post_likes" TO "anon";
-GRANT ALL ON TABLE "public"."post_likes" TO "authenticated";
-GRANT ALL ON TABLE "public"."post_likes" TO "service_role";
-
-GRANT ALL ON TABLE "public"."posts" TO "anon";
-GRANT ALL ON TABLE "public"."posts" TO "authenticated";
-GRANT ALL ON TABLE "public"."posts" TO "service_role";
-
-GRANT ALL ON SEQUENCE "public"."posts_id_seq" TO "anon";
-GRANT ALL ON SEQUENCE "public"."posts_id_seq" TO "authenticated";
-GRANT ALL ON SEQUENCE "public"."posts_id_seq" TO "service_role";
-
-GRANT ALL ON TABLE "public"."reposts" TO "anon";
-GRANT ALL ON TABLE "public"."reposts" TO "authenticated";
-GRANT ALL ON TABLE "public"."reposts" TO "service_role";
-
-GRANT ALL ON TABLE "public"."subject_chat_messages" TO "anon";
-GRANT ALL ON TABLE "public"."subject_chat_messages" TO "authenticated";
-GRANT ALL ON TABLE "public"."subject_chat_messages" TO "service_role";
-
-GRANT ALL ON SEQUENCE "public"."subject_chat_messages_id_seq" TO "anon";
-GRANT ALL ON SEQUENCE "public"."subject_chat_messages_id_seq" TO "authenticated";
-GRANT ALL ON SEQUENCE "public"."subject_chat_messages_id_seq" TO "service_role";
-
-GRANT ALL ON TABLE "public"."subject_details" TO "anon";
-GRANT ALL ON TABLE "public"."subject_details" TO "authenticated";
-GRANT ALL ON TABLE "public"."subject_details" TO "service_role";
-
-GRANT ALL ON TABLE "public"."subject_key_holders" TO "anon";
-GRANT ALL ON TABLE "public"."subject_key_holders" TO "authenticated";
-GRANT ALL ON TABLE "public"."subject_key_holders" TO "service_role";
-
-GRANT ALL ON TABLE "public"."subject_trade_events" TO "anon";
-GRANT ALL ON TABLE "public"."subject_trade_events" TO "authenticated";
-GRANT ALL ON TABLE "public"."subject_trade_events" TO "service_role";
-
-GRANT ALL ON TABLE "public"."topic_chat_messages" TO "anon";
-GRANT ALL ON TABLE "public"."topic_chat_messages" TO "authenticated";
-GRANT ALL ON TABLE "public"."topic_chat_messages" TO "service_role";
-
-GRANT ALL ON SEQUENCE "public"."topic_chat_messages_id_seq" TO "anon";
-GRANT ALL ON SEQUENCE "public"."topic_chat_messages_id_seq" TO "authenticated";
-GRANT ALL ON SEQUENCE "public"."topic_chat_messages_id_seq" TO "service_role";
-
-GRANT ALL ON TABLE "public"."total_subject_key_balances" TO "anon";
-GRANT ALL ON TABLE "public"."total_subject_key_balances" TO "authenticated";
-GRANT ALL ON TABLE "public"."total_subject_key_balances" TO "service_role";
+GRANT ALL ON TABLE "public"."keys" TO "anon";
+GRANT ALL ON TABLE "public"."keys" TO "authenticated";
+GRANT ALL ON TABLE "public"."keys" TO "service_role";
 
 GRANT ALL ON TABLE "public"."tracked_event_blocks" TO "anon";
 GRANT ALL ON TABLE "public"."tracked_event_blocks" TO "authenticated";
 GRANT ALL ON TABLE "public"."tracked_event_blocks" TO "service_role";
+
+GRANT ALL ON TABLE "public"."user_wallets" TO "anon";
+GRANT ALL ON TABLE "public"."user_wallets" TO "authenticated";
+GRANT ALL ON TABLE "public"."user_wallets" TO "service_role";
 
 GRANT ALL ON TABLE "public"."users_public" TO "anon";
 GRANT ALL ON TABLE "public"."users_public" TO "authenticated";
