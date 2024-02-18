@@ -17,7 +17,8 @@
   },
   "type": "module",
   "dependencies": {
-    "hesf": "^0.0.1"
+    "hesf": "^0.0.1",
+    "viem": "^1.5.3"
   },
   "devDependencies": {
     "@nomicfoundation/hardhat-ethers": "^3.0.0",
