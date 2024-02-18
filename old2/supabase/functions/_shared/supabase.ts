@@ -22,5 +22,3 @@ export const getSignedUser = async (req: Request) => {
   const { data: { user } } = await userSupabase.auth.getUser();
   return user;
 };
-
-export const isDevMode = Deno.env.get("IS_DEV") === "true";
