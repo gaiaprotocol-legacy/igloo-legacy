@@ -17,12 +17,7 @@
   },
   "type": "module",
   "dependencies": {
-    "@common-module/social": "^0.0.1",
-    "@wagmi/core": "^1.3.8",
-    "@web3modal/ethereum": "^2.7.1",
-    "@web3modal/html": "^2.7.1",
-    "ethers": "^6.8.1",
-    "viem": "^1.5.3"
+    "hesf": "^0.0.1"
   },
   "devDependencies": {
     "@nomicfoundation/hardhat-ethers": "^3.0.0",
