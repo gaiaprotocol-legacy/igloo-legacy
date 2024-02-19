@@ -9,6 +9,7 @@ async function main() {
   const igloo = await upgrades.deployProxy(
     Igloo,
     [
+      100,
       account1.address,
       BigInt("50000000000000000"),
       BigInt("50000000000000000"),

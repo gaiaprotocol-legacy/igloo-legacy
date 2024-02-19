@@ -2,14 +2,9 @@ import initialize from "./initialize.js";
 await initialize({
   dev: true,
 
-  supabaseUrl: "https://dwzrduviqvesskxhtcbu.supabase.co",
+  supabaseUrl: "https://sfwnwiuxgehxbyystchq.supabase.co",
   supabaseAnonKey:
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR3enJkdXZpcXZlc3NreGh0Y2J1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDY3NzY2MzMsImV4cCI6MjAyMjM1MjYzM30.W6MSBY3IRluB66_VkxEAoGu8Z6R77WRVoX9VcMkhlEc",
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNmd253aXV4Z2VoeGJ5eXN0Y2hxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDAyMTA5OTYsImV4cCI6MjAxNTc4Njk5Nn0.iQ9aIdYmqKOdeAXonb6LFy9DLSVMlWycxleueEIOZes",
 
-  blockchain: {
-    chainId: 64165,
-    name: "Fantom Sonic Builders Testnet",
-    rpc: "https://rpc.sonic.fantom.network/",
-  },
-  walletConnectProjectId: "2c4277f91efc93ebdb6feedbbc322e91",
+  walletConnectProjectId: "53ce7f51ed886a719bf634b25061f424",
 });

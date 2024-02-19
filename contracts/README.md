@@ -1,8 +1,7 @@
 # Igloo Contracts
 
 ## Igloo
-- Avax Fuji: 0xd1a4964954785ddbC8C86a5412cE400f6E8d81D3
-- Beam Fuji: 
+- Avax Fuji: 0x5f084433645A32bEaACed7Ac63A747b7d507614D
 
 ## IglooSubject
 - Avax: 0xa6940B0A43B4832dbfD6Db8a57bb441B905D6dAC

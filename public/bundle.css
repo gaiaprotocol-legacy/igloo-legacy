@@ -2108,11 +2108,14 @@ button.component:hover {
   gap: 8px;
 }
 :root {
-  --page-bg-color: #333;
-  --content-bg-color: #333;
+  --page-bg-color: #222;
+  --content-bg-color: #222;
   --text-color: #F4F7F9;
-  --line-clolor: #F4F7F9;
   --primary-color: #5585FF;
+  --secondary-color: #b2c0d1;
+  --line-color: #333;
+  --disable-color: rgba(128, 128, 128, 0.5);
+  --last-message-color: #b4c2d3;
 }
 @font-face {
   font-family: 'Mona-Sans-ExtraBoldWide';

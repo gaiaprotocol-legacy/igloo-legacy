@@ -127,7 +127,7 @@ CREATE TABLE IF NOT EXISTS "public"."keys" (
 ALTER TABLE "public"."keys" OWNER TO "postgres";
 
 CREATE TABLE IF NOT EXISTS "public"."tracked_event_blocks" (
-    "contract_type" smallint NOT NULL,
+    "chain" "text" NOT NULL,
     "block_number" bigint NOT NULL,
     "updated_at" timestamp with time zone DEFAULT "now"() NOT NULL
 );
@@ -192,7 +192,7 @@ ALTER TABLE ONLY "public"."keys"
     ADD CONSTRAINT "keys_pkey" PRIMARY KEY ("chain", "key_id");
 
 ALTER TABLE ONLY "public"."tracked_event_blocks"
-    ADD CONSTRAINT "tracked_event_blocks_pkey" PRIMARY KEY ("contract_type");
+    ADD CONSTRAINT "tracked_event_blocks_pkey" PRIMARY KEY ("chain");
 
 ALTER TABLE ONLY "public"."user_wallets"
     ADD CONSTRAINT "user_wallets_pkey" PRIMARY KEY ("wallet_address");
