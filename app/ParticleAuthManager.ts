@@ -3,19 +3,22 @@ import { Avalanche, AvalancheTestnet } from "@particle-network/chains";
 import { ParticleProvider } from "@particle-network/provider";
 import { WalletManager } from "esf-module";
 import { ethers } from "ethers";
+import Env from "./Env.js";
 
 class ParticleAuthManager implements WalletManager {
   private particle!: ParticleNetwork;
   private provider!: ethers.BrowserProvider;
 
-  public init(apiKey: string) {
+  public init(option: {
+    projectId: string;
+    clientKey: string;
+    appId: string;
+  }) {
     this.particle = new ParticleNetwork({
-      projectId: "c0b83e57-84a2-4918-bbe2-24cafea056bf",
-      clientKey: "cJ5m8ABRUPq0C1axiu220WS1RPwpIYt4jrGrhRsB",
-      appId: "eb1bbb74-421f-499a-bfbc-b64876e7297b",
-      /*chainName: Env.dev ? AvalancheTestnet.name : Avalanche.name,
+      ...option,
+      chainName: Env.dev ? AvalancheTestnet.name : Avalanche.name,
       chainId: Env.dev ? AvalancheTestnet.id : Avalanche.id,
-      wallet: { //optional: by default, the wallet entry is displayed in the bottom right corner of the webpage.
+      /*wallet: { //optional: by default, the wallet entry is displayed in the bottom right corner of the webpage.
         displayWalletEntry: true, //show wallet entry when connect particle.
         defaultWalletEntryPosition: WalletEntryPosition.BR, //wallet entry position
         uiMode: "dark", //optional: light or dark, if not set, the default is the same as web auth.

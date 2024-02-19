@@ -25,5 +25,5 @@ export const rpcs: { [chain: string]: string } = {
   [BlockchainType.Optimism]:
     (isDevMode ? optimismGoerli : optimism).rpcUrls.default.http[0],
   [BlockchainType.Avalanche]:
-    (isDevMode ? avalanche : avalancheFuji).rpcUrls.default.http[0],
+    (isDevMode ? avalancheFuji : avalanche).rpcUrls.default.http[0],
 };

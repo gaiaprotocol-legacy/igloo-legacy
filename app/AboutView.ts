@@ -7,6 +7,7 @@ export default class AboutView extends View {
     HESFLayout.append(
       this.container = el(
         ".about-view",
+        "test",
       ),
     );
   }

@@ -8,7 +8,7 @@ import { Keys } from "./abi/Keys.ts";
 import { isDevMode } from "../supabase.ts";
 
 const testnetAddresses: { [chain: string]: string } = {
-  [BlockchainType.Avalanche]: "",
+  [BlockchainType.Avalanche]: "0x5f084433645A32bEaACed7Ac63A747b7d507614D",
 };
 
 const addresses: { [chain: string]: string } = {
@@ -16,7 +16,7 @@ const addresses: { [chain: string]: string } = {
 };
 
 const testnetDeployBlockNumbers: { [chain: string]: number } = {
-  [BlockchainType.Avalanche]: 0,
+  [BlockchainType.Avalanche]: 30102697,
 };
 
 const deployBlockNumbers: { [chain: string]: number } = {

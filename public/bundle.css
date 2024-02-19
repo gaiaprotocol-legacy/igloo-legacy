@@ -1008,6 +1008,7 @@ button.component:hover {
   --secondary-color: #b2c0d1;
   --line-color: #24303f;
   --disable-color: rgba(128, 128, 128, 0.5);
+  --hover-color: #2a3a4a;
   --last-message-color: #b4c2d3;
 }
 @font-face {
@@ -1159,7 +1160,6 @@ button.component:hover {
   background-color: var(--content-bg-color);
   overflow-y: auto;
   padding-bottom: 120px;
-  container-type: inline-size;
 }
 @container (width < 1280px) {
   .side-panel > main {
@@ -1210,7 +1210,7 @@ button.component:hover {
 .side-panel > main > section > header > button {
   padding: 4px 6px;
 }
-.side-panel > main > section > .key-list {
+.side-panel > main > section > .token-list {
   border-top: 1px solid var(--line-color);
 }
 .side-panel > main > ul.menu {
@@ -1224,11 +1224,39 @@ button.component:hover {
 .side-panel > main > ul.menu > li > a:hover {
   background-color: var(--hover-color);
 }
-.side-panel > main > section.keys > .key-list {
-  border-top: 1px solid var(--line-color);
+.sidebar {
+  width: 380px;
+  overflow-y: auto;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  border-left: 1px solid var(--line-color);
+  padding-bottom: 120px;
 }
-.side-panel > main > section.keys > .key-list:empty {
+@container (width < 1280px) {
+  .sidebar {
+    display: none;
+  }
+}
+.sidebar.hidden {
   display: none;
+}
+.sidebar > section {
+  border-bottom: 1px solid var(--line-color);
+}
+.sidebar > section > header {
+  padding: 0 20px;
+  border-bottom: 1px solid var(--line-color);
+  height: 59px;
+  display: flex;
+  align-items: center;
+}
+.sidebar > section > header > h2 {
+  font-size: 16px;
+  font-weight: bold;
+}
+.sidebar > section > footer {
+  padding: 12px;
 }
 .chat-room-view {
   position: absolute;
@@ -1745,63 +1773,6 @@ button.component:hover {
   flex-direction: column;
   gap: 12px;
 }
-.user-info-modal > header {
-  display: flex;
-  gap: 12px;
-}
-.user-info-modal > header > h1 > .avatar {
-  width: 34px;
-  height: 34px;
-}
-.user-info-modal > header > h1 > .name {
-  text-transform: initial;
-}
-.user-info-modal > main {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  padding: 0 20px !important;
-}
-.user-info-modal > main > .metrics > .holder-count,
-.user-info-modal > main > .metrics > .price,
-.user-info-modal > main > .balance {
-  border: 1px solid var(--line-color);
-  border-radius: 6px;
-  padding: 16px 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-.user-info-modal > main > .metrics > .holder-count h3,
-.user-info-modal > main > .metrics > .price h3,
-.user-info-modal > main > .balance h3 {
-  color: #595959;
-  font-size: 12px;
-}
-.user-info-modal > main > .metrics > .holder-count .value,
-.user-info-modal > main > .metrics > .price .value,
-.user-info-modal > main > .balance .value {
-  font-size: 16px;
-}
-.user-info-modal > main > .metrics {
-  width: 100%;
-  display: flex;
-  gap: 10px;
-}
-.user-info-modal > main > .metrics > .holder-count,
-.user-info-modal > main > .metrics > .price {
-  width: 50%;
-}
-.user-info-modal > main > .balance {
-  flex-direction: row;
-  gap: 10px;
-}
-.user-info-modal > main > .balance > .info {
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
 .user-list {
   position: relative;
 }
@@ -1907,6 +1878,20 @@ button.component:hover {
 }
 .key-list-item > main > main > .price.down {
   color: var(--falling-color);
+}
+.create-key-popup > main {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.create-key-popup .option.chain {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.create-key-popup .option.chain > .icon {
+  width: 16px;
+  height: 16px;
 }
 .activity-list {
   position: relative;
@@ -2155,5 +2140,29 @@ button.component:hover {
   font-weight: bold;
   font-style: italic;
   color: var(--primary-color);
+}
+.connect-wallet-popup {
+  max-width: 420px !important;
+}
+.connect-wallet-popup > header {
+  display: flex;
+}
+.connect-wallet-popup > header > h1 {
+  flex-grow: 1;
+}
+.connect-wallet-popup > main {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.connect-wallet-popup > main > button {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-start;
+  height: 58px;
+}
+.connect-wallet-popup > main > button > img {
+  height: 32px;
+  border-radius: 4px;
 }
 
