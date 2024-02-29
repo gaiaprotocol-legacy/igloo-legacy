@@ -1,7 +1,7 @@
 import { ParticleNetwork } from "@particle-network/auth";
 import { Avalanche, AvalancheTestnet } from "@particle-network/chains";
 import { ParticleProvider } from "@particle-network/provider";
-import { WalletManager } from "esf-module";
+import { WalletManager } from "fsesf";
 import { ethers } from "ethers";
 import Env from "./Env.js";
 
@@ -37,13 +37,17 @@ class ParticleAuthManager implements WalletManager {
     );
   }
 
-  public async connected(): Promise<boolean> {
-    return this.particle.auth.isLogin();
+  public open() {
+    this.particle.openWallet();
   }
 
   public async connect(): Promise<boolean> {
     await this.particle.auth.login();
     return true;
+  }
+
+  public async connected(): Promise<boolean> {
+    return this.particle.auth.isLogin();
   }
 
   public async getAddress(): Promise<string | undefined> {
