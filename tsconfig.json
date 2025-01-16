@@ -76,5 +76,6 @@
     "test",
     "typechain-types",
     "scripts",
+    "legacy-versions",
   ]
 }
